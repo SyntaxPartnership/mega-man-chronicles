@@ -26,7 +26,7 @@ Start | [Enter] | [Start]
 
 1. Has not been implemented, if at all.
 
-Debug Information
+Debug Information:
 --
 (Under Construction)
 
