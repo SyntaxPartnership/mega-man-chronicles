@@ -22,11 +22,11 @@ Jump | [.] | [A]
 Fire | [,] | [X]
 Prev Weapon | [;] | [LB]
 Next Weapon | ['] | [RB]
-Quick Select* | N/A | [R Analog]
+Quick Select(1) | N/A | [R Analog]
 Select | [Shift] | [Select]
 Start | [Enter] | [Start]
 
-* Has not been implemented, if at all.
+1. Has not been implemented, if at all.
 
 
 -----------------------------------------------------------
