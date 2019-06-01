@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/87_SE EM QUAKE.wav-7aaad0977498e7fde85f27eb9bd7041c.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/87_SE EM QUAKE.wav"
+dest_files=[ "res://.import/87_SE EM QUAKE.wav-7aaad0977498e7fde85f27eb9bd7041c.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

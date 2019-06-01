@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/62_SE EM FIREMOVE.wav-8f4345e2e0cdefe5595e3b4b82454c91.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/62_SE EM FIREMOVE.wav"
+dest_files=[ "res://.import/62_SE EM FIREMOVE.wav-8f4345e2e0cdefe5595e3b4b82454c91.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

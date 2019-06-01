@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/51_SE EXIT.wav-770d51143c4cd9a7c63ccb268fc6ebd0.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/51_SE EXIT.wav"
+dest_files=[ "res://.import/51_SE EXIT.wav-770d51143c4cd9a7c63ccb268fc6ebd0.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

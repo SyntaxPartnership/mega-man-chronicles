@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/01_SE TV NOISE.wav-32300a848a06aad99e12dfef3f3e70d8.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/01_SE TV NOISE.wav"
+dest_files=[ "res://.import/01_SE TV NOISE.wav-32300a848a06aad99e12dfef3f3e70d8.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

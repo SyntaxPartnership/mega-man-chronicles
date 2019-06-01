@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/74_SE EM LSF SHOT.wav-56a220fc68a6d25876e5ded04a914003.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/74_SE EM LSF SHOT.wav"
+dest_files=[ "res://.import/74_SE EM LSF SHOT.wav-56a220fc68a6d25876e5ded04a914003.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/33_SE DELETE.wav-f9eb0c4d5ed9de1566379851d01edb47.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/33_SE DELETE.wav"
+dest_files=[ "res://.import/33_SE DELETE.wav-f9eb0c4d5ed9de1566379851d01edb47.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/44_SE EM W5 CATCHBALL.wav-e8738004db021ae8c4878924a2e4e024.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/44_SE EM W5 CATCHBALL.wav"
+dest_files=[ "res://.import/44_SE EM W5 CATCHBALL.wav-e8738004db021ae8c4878924a2e4e024.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

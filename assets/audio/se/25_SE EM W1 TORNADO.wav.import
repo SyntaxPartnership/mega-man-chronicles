@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/25_SE EM W1 TORNADO.wav-642b822f0d315058140c448730b350f6.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/25_SE EM W1 TORNADO.wav"
+dest_files=[ "res://.import/25_SE EM W1 TORNADO.wav-642b822f0d315058140c448730b350f6.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

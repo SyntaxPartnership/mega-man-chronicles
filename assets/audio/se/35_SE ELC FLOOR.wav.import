@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/35_SE ELC FLOOR.wav-1f2cc570728c3c49ac7ba398af8f40f0.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/35_SE ELC FLOOR.wav"
+dest_files=[ "res://.import/35_SE ELC FLOOR.wav-1f2cc570728c3c49ac7ba398af8f40f0.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

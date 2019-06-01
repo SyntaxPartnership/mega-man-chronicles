@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/86_SE SANDSTROM END.wav-a18fd82711ba13d5b96f41cd486f70cf.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/86_SE SANDSTROM END.wav"
+dest_files=[ "res://.import/86_SE SANDSTROM END.wav-a18fd82711ba13d5b96f41cd486f70cf.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/47_SE EM BOMB.wav-9c77ac69a49ff6f07fbe94ed9863f146.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/47_SE EM BOMB.wav"
+dest_files=[ "res://.import/47_SE EM BOMB.wav-9c77ac69a49ff6f07fbe94ed9863f146.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/53_SE EXPLOSION CB.wav-5d5a6077bffb98783660ca9c6e40a78d.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/53_SE EXPLOSION CB.wav"
+dest_files=[ "res://.import/53_SE EXPLOSION CB.wav-5d5a6077bffb98783660ca9c6e40a78d.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

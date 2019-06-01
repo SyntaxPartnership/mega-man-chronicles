@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/06_SE W CUTTER AXL.wav-22430e064cd2de074c6cc9474aff1629.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/06_SE W CUTTER AXL.wav"
+dest_files=[ "res://.import/06_SE W CUTTER AXL.wav-22430e064cd2de074c6cc9474aff1629.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

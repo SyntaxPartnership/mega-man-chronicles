@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/77_SE EM NUMESHOT.wav-dda4c95559bead5f7121453a84f5e591.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/77_SE EM NUMESHOT.wav"
+dest_files=[ "res://.import/77_SE EM NUMESHOT.wav-dda4c95559bead5f7121453a84f5e591.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

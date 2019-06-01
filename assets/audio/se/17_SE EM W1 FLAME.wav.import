@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/17_SE EM W1 FLAME.wav-e8f0d10209d1fd51a2226d5fab94c54d.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/17_SE EM W1 FLAME.wav"
+dest_files=[ "res://.import/17_SE EM W1 FLAME.wav-e8f0d10209d1fd51a2226d5fab94c54d.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/31_SE EM W3 BEAM.wav-e1fde30bb0518f501166845bb24ac396.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/31_SE EM W3 BEAM.wav"
+dest_files=[ "res://.import/31_SE EM W3 BEAM.wav-e1fde30bb0518f501166845bb24ac396.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

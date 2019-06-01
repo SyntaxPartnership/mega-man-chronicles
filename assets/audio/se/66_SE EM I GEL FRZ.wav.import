@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/66_SE EM I GEL FRZ.wav-085f354f2cdc44673d9977635bfb387d.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/66_SE EM I GEL FRZ.wav"
+dest_files=[ "res://.import/66_SE EM I GEL FRZ.wav-085f354f2cdc44673d9977635bfb387d.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

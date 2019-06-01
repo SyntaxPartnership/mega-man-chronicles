@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/64_SE ICE BRK.wav-e4efaaed834b3638832201128ce2b06e.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/64_SE ICE BRK.wav"
+dest_files=[ "res://.import/64_SE ICE BRK.wav-e4efaaed834b3638832201128ce2b06e.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/04_SE B CRACKER.wav-841c4a916d8c6b338fb1dec0db7bf9ba.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/04_SE B CRACKER.wav"
+dest_files=[ "res://.import/04_SE B CRACKER.wav-841c4a916d8c6b338fb1dec0db7bf9ba.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

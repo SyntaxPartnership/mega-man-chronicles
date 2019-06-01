@@ -1,0 +1,236 @@
+Mega Man Chronicles
+
+-----------------------------------------------------------
+
+Controls:
+
+(K) = Keyboard
+(C) = Controller
+
+NOTE: Game is mapped to use XBox, PlayStation, and Nintendo
+Switch controllers. Wherever the button is located on one,
+it will be the same button location on the others. Below
+will display the controls as if you are using an XBox 360
+or XBox One controller.
+-----------------------------------------------------------
+
+(K)		[WASD]
+(C)		[L Analog]
+(C)		[D Pad]		= Movement
+
+(K)		[.]
+(C)		[A]		= Jump
+
+(K)		[,]			
+(C)		[X]		= Fire
+
+(K)		[;]
+(C)		[LB]		= Previous Weapon
+
+(K)		[']
+(C)		[RB]		= Next Weapon
+
+(K)		[Shift]
+(C)		[Select]	= Select
+
+(K)		[Enter]
+(C)		[Start]		= Start
+
+
+-----------------------------------------------------------
+
+Debug Information
+
+
+POSX:	Player X position (rounded to the nearest whole
+	number).
+
+POSY:	Player Y position (rounded to the nearest whole
+	number).
+
+TPOS:	Player X and Y tile map position.
+
+ROOM:	Room the player is occupying.
+
+CALW:	Shows which direction the camera will pan in a
+	given room if the player touches the screen. 1 =
+	true, 0 = false.
+	First value = Up
+	Second value = Down
+	Third Value = Left
+	Fourth Value = Down
+
+STAT:	What state the player is in. (IE: 4 = Running)
+
+ANIM:	What animation is playing.
+
+STND:	What tile the player is standing on.
+
+OVRL:	What tile the player is overlapping, if any.
+
+XSNP:	X Coordinate the player will snap to if grabbing a 
+	ladder.
+
+XVEL:	X Velocity of the player.
+
+YVEL:	Y Velocity of the player.
+
+ACTN:	Action State of the player. (Stand, Ladder, Slide)
+
+COLL:	Tile that the player is colliding with.
+
+-----------------------------------------------------------
+
+Map FAQ and Tile IDs
+
+The map is made up of 3 layers.
+	Room Layer		(Invisible to player)
+	Collision Layer		(Invisible to player)
+	Graphic Layer		(Visible to player)
+
+Room:		Only used to make scrolling and tile
+		placement easier.
+
+Collision:	Tiles used for collision in the game.
+		Contains tiles for any and all obstacles.
+
+Graphic:	Graphic tiles that the player will actually
+		be seeing in game.
+
+Tile IDs:
+
+-1:	Nothing.
+0:	Floor/Wall/Ceilings.
+1:	Snow. (Player runs at 1/2 speed).
+2:	Ice. (Player subject to ice physics when running).
+3:	Top of ladder. (Player can stand on top)
+4:	Ladder
+5:	Death traps. (Instantly kills the player.)
+6:	Water. (Player can jump 3 times normal height.)
+7:	Water Top. (Play splash animation when player
+	enters tile.)
+8:	Slow Right Conveyor.
+9:	Fast Right Conveyor.
+10:	Slow Left Conveyor.
+11:	Fast Left Conveyor.
+
+More will be added as the game progresses.
+
+-----------------------------------------------------------
+
+Changes - Version 0.0.1 ():
+
+-	Camera system started.
+-	READY at start of stage is complete.
+-	Added player spawn point functions.
+-	Added basic animations.
+-	Added the ground work for the swap mechanic.
+-	Running added.
+-	Tweaked the run function to use fewer lines of
+	code.
+-	Jumping added.
+-	Fixed an issue where the jump sprite would briefly
+	appear after the player beams in. This will
+	potentially help fix the same issue when reaching
+	the top of a ladder.
+-	Added a function to determine what kind of floor
+	the player is standing on.
+-	Added function to determine what type of tile the
+	player is overlapping.
+-	Fixed an issue where the player's Y velocity would
+	keep increasing the more they fell.
+-	Added water physics.
+-	Tweaked jump code to make it easier to read.
+-	Fixed an issue where holding jump would let the
+	player jump repeatedly.
+-	Fixed an issue where holding jump after falling off
+	a platform would make the player jump upon contact
+	with an obstacle.
+-	Ice physics added.
+-	Fixed an issue where the player's "little step"
+	would not move them in the direction the player
+	is facing.
+-	Fixed and issue where the player would stop at the
+	edge of ice/conveyor tiles instead of falling off
+	the side.
+-	Added ladders.
+-	Added a function to determine what type of tile the
+	player is colliding with. (Mostly will be used for
+	death traps).
+-	Tweaked water gravity to be more in line with the
+	NES games.
+-	Added ladder tiles specifically for use in water.
+-	Fixed an issue where pulling the tile_name of a
+	tile would spit out THOUSANDS of errors when not
+	colliding.
+-	Sliding added for Mega Man.
+-	Fixed issues with sliding on certain tiles.
+-	COMPLETELY redid the X and Y movements for running.
+	I totally overcomplicated the whole thing.
+-	Redid the top of ladder detection. Makes for a more
+	stable dismount.
+-	Moved gravity functions outside of the main 3
+	states, as gravity will affect players unless they
+	are climbing.
+-	Fixed an issue when the player reaches the top of
+	an underwater ladder.
+-	Dashing added for Proto Man/Bass.
+-	Fixed an issue regarding the X Speed Modifier not
+	resetting when no collision is taking place.
+-	Fixed ANOTHER issue with the tops of ladders after
+	the last fix broke ALL ladders.
+-	Fixed an issue where the player would continue
+	being pushed along as if on a conveyor when
+	standing on 'Death' tiles. (Hilarious. But had to
+	go).
+-	Damage functions added.
+-	Fixed an issue when taking damage while caught
+	under a low ceiling.
+-	Fixed an issue where taking damage while sliding,
+	but the player was NOT under a low ceiling, caused
+	the player to continue their slide when the hurt
+	animation was finished.
+-	Fixed an issue with how direction swapping is
+	handled on ladders.
+-	Fixed an issue where the player would still climb
+	ladders while in a shooting/throwing state.
+-	Fixed an issue when using a throwing weapon or Bass
+	defaut buster displaying the wrong animations.
+-	Added shoot functions.
+-	Added throw functions.
+-	Added bass buster shot functions.
+-	Deleted and redid Bass' Buster functions because
+	he's an asshole and every time I try to add
+	something new it's BASS that breaks something and
+	FUCK that fish headed ass hat I HATE HIM WITH EVERY
+	OUNCE OF MY BEING!! )()$&&%^%&$*(^$(*$^*(^(&%%&!!!
+	...
+	...
+	...
+	...
+	I'm better now.
+-	FINALLY fixed Bass' Buster behaviors.
+-	Fixed an issue where dashing against a wall would
+	allow the player to dash endlessly along the floor
+	when no obstacle is present.
+-	Fixed dash jumping for Bass so he could grab
+	ladders and shoot.
+-	Added functions for debugging.
+-	Merged Standing and Sliding into a single function
+	to help clean up code and make it more manageable.
+-	Fixed multiple bugs as a result of the merger.
+-	Fixed an issue where dashing while shooting as Bass
+	would cause him to dash and shoot at the same time
+	rather than cancel the shooting action.
+-	Started title screen.
+-	Redid the Fade In scene to use tweens instead of
+	setting the opacity manually. Much smoother
+	looking.
+-	Fixed an issue where the player's sprite would
+	disappear while shooting, holding up or down, then
+	double tapping a direction to make Bass dash.
+-	Fixed an issue where Mega Man could jump while
+	under a low ceiling, therefore getting stuck.
+-	Fixed an issue where Mega Man retained his slide
+	momentum when jumping after a slide.
+-----------------------------------------------------------

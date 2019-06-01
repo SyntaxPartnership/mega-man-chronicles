@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/91_SE EM SHED.wav-8d131118ff0a561ed4ac65fbff8b719f.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/91_SE EM SHED.wav"
+dest_files=[ "res://.import/91_SE EM SHED.wav-8d131118ff0a561ed4ac65fbff8b719f.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0
