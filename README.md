@@ -97,3 +97,4 @@ Changes - Version 0.0.1 ():
 - Fixed an issue where the player's sprite would sometimes fall down a one-block wide hole when sliding as Mega Man.
 - Added color swapping functions.
 - Fixed an issue where sliding above a ladder would trigger ladder functions and break normal movement.
+- Fixed an issue where using a hitbox longer than the floor/wall tiles made the player's wobble ever so slightly up and down during a slide. Reducing the size of the slide hitbox fixed this. Most likely happened due to the move_and_slide() function.
