@@ -95,3 +95,5 @@ Changes - Version 0.0.1 ():
 - Fixed an issue where the player's slide momentum would still be active after falling from a platform during a slide.
 - Redid the global values to take up fewer lines of code. For example, the playser_1d variable is now an array which stores both player's IDs when entering a level, rather than making them two separate variables.
 - Fixed an issue where the player's sprite would sometimes fall down a one-block wide hole when sliding as Mega Man.
+- Added color swapping functions.
+- Fixed an issue where sliding above a ladder would trigger ladder functions and break normal movement.
