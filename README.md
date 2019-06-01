@@ -20,9 +20,12 @@ Jump | [.] | [A]
 Fire | [,] | [X]
 Prev Weapon | [;] | [LB]
 Next Weapon | ['] | [RB]
-Quick Select(1) | N/A | [R Analog]
+Quick Select (1) | N/A | [R Analog]
 Select | [Shift] | [Select]
 Start | [Enter] | [Start]
+
+Slide (As Mega Man): Down + Jump
+Dash (As Proto Man/Bass): Dash button or double tap the direction you wish to dash.
 
 1. Has not been implemented, if at all.
 
