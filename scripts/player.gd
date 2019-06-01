@@ -54,7 +54,7 @@ var slide_timer = 0
 var slide_act = 0
 var slide_delay = 0
 var slide_tap_dir
-var slide_top
+var slide_top = false
 var slide = false
 var shot_rapid = 0
 var shot_delay = 0
@@ -121,7 +121,8 @@ func _physics_process(delta):
 	next = Input.is_action_just_pressed("next")
 	select = Input.is_action_just_pressed("select")
 	start = Input.is_action_just_pressed("start")
-
+	
+	
 	#TileMap Data function
 	get_data()
 
@@ -242,23 +243,14 @@ func _physics_process(delta):
 				if play_anim == 'lilstep' and !$anim.is_playing() and x_dir == 0:
 					anim_state(IDLE)
 				
-				#Change the player's animation based on if they're on the floor or not.
-				if !is_on_floor() and anim_st != JUMP and !force_idle:
-					anim_state(JUMP)
-					jumps = 0
-				elif is_on_floor() and anim_st == JUMP and x_dir == 0:
-					anim_state(IDLE)
-				elif is_on_floor() and anim_st == JUMP and x_dir != 0:
-					anim_state(RUN)
-				
 				#Reset the jumps counter. Cancel sliding.
 				if !jump and is_on_floor() and jumps == 0:
 					jumps = 1
+					slide = false
 					slide_timer = 0
 					x_speed = (x_dir * RUN_SPEED) / x_spd_mod
 					$standbox.set_disabled(false)
 					$slidebox.set_disabled(true)
-					slide = false
 				
 				#When the slide timer reaches 0. Cancel slide.
 				if slide_timer == 0 and slide and is_on_floor() and !slide_top:
@@ -300,6 +292,15 @@ func _physics_process(delta):
 						$standbox.set_disabled(false)
 						$slidebox.set_disabled(true)
 						slide = false
+
+				#Change the player's animation based on if they're on the floor or not.
+				if !is_on_floor() and anim_st != JUMP and !force_idle:
+					anim_state(JUMP)
+					jumps = 0
+				elif is_on_floor() and anim_st == JUMP and x_dir == 0:
+					anim_state(IDLE)
+				elif is_on_floor() and anim_st == JUMP and x_dir != 0:
+					anim_state(RUN)
 					
 				#Make the player jump.
 				if global.player == 0 and y_dir != 1 and jump_tap and is_on_floor() and jumps > 0 and !slide_top:
@@ -333,8 +334,10 @@ func _physics_process(delta):
 				#Change the player direction.
 				if x_dir < 0:
 					$sprite.flip_h = true
+					$slidebox.position.x = 2
 				elif x_dir > 0 :
 					$sprite.flip_h = false
+					$slidebox.position.x = -2
 					
 				#Begin sliding functions.
 				if global.player == 0:
@@ -579,7 +582,7 @@ func _physics_process(delta):
 			ice = false
 
 		#Print Shit
-		print(slide,', ',slide_timer,', ',jumps)
+		print(slide_top,', ',slide)
 
 #There are 3 states that the player will call. Animation, Action, and Shot
 #Pull the matching Animation State and set the animation accordingly.
@@ -647,13 +650,10 @@ func shot_state(new_shot_state):
 
 #Pull the player's texture sheet.
 func change_char():
-	if swap:
-		global.player = global.p2_id
-	else:
-		global.player = global.p1_id
+	global.player = global.player_id[int(swap)]
 
 	if global.player == 2 and shot_st == BASSSHOT:
-		if global.p1_weap == 0 and !swap or global.p2_weap == 0 and swap:
+		if global.player_weap[int(swap)] == 0:
 			if x_dir == 0 and y_dir == -1:
 				bass_dir = '-up'
 			elif x_dir != 0 and y_dir == -1:
@@ -706,10 +706,7 @@ func get_data():
 #Determine whether the slide_top detector is overlapping an obstacle.
 # warning-ignore:unused_argument
 func _on_slide_top_body_entered(body):
-	if slide:
-		slide_top = true
-	else:
-		slide_top = false
+	slide_top = true
 
 # warning-ignore:unused_argument
 func _on_slide_top_body_exited(body):
@@ -720,24 +717,9 @@ func weapons():
 	shot_delay = 20
 
 	#NOTE: Edit this section as weapons become usable.
-	#Mega Man Only
-	if global.player == 0:
-		#Mega Buster
-		if !swap:
-			if global.p1_weap == 0:
-				shot_state(SHOOT)
-		else:
-			if global.p2_weap == 0:
-				shot_state(SHOOT)
-
-	#Proto Man Only
-	if global.player == 1:
-		#Proto Buster
-		if !swap:
-			if global.p1_weap == 0:
-				shot_state(SHOOT)
-		else:
-			if global.p2_weap == 0:
+	if global.player != 2:
+		#Mega Buster/Proto Strike
+		if global.player_weap[int(swap)] == 0:
 				shot_state(SHOOT)
 
 	#Bass Only

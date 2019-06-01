@@ -10,7 +10,7 @@ extents = Vector2( 8, 4 )
 extents = Vector2( 6.5, 12 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 8, 7 )
+extents = Vector2( 10, 7 )
 
 [sub_resource type="Animation" id=4]
 length = 0.35
@@ -376,7 +376,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="RectangleShape2D" id=26]
-extents = Vector2( 8, 1 )
+extents = Vector2( 6.5, 1 )
 
 [node name="player" type="KinematicBody2D"]
 script = ExtResource( 1 )
@@ -390,7 +390,6 @@ position = Vector2( 0, -7 )
 shape = SubResource( 1 )
 
 [node name="standbox" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource( 2 )
 
 [node name="slidebox" type="CollisionShape2D" parent="."]
@@ -429,7 +428,7 @@ anims/stand-shot-d-up = SubResource( 24 )
 anims/stand-shot-up = SubResource( 25 )
 
 [node name="slide_top" type="Area2D" parent="."]
-position = Vector2( 0, -3 )
+position = Vector2( 0, -4 )
 collision_layer = 2
 collision_mask = 0
 
