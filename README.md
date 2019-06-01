@@ -90,3 +90,4 @@ Changes - Version 0.0.1 ():
 - Fixed an issue where Mega Man could jump while under a low ceiling, therefore getting stuck.
 - Fixed an issue where Mega Man retained his slide momentum when jumping after a slide.
 - Fixed an issue where the player's slide momentum would still be active after falling from a platform during a slide.
+- Redid the global values to take up fewer lines of code. For example, the playser_1d variable is now an array which stores both player's IDs when entering a level, rather than making them two separate variables.
