@@ -27,6 +27,9 @@ var scroll_spd = 4
 var rooms = 0
 var prev_room = Vector2(0, 0)
 
+#Color Variables.
+var palette = [Color('#000000'), Color('#000000'), Color('#000000')]
+
 func _ready():
 	res = get_viewport_rect().size
 	#Add Continue and Spawn Scripts here
@@ -149,8 +152,6 @@ func _rooms():
 func _process(delta):
 	_camera()
 	
-		
-	
 	#Get other player information.
 	player_tilepos = $tiles.world_to_map(pos)
 	stand_on = $tiles.get_cellv(Vector2(player_tilepos.x, player_tilepos.y + 1))
@@ -249,6 +250,31 @@ func _on_fade_fadein():
 	if $fade/fade.state == 0:
 		print("Stage Start!")
 
-
 func _on_fade_fadeout():
 	pass # Replace with function body.
+
+func palette_swap():
+	#Set palettes for the player.
+	#Character specific palettes.
+	#Mega Man
+	if global.player == 0:
+		if global.player_weap[int($player.swap)] == 0 and $player.charge == 0:
+			palette[0] = global.black
+			palette[1] = global.blue2
+			palette[2] = global.blue1
+	
+	#Proto Man
+	if global.player == 1:
+		if global.player_weap[int($player.swap)] == 0 and $player.charge == 0:
+			palette[0] = global.black
+			palette[1] = global.red3
+			palette[2] = global.grey1
+	#Set Colors
+	#Player Sprites
+	$player/sprite.material.set_shader_param('r_col1', palette[0])
+	$player/sprite.material.set_shader_param('r_col2', palette[1])
+	$player/sprite.material.set_shader_param('r_col3', palette[2])
+	
+	#HUD
+	
+	#Items

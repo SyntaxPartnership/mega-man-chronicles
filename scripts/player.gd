@@ -71,6 +71,8 @@ var lad_top_overlap
 var hurt_timer = 0
 var blink_timer = 0
 var blink = 0
+var charge = 0
+var c_flash = 0
 
 var dmg_button = false
 
@@ -103,6 +105,18 @@ func _ready():
 	act_state(STANDING)
 	shot_state(NORMAL)
 	change_char()
+	
+	#Set appropriate palette
+	#Get the colors to be replaced.
+	$sprite.material.set_shader_param('t_col1', global.t_color1)
+	$sprite.material.set_shader_param('t_col2', global.t_color2)
+	$sprite.material.set_shader_param('t_col3', global.t_color3)
+	$sprite.material.set_shader_param('t_col4', global.t_color4)
+	#Set transparent pixels.
+	$sprite.material.set_shader_param('trans', global.trans)
+	#Set colors
+	world.palette_swap()
+	
 
 func _physics_process(delta):
 
@@ -334,10 +348,10 @@ func _physics_process(delta):
 				#Change the player direction.
 				if x_dir < 0:
 					$sprite.flip_h = true
-					$slidebox.position.x = 2
+#					$slidebox.position.x = 2
 				elif x_dir > 0 :
 					$sprite.flip_h = false
-					$slidebox.position.x = -2
+#					$slidebox.position.x = -2
 					
 				#Begin sliding functions.
 				if global.player == 0:
@@ -412,7 +426,7 @@ func _physics_process(delta):
 						act_state(CLIMBING)
 				
 				if stand_on == 3 or stand_on == 12:
-					if y_dir == 1 and is_on_floor():
+					if y_dir == 1 and is_on_floor() and !slide:
 						ladder_top = (tile_pos.y * 16) + 9
 						if $sprite.flip_h == true:
 							ladder_dir = -1
@@ -431,6 +445,11 @@ func _physics_process(delta):
 						act_state(CLIMBING)
 
 			elif act_st == CLIMBING:
+				
+				if $standbox.is_disabled():
+					$standbox.set_disabled(false)
+					$slidebox.set_disabled(true)
+					
 				#Change the direction based on if the player is shooting or not.
 				if x_dir != 0:
 					ladder_dir = x_dir
@@ -582,7 +601,7 @@ func _physics_process(delta):
 			ice = false
 
 		#Print Shit
-		print(slide_top,', ',slide)
+		
 
 #There are 3 states that the player will call. Animation, Action, and Shot
 #Pull the matching Animation State and set the animation accordingly.

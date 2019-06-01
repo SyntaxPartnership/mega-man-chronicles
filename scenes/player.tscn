@@ -1,7 +1,8 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://scripts/player.gd" type="Script" id=1]
-[ext_resource path="res://assets/sprites/player/bass-shoot.png" type="Texture" id=2]
+[ext_resource path="res://shaders/player.shader" type="Shader" id=2]
+[ext_resource path="res://assets/sprites/player/bass-shoot.png" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 8, 4 )
@@ -10,7 +11,21 @@ extents = Vector2( 8, 4 )
 extents = Vector2( 6.5, 12 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 10, 7 )
+extents = Vector2( 8, 7 )
+
+[sub_resource type="ShaderMaterial" id=27]
+shader = ExtResource( 2 )
+shader_param/t_col1 = null
+shader_param/t_col2 = null
+shader_param/t_col3 = null
+shader_param/t_col4 = null
+shader_param/f_col1 = null
+shader_param/f_col2 = null
+shader_param/f_col3 = Color( 0, 0, 0, 1 )
+shader_param/r_col1 = null
+shader_param/r_col2 = null
+shader_param/r_col3 = null
+shader_param/trans = null
 
 [sub_resource type="Animation" id=4]
 length = 0.35
@@ -376,7 +391,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="RectangleShape2D" id=26]
-extents = Vector2( 6.5, 1 )
+extents = Vector2( 8, 1 )
 
 [node name="player" type="KinematicBody2D"]
 script = ExtResource( 1 )
@@ -398,7 +413,8 @@ shape = SubResource( 3 )
 disabled = true
 
 [node name="sprite" type="Sprite" parent="."]
-texture = ExtResource( 2 )
+material = SubResource( 27 )
+texture = ExtResource( 3 )
 offset = Vector2( 0, -241 )
 vframes = 4
 hframes = 14
