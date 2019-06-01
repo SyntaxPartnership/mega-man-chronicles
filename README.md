@@ -1,6 +1,8 @@
 MEGA MAN CHRONICLES
 
-This is a fan game currently in development and is purely a passion project.
+This is a fan game currently in development and is purely a
+passion project. This game is being constructed using the
+Godot Game Engine.
 
 -----------------------------------------------------------
 
@@ -14,6 +16,7 @@ Switch controllers. Wherever the button is located on one,
 it will be the same button location on the others. Below
 will display the controls as if you are using an XBox 360
 or XBox One controller.
+
 -----------------------------------------------------------
 
 (K)		[WASD]
