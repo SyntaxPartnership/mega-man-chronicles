@@ -1,4 +1,5 @@
 MEGA MAN CHRONICLES
+--
 
 This is a fan game currently in development and is purely a
 passion project. This game is being constructed using the
@@ -8,38 +9,24 @@ Godot Game Engine.
 
 Controls:
 
-(K) = Keyboard
-(C) = Controller
-
 The game is mapped to use XBox, PlayStation, and Nintendo
 Switch controllers. Wherever the button is located on one,
 it will be the same button location on the others. Below
 will display the controls as if you are using an XBox 360
 or XBox One controller.
 
------------------------------------------------------------
+Action | Keyboard | Controller
+-------|----------|-----------
+Movement | [WASD] | [L analog]/[D Pad]
+Jump | [.] | [A]
+Fire | [,] | [X]
+Prev Weapon | [;] | [LB]
+Next Weapon | ['] | [RB]
+Quick Select* | N/A | [R Analog]
+Select | [Shift] | [Select]
+Start | [Enter] | [Start]
 
-(K)		[WASD]
-(C)		[L Analog]
-(C)		[D Pad]		= Movement
-
-(K)		[.]
-(C)		[A]		= Jump
-
-(K)		[,]			
-(C)		[X]		= Fire
-
-(K)		[;]
-(C)		[LB]		= Previous Weapon
-
-(K)		[']
-(C)		[RB]		= Next Weapon
-
-(K)		[Shift]
-(C)		[Select]	= Select
-
-(K)		[Enter]
-(C)		[Start]		= Start
+* Has not been implemented, if at all.
 
 
 -----------------------------------------------------------
