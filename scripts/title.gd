@@ -1,7 +1,5 @@
 extends Node2D
 
-onready var tween = $menu_fade
-
 var menu_pos = 0
 var menu = 0
 var can_move = false
@@ -14,6 +12,7 @@ var cursor_pos = Vector2()
 func _ready():
 	cursor_pos = $cursor.position
 
+# warning-ignore:unused_argument
 func _physics_process(delta):
 	
 	if can_move:
@@ -69,9 +68,12 @@ func _on_fade_fadein():
 	can_move = true
 
 func _on_fade_fadeout():
+# warning-ignore:return_value_discarded
 	get_tree().change_scene("res://scenes/world.tscn")
 
 
+# warning-ignore:unused_argument
+# warning-ignore:unused_argument
 func _on_menu_fade_tween_completed(object, key):
 	#Resume menu movement.
 	if !fade_in and !fade_out:

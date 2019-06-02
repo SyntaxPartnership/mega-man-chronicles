@@ -258,17 +258,76 @@ func palette_swap():
 	#Character specific palettes.
 	#Mega Man
 	if global.player == 0:
-		if global.player_weap[int($player.swap)] == 0 and $player.charge == 0:
-			palette[0] = global.black
-			palette[1] = global.blue2
-			palette[2] = global.blue1
+		#Default palette
+		if global.player_weap[int($player.swap)] == 0:
+			if $player.charge == 0:
+				palette[0] = global.black
+				palette[1] = global.blue2
+				palette[2] = global.blue1
+		
+			#Charge 1
+			if $player.charge >= 32 and $player.charge < 96 and $player.c_flash == 0:
+				palette[0] = global.black
+			elif $player.charge >= 32 and $player.charge < 48 and $player.c_flash == 2:
+				palette[0] = global.pink3
+			elif $player.charge >= 48 and $player.charge < 64 and $player.c_flash == 2:
+				palette[0] = global.pink2
+			elif $player.charge >= 64 and $player.charge < 96 and $player.c_flash == 2:
+				palette[0] = global.pink1
+				
+			#Charge 2
+			if $player.charge >= 96 and $player.c_flash == 0:
+				palette[0] = global.black
+				palette[1] = global.blue2
+				palette[2] = global.blue1
+			elif $player.charge >= 96 and $player.c_flash == 2:
+				palette[0] = global.blue2
+				palette[1] = global.blue1
+				palette[2] = global.black
+			elif $player.charge >= 96 and $player.c_flash == 4:
+				palette[0] = global.blue1
+				palette[1] = global.black
+				palette[2] = global.blue2
+			elif $player.charge >= 96 and $player.c_flash == 6:
+				palette[0] = global.blue1
+				palette[1] = global.grey0
+				palette[2] = global.blue2
 	
 	#Proto Man
 	if global.player == 1:
-		if global.player_weap[int($player.swap)] == 0 and $player.charge == 0:
-			palette[0] = global.black
-			palette[1] = global.red3
-			palette[2] = global.grey1
+		if global.player_weap[int($player.swap)] == 0:
+			if $player.charge == 0:
+				palette[0] = global.black
+				palette[1] = global.red3
+				palette[2] = global.grey1
+		
+			#Charge 1
+			if $player.charge >= 32 and $player.charge < 96 and $player.c_flash == 0:
+				palette[0] = global.black
+			elif $player.charge >= 32 and $player.charge < 48 and $player.c_flash == 2:
+				palette[0] = global.purple3
+			elif $player.charge >= 48 and $player.charge < 64 and $player.c_flash == 2:
+				palette[0] = global.purple2
+			elif $player.charge >= 64 and $player.charge < 96 and $player.c_flash == 2:
+				palette[0] = global.purple1
+				
+			#Charge 2
+			if $player.charge >= 96 and $player.c_flash == 0:
+				palette[0] = global.black
+				palette[1] = global.red3
+				palette[2] = global.grey1
+			elif $player.charge >= 96 and $player.c_flash == 2:
+				palette[0] = global.red3
+				palette[1] = global.grey1
+				palette[2] = global.black
+			elif $player.charge >= 96 and $player.c_flash == 4:
+				palette[0] = global.grey1
+				palette[1] = global.black
+				palette[2] = global.red3
+			elif $player.charge >= 96 and $player.c_flash == 6:
+				palette[0] = global.grey1
+				palette[1] = global.grey0
+				palette[2] = global.red3
 			
 	#Bass
 	if global.player == 2:

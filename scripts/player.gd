@@ -189,6 +189,25 @@ func _physics_process(delta):
 
 				if !fire:
 					shot_rapid = 0
+			
+			#Charge functions. Mega/Proto Man only.
+			if fire and charge < 99:
+				charge += 1
+			
+			if charge >= 32:
+				c_flash += 1
+			
+			if charge < 96 and c_flash > 3:
+				c_flash = 0
+			elif charge >= 96 and c_flash > 7:
+				c_flash = 0
+			
+			if c_flash == 0 or c_flash == 2 or c_flash == 4 or c_flash == 6:
+				world.palette_swap()
+			
+			if !fire and charge > 0:
+				weapons()
+				world.palette_swap()
 
 			#Code to revert back to normal sprites.
 			if shot_delay > 0:
@@ -607,7 +626,7 @@ func _physics_process(delta):
 			ice = false
 
 		#Print Shit
-		print(wall)
+		print(charge,', ',c_flash)
 
 #There are 3 states that the player will call. Animation, Action, and Shot
 #Pull the matching Animation State and set the animation accordingly.
@@ -754,9 +773,16 @@ func weapons():
 
 	#NOTE: Edit this section as weapons become usable.
 	if global.player != 2:
-		#Mega Buster/Proto Strike
-		if global.player_weap[int(swap)] == 0:
+		if !slide:
+			#Mega Buster/Proto Strike
+			if global.player_weap[int(swap)] == 0 and charge < 32:
 				shot_state(SHOOT)
+			elif global.player_weap[int(swap)] == 0 and charge >= 32 and charge < 96:
+				shot_state(SHOOT)
+			elif global.player_weap[int(swap)] == 0 and charge >= 96:
+				shot_state(SHOOT)
+		charge = 0
+		c_flash = 0
 
 	#Bass Only
 	if global.player == 2:
