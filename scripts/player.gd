@@ -55,6 +55,7 @@ var slide_act = 0
 var slide_delay = 0
 var slide_tap_dir
 var slide_top = false
+var wall = false
 var slide = false
 var shot_rapid = 0
 var shot_delay = 0
@@ -123,8 +124,8 @@ func _physics_process(delta):
 	#Make the inputs easier to handle.
 	x_dir = int(Input.is_action_pressed("right")) - int(Input.is_action_pressed("left"))
 	y_dir = int(Input.is_action_pressed("down")) - int(Input.is_action_pressed("up"))
-	left_tap = Input.is_action_pressed("left")
-	right_tap = Input.is_action_pressed("right")
+	left_tap = Input.is_action_just_pressed("left")
+	right_tap = Input.is_action_just_pressed("right")
 	jump = Input.is_action_pressed("jump")
 	jump_tap = Input.is_action_just_pressed("jump")
 	dash = Input.is_action_pressed("dash")
@@ -348,28 +349,33 @@ func _physics_process(delta):
 				#Change the player direction.
 				if x_dir < 0:
 					$sprite.flip_h = true
-#					$slidebox.position.x = 2
+					$slide_wall.position.x = -7
 				elif x_dir > 0 :
 					$sprite.flip_h = false
-#					$slidebox.position.x = -2
+					$slide_wall.position.x = 7
+				
+				if slide:
+					$slide_top/area.set_disabled(false)
+				else:
+					$slide_top/area.set_disabled(true)
 					
 				#Begin sliding functions.
 				if global.player == 0:
-					if y_dir == 1 and jump_tap and is_on_floor():
+					if y_dir == 1 and jump_tap and is_on_floor() and !wall:
 						anim_state(SLIDE)
 						slide_timer = 15
 						slide = true
 						$standbox.set_disabled(true)
 						$slidebox.set_disabled(false)
 				else:
-					if dash_tap and is_on_floor():
+					if dash_tap and is_on_floor() and !wall:
 						anim_state(SLIDE)
 						slide_timer = 15
 						slide = true
 						shot_state(NORMAL)
 						bass_dir = ''
 					
-					if is_on_floor() and y_dir == 0:
+					if is_on_floor() and y_dir == 0 and !wall:
 						if slide_act == 0:
 							if left_tap or right_tap:
 								slide_delay = 16
@@ -601,7 +607,7 @@ func _physics_process(delta):
 			ice = false
 
 		#Print Shit
-		
+		print(wall)
 
 #There are 3 states that the player will call. Animation, Action, and Shot
 #Pull the matching Animation State and set the animation accordingly.
@@ -670,6 +676,11 @@ func shot_state(new_shot_state):
 #Pull the player's texture sheet.
 func change_char():
 	global.player = global.player_id[int(swap)]
+	
+	if global.player == 0:
+		$slide_wall.position.y = 5
+	else:
+		$slide_wall.position.y = 0
 
 	if global.player == 2 and shot_st == BASSSHOT:
 		if global.player_weap[int(swap)] == 0:
@@ -730,6 +741,12 @@ func _on_slide_top_body_entered(body):
 # warning-ignore:unused_argument
 func _on_slide_top_body_exited(body):
 	slide_top = false
+
+func _on_slide_wall_body_entered(body):
+	wall = true
+
+func _on_slide_wall_body_exited(body):
+	wall = false
 
 func weapons():
 	#Set timer for the shooting/throwing sprites.

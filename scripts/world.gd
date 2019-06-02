@@ -269,6 +269,14 @@ func palette_swap():
 			palette[0] = global.black
 			palette[1] = global.red3
 			palette[2] = global.grey1
+			
+	#Bass
+	if global.player == 2:
+		if global.player_weap[int($player.swap)] == 0:
+			palette[0] = global.black
+			palette[1] = global.grey2
+			palette[2] = global.brown1
+			
 	#Set Colors
 	#Player Sprites
 	$player/sprite.material.set_shader_param('r_col1', palette[0])
