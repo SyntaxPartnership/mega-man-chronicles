@@ -190,10 +190,10 @@ func _physics_process(delta):
 				if !fire:
 					shot_rapid = 0
 			
-			#Charge functions. Mega/Proto Man only.
+			#Charge functions. Mega/Proto Man only.	
 			if fire and charge < 99:
 				charge += 1
-			
+				
 			if charge >= 32:
 				c_flash += 1
 			
@@ -201,7 +201,7 @@ func _physics_process(delta):
 				c_flash = 0
 			elif charge >= 96 and c_flash > 7:
 				c_flash = 0
-			
+
 			if c_flash == 0 or c_flash == 2 or c_flash == 4 or c_flash == 6:
 				world.palette_swap()
 			
@@ -302,7 +302,7 @@ func _physics_process(delta):
 					slide = false
 				
 				#When the player touches a wall. cancel sliding.
-				if slide and is_on_wall():
+				if slide and is_on_wall() and !slide_top:
 					anim_state(IDLE)
 					slide_timer = 0
 					$standbox.set_disabled(false)
@@ -626,7 +626,7 @@ func _physics_process(delta):
 			ice = false
 
 		#Print Shit
-		print(charge,', ',c_flash)
+		
 
 #There are 3 states that the player will call. Animation, Action, and Shot
 #Pull the matching Animation State and set the animation accordingly.
@@ -761,9 +761,11 @@ func _on_slide_top_body_entered(body):
 func _on_slide_top_body_exited(body):
 	slide_top = false
 
+# warning-ignore:unused_argument
 func _on_slide_wall_body_entered(body):
 	wall = true
 
+# warning-ignore:unused_argument
 func _on_slide_wall_body_exited(body):
 	wall = false
 

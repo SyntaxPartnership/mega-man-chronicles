@@ -101,3 +101,16 @@ Changes - Version 0.0.1 ():
 - Fixed an issue where the player could not jump while up against a wall due to the slide_top node overlapping an obstacle. Regardless of sliding state.
 - Made it so that player's could not activate a slide or dash when facing up against a wall.
 - Added Mega/Proto Man's charge shot animations.
+- Fixed a miscolored pixel in Proto Man's sprite sheet which caused part of his visor to swap colors.
+- Fixed an issue where the player would get stuck under a low ceiling is they collide with a wall.
+
+Credits:
+--
+
+Special Thanks
+harraps
+N64Mario
+Marc Wyzomirski
+Duane Von Voorst
+GDQuest
+KidsCanCode
