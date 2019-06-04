@@ -115,14 +115,9 @@ Credits:
 
 Special Thanks
 
-harraps
-
-N64Mario
-
-Marc Wyzomirski
-
-Duane Von Voorst
-
-GDQuest
-
-KidsCanCode
+harraps  
+N64Mario  
+Marc Wyzomirski  
+Duane Von Voorst  
+GDQuest  
+KidsCanCode  
