@@ -259,7 +259,7 @@ func palette_swap():
 	#Mega Man
 	if global.player == 0:
 		#Default palette
-		if global.player_weap[int($player.swap)] == 0:
+		if global.player_weap[int($player.swap)] == 0 or global.player_weap[int($player.swap)] == 11:
 			if $player.charge == 0:
 				palette[0] = global.black
 				palette[1] = global.blue2
@@ -289,9 +289,7 @@ func palette_swap():
 				palette[1] = global.black
 				palette[2] = global.blue2
 			elif $player.charge >= 96 and $player.c_flash == 6:
-				palette[0] = global.blue1
 				palette[1] = global.grey0
-				palette[2] = global.blue2
 	
 	#Proto Man
 	if global.player == 1:
@@ -325,9 +323,7 @@ func palette_swap():
 				palette[1] = global.black
 				palette[2] = global.red3
 			elif $player.charge >= 96 and $player.c_flash == 6:
-				palette[0] = global.grey1
-				palette[1] = global.grey0
-				palette[2] = global.red3
+				palette[1] = global.yellow0
 			
 	#Bass
 	if global.player == 2:
