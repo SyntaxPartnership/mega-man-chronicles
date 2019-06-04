@@ -196,7 +196,7 @@ func _physics_process(delta):
 					if shot_rapid >= 4:
 						shot_rapid = 0
 
-				if !fire:
+				if !fire and global.player == 2 and global.player_weap[int(swap)] == 0:
 					shot_rapid = 0
 			
 			#Charge functions. Mega/Proto Man only.	
