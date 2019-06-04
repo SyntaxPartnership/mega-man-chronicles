@@ -74,6 +74,7 @@ var blink_timer = 0
 var blink = 0
 var charge = 0
 var c_flash = 0
+var w_icon = 0
 
 var dmg_button = false
 
@@ -141,6 +142,14 @@ func _physics_process(delta):
 	#TileMap Data function
 	get_data()
 
+	if w_icon > 0:
+		if !$sprite/weap_icon_lr.visible:
+			$sprite/weap_icon_lr.show()
+		w_icon -= 1
+	
+	if w_icon == 0:
+		$sprite/weap_icon_lr.hide()
+
 	if !can_move:
 		#Bring the sprite down aftfer READY vanishes.
 		#NOTE: This will have to be modified when character swapping is implemented.
@@ -171,13 +180,13 @@ func _physics_process(delta):
 
 				if blink_timer == 0:
 					show()
-
+		
 			#Begin weapon functions.
 			if slide_timer == 0:
-				if fire_tap and global.player != 2:
+				if fire_tap and global.player != 2 and global.player_weap[int(swap)] == 0 or fire_tap and global.player_weap[int(swap)] != 0:
 					weapons()
 
-				if fire and global.player == 2:
+				if fire and global.player == 2 and global.player_weap[int(swap)] == 0:
 					shot_state(BASSSHOT)
 					shot_rapid += 1
 

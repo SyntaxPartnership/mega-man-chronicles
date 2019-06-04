@@ -103,14 +103,26 @@ Changes - Version 0.0.1 ():
 - Added Mega/Proto Man's charge shot animations.
 - Fixed a miscolored pixel in Proto Man's sprite sheet which caused part of his visor to swap colors.
 - Fixed an issue where the player would get stuck under a low ceiling is they collide with a wall.
+- Added quick swapping
+- Fixed an issue when swapping weapons as Bass that turned him into a sweet walking rave party.
+- Added weapon icons for L and R swapping.
+- Made weapon firing more specific so that the functions only needs to be called a couple of times.
+- Fixed an issue where Bass would go into a shooting stance regardless of the weapon equipped.
+
 
 Credits:
 --
 
 Special Thanks
+
 harraps
+
 N64Mario
+
 Marc Wyzomirski
+
 Duane Von Voorst
+
 GDQuest
+
 KidsCanCode

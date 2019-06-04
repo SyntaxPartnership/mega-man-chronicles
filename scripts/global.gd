@@ -5,7 +5,7 @@ var debug_menu = 0
 
 #Player Variables
 var player = 0
-var player_id = [1, 0]
+var player_id = [0, 0]
 var player_life = [280, 280]
 var player_weap = [0, 0]
 
@@ -40,18 +40,18 @@ var rescued = false
 
 #Master Weapon flags and energy. First number determines if the weapon has been acquired or not. rp_coil will always be set to true at the start of the game.
 var rp_coil = [true, 280, 280]
-var rp_jet = [false, 280, 280]
-var weapon1 = [false, 280, 280]
-var weapon2 = [false, 280, 280]
-var weapon3 = [false, 280, 280]
-var weapon4 = [false, 280, 280]
-var weapon5 = [false, 280, 280]
-var weapon6 = [false, 280, 280]
-var weapon7 = [false, 280, 280]
-var weapon8 = [false, 280, 280]
-var beat = [false, 280, 280]
-var tango = [false, 280, 280]
-var reggae = [false, 280, 280]
+var rp_jet = [true, 280, 280]
+var weapon1 = [true, 280, 280]
+var weapon2 = [true, 280, 280]
+var weapon3 = [true, 280, 280]
+var weapon4 = [true, 280, 280]
+var weapon5 = [true, 280, 280]
+var weapon6 = [true, 280, 280]
+var weapon7 = [true, 280, 280]
+var weapon8 = [true, 280, 280]
+var beat = [true, 280, 280]
+var tango = [true, 280, 280]
+var reggae = [true, 280, 280]
 
 #Color values. Based on the realnes.aseprite palette included in the file heirarchy.
 
