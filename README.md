@@ -108,6 +108,8 @@ Changes - Version 0.0.1 ():
 - Added weapon icons for L and R swapping.
 - Made weapon firing more specific so that the functions only needs to be called a couple of times.
 - Fixed an issue where Bass would go into a shooting stance regardless of the weapon equipped.
+- Fixed a issue where releasing the fire button would keep Bass in his shooting frames.
+- Started Options menu.
 
 
 Credits:
@@ -121,3 +123,4 @@ Marc Wyzomirski
 Duane Von Voorst  
 GDQuest  
 KidsCanCode  
+GamesFromScratch  

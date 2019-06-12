@@ -27,7 +27,7 @@ func _physics_process(delta):
 		else:
 			cancel = false
 		
-		if accept and menu == 1 and menu_pos == 0:
+		if accept and menu == 1 and menu_pos != 1 and menu_pos != 3:
 			menu += 1
 			$fade.set("end", true)
 		
@@ -68,8 +68,12 @@ func _on_fade_fadein():
 	can_move = true
 
 func _on_fade_fadeout():
-# warning-ignore:return_value_discarded
-	get_tree().change_scene("res://scenes/world.tscn")
+	if menu_pos == 0:
+		# warning-ignore:return_value_discarded
+		get_tree().change_scene("res://scenes/world.tscn")
+	elif menu_pos == 2:
+		# warning-ignore:return_value_discarded
+		get_tree().change_scene("res://scenes/options.tscn")
 
 
 # warning-ignore:unused_argument
