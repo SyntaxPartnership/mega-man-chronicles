@@ -20,7 +20,7 @@ Jump | [.] | [A]
 Fire | [,] | [X]
 Prev Weapon | [;] | [LB]
 Next Weapon | ['] | [RB]
-Quick Select (1) | NumPad | [R Analog]
+Quick Select (1) | [NumPad] | [R Analog]
 Select | [Shift] | [Select]
 Start | [Enter] | [Start]
 
