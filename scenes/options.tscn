@@ -1,32 +1,39 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scripts/options.gd" type="Script" id=1]
-[ext_resource path="res://assets/font.tres" type="DynamicFont" id=2]
-[ext_resource path="res://scenes/fade.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/tilesets/menu/option-stage.tres" type="TileSet" id=2]
+[ext_resource path="res://assets/font.tres" type="DynamicFont" id=3]
+[ext_resource path="res://scenes/fade.tscn" type="PackedScene" id=4]
 
 [node name="options_menu" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
 
+[node name="background" type="TileMap" parent="."]
+tile_set = ExtResource( 2 )
+cell_size = Vector2( 8, 8 )
+format = 1
+tile_data = PoolIntArray( 0, 44, 0, 1, 44, 0, 2, 44, 0, 3, 44, 0, 4, 44, 0, 5, 44, 0, 6, 44, 0, 7, 44, 0, 8, 44, 0, 9, 44, 0, 10, 28, 0, 11, 29, 0, 12, 30, 0, 13, 31, 0, 14, 31, 0, 15, 31, 0, 16, 31, 0, 17, 31, 0, 18, 31, 0, 19, 32, 0, 20, 33, 0, 21, 34, 0, 22, 44, 0, 23, 44, 0, 24, 44, 0, 25, 44, 0, 26, 44, 0, 27, 44, 0, 28, 44, 0, 29, 44, 0, 30, 44, 0, 31, 44, 0, 65536, 48, 0, 65537, 48, 0, 65538, 48, 0, 65539, 48, 0, 65540, 48, 0, 65541, 48, 0, 65542, 48, 0, 65543, 48, 0, 65544, 48, 0, 65545, 48, 0, 65546, 35, 0, 65557, 36, 0, 65558, 48, 0, 65559, 48, 0, 65560, 48, 0, 65561, 48, 0, 65562, 48, 0, 65563, 48, 0, 65564, 48, 0, 65565, 48, 0, 65566, 48, 0, 65567, 48, 0, 131072, 47, 0, 131073, 47, 0, 131074, 47, 0, 131075, 47, 0, 131076, 47, 0, 131077, 47, 0, 131078, 47, 0, 131079, 47, 0, 131080, 47, 0, 131081, 47, 0, 131082, 37, 0, 131083, 38, 0, 131084, 39, 0, 131085, 40, 0, 131086, 40, 0, 131087, 40, 0, 131088, 40, 0, 131089, 40, 0, 131090, 40, 0, 131091, 41, 0, 131092, 42, 0, 131093, 43, 0, 131094, 47, 0, 131095, 47, 0, 131096, 47, 0, 131097, 47, 0, 131098, 47, 0, 131099, 47, 0, 131100, 47, 0, 131101, 47, 0, 131102, 47, 0, 131103, 47, 0, 196608, 48, 0, 196609, 48, 0, 196610, 48, 0, 196611, 48, 0, 196612, 48, 0, 196613, 48, 0, 196614, 48, 0, 196615, 48, 0, 196616, 48, 0, 196617, 48, 0, 196618, 48, 0, 196619, 48, 0, 196620, 48, 0, 196621, 48, 0, 196622, 48, 0, 196623, 48, 0, 196624, 48, 0, 196625, 48, 0, 196626, 48, 0, 196627, 48, 0, 196628, 48, 0, 196629, 48, 0, 196630, 48, 0, 196631, 48, 0, 196632, 48, 0, 196633, 48, 0, 196634, 48, 0, 196635, 48, 0, 196636, 48, 0, 196637, 48, 0, 196638, 48, 0, 196639, 48, 0, 262144, 28, 0, 262145, 29, 0, 262146, 30, 0, 262147, 31, 0, 262148, 31, 0, 262149, 31, 0, 262150, 31, 0, 262151, 31, 0, 262152, 31, 0, 262153, 31, 0, 262154, 31, 0, 262155, 31, 0, 262156, 32, 0, 262157, 33, 0, 262158, 34, 0, 262159, 28, 0, 262160, 29, 0, 262161, 30, 0, 262162, 31, 0, 262163, 31, 0, 262164, 31, 0, 262165, 31, 0, 262166, 31, 0, 262167, 31, 0, 262168, 31, 0, 262169, 31, 0, 262170, 31, 0, 262171, 31, 0, 262172, 31, 0, 262173, 32, 0, 262174, 33, 0, 262175, 34, 0, 327680, 49, 0, 327694, 50, 0, 327695, 49, 0, 327711, 50, 0, 393216, 53, 0, 393230, 53, 0, 393231, 53, 0, 393247, 53, 0, 458752, 53, 0, 458766, 53, 0, 458767, 53, 0, 458783, 53, 0, 524288, 53, 0, 524302, 53, 0, 524303, 53, 0, 524319, 53, 0, 589824, 53, 0, 589838, 53, 0, 589839, 53, 0, 589855, 53, 0, 655360, 53, 0, 655374, 53, 0, 655375, 53, 0, 655391, 53, 0, 720896, 53, 0, 720910, 53, 0, 720911, 53, 0, 720927, 53, 0, 786432, 53, 0, 786446, 53, 0, 786447, 53, 0, 786463, 53, 0, 851968, 53, 0, 851982, 53, 0, 851983, 53, 0, 851999, 53, 0, 917504, 53, 0, 917518, 53, 0, 917519, 53, 0, 917535, 53, 0, 983040, 53, 0, 983054, 53, 0, 983055, 53, 0, 983071, 53, 0, 1048576, 53, 0, 1048590, 53, 0, 1048591, 53, 0, 1048607, 53, 0, 1114112, 51, 0, 1114126, 52, 0, 1114127, 53, 0, 1114143, 53, 0, 1179648, 37, 0, 1179649, 38, 0, 1179650, 39, 0, 1179651, 40, 0, 1179652, 40, 0, 1179653, 40, 0, 1179654, 40, 0, 1179655, 40, 0, 1179656, 40, 0, 1179657, 40, 0, 1179658, 40, 0, 1179659, 40, 0, 1179660, 41, 0, 1179661, 42, 0, 1179662, 43, 0, 1179663, 53, 0, 1179679, 53, 0, 1245184, 48, 0, 1245185, 48, 0, 1245186, 48, 0, 1245187, 48, 0, 1245188, 48, 0, 1245189, 48, 0, 1245190, 48, 0, 1245191, 48, 0, 1245192, 48, 0, 1245193, 48, 0, 1245194, 48, 0, 1245195, 48, 0, 1245196, 48, 0, 1245197, 48, 0, 1245198, 48, 0, 1245199, 53, 0, 1245215, 53, 0, 1310720, 48, 0, 1310721, 48, 0, 1310722, 48, 0, 1310723, 48, 0, 1310724, 48, 0, 1310725, 48, 0, 1310726, 48, 0, 1310727, 48, 0, 1310728, 48, 0, 1310729, 48, 0, 1310730, 48, 0, 1310731, 48, 0, 1310732, 48, 0, 1310733, 48, 0, 1310734, 48, 0, 1310735, 53, 0, 1310751, 53, 0, 1376256, 48, 0, 1376257, 48, 0, 1376258, 48, 0, 1376259, 48, 0, 1376260, 48, 0, 1376261, 48, 0, 1376262, 48, 0, 1376263, 48, 0, 1376264, 48, 0, 1376265, 48, 0, 1376266, 48, 0, 1376267, 48, 0, 1376268, 48, 0, 1376269, 48, 0, 1376270, 48, 0, 1376271, 53, 0, 1376287, 53, 0, 1441792, 48, 0, 1441793, 48, 0, 1441794, 48, 0, 1441795, 48, 0, 1441796, 48, 0, 1441797, 48, 0, 1441798, 48, 0, 1441799, 48, 0, 1441800, 48, 0, 1441801, 48, 0, 1441802, 48, 0, 1441803, 48, 0, 1441804, 48, 0, 1441805, 48, 0, 1441806, 48, 0, 1441807, 53, 0, 1441823, 53, 0, 1507328, 48, 0, 1507329, 48, 0, 1507330, 48, 0, 1507331, 48, 0, 1507332, 48, 0, 1507333, 48, 0, 1507334, 48, 0, 1507335, 48, 0, 1507336, 48, 0, 1507337, 48, 0, 1507338, 48, 0, 1507339, 48, 0, 1507340, 48, 0, 1507341, 48, 0, 1507342, 48, 0, 1507343, 53, 0, 1507359, 53, 0, 1572864, 48, 0, 1572865, 48, 0, 1572866, 48, 0, 1572867, 48, 0, 1572868, 48, 0, 1572869, 48, 0, 1572870, 48, 0, 1572871, 48, 0, 1572872, 48, 0, 1572873, 48, 0, 1572874, 48, 0, 1572875, 48, 0, 1572876, 48, 0, 1572877, 48, 0, 1572878, 48, 0, 1572879, 53, 0, 1572895, 53, 0, 1638400, 48, 0, 1638401, 48, 0, 1638402, 48, 0, 1638403, 48, 0, 1638404, 48, 0, 1638405, 48, 0, 1638406, 48, 0, 1638407, 48, 0, 1638408, 48, 0, 1638409, 48, 0, 1638410, 48, 0, 1638411, 48, 0, 1638412, 48, 0, 1638413, 48, 0, 1638414, 48, 0, 1638415, 53, 0, 1638431, 53, 0, 1703936, 48, 0, 1703937, 48, 0, 1703938, 48, 0, 1703939, 48, 0, 1703940, 48, 0, 1703941, 48, 0, 1703942, 48, 0, 1703943, 48, 0, 1703944, 48, 0, 1703945, 48, 0, 1703946, 48, 0, 1703947, 48, 0, 1703948, 48, 0, 1703949, 48, 0, 1703950, 48, 0, 1703951, 53, 0, 1703967, 53, 0, 1769472, 48, 0, 1769473, 48, 0, 1769474, 48, 0, 1769475, 48, 0, 1769476, 48, 0, 1769477, 48, 0, 1769478, 48, 0, 1769479, 48, 0, 1769480, 48, 0, 1769481, 48, 0, 1769482, 48, 0, 1769483, 48, 0, 1769484, 48, 0, 1769485, 48, 0, 1769486, 48, 0, 1769487, 51, 0, 1769503, 52, 0, 1835008, 48, 0, 1835009, 48, 0, 1835010, 48, 0, 1835011, 48, 0, 1835012, 48, 0, 1835013, 48, 0, 1835014, 48, 0, 1835015, 48, 0, 1835016, 48, 0, 1835017, 48, 0, 1835018, 48, 0, 1835019, 48, 0, 1835020, 48, 0, 1835021, 48, 0, 1835022, 48, 0, 1835023, 37, 0, 1835024, 38, 0, 1835025, 39, 0, 1835026, 40, 0, 1835027, 40, 0, 1835028, 40, 0, 1835029, 40, 0, 1835030, 40, 0, 1835031, 40, 0, 1835032, 40, 0, 1835033, 40, 0, 1835034, 40, 0, 1835035, 40, 0, 1835036, 40, 0, 1835037, 41, 0, 1835038, 42, 0, 1835039, 43, 0, 1900544, 48, 0, 1900545, 48, 0, 1900546, 48, 0, 1900547, 48, 0, 1900548, 48, 0, 1900549, 48, 0, 1900550, 48, 0, 1900551, 48, 0, 1900552, 48, 0, 1900553, 48, 0, 1900554, 48, 0, 1900555, 48, 0, 1900556, 48, 0, 1900557, 48, 0, 1900558, 48, 0, 1900559, 48, 0, 1900560, 48, 0, 1900561, 48, 0, 1900562, 48, 0, 1900563, 48, 0, 1900564, 48, 0, 1900565, 48, 0, 1900566, 48, 0, 1900567, 48, 0, 1900568, 48, 0, 1900569, 48, 0, 1900570, 48, 0, 1900571, 48, 0, 1900572, 48, 0, 1900573, 48, 0, 1900574, 48, 0, 1900575, 48, 0 )
+
 [node name="title" type="Label" parent="."]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -28.0
+margin_left = -32.0
 margin_top = 8.0
-margin_right = 28.0
+margin_right = 24.0
 margin_bottom = 13.0
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 3 )
 text = "OPTIONS"
 
 [node name="main_text" type="Label" parent="."]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -104.0
-margin_top = 32.0
+margin_top = 48.0
 margin_right = -24.0
-margin_bottom = 85.0
-custom_fonts/font = ExtResource( 2 )
+margin_bottom = 133.0
+custom_fonts/font = ExtResource( 3 )
 text = "KEYBOARD
 
 CONTROLLER
@@ -35,18 +42,235 @@ QUICK SWAP
 
 AUDIO
 
+VIDEO
+
 BACK"
 
 [node name="opt_text" type="Label" parent="."]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_top = 32.0
-margin_right = 108.0
+margin_left = 16.0
+margin_top = 48.0
+margin_right = 104.0
 margin_bottom = 224.0
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 3 )
 autowrap = true
 
-[node name="fade" parent="." instance=ExtResource( 3 )]
+[node name="keyb_pad" type="Control" parent="opt_text"]
+editor/display_folded = true
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="up" type="Label" parent="opt_text/keyb_pad"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 52.0
+margin_right = 76.0
+margin_bottom = 8.0
+custom_fonts/font = ExtResource( 3 )
+text = "W"
+align = 2
+autowrap = true
+
+[node name="down" type="Label" parent="opt_text/keyb_pad"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 52.0
+margin_top = 16.0
+margin_right = 76.0
+margin_bottom = 24.0
+custom_fonts/font = ExtResource( 3 )
+text = "W"
+align = 2
+autowrap = true
+
+[node name="left" type="Label" parent="opt_text/keyb_pad"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 52.0
+margin_top = 32.0
+margin_right = 76.0
+margin_bottom = 40.0
+custom_fonts/font = ExtResource( 3 )
+text = "W"
+align = 2
+autowrap = true
+
+[node name="right" type="Label" parent="opt_text/keyb_pad"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 52.0
+margin_top = 48.0
+margin_right = 76.0
+margin_bottom = 56.0
+custom_fonts/font = ExtResource( 3 )
+text = "W"
+align = 2
+autowrap = true
+
+[node name="jump" type="Label" parent="opt_text/keyb_pad"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 52.0
+margin_top = 64.0
+margin_right = 76.0
+margin_bottom = 72.0
+custom_fonts/font = ExtResource( 3 )
+text = "W"
+align = 2
+autowrap = true
+
+[node name="fire" type="Label" parent="opt_text/keyb_pad"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 52.0
+margin_top = 80.0
+margin_right = 76.0
+margin_bottom = 88.0
+custom_fonts/font = ExtResource( 3 )
+text = "W"
+align = 2
+autowrap = true
+
+[node name="dash" type="Label" parent="opt_text/keyb_pad"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 52.0
+margin_top = 96.0
+margin_right = 76.0
+margin_bottom = 104.0
+custom_fonts/font = ExtResource( 3 )
+text = "W"
+align = 2
+autowrap = true
+
+[node name="prev" type="Label" parent="opt_text/keyb_pad"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 52.0
+margin_top = 112.0
+margin_right = 76.0
+margin_bottom = 120.0
+custom_fonts/font = ExtResource( 3 )
+text = "W"
+align = 2
+autowrap = true
+
+[node name="next" type="Label" parent="opt_text/keyb_pad"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 52.0
+margin_top = 128.0
+margin_right = 76.0
+margin_bottom = 136.0
+custom_fonts/font = ExtResource( 3 )
+text = "W"
+align = 2
+autowrap = true
+
+[node name="select" type="Label" parent="opt_text/keyb_pad"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 52.0
+margin_top = 144.0
+margin_right = 76.0
+margin_bottom = 152.0
+custom_fonts/font = ExtResource( 3 )
+text = "W"
+align = 2
+autowrap = true
+
+[node name="start" type="Label" parent="opt_text/keyb_pad"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 52.0
+margin_top = 160.0
+margin_right = 76.0
+margin_bottom = 168.0
+custom_fonts/font = ExtResource( 3 )
+text = "W"
+align = 2
+autowrap = true
+
+[node name="quick_swap" type="Control" parent="opt_text"]
+editor/display_folded = true
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="yes_no" type="Label" parent="opt_text/quick_swap"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 4.0
+margin_top = 56.0
+margin_right = 76.0
+margin_bottom = 69.0
+custom_fonts/font = ExtResource( 3 )
+text = "YES   NO"
+align = 2
+autowrap = true
+
+[node name="audio" type="Control" parent="opt_text"]
+editor/display_folded = true
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="music" type="Label" parent="opt_text/audio"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 44.0
+margin_right = 76.0
+margin_bottom = 8.0
+custom_fonts/font = ExtResource( 3 )
+text = "100%"
+align = 2
+autowrap = true
+
+[node name="effects" type="Label" parent="opt_text/audio"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 44.0
+margin_top = 16.0
+margin_right = 76.0
+margin_bottom = 29.0
+custom_fonts/font = ExtResource( 3 )
+text = "100%"
+align = 2
+autowrap = true
+
+[node name="video" type="Control" parent="opt_text"]
+editor/display_folded = true
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="scale" type="Label" parent="opt_text/video"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -12.0
+margin_top = 16.0
+margin_right = 76.0
+margin_bottom = 29.0
+custom_fonts/font = ExtResource( 3 )
+text = "x1  x2  x3"
+align = 2
+autowrap = true
+
+[node name="full" type="Label" parent="opt_text/video"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -12.0
+margin_top = 48.0
+margin_right = 76.0
+margin_bottom = 61.0
+custom_fonts/font = ExtResource( 3 )
+text = "YES  NO"
+align = 2
+autowrap = true
+
+[node name="fade" parent="." instance=ExtResource( 4 )]
 visible = false
 position = Vector2( 128, 120 )
 [connection signal="fadein" from="fade" to="." method="_on_fade_fadein"]

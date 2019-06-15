@@ -12,6 +12,7 @@ var player_weap = [0, 0]
 #Global Level Flags
 var icey = false
 var low_grav = false
+var quick_swap = false
 
 #Level/Continue Point IDs
 var level_id = 0
