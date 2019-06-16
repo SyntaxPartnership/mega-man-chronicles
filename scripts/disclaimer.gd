@@ -2,6 +2,25 @@ extends Node2D
 
 var allow_ctrl = false
 
+const INPUT_ACTIONS = ['up', 'down', 'left', 'right', 'jump', 'fire', 'dash', 'prev', 'next', 'select', 'start']
+const CONFIG_FILE = 'user://options.cfg'
+
+
+func _ready():
+	load_config()
+
+#Using the example of loading/saving from the Input Mapping tutorial.
+func load_config():
+	var config = ConfigFile.new()
+	var err = config.load(CONFIG_FILE)
+	if err: #Assuming that options.cfg doesn't exist.
+		for action_name in INPUT_ACTIONS:
+			var action_list = InputMap.get_action_list(action_name)
+			#Since there are two control types, get data for both.
+			var keyboard = OS.get_scancode_string(action_list[0].scancode)
+			config.set_value('input', action_name, keyboard)
+		config.save(CONFIG_FILE)
+
 # warning-ignore:unused_argument
 func _process(delta):
 	#Include this to allow skipping of filler screens and legal mumbo jumbo.
