@@ -29,6 +29,19 @@ func load_config():
 		config.set_value('options', 'quick_swap', global.quick_swap)
 		#Save initial config file.
 		config.save(CONFIG_FILE)
+	else: #Successful load. Set values.
+		#Set keyboard controls.
+		for action_name in config.get_section_keys('k_input'):
+			var keyboard = OS.find_scancode_from_string(config.get_value('k_input', action_name))
+			var event = InputEventKey.new()
+			event.scancode = keyboard
+			for old_event in InputMap.get_action_list(action_name):
+				if old_event is InputEventKey:
+					InputMap.action_erase_event(action_name, old_event)
+			InputMap.action_add_event(action_name, event)
+			var get_list = InputMap.get_action_list(action_name)
+			print(OS.get_scancode_string(get_list[1].scancode))
+					
 
 # warning-ignore:unused_argument
 func _process(delta):
