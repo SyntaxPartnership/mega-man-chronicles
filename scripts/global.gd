@@ -9,9 +9,13 @@ var player_id = [2, 0]
 var player_life = [280, 280]
 var player_weap = [0, 0]
 
-#Global Level Flags
+#Global Level/Option Flags
 var icey = false
 var low_grav = false
+var sound = 100
+var music = 100
+var res = 3
+var f_screen = false
 var quick_swap = false
 
 #Level/Continue Point IDs

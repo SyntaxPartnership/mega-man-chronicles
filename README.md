@@ -112,6 +112,7 @@ Changes - Version 0.0.1 ():
 - Started options menu.
 - Added more to the options menu.
 - Added graphics for the options menu and stage select.
+- Global options and controls now load when the app starts. if a config file is not present one will be generated.
 
 
 Credits:

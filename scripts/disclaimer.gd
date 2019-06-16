@@ -18,9 +18,16 @@ func load_config():
 			var action_list = InputMap.get_action_list(action_name)
 			#Since there are two control types, get data for both.
 			var keyboard = OS.get_scancode_string(action_list[0].scancode)
-			config.set_value('k_input', action_name, keyboard)
 			var gamepad = Input.get_joy_button_string(action_list[1].button_index)
+			config.set_value('k_input', action_name, keyboard)
 			config.set_value('g_input', action_name, gamepad)
+		#Set values for global options.
+		config.set_value('options', 'sound', global.sound)
+		config.set_value('options', 'music', global.music)
+		config.set_value('options', 'res', global.res)
+		config.set_value('options', 'f_screen', global.f_screen)
+		config.set_value('options', 'quick_swap', global.quick_swap)
+		#Save initial config file.
 		config.save(CONFIG_FILE)
 
 # warning-ignore:unused_argument
