@@ -31,17 +31,20 @@ func load_config():
 		config.save(CONFIG_FILE)
 	else: #Successful load. Set values.
 		#Set keyboard controls.
-		for action_name in config.get_section_keys('k_input'):
-			var keyboard = OS.find_scancode_from_string(config.get_value('k_input', action_name))
-			var event = InputEventKey.new()
-			event.scancode = keyboard
-			for old_event in InputMap.get_action_list(action_name):
+		for k_action in config.get_section_keys('k_input'):
+			var keyboard = OS.find_scancode_from_string(config.get_value('k_input', k_action))
+			var k_event = InputEventKey.new()
+			k_event.scancode = keyboard
+			for old_event in InputMap.get_action_list(k_action):
 				if old_event is InputEventKey:
-					InputMap.action_erase_event(action_name, old_event)
-			InputMap.action_add_event(action_name, event)
-			var get_list = InputMap.get_action_list(action_name)
+					InputMap.action_erase_event(k_action, old_event)
+			InputMap.action_add_event(k_action, k_event)
+			var get_list = InputMap.get_action_list(k_action)
 			print(OS.get_scancode_string(get_list[1].scancode))
-					
+		for g_action in config.get_section_keys('g_input'):
+			var get_list = InputMap.get_action_list(g_action)
+			var gamepad = Input.get_joy_button_from_string(config.get_value('g_input', g_action))
+			print(gamepad)
 
 # warning-ignore:unused_argument
 func _process(delta):
