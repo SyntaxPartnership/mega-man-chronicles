@@ -113,6 +113,7 @@ Changes - Version 0.0.1 ():
 - Added more to the options menu.
 - Added graphics for the options menu and stage select.
 - Global options and controls now load when the app starts. if a config file is not present one will be generated.
+- Started on the stage select screen. Using a tilemap for the graphics instead of each mugshot being it's own separate object.
 
 
 Credits:
