@@ -41,10 +41,10 @@ func load_config():
 			InputMap.action_add_event(k_action, k_event)
 			var get_list = InputMap.get_action_list(k_action)
 			print(OS.get_scancode_string(get_list[1].scancode))
-		for g_action in config.get_section_keys('g_input'):
-			var get_list = InputMap.get_action_list(g_action)
-			var gamepad = Input.get_joy_button_from_string(config.get_value('g_input', g_action))
-			print(gamepad)
+#		for g_action in config.get_section_keys('g_input'):
+#			var get_list = InputMap.get_action_list(g_action)
+#			var gamepad = Input.get_joy_button_from_string(config.get_value('g_input', g_action))
+#			print(gamepad)
 
 # warning-ignore:unused_argument
 func _process(delta):

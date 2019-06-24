@@ -214,7 +214,7 @@ func _physics_process(delta):
 			if c_flash == 0 or c_flash == 2 or c_flash == 4 or c_flash == 6:
 				world.palette_swap()
 			
-			if !fire and charge > 0:
+			if !fire and charge > 0 and global.player != 2:
 				weapons()
 				world.palette_swap()
 
