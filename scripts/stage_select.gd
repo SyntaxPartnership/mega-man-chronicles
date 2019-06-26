@@ -1,5 +1,7 @@
 extends Node2D
 
+signal bars_done
+
 var x_pos = 1
 var y_pos = 1
 
@@ -21,6 +23,7 @@ var tile_y_pos = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	connect("bars_done", self, "_on_bars_done")
 	set_process_input(false)
 
 # warning-ignore:unused_argument
@@ -119,12 +122,12 @@ func _physics_process(delta):
 					for i in range(0, 32):
 						$back_layer/background.set_cellv(Vector2(tile_y_pos[i], 10), 47, false, false, false)
 						$back_layer/background.set_cellv(Vector2(tile_y_pos[i], 19), 44, false, false, false)
-			elif $front_layer/top_bar.position.y > 76:
+			elif $front_layer/top_bar.position.y == 76:
+				emit_signal('bars_done')
 				$front_layer/top_bar.position.y = 76
 				$front_layer/bottom_bar.position.y = 164
 				bars = false
-	
-	print($back_layer/background.world_to_map($front_layer/top_bar.position))
+
 func _on_fade_fadein():
 	set_process_input(true)
 
@@ -145,3 +148,6 @@ func _on_next_tween_all_completed():
 	$back_layer/highlight.hide()
 	$back_layer.modulate = Color(1.0, 1.0, 1.0, 1.0)
 	bars = true
+
+func _on_bars_done():
+	print("Character Select")
