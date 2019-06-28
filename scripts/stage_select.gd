@@ -150,4 +150,5 @@ func _on_next_tween_all_completed():
 	bars = true
 
 func _on_bars_done():
-	print("Character Select")
+	$front_layer/char_info.show()
+	$front_layer/info3.show()

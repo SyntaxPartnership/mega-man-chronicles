@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://scripts/stage_select.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/stage_sel/mugshots.png" type="Texture" id=2]
@@ -6,9 +6,10 @@
 [ext_resource path="res://assets/font.tres" type="DynamicFont" id=4]
 [ext_resource path="res://assets/sprites/stage_sel/highlight.png" type="Texture" id=5]
 [ext_resource path="res://assets/sprites/stage_sel/bflash.png" type="Texture" id=6]
-[ext_resource path="res://assets/sprites/stage_sel/charsel2.png" type="Texture" id=7]
-[ext_resource path="res://assets/sprites/stage_sel/charsel1.png" type="Texture" id=8]
-[ext_resource path="res://scenes/fade.tscn" type="PackedScene" id=9]
+[ext_resource path="res://assets/sprites/stage_sel/char_info.png" type="Texture" id=7]
+[ext_resource path="res://assets/sprites/stage_sel/charsel2.png" type="Texture" id=8]
+[ext_resource path="res://assets/sprites/stage_sel/charsel1.png" type="Texture" id=9]
+[ext_resource path="res://scenes/fade.tscn" type="PackedScene" id=10]
 
 [node name="stage_select" type="Node2D"]
 script = ExtResource( 1 )
@@ -138,19 +139,34 @@ texture = ExtResource( 6 )
 [node name="next" type="Tween" parent="."]
 
 [node name="front_layer" type="Control" parent="."]
-editor/display_folded = true
 margin_right = 40.0
 margin_bottom = 40.0
 
+[node name="info3" type="Label" parent="front_layer"]
+visible = false
+margin_left = 72.0
+margin_top = 8.0
+margin_right = 176.0
+margin_bottom = 16.0
+custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 0.988235, 0.972549, 0.988235, 1 )
+text = "PLAYER  SELECT"
+
+[node name="char_info" type="Sprite" parent="front_layer"]
+visible = false
+position = Vector2( 128, 48 )
+texture = ExtResource( 7 )
+vframes = 3
+
 [node name="top_bar" type="Sprite" parent="front_layer"]
 position = Vector2( 128, -4 )
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 
 [node name="bottom_bar" type="Sprite" parent="front_layer"]
 position = Vector2( 128, 244 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 
-[node name="fade" parent="." instance=ExtResource( 9 )]
+[node name="fade" parent="." instance=ExtResource( 10 )]
 visible = false
 position = Vector2( 128, 120 )
 [connection signal="tween_all_completed" from="next" to="." method="_on_next_tween_all_completed"]
