@@ -115,6 +115,8 @@ Changes - Version 0.0.1 ():
 - Global options and controls now load when the app starts. if a config file is not present one will be generated.
 - Started on the stage select screen. Using a tilemap for the graphics instead of each mugshot being it's own separate object.
 - Added transition from Stage Select to Player Select.
+- Fixed an issue where tapping down on a ladder would set the incorrect ladder top coordinate.
+- Added another portion of the map to help test the stage select/continue points.
 
 
 Credits:

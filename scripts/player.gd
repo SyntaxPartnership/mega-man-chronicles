@@ -459,9 +459,10 @@ func _physics_process(delta):
 						force_idle = true
 						act_state(CLIMBING)
 				
+				#If the player presses down while on a ladder.
 				if stand_on == 3 or stand_on == 12:
-					if y_dir == 1 and is_on_floor() and !slide:
-						ladder_top = (tile_pos.y * 16) + 9
+					if y_dir == 1 and is_on_floor() and !slide and !fire:
+						shot_state(NORMAL)
 						if $sprite.flip_h == true:
 							ladder_dir = -1
 						else:
@@ -471,6 +472,7 @@ func _physics_process(delta):
 						x_speed = 0
 						position.x = ladder_set
 						position.y += 6
+						ladder_top = (tile_pos.y * 16) + 9
 						velocity = Vector2(0, 0)
 						jumps = 1
 						slide = false
@@ -500,7 +502,8 @@ func _physics_process(delta):
 				elif lad_top_overlap == -1 or lad_top_overlap == 6 or lad_top_overlap == 7:
 					if anim_st != CLIMBTOP:
 						anim_state(CLIMBTOP)
-						ladder_top = (tile_pos.y * 16) - 7
+						if ladder_top == 0:
+							ladder_top = (tile_pos.y * 16) - 7
 
 				#Move the player.
 				if y_dir != 0 and shot_st == NORMAL:
@@ -511,7 +514,7 @@ func _physics_process(delta):
 					velocity.y = 0
 
 				#End ladder functions.
-				#When the player reaches the top of as ladder.
+				#When the player reaches the top of a ladder.
 				if y_dir == -1 and floor(position.y) <= ladder_top:
 					ladder_top = 0
 					position.y -= 6
@@ -635,7 +638,7 @@ func _physics_process(delta):
 			ice = false
 
 		#Print Shit
-		
+		print(floor(position.y),', ',ladder_top,', ',lad_top_overlap)
 
 #There are 3 states that the player will call. Animation, Action, and Shot
 #Pull the matching Animation State and set the animation accordingly.
