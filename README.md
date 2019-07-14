@@ -117,7 +117,9 @@ Changes - Version 0.0.1 ():
 - Added transition from Stage Select to Player Select.
 - Fixed an issue where tapping down on a ladder would set the incorrect ladder top coordinate.
 - Added another portion of the map to help test the stage select/continue points.
-
+- Fixed an issue where the camera.bottom_limit value was incorrectly assigned. Causing the camera to glitch when loading a different stage.
+- Tweaked the camera function to allow for special scrolling conditions. (IE: Allowing the camera to scroll through a stage based on the player's Y position.)
+- Added function to count screens for a potential endless mode.
 
 Credits:
 --

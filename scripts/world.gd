@@ -2,6 +2,7 @@ extends Node2D
 
 signal scrolling
 
+# warning-ignore:unused_class_variable
 var fade_state
 
 #Determines player position in the game world.
@@ -11,7 +12,7 @@ var stand_on
 var overlap
 var ladder_set
 var ladder_top
-var player_room = Vector2()
+var player_room = Vector2(1, 1)
 
 #Camera values
 var res = Vector2()
@@ -26,6 +27,12 @@ var scroll_spd = 4
 #Replace with better functions later
 var rooms = 0
 var prev_room = Vector2(0, 0)
+var endless = false
+var endless_rms = []
+#NOTE: For some odd reason, the player's room position jumps from 1,1 and back to 0,0 at the beginning of the frame.
+#As of not I have NO clue why this is. The screens counter is thus set to -2 so that when endless mode ACTUALLY begins,
+#the screens counter will show as 0 in game.
+var screens = -2
 
 #Color Variables.
 var palette = [Color('#000000'), Color('#000000'), Color('#000000')]
@@ -44,17 +51,22 @@ func _ready():
 	#Based on where the playr spawns, set position and change camera.
 	if global.level_id == 0 and global.cont_id == 0:
 		$player.position = Vector2(72, 148)
-		
+
 	if global.level_id == 0 and global.cont_id == 1:
 		$player.position = Vector2(632, 196)
+
+	if global.level_id == 1 and global.cont_id == 0:
+		cam_allow[0] = 0
+		$player.position = Vector2(127, 1140)
 
 	pos = $player.position
 	player_room = Vector2(floor((pos.x / 256)+1), floor((pos.y / 240))+1)
 
 	$player/camera.limit_top = (player_room.y*240)-240
-	$player/camera.limit_right = (player_room.y*240)
+	$player/camera.limit_bottom = (player_room.y*240)
 	$player/camera.limit_left = (player_room.x*256)-256
 	$player/camera.limit_right = (player_room.x*256)
+	
 	
 func _camera():
 	#Calculate player position.
@@ -133,12 +145,31 @@ func _camera():
 	#Check room to see if camera value changes. This will only check rooms when the game is
 	#not performing a screen transition.
 	if prev_room != player_room and !scroll:
-		_rooms()
+		print(prev_room)
 		prev_room = player_room
+		_rooms()
+		print(player_room)
+		
+
+	
+	#Certain special conditions for allowing camera movement can be allowed as well. Such as player position within a room.
+	if $player.position.y < ($player/camera.limit_bottom - 120) and player_room == Vector2(7, 10) and !scroll:
+		_rooms()
+		
+	if $player.position.y > ($player/camera.limit_bottom - 120) and player_room == Vector2(7, 10) and !scroll:
+		_rooms()
 
 func _rooms():
 	#This section handles the Left/Right camera limits and toggles which direction the screen
 	#is allowed to scroll based on the player_room value.
+	
+	#This function also houses the counter for Endless Mode.
+	if endless:
+		if !endless_rms.has(player_room):
+			endless_rms.insert(endless_rms.size(), player_room)
+			screens += 1
+	
+	#Add function here to clear endless_rms to prevent lag. (Example: When the player reaches a teleporter, clear endless_rms)
 	
 	#Example
 	if player_room == Vector2(2, 0):
@@ -150,6 +181,30 @@ func _rooms():
 		rooms = 3
 		$player/camera.limit_right = $player/camera.limit_left + (res.x * rooms)
 	
+	if player_room == Vector2(0, 7):
+		rooms = 2
+		$player/camera.limit_right = $player/camera.limit_left + (res.x * rooms)
+	
+	if player_room == Vector2(1, 8):
+		rooms = 1
+		$player/camera.limit_left = $player/camera.limit_right - (res.x * rooms)
+	
+	if player_room == Vector2(1, 9):
+		rooms = 7
+		$player/camera.limit_right = $player/camera.limit_left + (res.x * rooms)
+	
+	#Special camera condition. Will prevent horizontal scrolling while the player is on the top half of the screen at the beginning of this section.
+	if player_room == Vector2(7, 10):
+		cam_allow[1] = 0
+		if $player.position.y < ($player/camera.limit_bottom - 120):
+			rooms = 1
+			$player/camera.limit_left = player_room.x * 256
+			$player/camera.limit_right = (player_room.x + 1) * 256
+		else:
+			rooms = 8
+			$player/camera.limit_left = player_room.x * 256
+			$player/camera.limit_right = $player/camera.limit_left + (res.x * rooms)
+	
 	#Eventually, this function will encompass every room in the game. But only triggers at certain
 	#intervals as to not bog down RAM usage. IE: When the room value is different from the previous
 	#value.
@@ -157,6 +212,8 @@ func _rooms():
 #warning-ignore:unused_argument
 func _process(delta):
 	_camera()
+	
+	#Print Shit
 	
 	#Get other player information.
 	player_tilepos = $tiles.world_to_map(pos)
