@@ -3,7 +3,7 @@ extends KinematicBody2D
 #Use this to pull values from the World script.
 onready var world = get_parent()
 #Use this to get TileMap data.
-onready var tiles = get_parent().get_child(1)
+onready var tiles = get_parent().get_child(1).get_child(0)
 
 #Player velocity constants
 const RUN_SPEED = 90
@@ -103,6 +103,7 @@ enum {
 
 #Set the appropriate states and values
 func _ready():
+	print(tiles)
 	anim_state(BEAM)
 	act_state(STANDING)
 	shot_state(NORMAL)

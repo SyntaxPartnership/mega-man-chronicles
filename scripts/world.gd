@@ -12,7 +12,7 @@ var stand_on
 var overlap
 var ladder_set
 var ladder_top
-var player_room = Vector2(1, 1)
+var player_room = Vector2(0, 0)
 
 #Camera values
 var res = Vector2()
@@ -29,10 +29,7 @@ var rooms = 0
 var prev_room = Vector2(0, 0)
 var endless = false
 var endless_rms = []
-#NOTE: For some odd reason, the player's room position jumps from 1,1 and back to 0,0 at the beginning of the frame.
-#As of not I have NO clue why this is. The screens counter is thus set to -2 so that when endless mode ACTUALLY begins,
-#the screens counter will show as 0 in game.
-var screens = -2
+var screens = 0
 
 #Color Variables.
 var palette = [Color('#000000'), Color('#000000'), Color('#000000')]
@@ -60,12 +57,12 @@ func _ready():
 		$player.position = Vector2(127, 1140)
 
 	pos = $player.position
-	player_room = Vector2(floor((pos.x / 256)+1), floor((pos.y / 240))+1)
+	player_room = Vector2(floor(pos.x / 256), floor(pos.y / 240))
 
-	$player/camera.limit_top = (player_room.y*240)-240
-	$player/camera.limit_bottom = (player_room.y*240)
-	$player/camera.limit_left = (player_room.x*256)-256
-	$player/camera.limit_right = (player_room.x*256)
+	$player/camera.limit_top = (player_room.y*240)
+	$player/camera.limit_bottom = (player_room.y*240)+240
+	$player/camera.limit_left = (player_room.x*256)
+	$player/camera.limit_right = (player_room.x*256)+256
 	
 	
 func _camera():
@@ -145,10 +142,8 @@ func _camera():
 	#Check room to see if camera value changes. This will only check rooms when the game is
 	#not performing a screen transition.
 	if prev_room != player_room and !scroll:
-		print(prev_room)
 		prev_room = player_room
 		_rooms()
-		print(player_room)
 		
 
 	
@@ -216,11 +211,11 @@ func _process(delta):
 	#Print Shit
 	
 	#Get other player information.
-	player_tilepos = $tiles.world_to_map(pos)
-	stand_on = $tiles.get_cellv(Vector2(player_tilepos.x, player_tilepos.y + 1))
-	overlap = $tiles.get_cellv(player_tilepos)
+	player_tilepos = $coll_mask/tiles.world_to_map(pos)
+	stand_on = $coll_mask/tiles.get_cellv(Vector2(player_tilepos.x, player_tilepos.y + 1))
+	overlap = $coll_mask/tiles.get_cellv(player_tilepos)
 	ladder_set = (player_tilepos.x * 16) + 8
-	ladder_top = $tiles.map_to_world(player_tilepos)
+	ladder_top = $coll_mask/tiles.map_to_world(player_tilepos)
 	player_room = Vector2(floor(pos.x / 256), floor(pos.y / 240))
 	
 	#Weapon Swapping.

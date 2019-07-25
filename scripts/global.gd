@@ -19,7 +19,7 @@ var f_screen = false
 var quick_swap = false
 
 #Level/Continue Point IDs
-var level_id = 0
+var level_id = 1
 var cont_id = 0
 var boss = false
 

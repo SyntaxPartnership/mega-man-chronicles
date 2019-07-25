@@ -120,6 +120,10 @@ Changes - Version 0.0.1 ():
 - Fixed an issue where the camera.bottom_limit value was incorrectly assigned. Causing the camera to glitch when loading a different stage.
 - Tweaked the camera function to allow for special scrolling conditions. (IE: Allowing the camera to scroll through a stage based on the player's Y position.)
 - Added function to count screens for a potential endless mode.
+- Fixed an issue where the incorrect room value would load at the beginning of a stage.
+- Fixed the Screens counter issue caused by the previous bug.
+- Made Rooms, Collision Mask, and Graphic control nodes to help make the tilesets more manageable.
+- Added a tileset just for stage graphics.
 
 Credits:
 --
