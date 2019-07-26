@@ -124,6 +124,8 @@ Changes - Version 0.0.1 ():
 - Fixed the Screens counter issue caused by the previous bug.
 - Made Rooms, Collision Mask, and Graphic control nodes to help make the tilesets more manageable.
 - Added a tileset just for stage graphics.
+- Removed duplicate tiles from stage graphics.
+- Added another test stage modeled after Shadow Man's from Mega Man III.
 
 Credits:
 --
