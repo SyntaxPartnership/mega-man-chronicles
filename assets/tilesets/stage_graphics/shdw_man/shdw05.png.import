@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/stage_tilesets02.png-d59e92220f2deca21d28b40c93002481.stex"
+path="res://.import/shdw05.png-507a5383d86d3b346722d5a8ea239785.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/tilesets/stage_tilesets02.png"
-dest_files=[ "res://.import/stage_tilesets02.png-d59e92220f2deca21d28b40c93002481.stex" ]
+source_file="res://assets/tilesets/stage_graphics/shdw_man/shdw05.png"
+dest_files=[ "res://.import/shdw05.png-507a5383d86d3b346722d5a8ea239785.stex" ]
 
 [params]
 

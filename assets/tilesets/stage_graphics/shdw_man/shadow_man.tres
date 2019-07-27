@@ -1,9 +1,9 @@
 [gd_resource type="TileSet" load_steps=2 format=2]
 
-[ext_resource path="res://assets/tilesets/stage_graphics/stage_anim.tres" type="Texture" id=1]
+[ext_resource path="res://assets/tilesets/stage_graphics/shdw_man/shdw.tres" type="Texture" id=1]
 
 [resource]
-0/name = "shdwman_01"
+0/name = "shdw_01"
 0/texture = ExtResource( 1 )
 0/tex_offset = Vector2( 0, 0 )
 0/modulate = Color( 1, 1, 1, 1 )
@@ -13,7 +13,7 @@
 0/navigation_offset = Vector2( 4, 4 )
 0/shapes = [  ]
 0/z_index = 0
-1/name = "shdwman_02"
+1/name = "shdw_02"
 1/texture = ExtResource( 1 )
 1/tex_offset = Vector2( 0, 0 )
 1/modulate = Color( 1, 1, 1, 1 )
@@ -23,7 +23,7 @@
 1/navigation_offset = Vector2( 4, 4 )
 1/shapes = [  ]
 1/z_index = 0
-2/name = "shdwman_03"
+2/name = "shdw_03"
 2/texture = ExtResource( 1 )
 2/tex_offset = Vector2( 0, 0 )
 2/modulate = Color( 1, 1, 1, 1 )
@@ -33,7 +33,7 @@
 2/navigation_offset = Vector2( 4, 4 )
 2/shapes = [  ]
 2/z_index = 0
-3/name = "shdwman_04"
+3/name = "shdw_04"
 3/texture = ExtResource( 1 )
 3/tex_offset = Vector2( 0, 0 )
 3/modulate = Color( 1, 1, 1, 1 )
@@ -43,7 +43,7 @@
 3/navigation_offset = Vector2( 4, 4 )
 3/shapes = [  ]
 3/z_index = 0
-4/name = "shdwman_05"
+4/name = "shdw_05"
 4/texture = ExtResource( 1 )
 4/tex_offset = Vector2( 0, 0 )
 4/modulate = Color( 1, 1, 1, 1 )
@@ -53,7 +53,7 @@
 4/navigation_offset = Vector2( 4, 4 )
 4/shapes = [  ]
 4/z_index = 0
-5/name = "shdwman_06"
+5/name = "shdw_06"
 5/texture = ExtResource( 1 )
 5/tex_offset = Vector2( 0, 0 )
 5/modulate = Color( 1, 1, 1, 1 )
@@ -63,7 +63,7 @@
 5/navigation_offset = Vector2( 4, 4 )
 5/shapes = [  ]
 5/z_index = 0
-6/name = "shdwman_07"
+6/name = "shdw_07"
 6/texture = ExtResource( 1 )
 6/tex_offset = Vector2( 0, 0 )
 6/modulate = Color( 1, 1, 1, 1 )
@@ -73,7 +73,7 @@
 6/navigation_offset = Vector2( 4, 4 )
 6/shapes = [  ]
 6/z_index = 0
-7/name = "shdwman_08"
+7/name = "shdw_08"
 7/texture = ExtResource( 1 )
 7/tex_offset = Vector2( 0, 0 )
 7/modulate = Color( 1, 1, 1, 1 )
@@ -83,7 +83,7 @@
 7/navigation_offset = Vector2( 4, 4 )
 7/shapes = [  ]
 7/z_index = 0
-8/name = "shdwman_09"
+8/name = "shdw_09"
 8/texture = ExtResource( 1 )
 8/tex_offset = Vector2( 0, 0 )
 8/modulate = Color( 1, 1, 1, 1 )
@@ -93,7 +93,7 @@
 8/navigation_offset = Vector2( 4, 4 )
 8/shapes = [  ]
 8/z_index = 0
-9/name = "shdwman_10"
+9/name = "shdw_10"
 9/texture = ExtResource( 1 )
 9/tex_offset = Vector2( 0, 0 )
 9/modulate = Color( 1, 1, 1, 1 )
@@ -103,7 +103,7 @@
 9/navigation_offset = Vector2( 4, 4 )
 9/shapes = [  ]
 9/z_index = 0
-10/name = "shdwman_11"
+10/name = "shdw_11"
 10/texture = ExtResource( 1 )
 10/tex_offset = Vector2( 0, 0 )
 10/modulate = Color( 1, 1, 1, 1 )
@@ -113,7 +113,7 @@
 10/navigation_offset = Vector2( 4, 4 )
 10/shapes = [  ]
 10/z_index = 0
-11/name = "shdwman_12"
+11/name = "shdw_12"
 11/texture = ExtResource( 1 )
 11/tex_offset = Vector2( 0, 0 )
 11/modulate = Color( 1, 1, 1, 1 )
@@ -123,7 +123,7 @@
 11/navigation_offset = Vector2( 4, 4 )
 11/shapes = [  ]
 11/z_index = 0
-12/name = "shdwman_13"
+12/name = "shdw_13"
 12/texture = ExtResource( 1 )
 12/tex_offset = Vector2( 0, 0 )
 12/modulate = Color( 1, 1, 1, 1 )
@@ -133,7 +133,7 @@
 12/navigation_offset = Vector2( 4, 4 )
 12/shapes = [  ]
 12/z_index = 0
-13/name = "shdwman_14"
+13/name = "shdw_14"
 13/texture = ExtResource( 1 )
 13/tex_offset = Vector2( 0, 0 )
 13/modulate = Color( 1, 1, 1, 1 )
@@ -143,7 +143,7 @@
 13/navigation_offset = Vector2( 4, 4 )
 13/shapes = [  ]
 13/z_index = 0
-14/name = "shdwman_15"
+14/name = "shdw_15"
 14/texture = ExtResource( 1 )
 14/tex_offset = Vector2( 0, 0 )
 14/modulate = Color( 1, 1, 1, 1 )
@@ -153,7 +153,7 @@
 14/navigation_offset = Vector2( 4, 4 )
 14/shapes = [  ]
 14/z_index = 0
-15/name = "shdwman_16"
+15/name = "shdw_16"
 15/texture = ExtResource( 1 )
 15/tex_offset = Vector2( 0, 0 )
 15/modulate = Color( 1, 1, 1, 1 )
@@ -163,7 +163,7 @@
 15/navigation_offset = Vector2( 4, 4 )
 15/shapes = [  ]
 15/z_index = 0
-16/name = "shdwman_17"
+16/name = "shdw_17"
 16/texture = ExtResource( 1 )
 16/tex_offset = Vector2( 0, 0 )
 16/modulate = Color( 1, 1, 1, 1 )
@@ -173,7 +173,7 @@
 16/navigation_offset = Vector2( 4, 4 )
 16/shapes = [  ]
 16/z_index = 0
-17/name = "shdwman_18"
+17/name = "shdw_18"
 17/texture = ExtResource( 1 )
 17/tex_offset = Vector2( 0, 0 )
 17/modulate = Color( 1, 1, 1, 1 )
@@ -183,7 +183,7 @@
 17/navigation_offset = Vector2( 4, 4 )
 17/shapes = [  ]
 17/z_index = 0
-18/name = "shdwman_19"
+18/name = "shdw_19"
 18/texture = ExtResource( 1 )
 18/tex_offset = Vector2( 0, 0 )
 18/modulate = Color( 1, 1, 1, 1 )
@@ -193,7 +193,7 @@
 18/navigation_offset = Vector2( 4, 4 )
 18/shapes = [  ]
 18/z_index = 0
-19/name = "shdwman_20"
+19/name = "shdw_20"
 19/texture = ExtResource( 1 )
 19/tex_offset = Vector2( 0, 0 )
 19/modulate = Color( 1, 1, 1, 1 )
@@ -203,7 +203,7 @@
 19/navigation_offset = Vector2( 4, 4 )
 19/shapes = [  ]
 19/z_index = 0
-20/name = "shdwman_21"
+20/name = "shdw_21"
 20/texture = ExtResource( 1 )
 20/tex_offset = Vector2( 0, 0 )
 20/modulate = Color( 1, 1, 1, 1 )
@@ -213,7 +213,7 @@
 20/navigation_offset = Vector2( 4, 4 )
 20/shapes = [  ]
 20/z_index = 0
-21/name = "shdwman_22"
+21/name = "shdw_22"
 21/texture = ExtResource( 1 )
 21/tex_offset = Vector2( 0, 0 )
 21/modulate = Color( 1, 1, 1, 1 )
@@ -223,7 +223,7 @@
 21/navigation_offset = Vector2( 4, 4 )
 21/shapes = [  ]
 21/z_index = 0
-22/name = "shdwman_23"
+22/name = "shdw_23"
 22/texture = ExtResource( 1 )
 22/tex_offset = Vector2( 0, 0 )
 22/modulate = Color( 1, 1, 1, 1 )
@@ -233,7 +233,7 @@
 22/navigation_offset = Vector2( 4, 4 )
 22/shapes = [  ]
 22/z_index = 0
-23/name = "shdwman_24"
+23/name = "shdw_24"
 23/texture = ExtResource( 1 )
 23/tex_offset = Vector2( 0, 0 )
 23/modulate = Color( 1, 1, 1, 1 )
@@ -243,7 +243,7 @@
 23/navigation_offset = Vector2( 4, 4 )
 23/shapes = [  ]
 23/z_index = 0
-24/name = "shdwman_25"
+24/name = "shdw_25"
 24/texture = ExtResource( 1 )
 24/tex_offset = Vector2( 0, 0 )
 24/modulate = Color( 1, 1, 1, 1 )
@@ -253,7 +253,7 @@
 24/navigation_offset = Vector2( 4, 4 )
 24/shapes = [  ]
 24/z_index = 0
-25/name = "shdwman_26"
+25/name = "shdw_26"
 25/texture = ExtResource( 1 )
 25/tex_offset = Vector2( 0, 0 )
 25/modulate = Color( 1, 1, 1, 1 )
@@ -263,7 +263,7 @@
 25/navigation_offset = Vector2( 4, 4 )
 25/shapes = [  ]
 25/z_index = 0
-26/name = "shdwman_27"
+26/name = "shdw_27"
 26/texture = ExtResource( 1 )
 26/tex_offset = Vector2( 0, 0 )
 26/modulate = Color( 1, 1, 1, 1 )
@@ -273,7 +273,7 @@
 26/navigation_offset = Vector2( 4, 4 )
 26/shapes = [  ]
 26/z_index = 0
-27/name = "shdwman_28"
+27/name = "shdw_28"
 27/texture = ExtResource( 1 )
 27/tex_offset = Vector2( 0, 0 )
 27/modulate = Color( 1, 1, 1, 1 )
@@ -283,7 +283,7 @@
 27/navigation_offset = Vector2( 4, 4 )
 27/shapes = [  ]
 27/z_index = 0
-28/name = "shdwman_29"
+28/name = "shdw_29"
 28/texture = ExtResource( 1 )
 28/tex_offset = Vector2( 0, 0 )
 28/modulate = Color( 1, 1, 1, 1 )
@@ -293,7 +293,7 @@
 28/navigation_offset = Vector2( 4, 4 )
 28/shapes = [  ]
 28/z_index = 0
-29/name = "shdwman_30"
+29/name = "shdw_30"
 29/texture = ExtResource( 1 )
 29/tex_offset = Vector2( 0, 0 )
 29/modulate = Color( 1, 1, 1, 1 )
@@ -303,7 +303,7 @@
 29/navigation_offset = Vector2( 4, 4 )
 29/shapes = [  ]
 29/z_index = 0
-30/name = "shdwman_31"
+30/name = "shdw_31"
 30/texture = ExtResource( 1 )
 30/tex_offset = Vector2( 0, 0 )
 30/modulate = Color( 1, 1, 1, 1 )
@@ -313,7 +313,7 @@
 30/navigation_offset = Vector2( 4, 4 )
 30/shapes = [  ]
 30/z_index = 0
-31/name = "shdwman_32"
+31/name = "shdw_32"
 31/texture = ExtResource( 1 )
 31/tex_offset = Vector2( 0, 0 )
 31/modulate = Color( 1, 1, 1, 1 )
@@ -323,7 +323,7 @@
 31/navigation_offset = Vector2( 4, 4 )
 31/shapes = [  ]
 31/z_index = 0
-32/name = "shdwman_33"
+32/name = "shdw_33"
 32/texture = ExtResource( 1 )
 32/tex_offset = Vector2( 0, 0 )
 32/modulate = Color( 1, 1, 1, 1 )
@@ -333,7 +333,7 @@
 32/navigation_offset = Vector2( 4, 4 )
 32/shapes = [  ]
 32/z_index = 0
-33/name = "shdwman_34"
+33/name = "shdw_34"
 33/texture = ExtResource( 1 )
 33/tex_offset = Vector2( 0, 0 )
 33/modulate = Color( 1, 1, 1, 1 )
@@ -343,7 +343,7 @@
 33/navigation_offset = Vector2( 4, 4 )
 33/shapes = [  ]
 33/z_index = 0
-34/name = "shdwman_35"
+34/name = "shdw_35"
 34/texture = ExtResource( 1 )
 34/tex_offset = Vector2( 0, 0 )
 34/modulate = Color( 1, 1, 1, 1 )
@@ -353,7 +353,7 @@
 34/navigation_offset = Vector2( 4, 4 )
 34/shapes = [  ]
 34/z_index = 0
-35/name = "shdwman_36"
+35/name = "shdw_36"
 35/texture = ExtResource( 1 )
 35/tex_offset = Vector2( 0, 0 )
 35/modulate = Color( 1, 1, 1, 1 )
@@ -363,7 +363,7 @@
 35/navigation_offset = Vector2( 4, 4 )
 35/shapes = [  ]
 35/z_index = 0
-36/name = "shdwman_37"
+36/name = "shdw_37"
 36/texture = ExtResource( 1 )
 36/tex_offset = Vector2( 0, 0 )
 36/modulate = Color( 1, 1, 1, 1 )
@@ -373,7 +373,7 @@
 36/navigation_offset = Vector2( 4, 4 )
 36/shapes = [  ]
 36/z_index = 0
-37/name = "shdwman_38"
+37/name = "shdw_38"
 37/texture = ExtResource( 1 )
 37/tex_offset = Vector2( 0, 0 )
 37/modulate = Color( 1, 1, 1, 1 )
@@ -383,7 +383,7 @@
 37/navigation_offset = Vector2( 4, 4 )
 37/shapes = [  ]
 37/z_index = 0
-38/name = "shdwman_39"
+38/name = "shdw_39"
 38/texture = ExtResource( 1 )
 38/tex_offset = Vector2( 0, 0 )
 38/modulate = Color( 1, 1, 1, 1 )
@@ -393,7 +393,7 @@
 38/navigation_offset = Vector2( 4, 4 )
 38/shapes = [  ]
 38/z_index = 0
-39/name = "shdwman_40"
+39/name = "shdw_40"
 39/texture = ExtResource( 1 )
 39/tex_offset = Vector2( 0, 0 )
 39/modulate = Color( 1, 1, 1, 1 )
@@ -403,7 +403,7 @@
 39/navigation_offset = Vector2( 4, 4 )
 39/shapes = [  ]
 39/z_index = 0
-40/name = "shdwman_41"
+40/name = "shdw_41"
 40/texture = ExtResource( 1 )
 40/tex_offset = Vector2( 0, 0 )
 40/modulate = Color( 1, 1, 1, 1 )
@@ -413,7 +413,7 @@
 40/navigation_offset = Vector2( 4, 4 )
 40/shapes = [  ]
 40/z_index = 0
-41/name = "shdwman_42"
+41/name = "shdw_42"
 41/texture = ExtResource( 1 )
 41/tex_offset = Vector2( 0, 0 )
 41/modulate = Color( 1, 1, 1, 1 )
@@ -423,7 +423,7 @@
 41/navigation_offset = Vector2( 4, 4 )
 41/shapes = [  ]
 41/z_index = 0
-42/name = "shdwman_43"
+42/name = "shdw_43"
 42/texture = ExtResource( 1 )
 42/tex_offset = Vector2( 0, 0 )
 42/modulate = Color( 1, 1, 1, 1 )
@@ -433,7 +433,7 @@
 42/navigation_offset = Vector2( 4, 4 )
 42/shapes = [  ]
 42/z_index = 0
-43/name = "shdwman_44"
+43/name = "shdw_44"
 43/texture = ExtResource( 1 )
 43/tex_offset = Vector2( 0, 0 )
 43/modulate = Color( 1, 1, 1, 1 )
@@ -443,7 +443,7 @@
 43/navigation_offset = Vector2( 4, 4 )
 43/shapes = [  ]
 43/z_index = 0
-44/name = "shdwman_45"
+44/name = "shdw_45"
 44/texture = ExtResource( 1 )
 44/tex_offset = Vector2( 0, 0 )
 44/modulate = Color( 1, 1, 1, 1 )
@@ -453,7 +453,7 @@
 44/navigation_offset = Vector2( 4, 4 )
 44/shapes = [  ]
 44/z_index = 0
-45/name = "shdwman_46"
+45/name = "shdw_46"
 45/texture = ExtResource( 1 )
 45/tex_offset = Vector2( 0, 0 )
 45/modulate = Color( 1, 1, 1, 1 )
@@ -463,7 +463,7 @@
 45/navigation_offset = Vector2( 4, 4 )
 45/shapes = [  ]
 45/z_index = 0
-46/name = "shdwman_47"
+46/name = "shdw_47"
 46/texture = ExtResource( 1 )
 46/tex_offset = Vector2( 0, 0 )
 46/modulate = Color( 1, 1, 1, 1 )
@@ -473,7 +473,7 @@
 46/navigation_offset = Vector2( 4, 4 )
 46/shapes = [  ]
 46/z_index = 0
-47/name = "shdwman_48"
+47/name = "shdw_48"
 47/texture = ExtResource( 1 )
 47/tex_offset = Vector2( 0, 0 )
 47/modulate = Color( 1, 1, 1, 1 )
@@ -483,7 +483,7 @@
 47/navigation_offset = Vector2( 4, 4 )
 47/shapes = [  ]
 47/z_index = 0
-48/name = "shdwman_49"
+48/name = "shdw_49"
 48/texture = ExtResource( 1 )
 48/tex_offset = Vector2( 0, 0 )
 48/modulate = Color( 1, 1, 1, 1 )
@@ -493,7 +493,7 @@
 48/navigation_offset = Vector2( 4, 4 )
 48/shapes = [  ]
 48/z_index = 0
-49/name = "shdwman_50"
+49/name = "shdw_50"
 49/texture = ExtResource( 1 )
 49/tex_offset = Vector2( 0, 0 )
 49/modulate = Color( 1, 1, 1, 1 )
@@ -503,7 +503,7 @@
 49/navigation_offset = Vector2( 4, 4 )
 49/shapes = [  ]
 49/z_index = 0
-50/name = "shdwman_51"
+50/name = "shdw_51"
 50/texture = ExtResource( 1 )
 50/tex_offset = Vector2( 0, 0 )
 50/modulate = Color( 1, 1, 1, 1 )
@@ -513,7 +513,7 @@
 50/navigation_offset = Vector2( 4, 4 )
 50/shapes = [  ]
 50/z_index = 0
-51/name = "shdwman_52"
+51/name = "shdw_52"
 51/texture = ExtResource( 1 )
 51/tex_offset = Vector2( 0, 0 )
 51/modulate = Color( 1, 1, 1, 1 )
@@ -523,7 +523,7 @@
 51/navigation_offset = Vector2( 4, 4 )
 51/shapes = [  ]
 51/z_index = 0
-52/name = "shdwman_53"
+52/name = "shdw_53"
 52/texture = ExtResource( 1 )
 52/tex_offset = Vector2( 0, 0 )
 52/modulate = Color( 1, 1, 1, 1 )
@@ -533,7 +533,7 @@
 52/navigation_offset = Vector2( 4, 4 )
 52/shapes = [  ]
 52/z_index = 0
-53/name = "shdwman_54"
+53/name = "shdw_54"
 53/texture = ExtResource( 1 )
 53/tex_offset = Vector2( 0, 0 )
 53/modulate = Color( 1, 1, 1, 1 )
@@ -543,7 +543,7 @@
 53/navigation_offset = Vector2( 4, 4 )
 53/shapes = [  ]
 53/z_index = 0
-54/name = "shdwman_55"
+54/name = "shdw_55"
 54/texture = ExtResource( 1 )
 54/tex_offset = Vector2( 0, 0 )
 54/modulate = Color( 1, 1, 1, 1 )
@@ -553,7 +553,7 @@
 54/navigation_offset = Vector2( 4, 4 )
 54/shapes = [  ]
 54/z_index = 0
-55/name = "shdwman_56"
+55/name = "shdw_56"
 55/texture = ExtResource( 1 )
 55/tex_offset = Vector2( 0, 0 )
 55/modulate = Color( 1, 1, 1, 1 )
@@ -563,7 +563,7 @@
 55/navigation_offset = Vector2( 4, 4 )
 55/shapes = [  ]
 55/z_index = 0
-56/name = "shdwman_57"
+56/name = "shdw_57"
 56/texture = ExtResource( 1 )
 56/tex_offset = Vector2( 0, 0 )
 56/modulate = Color( 1, 1, 1, 1 )
@@ -573,7 +573,7 @@
 56/navigation_offset = Vector2( 4, 4 )
 56/shapes = [  ]
 56/z_index = 0
-57/name = "shdwman_58"
+57/name = "shdw_58"
 57/texture = ExtResource( 1 )
 57/tex_offset = Vector2( 0, 0 )
 57/modulate = Color( 1, 1, 1, 1 )
@@ -583,7 +583,7 @@
 57/navigation_offset = Vector2( 4, 4 )
 57/shapes = [  ]
 57/z_index = 0
-58/name = "shdwman_59"
+58/name = "shdw_59"
 58/texture = ExtResource( 1 )
 58/tex_offset = Vector2( 0, 0 )
 58/modulate = Color( 1, 1, 1, 1 )
@@ -593,7 +593,7 @@
 58/navigation_offset = Vector2( 4, 4 )
 58/shapes = [  ]
 58/z_index = 0
-59/name = "shdwman_60"
+59/name = "shdw_60"
 59/texture = ExtResource( 1 )
 59/tex_offset = Vector2( 0, 0 )
 59/modulate = Color( 1, 1, 1, 1 )
@@ -603,7 +603,7 @@
 59/navigation_offset = Vector2( 4, 4 )
 59/shapes = [  ]
 59/z_index = 0
-60/name = "shdwman_61"
+60/name = "shdw_61"
 60/texture = ExtResource( 1 )
 60/tex_offset = Vector2( 0, 0 )
 60/modulate = Color( 1, 1, 1, 1 )
@@ -613,7 +613,7 @@
 60/navigation_offset = Vector2( 4, 4 )
 60/shapes = [  ]
 60/z_index = 0
-61/name = "shdwman_62"
+61/name = "shdw_62"
 61/texture = ExtResource( 1 )
 61/tex_offset = Vector2( 0, 0 )
 61/modulate = Color( 1, 1, 1, 1 )
@@ -623,7 +623,7 @@
 61/navigation_offset = Vector2( 4, 4 )
 61/shapes = [  ]
 61/z_index = 0
-62/name = "shdwman_63"
+62/name = "shdw_63"
 62/texture = ExtResource( 1 )
 62/tex_offset = Vector2( 0, 0 )
 62/modulate = Color( 1, 1, 1, 1 )
@@ -633,7 +633,7 @@
 62/navigation_offset = Vector2( 4, 4 )
 62/shapes = [  ]
 62/z_index = 0
-63/name = "shdwman_64"
+63/name = "shdw_64"
 63/texture = ExtResource( 1 )
 63/tex_offset = Vector2( 0, 0 )
 63/modulate = Color( 1, 1, 1, 1 )
@@ -643,7 +643,7 @@
 63/navigation_offset = Vector2( 4, 4 )
 63/shapes = [  ]
 63/z_index = 0
-64/name = "shdwman_65"
+64/name = "shdw_65"
 64/texture = ExtResource( 1 )
 64/tex_offset = Vector2( 0, 0 )
 64/modulate = Color( 1, 1, 1, 1 )
@@ -653,7 +653,7 @@
 64/navigation_offset = Vector2( 4, 4 )
 64/shapes = [  ]
 64/z_index = 0
-65/name = "shdwman_66"
+65/name = "shdw_66"
 65/texture = ExtResource( 1 )
 65/tex_offset = Vector2( 0, 0 )
 65/modulate = Color( 1, 1, 1, 1 )
@@ -663,7 +663,7 @@
 65/navigation_offset = Vector2( 4, 4 )
 65/shapes = [  ]
 65/z_index = 0
-66/name = "shdwman_67"
+66/name = "shdw_67"
 66/texture = ExtResource( 1 )
 66/tex_offset = Vector2( 0, 0 )
 66/modulate = Color( 1, 1, 1, 1 )
@@ -673,7 +673,7 @@
 66/navigation_offset = Vector2( 4, 4 )
 66/shapes = [  ]
 66/z_index = 0
-67/name = "shdwman_68"
+67/name = "shdw_68"
 67/texture = ExtResource( 1 )
 67/tex_offset = Vector2( 0, 0 )
 67/modulate = Color( 1, 1, 1, 1 )
@@ -683,7 +683,7 @@
 67/navigation_offset = Vector2( 4, 4 )
 67/shapes = [  ]
 67/z_index = 0
-68/name = "shdwman_69"
+68/name = "shdw_69"
 68/texture = ExtResource( 1 )
 68/tex_offset = Vector2( 0, 0 )
 68/modulate = Color( 1, 1, 1, 1 )
@@ -693,7 +693,7 @@
 68/navigation_offset = Vector2( 4, 4 )
 68/shapes = [  ]
 68/z_index = 0
-69/name = "shdwman_70"
+69/name = "shdw_70"
 69/texture = ExtResource( 1 )
 69/tex_offset = Vector2( 0, 0 )
 69/modulate = Color( 1, 1, 1, 1 )
@@ -703,7 +703,7 @@
 69/navigation_offset = Vector2( 4, 4 )
 69/shapes = [  ]
 69/z_index = 0
-70/name = "shdwman_71"
+70/name = "shdw_71"
 70/texture = ExtResource( 1 )
 70/tex_offset = Vector2( 0, 0 )
 70/modulate = Color( 1, 1, 1, 1 )
@@ -713,7 +713,7 @@
 70/navigation_offset = Vector2( 4, 4 )
 70/shapes = [  ]
 70/z_index = 0
-71/name = "shdwman_72"
+71/name = "shdw_72"
 71/texture = ExtResource( 1 )
 71/tex_offset = Vector2( 0, 0 )
 71/modulate = Color( 1, 1, 1, 1 )
@@ -723,7 +723,7 @@
 71/navigation_offset = Vector2( 4, 4 )
 71/shapes = [  ]
 71/z_index = 0
-72/name = "shdwman_73"
+72/name = "shdw_73"
 72/texture = ExtResource( 1 )
 72/tex_offset = Vector2( 0, 0 )
 72/modulate = Color( 1, 1, 1, 1 )
@@ -733,7 +733,7 @@
 72/navigation_offset = Vector2( 4, 4 )
 72/shapes = [  ]
 72/z_index = 0
-73/name = "shdwman_74"
+73/name = "shdw_74"
 73/texture = ExtResource( 1 )
 73/tex_offset = Vector2( 0, 0 )
 73/modulate = Color( 1, 1, 1, 1 )
@@ -743,7 +743,7 @@
 73/navigation_offset = Vector2( 4, 4 )
 73/shapes = [  ]
 73/z_index = 0
-74/name = "shdwman_75"
+74/name = "shdw_75"
 74/texture = ExtResource( 1 )
 74/tex_offset = Vector2( 0, 0 )
 74/modulate = Color( 1, 1, 1, 1 )
@@ -753,7 +753,7 @@
 74/navigation_offset = Vector2( 4, 4 )
 74/shapes = [  ]
 74/z_index = 0
-75/name = "shdwman_76"
+75/name = "shdw_76"
 75/texture = ExtResource( 1 )
 75/tex_offset = Vector2( 0, 0 )
 75/modulate = Color( 1, 1, 1, 1 )
@@ -763,7 +763,7 @@
 75/navigation_offset = Vector2( 4, 4 )
 75/shapes = [  ]
 75/z_index = 0
-76/name = "shdwman_77"
+76/name = "shdw_77"
 76/texture = ExtResource( 1 )
 76/tex_offset = Vector2( 0, 0 )
 76/modulate = Color( 1, 1, 1, 1 )
@@ -773,7 +773,7 @@
 76/navigation_offset = Vector2( 4, 4 )
 76/shapes = [  ]
 76/z_index = 0
-77/name = "shdwman_78"
+77/name = "shdw_78"
 77/texture = ExtResource( 1 )
 77/tex_offset = Vector2( 0, 0 )
 77/modulate = Color( 1, 1, 1, 1 )
@@ -783,7 +783,7 @@
 77/navigation_offset = Vector2( 4, 4 )
 77/shapes = [  ]
 77/z_index = 0
-78/name = "shdwman_79"
+78/name = "shdw_79"
 78/texture = ExtResource( 1 )
 78/tex_offset = Vector2( 0, 0 )
 78/modulate = Color( 1, 1, 1, 1 )
@@ -793,7 +793,7 @@
 78/navigation_offset = Vector2( 4, 4 )
 78/shapes = [  ]
 78/z_index = 0
-79/name = "shdwman_80"
+79/name = "shdw_80"
 79/texture = ExtResource( 1 )
 79/tex_offset = Vector2( 0, 0 )
 79/modulate = Color( 1, 1, 1, 1 )
@@ -803,7 +803,7 @@
 79/navigation_offset = Vector2( 4, 4 )
 79/shapes = [  ]
 79/z_index = 0
-80/name = "shdwman_81"
+80/name = "shdw_81"
 80/texture = ExtResource( 1 )
 80/tex_offset = Vector2( 0, 0 )
 80/modulate = Color( 1, 1, 1, 1 )
@@ -813,7 +813,7 @@
 80/navigation_offset = Vector2( 4, 4 )
 80/shapes = [  ]
 80/z_index = 0
-81/name = "shdwman_82"
+81/name = "shdw_82"
 81/texture = ExtResource( 1 )
 81/tex_offset = Vector2( 0, 0 )
 81/modulate = Color( 1, 1, 1, 1 )
@@ -823,7 +823,7 @@
 81/navigation_offset = Vector2( 4, 4 )
 81/shapes = [  ]
 81/z_index = 0
-82/name = "shdwman_83"
+82/name = "shdw_83"
 82/texture = ExtResource( 1 )
 82/tex_offset = Vector2( 0, 0 )
 82/modulate = Color( 1, 1, 1, 1 )
@@ -833,7 +833,7 @@
 82/navigation_offset = Vector2( 4, 4 )
 82/shapes = [  ]
 82/z_index = 0
-83/name = "shdwman_84"
+83/name = "shdw_84"
 83/texture = ExtResource( 1 )
 83/tex_offset = Vector2( 0, 0 )
 83/modulate = Color( 1, 1, 1, 1 )
@@ -843,7 +843,7 @@
 83/navigation_offset = Vector2( 4, 4 )
 83/shapes = [  ]
 83/z_index = 0
-84/name = "shdwman_85"
+84/name = "shdw_85"
 84/texture = ExtResource( 1 )
 84/tex_offset = Vector2( 0, 0 )
 84/modulate = Color( 1, 1, 1, 1 )
@@ -853,7 +853,7 @@
 84/navigation_offset = Vector2( 4, 4 )
 84/shapes = [  ]
 84/z_index = 0
-85/name = "shdwman_86"
+85/name = "shdw_86"
 85/texture = ExtResource( 1 )
 85/tex_offset = Vector2( 0, 0 )
 85/modulate = Color( 1, 1, 1, 1 )
@@ -863,7 +863,7 @@
 85/navigation_offset = Vector2( 4, 4 )
 85/shapes = [  ]
 85/z_index = 0
-86/name = "shdwman_87"
+86/name = "shdw_87"
 86/texture = ExtResource( 1 )
 86/tex_offset = Vector2( 0, 0 )
 86/modulate = Color( 1, 1, 1, 1 )
@@ -873,7 +873,7 @@
 86/navigation_offset = Vector2( 4, 4 )
 86/shapes = [  ]
 86/z_index = 0
-87/name = "shdwman_88"
+87/name = "shdw_88"
 87/texture = ExtResource( 1 )
 87/tex_offset = Vector2( 0, 0 )
 87/modulate = Color( 1, 1, 1, 1 )
@@ -883,7 +883,7 @@
 87/navigation_offset = Vector2( 4, 4 )
 87/shapes = [  ]
 87/z_index = 0
-88/name = "shdwman_89"
+88/name = "shdw_89"
 88/texture = ExtResource( 1 )
 88/tex_offset = Vector2( 0, 0 )
 88/modulate = Color( 1, 1, 1, 1 )
@@ -893,7 +893,7 @@
 88/navigation_offset = Vector2( 4, 4 )
 88/shapes = [  ]
 88/z_index = 0
-89/name = "shdwman_90"
+89/name = "shdw_90"
 89/texture = ExtResource( 1 )
 89/tex_offset = Vector2( 0, 0 )
 89/modulate = Color( 1, 1, 1, 1 )
@@ -903,3 +903,43 @@
 89/navigation_offset = Vector2( 4, 4 )
 89/shapes = [  ]
 89/z_index = 0
+90/name = "shdw_91"
+90/texture = ExtResource( 1 )
+90/tex_offset = Vector2( 0, 0 )
+90/modulate = Color( 1, 1, 1, 1 )
+90/region = Rect2( 208, 16, 8, 8 )
+90/tile_mode = 0
+90/occluder_offset = Vector2( 4, 4 )
+90/navigation_offset = Vector2( 4, 4 )
+90/shapes = [  ]
+90/z_index = 0
+91/name = "shdw_92"
+91/texture = ExtResource( 1 )
+91/tex_offset = Vector2( 0, 0 )
+91/modulate = Color( 1, 1, 1, 1 )
+91/region = Rect2( 216, 16, 8, 8 )
+91/tile_mode = 0
+91/occluder_offset = Vector2( 4, 4 )
+91/navigation_offset = Vector2( 4, 4 )
+91/shapes = [  ]
+91/z_index = 0
+92/name = "shdw_93"
+92/texture = ExtResource( 1 )
+92/tex_offset = Vector2( 0, 0 )
+92/modulate = Color( 1, 1, 1, 1 )
+92/region = Rect2( 224, 16, 8, 8 )
+92/tile_mode = 0
+92/occluder_offset = Vector2( 4, 4 )
+92/navigation_offset = Vector2( 4, 4 )
+92/shapes = [  ]
+92/z_index = 0
+93/name = "shdw_94"
+93/texture = ExtResource( 1 )
+93/tex_offset = Vector2( 0, 0 )
+93/modulate = Color( 1, 1, 1, 1 )
+93/region = Rect2( 232, 16, 8, 8 )
+93/tile_mode = 0
+93/occluder_offset = Vector2( 4, 4 )
+93/navigation_offset = Vector2( 4, 4 )
+93/shapes = [  ]
+93/z_index = 0
