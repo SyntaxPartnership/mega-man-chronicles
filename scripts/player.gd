@@ -3,7 +3,7 @@ extends KinematicBody2D
 #Use this to pull values from the World script.
 onready var world = get_parent()
 #Use this to get TileMap data.
-onready var tiles = get_parent().get_child(1).get_child(0)
+onready var tiles = world.get_child(0).get_child(1)
 
 #Player velocity constants
 const RUN_SPEED = 90
@@ -384,7 +384,10 @@ func _physics_process(delta):
 					$slide_wall.position.x = 7
 				
 				if slide:
-					$slide_top/area.set_disabled(false)
+					if global.player == 0:
+						$slide_top/area.set_disabled(false)
+					else:
+						$slide_top/area.set_disabled(true)
 				else:
 					$slide_top/area.set_disabled(true)
 					
@@ -639,7 +642,7 @@ func _physics_process(delta):
 			ice = false
 
 		#Print Shit
-		
+		print(overlap)
 
 #There are 3 states that the player will call. Animation, Action, and Shot
 #Pull the matching Animation State and set the animation accordingly.
