@@ -1,6 +1,9 @@
 extends Node2D
 
 signal scrolling
+signal close_gate
+
+onready var objects = $graphic/objects
 
 # warning-ignore:unused_class_variable
 var fade_state
@@ -42,6 +45,12 @@ var last_weap = 0
 
 func _ready():
 	res = get_viewport_rect().size
+	
+	#Hide Object Layer
+	objects.hide()
+	
+	spawn_objects()
+	
 	#Add Continue and Spawn Scripts here
 	cam_allow = [1, 1, 1, 1]
 	
@@ -115,29 +124,44 @@ func _camera():
 	if cam_move == 1 and scroll_len != 0:
 		$player/camera.limit_top -= scroll_spd
 		$player/camera.limit_bottom -= scroll_spd
-		$player.position.y -= 0.25
+		if !$player.gate:
+			$player.position.y -= 0.25
+		else:
+			$player.position.y -= 0.50
 		scroll_len += scroll_spd
 	if cam_move == 2 and scroll_len != 0:
 		$player/camera.limit_top += scroll_spd
 		$player/camera.limit_bottom += scroll_spd
-		$player.position.y += 0.25
+		if !$player.gate:
+			$player.position.y += 0.25
+		else:
+			$player.position.y += 0.50
 		scroll_len -= scroll_spd
 	if cam_move == 3 and scroll_len != 0:
 		$player/camera.limit_left -= scroll_spd
 		$player/camera.limit_right -= scroll_spd
-		$player.position.x -= 0.5
+		if !$player.gate:
+			$player.position.x -= 0.5
+		else:
+			$player.position.x -= 0.75
 		scroll_len += scroll_spd
 	if cam_move == 4 and scroll_len != 0:
 		$player/camera.limit_left += scroll_spd
 		$player/camera.limit_right += scroll_spd
-		$player.position.x += 0.5
+		if !$player.gate:
+			$player.position.x += 0.5
+		else:
+			$player.position.x += 0.75
 		scroll_len -= scroll_spd
 	
 	#Resume Control
 	if cam_move != 0 and scroll_len == 0:
-		scroll = false
-		cam_move = 0
-		emit_signal("scrolling")
+		if !$player.gate:
+			scroll = false
+			cam_move = 0
+			emit_signal("scrolling")
+		else:
+			emit_signal("close_gate")
 	
 	#Check room to see if camera value changes. This will only check rooms when the game is
 	#not performing a screen transition.
@@ -587,3 +611,15 @@ func palette_swap():
 	#HUD
 	
 	#Items
+	
+func spawn_objects():
+	#Scan tilemap for objects.
+	for cell in objects.get_used_cells():
+		var id = objects.get_cellv(cell)
+		var type = objects.tile_set.tile_get_name(id)
+		#Get object ID and load into the level.
+		if type in ['vert_gate', 'horiz_gate']:
+			var c = load('res://scenes/'+type+'.tscn').instance()
+			var pos = objects.map_to_world(cell)
+			c.position = pos + (objects.cell_size / 2)
+			$graphic.add_child(c)

@@ -8,7 +8,6 @@ extents = Vector2( 8, 8 )
 [node name="testtiles" type="Node2D"]
 
 [node name="block" type="Sprite" parent="."]
-editor/display_folded = true
 position = Vector2( 8, 13.037 )
 texture = ExtResource( 1 )
 vframes = 3

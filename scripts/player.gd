@@ -13,6 +13,7 @@ const GRAVITY = 900
 #Determines if the player can move or not.
 var start_stage = false
 var can_move = false
+var gate = false
 
 #Handles the direction behing held on the D-Pad/Analog stick.
 var x_dir
@@ -103,7 +104,6 @@ enum {
 
 #Set the appropriate states and values
 func _ready():
-	print(tiles)
 	anim_state(BEAM)
 	act_state(STANDING)
 	shot_state(NORMAL)
@@ -642,7 +642,7 @@ func _physics_process(delta):
 			ice = false
 
 		#Print Shit
-		print(overlap)
+		
 
 #There are 3 states that the player will call. Animation, Action, and Shot
 #Pull the matching Animation State and set the animation accordingly.

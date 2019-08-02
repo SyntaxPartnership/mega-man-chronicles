@@ -126,6 +126,8 @@ Changes - Version 0.0.1 ():
 - Added a tileset just for stage graphics.
 - Removed duplicate tiles from stage graphics.
 - Added another test stage modeled after Shadow Man's from Mega Man III.
+- Started boss gate coding.
+- Added a script that will load stage objects from a tilemap to make placement easier.
 
 Credits:
 --
