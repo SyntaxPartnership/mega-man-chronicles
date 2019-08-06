@@ -673,3 +673,4 @@ func kill():
 		bubble.queue_free()
 	for splash in effects:
 		splash.queue_free()
+	bbl_count = 0
