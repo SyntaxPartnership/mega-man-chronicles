@@ -6,13 +6,11 @@
 [node name="object_tiles" type="Node2D"]
 
 [node name="vert_gate" type="Sprite" parent="."]
-position = Vector2( 8, 8 )
+position = Vector2( 16, 32 )
 texture = ExtResource( 1 )
-vframes = 4
 hframes = 5
 
 [node name="horiz_gate" type="Sprite" parent="."]
-position = Vector2( 24, 8 )
+position = Vector2( 64, 16 )
 texture = ExtResource( 2 )
 vframes = 5
-hframes = 4

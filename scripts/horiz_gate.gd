@@ -1,9 +1,87 @@
 extends Node2D
 
-onready var player = get_parent().get_child(2)
-var higher = false
+onready var world = get_parent().get_parent()
+onready var player = world.get_child(2)
+onready var camera = player.get_child(7)
+onready var player_anim = player.get_child(4)
+
+var open = false
+var top = false
+var bottom = false
+
+func _ready():
+	world.connect('close_gate', self, 'on_close_gate')
 
 func _physics_process(delta):
-	if higher == false and player.position.y > self.position.y:
-		higher == true
-		print(higher)
+	
+	#Stop the player from walking back through the gate as necessary.
+	if $solid_top/box.is_disabled() and world.cam_allow[1] == 0:
+		$solid_top/box.set_disabled(false)
+	elif !$solid_top/box.is_disabled() and world.cam_allow[1] == 1:
+		$solid_top/box.set_disabled(true)
+	
+	if $solid_bottom/box.is_disabled() and world.cam_allow[0] == 0:
+		$solid_bottom/box.set_disabled(false)
+	elif !$solid_bottom/box.is_disabled() and world.cam_allow[0] == 1:
+		$solid_bottom/box.set_disabled(true)
+
+func _on_act_top_body_entered(body):
+	if !$act_top/box.is_disabled():
+		$act_top/box.set_disabled(true)
+		$act_bottom/box.set_disabled(true)
+		#Stop player animation
+		player_anim.stop()
+		player.can_move = false
+		open = true
+		bottom = true
+		player.gate = true
+		#Open the gate.
+		$anim.play('opening')
+
+func _on_act_bottom_body_entered(body):
+	if !$act_bottom/box.is_disabled():
+		$act_top/box.set_disabled(true)
+		$act_bottom/box.set_disabled(true)
+		#Stop player animation
+		player_anim.stop()
+		player.can_move = false
+		open = true
+		top = true
+		player.gate = true
+		#Open the gate.
+		$anim.play('opening')
+
+func _on_act_top_body_exited(body):
+	bottom = false
+
+func _on_act_bottom_body_exited(body):
+	top = false
+
+func _on_anim_animation_finished(opening):
+	if open and top:
+		player_anim.play()
+		world.scroll = true
+		world.scroll_len = -world.res.y
+		world.cam_move = 1
+		top = false
+	
+	if open and bottom:
+		player_anim.play()
+		world.scroll = true
+		world.scroll_len = world.res.y
+		world.cam_move = 2
+		bottom = false
+	
+	if !open:
+		world.scroll = false
+		world.cam_move = 0
+		world.emit_signal("scrolling")
+		player.gate = false
+		$act_top/box.set_disabled(false)
+		$act_bottom/box.set_disabled(false)
+
+func on_close_gate():
+	if open:
+		open = false
+		player_anim.stop()
+		$anim.play_backwards("opening")

@@ -181,6 +181,7 @@ func _camera():
 func _rooms():
 	#This section handles the Left/Right camera limits and toggles which direction the screen
 	#is allowed to scroll based on the player_room value.
+	print(player_room)
 	
 	#This function also houses the counter for Endless Mode.
 	if endless:
@@ -223,6 +224,9 @@ func _rooms():
 			rooms = 8
 			$player/camera.limit_left = player_room.x * 256
 			$player/camera.limit_right = $player/camera.limit_left + (res.x * rooms)
+	
+	if player_room == Vector2(15, 10) and cam_allow[2] != 0:
+		cam_allow[2] = 0
 	
 	#Eventually, this function will encompass every room in the game. But only triggers at certain
 	#intervals as to not bog down RAM usage. IE: When the room value is different from the previous

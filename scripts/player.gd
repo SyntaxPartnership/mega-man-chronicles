@@ -533,11 +533,12 @@ func _physics_process(delta):
 					anim_state(JUMP)
 
 				#When the player touches the floor while climbing.
-				if y_dir == 1 and overlap == 4 and is_on_floor():
-					ladder_top = 0
-					velocity.y = 300
-					act_state(STANDING)
-					anim_state(IDLE)
+				if y_dir == 1 and is_on_floor():
+					if overlap == 3 or overlap == 4 or overlap == 6 or overlap == 7:
+						ladder_top = 0
+						velocity.y = 300
+						act_state(STANDING)
+						anim_state(IDLE)
 
 				#When the player presses jump.
 				if jump_tap:
@@ -642,7 +643,6 @@ func _physics_process(delta):
 			ice = false
 
 		#Print Shit
-		
 
 #There are 3 states that the player will call. Animation, Action, and Shot
 #Pull the matching Animation State and set the animation accordingly.
