@@ -135,7 +135,8 @@ Changes - Version 0.0.1 ():
 - Started expanding the test stage to encompass more objects and make it easier for the player to return to the beginning.
 - Splash effect added to water tiles.
 - Bubble effect added to water tiles
-- added code to kill special effect sprites if off screen or panning the camera.
+- Added code to kill special effect sprites if off screen or panning the camera.
+- Fixed an issue where the splash effect would not be centered on the player's X position.
 
 Credits:
 --

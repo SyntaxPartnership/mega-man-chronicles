@@ -657,7 +657,8 @@ func spawn_objects():
 func splash():
 	var splash = load('res://scenes/splash.tscn').instance()
 	$overlap.add_child(splash)
-	splash.position = $coll_mask/tiles.map_to_world(player_tilepos) + Vector2(0, 8)
+	splash.position.x = $player.position.x
+	splash.position.y = $coll_mask/tiles.map_to_world(player_tilepos).y
 
 func bubble():
 	var bubble = load('res://scenes/bubble.tscn').instance()
