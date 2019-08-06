@@ -97,3 +97,13 @@ frame = 12
 __meta__ = {
 "_edit_group_": true
 }
+
+[node name="teleporter" type="Sprite" parent="."]
+position = Vector2( 80, 13.037 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 6
+frame = 13
+__meta__ = {
+"_edit_group_": true
+}

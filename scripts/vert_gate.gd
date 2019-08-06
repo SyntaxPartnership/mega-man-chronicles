@@ -9,6 +9,8 @@ var open = false
 var left = false
 var right = false
 
+var kill
+
 func _ready():
 	world.connect('close_gate', self, 'on_close_gate')
 	
@@ -35,6 +37,7 @@ func _on_act_left_body_entered(body):
 		open = true
 		right = true
 		player.gate = true
+		world.kill()
 		#Open the gate.
 		$anim.play('opening')
 
@@ -48,6 +51,7 @@ func _on_act_right_body_entered(body):
 		open = true
 		left = true
 		player.gate = true
+		world.kill()
 		#Open the gate.
 		$anim.play('opening')
 
@@ -77,6 +81,7 @@ func _on_anim_animation_finished(opening):
 		right = false
 	
 	if !open:
+		player_anim.play()
 		world.scroll = false
 		world.cam_move = 0
 		world.emit_signal("scrolling")

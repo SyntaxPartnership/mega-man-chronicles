@@ -43,6 +43,11 @@ var right = false
 var last_dir = 0
 var last_weap = 0
 
+#Special effects
+var kill
+var spl_trigger = false
+var bbl_count = 0
+
 func _ready():
 	res = get_viewport_rect().size
 	
@@ -56,7 +61,7 @@ func _ready():
 	
 	#Based on where the playr spawns, set position and change camera.
 	if global.level_id == 0 and global.cont_id == 0:
-		$player.position = Vector2(72, 148)
+		$player.position = Vector2(2176, 1332)
 
 	if global.level_id == 0 and global.cont_id == 1:
 		$player.position = Vector2(632, 196)
@@ -88,6 +93,7 @@ func _camera():
 		scroll = true
 		scroll_len = -res.y
 		cam_move = 1
+		kill()
 		emit_signal("scrolling")
 	
 	#Scroll down (Edge of screen)
@@ -95,6 +101,7 @@ func _camera():
 		scroll = true
 		scroll_len = res.y
 		cam_move = 2
+		kill()
 		emit_signal("scrolling")
 	
 	#Scroll left (Edge of screen)
@@ -104,6 +111,7 @@ func _camera():
 		scroll = true
 		scroll_len = -res.x
 		cam_move = 3
+		kill()
 		emit_signal("scrolling")
 	
 	#Scroll right (Edge of screen)
@@ -113,6 +121,7 @@ func _camera():
 		scroll = true
 		scroll_len = res.x
 		cam_move = 4
+		kill()
 		emit_signal("scrolling")
 	
 	#Scroll up (Boss Gate)
@@ -127,7 +136,7 @@ func _camera():
 		if !$player.gate:
 			$player.position.y -= 0.25
 		else:
-			$player.position.y -= 0.50
+			$player.position.y -= 0.9
 		scroll_len += scroll_spd
 	if cam_move == 2 and scroll_len != 0:
 		$player/camera.limit_top += scroll_spd
@@ -135,7 +144,7 @@ func _camera():
 		if !$player.gate:
 			$player.position.y += 0.25
 		else:
-			$player.position.y += 0.50
+			$player.position.y += 0.9
 		scroll_len -= scroll_spd
 	if cam_move == 3 and scroll_len != 0:
 		$player/camera.limit_left -= scroll_spd
@@ -192,41 +201,46 @@ func _rooms():
 	#Add function here to clear endless_rms to prevent lag. (Example: When the player reaches a teleporter, clear endless_rms)
 	
 	#Example
-	if player_room == Vector2(2, 0):
-		rooms = 4
-#		cam_allow[0] = 1		#Commented out so that it's not forgotten.
+	#Water test area.
+	if player_room == Vector2(8, 9):
+		rooms = 5
+		cam_allow[0] = 0
+		cam_allow[1] = 0
+		cam_allow[2] = 0		#Don't forget this snippet.
 		$player/camera.limit_right = $player/camera.limit_left + (res.x * rooms)
 	
-	if player_room == Vector2(1, 3):
-		rooms = 3
-		$player/camera.limit_right = $player/camera.limit_left + (res.x * rooms)
+	#Allow the player to fall after reaching a certain point.
+	if player_room == Vector2(12, 9):
+		cam_allow[1] = 1
 	
-	if player_room == Vector2(0, 7):
-		rooms = 2
-		$player/camera.limit_right = $player/camera.limit_left + (res.x * rooms)
-	
-	if player_room == Vector2(1, 8):
+	#Save for rooms with no horizontal scrolling.
+	if player_room == Vector2(12, 10):
 		rooms = 1
 		$player/camera.limit_left = $player/camera.limit_right - (res.x * rooms)
 	
-	if player_room == Vector2(1, 9):
-		rooms = 7
+	if player_room == Vector2(12, 14):
+		rooms = 2
 		$player/camera.limit_right = $player/camera.limit_left + (res.x * rooms)
 	
-	#Special camera condition. Will prevent horizontal scrolling while the player is on the top half of the screen at the beginning of this section.
-	if player_room == Vector2(7, 10):
-		cam_allow[1] = 0
-		if $player.position.y < ($player/camera.limit_bottom - 120):
-			rooms = 1
-			$player/camera.limit_left = player_room.x * 256
-			$player/camera.limit_right = (player_room.x + 1) * 256
-		else:
-			rooms = 8
-			$player/camera.limit_left = player_room.x * 256
-			$player/camera.limit_right = $player/camera.limit_left + (res.x * rooms)
+	#Save for rooms that scroll to the left.
+#	if player_room == Vector2(1, 8):
+#		rooms = 1
+#		$player/camera.limit_left = $player/camera.limit_right - (res.x * rooms)
 	
-	if player_room == Vector2(15, 10) and cam_allow[2] != 0:
-		cam_allow[2] = 0
+	#Special camera condition. Will prevent horizontal scrolling while the player is on the top half of the screen at the beginning of this section.
+#	if player_room == Vector2(7, 10):
+#		cam_allow[1] = 0
+#		if $player.position.y < ($player/camera.limit_bottom - 120):
+#			rooms = 1
+#			$player/camera.limit_left = player_room.x * 256
+#			$player/camera.limit_right = (player_room.x + 1) * 256
+#		else:
+#			rooms = 8
+#			$player/camera.limit_left = player_room.x * 256
+#			$player/camera.limit_right = $player/camera.limit_left + (res.x * rooms)
+#
+#	if player_room == Vector2(15, 10) and cam_allow[2] != 0:
+#		cam_allow[2] = 0
 	
 	#Eventually, this function will encompass every room in the game. But only triggers at certain
 	#intervals as to not bog down RAM usage. IE: When the room value is different from the previous
@@ -331,6 +345,18 @@ func _process(delta):
 		palette_swap()
 	
 	#Right Analog Stick
+	
+	#Special Effects
+	if overlap == 7 and !spl_trigger:
+		splash()
+		spl_trigger = true
+	elif overlap != 7 and spl_trigger:
+		spl_trigger = false
+		
+	if overlap == 6 or overlap == 12 or overlap == 13:
+		if bbl_count == 0 and !scroll:
+			bubble()
+		
 	
 	#Debug Menus and Statistics.
 	
@@ -627,3 +653,22 @@ func spawn_objects():
 			var pos = objects.map_to_world(cell)
 			c.position = pos + (objects.cell_size / 2)
 			$graphic.add_child(c)
+
+func splash():
+	var splash = load('res://scenes/splash.tscn').instance()
+	$overlap.add_child(splash)
+	splash.position = $coll_mask/tiles.map_to_world(player_tilepos) + Vector2(0, 8)
+
+func bubble():
+	var bubble = load('res://scenes/bubble.tscn').instance()
+	$overlap.add_child(bubble)
+	bubble.position = $player.position
+	bbl_count += 1
+
+func kill():
+	#Use this to kill special effect sprites when scrolling.
+	var effects = get_tree().get_nodes_in_group('effects')
+	for bubble in effects:
+		bubble.queue_free()
+	for splash in effects:
+		splash.queue_free()

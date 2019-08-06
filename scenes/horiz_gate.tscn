@@ -100,6 +100,7 @@ collision_mask = 2
 
 [node name="box" type="CollisionShape2D" parent="act_bottom"]
 shape = SubResource( 5 )
+[connection signal="animation_finished" from="anim" to="." method="_on_anim_animation_finished"]
 [connection signal="body_entered" from="act_top" to="." method="_on_act_top_body_entered"]
 [connection signal="body_exited" from="act_top" to="." method="_on_act_top_body_exited"]
 [connection signal="body_entered" from="act_bottom" to="." method="_on_act_bottom_body_entered"]

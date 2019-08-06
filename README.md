@@ -128,6 +128,14 @@ Changes - Version 0.0.1 ():
 - Added another test stage modeled after Shadow Man's from Mega Man III.
 - Started boss gate coding.
 - Added a script that will load stage objects from a tilemap to make placement easier.
+- Vertical boss gates completed.
+- Horizontal boss gates completed.
+- Fixed an issue where the climbing function would no cease when touching a floor from a one tile high ladder.
+- Fixed an issue where the climbing function would not cease when touching the floor underwater.
+- Started expanding the test stage to encompass more objects and make it easier for the player to return to the beginning.
+- Splash effect added to water tiles.
+- Bubble effect added to water tiles
+- added code to kill special effect sprites if off screen or panning the camera.
 
 Credits:
 --

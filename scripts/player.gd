@@ -643,6 +643,7 @@ func _physics_process(delta):
 			ice = false
 
 		#Print Shit
+		
 
 #There are 3 states that the player will call. Animation, Action, and Shot
 #Pull the matching Animation State and set the animation accordingly.
