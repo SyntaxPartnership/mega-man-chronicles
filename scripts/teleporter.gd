@@ -18,7 +18,10 @@ func _physics_process(delta):
 		distance = (floor(position.x) - floor(player.position.x)) + 8
 		
 		if player.is_on_floor() and distance < 3 and distance > -3 and !player.lock_ctrl:
+			timer = 60
 			player.x_dir = 0
+			player.slide_timer = 0
+			player.slide = false
 			player.lock_ctrl = true
 			
 		if player.lock_ctrl and timer > -1:
@@ -31,7 +34,6 @@ func _physics_process(delta):
 func on_teleport():
 	if timer <= 0:
 		player.hide()
-		anim.play('idle')
 		fade.state = 2
 		fade.end = true
 		
