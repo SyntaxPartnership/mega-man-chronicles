@@ -137,6 +137,9 @@ Changes - Version 0.0.1 ():
 - Bubble effect added to water tiles
 - Added code to kill special effect sprites if off screen or panning the camera.
 - Fixed an issue where the splash effect would not be centered on the player's X position.
+- Started teleporter functions.
+- Fixed a few issues with the fade in/out node.
+- Added a graphic skin for the water section to resemble Wily Stage 3 from Mega Man 2.
 
 Credits:
 --

@@ -43,6 +43,8 @@ var right = false
 var last_dir = 0
 var last_weap = 0
 
+var main_room = Vector2(2176, 1332)
+
 #Special effects
 var kill
 var spl_trigger = false
@@ -445,28 +447,26 @@ func _process(delta):
 
 #These functions handle the states of the fade in node.
 func _on_fade_fadein():
-	if $fade/fade.state == 0:
-		print("Stage Start!")
+	
+	if $fade/fade.state == 3 and $player.lock_ctrl:
+		print('Reappearing')
+		$player/anim.stop(true)
+		$player.show()
+		$player/anim.play('appear1')
+		$player.lock_ctrl = false
 
 func _on_fade_fadeout():
 	if $fade/fade.state == 2:
-		set_room()
-		print(pos,', ',player_room)
+
+		$player.position = main_room
+
+		$player/camera.limit_top = ((floor($player.position.y/240))*240)
+		$player/camera.limit_bottom = ((floor($player.position.y/240))*240)+240
+		$player/camera.limit_left = ((floor($player.position.x/256))*256)
+		$player/camera.limit_right = ((floor($player.position.x/256))*256)+256
+
 		$fade/fade.begin = true
-
-func set_room():
-	var telepod_id = []
-	var main_room = Vector2(2176, 1332)
-
-	pos = main_room
-	player_room = Vector2(floor(pos.x / 256), floor(pos.y / 240))
-
-	$player/camera.limit_top = (player_room.y*240)
-	$player/camera.limit_bottom = (player_room.y*240)+240
-	$player/camera.limit_left = (player_room.x*256)
-	$player/camera.limit_right = (player_room.x*256)+256
-	
-	$player.show()
+		$fade/fade.state = 3
 
 func palette_swap():
 	#Set palettes for the player.

@@ -827,7 +827,11 @@ func weapons():
 		#Bass Buster
 		pass
 
-
-func _on_anim_animation_finished(appear1):
-	print('next area!')
-	emit_signal('teleport')
+func _on_anim_animation_finished(anim_name):
+	if anim_name == 'appear1':
+		if lock_ctrl:
+			emit_signal('teleport')
+		elif !lock_ctrl:
+			anim_state(IDLE)
+			can_move = true
+			

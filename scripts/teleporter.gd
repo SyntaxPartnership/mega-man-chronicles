@@ -31,6 +31,7 @@ func _physics_process(delta):
 func on_teleport():
 	if timer <= 0:
 		player.hide()
+		anim.play('idle')
 		fade.state = 2
 		fade.end = true
 		
