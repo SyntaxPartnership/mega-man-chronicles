@@ -449,7 +449,24 @@ func _on_fade_fadein():
 		print("Stage Start!")
 
 func _on_fade_fadeout():
-	pass # Replace with function body.
+	if $fade/fade.state == 2:
+		set_room()
+		print(pos,', ',player_room)
+		$fade/fade.begin = true
+
+func set_room():
+	var telepod_id = []
+	var main_room = Vector2(2176, 1332)
+
+	pos = main_room
+	player_room = Vector2(floor(pos.x / 256), floor(pos.y / 240))
+
+	$player/camera.limit_top = (player_room.y*240)
+	$player/camera.limit_bottom = (player_room.y*240)+240
+	$player/camera.limit_left = (player_room.x*256)
+	$player/camera.limit_right = (player_room.x*256)+256
+	
+	$player.show()
 
 func palette_swap():
 	#Set palettes for the player.
@@ -648,7 +665,7 @@ func spawn_objects():
 		var id = objects.get_cellv(cell)
 		var type = objects.tile_set.tile_get_name(id)
 		#Get object ID and load into the level.
-		if type in ['vert_gate', 'horiz_gate']:
+		if type in ['vert_gate', 'horiz_gate', 'teleporter']:
 			var c = load('res://scenes/'+type+'.tscn').instance()
 			var pos = objects.map_to_world(cell)
 			c.position = pos + (objects.cell_size / 2)
@@ -658,7 +675,7 @@ func splash():
 	var splash = load('res://scenes/splash.tscn').instance()
 	$overlap.add_child(splash)
 	splash.position.x = $player.position.x
-	splash.position.y = $coll_mask/tiles.map_to_world(player_tilepos).y
+	splash.position.y = $coll_mask/tiles.map_to_world(player_tilepos).y - 2
 
 func bubble():
 	var bubble = load('res://scenes/bubble.tscn').instance()

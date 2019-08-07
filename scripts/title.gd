@@ -29,6 +29,7 @@ func _physics_process(delta):
 		
 		if accept and menu == 1 and menu_pos != 1 and menu_pos != 3:
 			menu += 1
+			$fade.state = 1
 			$fade.set("end", true)
 		
 		#If the accept button is pressed.

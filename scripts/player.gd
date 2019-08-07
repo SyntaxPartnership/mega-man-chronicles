@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+signal teleport
+
 #Use this to pull values from the World script.
 onready var world = get_parent()
 #Use this to get TileMap data.
@@ -13,6 +15,7 @@ const GRAVITY = 900
 #Determines if the player can move or not.
 var start_stage = false
 var can_move = false
+var lock_ctrl = false
 var gate = false
 
 #Handles the direction behing held on the D-Pad/Analog stick.
@@ -124,20 +127,36 @@ func _ready():
 func _physics_process(delta):
 
 	#Make the inputs easier to handle.
-	x_dir = int(Input.is_action_pressed("right")) - int(Input.is_action_pressed("left"))
-	y_dir = int(Input.is_action_pressed("down")) - int(Input.is_action_pressed("up"))
-	left_tap = Input.is_action_just_pressed("left")
-	right_tap = Input.is_action_just_pressed("right")
-	jump = Input.is_action_pressed("jump")
-	jump_tap = Input.is_action_just_pressed("jump")
-	dash = Input.is_action_pressed("dash")
-	dash_tap = Input.is_action_just_pressed("dash")
-	fire = Input.is_action_pressed("fire")
-	fire_tap = Input.is_action_just_pressed("fire")
-	prev = Input.is_action_just_pressed("prev")
-	next = Input.is_action_just_pressed("next")
-	select = Input.is_action_just_pressed("select")
-	start = Input.is_action_just_pressed("start")
+	if !lock_ctrl:
+		x_dir = int(Input.is_action_pressed("right")) - int(Input.is_action_pressed("left"))
+		y_dir = int(Input.is_action_pressed("down")) - int(Input.is_action_pressed("up"))
+		left_tap = Input.is_action_just_pressed("left")
+		right_tap = Input.is_action_just_pressed("right")
+		jump = Input.is_action_pressed("jump")
+		jump_tap = Input.is_action_just_pressed("jump")
+		dash = Input.is_action_pressed("dash")
+		dash_tap = Input.is_action_just_pressed("dash")
+		fire = Input.is_action_pressed("fire")
+		fire_tap = Input.is_action_just_pressed("fire")
+		prev = Input.is_action_just_pressed("prev")
+		next = Input.is_action_just_pressed("next")
+		select = Input.is_action_just_pressed("select")
+		start = Input.is_action_just_pressed("start")
+	else:
+		x_dir = 0
+		y_dir = 0
+		left_tap = false
+		right_tap = false
+		jump = false
+		jump_tap = false
+		dash = false
+		dash_tap = false
+		fire = false
+		fire_tap = false
+		prev = false
+		next = false
+		select = false
+		start = false
 	
 	
 	#TileMap Data function
@@ -807,3 +826,8 @@ func weapons():
 	if global.player == 2:
 		#Bass Buster
 		pass
+
+
+func _on_anim_animation_finished(appear1):
+	print('next area!')
+	emit_signal('teleport')

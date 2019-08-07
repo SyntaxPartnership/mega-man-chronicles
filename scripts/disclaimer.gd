@@ -53,9 +53,11 @@ func _process(delta):
 		if Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("start"):
 			allow_ctrl = false
 			$timer.stop()
+			$fade.state = 1
 			$fade.set("end", true)
 
 func _on_timer_timeout():
+	$fade.state = 1
 	$fade.set("end", true)
 
 #Include this function to allow the player to have control.
