@@ -142,6 +142,7 @@ Changes - Version 0.0.1 ():
 - Added a graphic skin for the water section to resemble Wily Stage 3 from Mega Man 2.
 - Fixed an issue where the player could slide through a teleporter and still trigger it's functions.
 - Fixed an issue where the teleporter timer did not reset with repeated use.
+- Added a table to help with player spawn and teleport points.
 
 Credits:
 --
