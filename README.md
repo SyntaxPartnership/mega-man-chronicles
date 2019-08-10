@@ -143,6 +143,9 @@ Changes - Version 0.0.1 ():
 - Fixed an issue where the player could slide through a teleporter and still trigger it's functions.
 - Fixed an issue where the teleporter timer did not reset with repeated use.
 - Added a table to help with player spawn and teleport points.
+- Player now spawns from above mentioned table at the beginning of a stage.
+- Fixed an issue where the player overlapping a teleport/spawn tile was not properly centered.
+- Adjusted teleport animation play speed.
 
 Credits:
 --

@@ -16,6 +16,7 @@ var overlap
 var ladder_set
 var ladder_top
 var player_room = Vector2(0, 0)
+var spawn_pt
 
 #Camera values
 var res = Vector2()
@@ -46,7 +47,6 @@ var last_weap = 0
 var main_room = Vector2(2176, 1332)
 
 #Special effects
-var kill
 var spl_trigger = false
 var bbl_count = 0
 
@@ -61,17 +61,15 @@ func _ready():
 	#Add Continue and Spawn Scripts here
 	cam_allow = [1, 1, 1, 1]
 	
-	#Based on where the playr spawns, set position and change camera.
-	if global.level_id == 0 and global.cont_id == 0:
-		$player.position = Vector2(2176, 1332)
-
-	if global.level_id == 0 and global.cont_id == 1:
-		$player.position = Vector2(632, 196)
-
-	if global.level_id == 1 and global.cont_id == 0:
-		cam_allow[0] = 0
-		$player.position = Vector2(127, 1140)
-
+	#Set player position and reset camera.
+	for spawn in $coll_mask/spawn_pts.get_used_cells():
+		var spawn_id = $coll_mask/spawn_pts.get_cellv(spawn)
+		var spawn_type = $coll_mask/spawn_pts.tile_set.tile_get_name(spawn_id)
+		if spawn_type in ['sp_'+str(global.level_id)+'_'+str(global.cont_id)]:
+			var spawn_pos = $coll_mask/spawn_pts.map_to_world(spawn)
+			$player.position.x = spawn_pos.x + $coll_mask/spawn_pts.cell_size.x
+			$player.position.y = spawn_pos.y + $coll_mask/spawn_pts.cell_size.y / 2
+			
 	pos = $player.position
 	player_room = Vector2(floor(pos.x / 256), floor(pos.y / 240))
 
@@ -126,11 +124,6 @@ func _camera():
 		kill()
 		emit_signal("scrolling")
 	
-	#Scroll up (Boss Gate)
-	#Scroll down (Boss Gate)
-	#Scroll left (Boss Gate)
-	#Scroll right (Boss Gate)
-	
 	#Pan the camera
 	if cam_move == 1 and scroll_len != 0:
 		$player/camera.limit_top -= scroll_spd
@@ -183,11 +176,11 @@ func _camera():
 
 	
 	#Certain special conditions for allowing camera movement can be allowed as well. Such as player position within a room.
-	if $player.position.y < ($player/camera.limit_bottom - 120) and player_room == Vector2(7, 10) and !scroll:
-		_rooms()
-		
-	if $player.position.y > ($player/camera.limit_bottom - 120) and player_room == Vector2(7, 10) and !scroll:
-		_rooms()
+#	if $player.position.y < ($player/camera.limit_bottom - 120) and player_room == Vector2(7, 10) and !scroll:
+#		_rooms()
+#
+#	if $player.position.y > ($player/camera.limit_bottom - 120) and player_room == Vector2(7, 10) and !scroll:
+#		_rooms()
 
 func _rooms():
 	#This section handles the Left/Right camera limits and toggles which direction the screen
@@ -253,6 +246,7 @@ func _process(delta):
 	_camera()
 	
 	#Print Shit
+	print(spawn_pt)
 	
 	#Get other player information.
 	player_tilepos = $coll_mask/tiles.world_to_map(pos)
@@ -261,6 +255,7 @@ func _process(delta):
 	ladder_set = (player_tilepos.x * 16) + 8
 	ladder_top = $coll_mask/tiles.map_to_world(player_tilepos)
 	player_room = Vector2(floor(pos.x / 256), floor(pos.y / 240))
+	spawn_pt = $coll_mask/spawn_pts.get_cellv($coll_mask/spawn_pts.world_to_map(Vector2(pos.x - 4, pos.y)))
 	
 	#Weapon Swapping.
 	if $player.can_move:

@@ -9,6 +9,7 @@ var overlap
 func _ready():
 	$anim.play('idle')
 
+# warning-ignore:unused_argument
 func _physics_process(delta):
 	
 	tile_pos = map.world_to_map(position)

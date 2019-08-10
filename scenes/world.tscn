@@ -108,6 +108,7 @@ format = 1
 tile_data = PoolIntArray( 12189967, 0, 0, 12845327, 88, 0, 30933499, 68, 0 )
 
 [node name="graphic" type="Control" parent="."]
+editor/display_folded = true
 margin_right = 40.0
 margin_bottom = 40.0
 
@@ -330,7 +331,6 @@ custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "Place menu options here."
 
 [node name="fade" type="CanvasLayer" parent="."]
-editor/display_folded = true
 
 [node name="fade" parent="fade" instance=ExtResource( 16 )]
 position = Vector2( 128, 120 )
