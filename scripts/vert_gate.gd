@@ -1,7 +1,7 @@
 extends Node2D
 
 onready var world = get_parent().get_parent()
-onready var player = world.get_child(3)
+onready var player = world.get_child(2)
 onready var camera = player.get_child(7)
 onready var player_anim = player.get_child(4)
 

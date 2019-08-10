@@ -146,6 +146,9 @@ Changes - Version 0.0.1 ():
 - Player now spawns from above mentioned table at the beginning of a stage.
 - Fixed an issue where the player overlapping a teleport/spawn tile was not properly centered.
 - Adjusted teleport animation play speed.
+- Teleporters and continue points added.
+- Relocated teleporter and player spawning script to the World script for ease of access.
+- Adjusted the Y speed of the player during vertical scrolling.
 
 Credits:
 --

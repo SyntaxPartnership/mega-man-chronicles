@@ -44,7 +44,8 @@ var right = false
 var last_dir = 0
 var last_weap = 0
 
-var main_room = Vector2(2176, 1332)
+var tele_timer = 60
+var tele_dest
 
 #Special effects
 var spl_trigger = false
@@ -77,7 +78,6 @@ func _ready():
 	$player/camera.limit_bottom = (player_room.y*240)+240
 	$player/camera.limit_left = (player_room.x*256)
 	$player/camera.limit_right = (player_room.x*256)+256
-	
 	
 func _camera():
 	#Calculate player position.
@@ -129,7 +129,7 @@ func _camera():
 		$player/camera.limit_top -= scroll_spd
 		$player/camera.limit_bottom -= scroll_spd
 		if !$player.gate:
-			$player.position.y -= 0.25
+			$player.position.y -= 0.125
 		else:
 			$player.position.y -= 0.9
 		scroll_len += scroll_spd
@@ -137,7 +137,7 @@ func _camera():
 		$player/camera.limit_top += scroll_spd
 		$player/camera.limit_bottom += scroll_spd
 		if !$player.gate:
-			$player.position.y += 0.25
+			$player.position.y += 0.125
 		else:
 			$player.position.y += 0.9
 		scroll_len -= scroll_spd
@@ -173,9 +173,7 @@ func _camera():
 		prev_room = player_room
 		_rooms()
 		
-
-	
-	#Certain special conditions for allowing camera movement can be allowed as well. Such as player position within a room.
+#	Certain special conditions for allowing camera movement can be allowed as well. Such as player position within a room.
 #	if $player.position.y < ($player/camera.limit_bottom - 120) and player_room == Vector2(7, 10) and !scroll:
 #		_rooms()
 #
@@ -197,7 +195,7 @@ func _rooms():
 	
 	#Example
 	#Water test area.
-	if player_room == Vector2(8, 9):
+	if player_room == Vector2(8, 10):
 		rooms = 5
 		cam_allow[0] = 0
 		cam_allow[1] = 0
@@ -205,17 +203,53 @@ func _rooms():
 		$player/camera.limit_right = $player/camera.limit_left + (res.x * rooms)
 	
 	#Allow the player to fall after reaching a certain point.
-	if player_room == Vector2(12, 9):
+	if player_room == Vector2(12, 10):
 		cam_allow[1] = 1
 	
 	#Save for rooms with no horizontal scrolling.
-	if player_room == Vector2(12, 10):
+	if player_room == Vector2(12, 11):
 		rooms = 1
 		$player/camera.limit_left = $player/camera.limit_right - (res.x * rooms)
 	
-	if player_room == Vector2(12, 14):
+	if player_room == Vector2(12, 15):
 		rooms = 2
 		$player/camera.limit_right = $player/camera.limit_left + (res.x * rooms)
+	
+	#Snow/Ice Test Area
+	if player_room == Vector2(9, 6):
+		rooms = 6
+		cam_allow[1] = 0
+		$player/camera.limit_right = $player/camera.limit_left + (res.x * rooms)
+	
+	if player_room == Vector2(14, 6):
+		cam_allow[1] = 0
+	
+	if player_room == Vector2(14, 5) and cam_allow[1] != 1:
+		rooms = 1
+		cam_allow[1] = 1
+		$player/camera.limit_left = $player/camera.limit_right - (res.x * rooms)
+	
+	if player_room == Vector2(14, 4):
+		rooms = 6
+		cam_allow[1] = 1
+		$player/camera.limit_right = $player/camera.limit_left + (res.x * rooms)
+	
+	if player_room == Vector2(15, 4):
+		cam_allow[1] = 0
+	
+	if player_room == Vector2(19, 3):
+		rooms = 1
+		cam_allow[1] = 1
+		$player/camera.limit_left = $player/camera.limit_right - (res.x * rooms)
+	
+	if player_room == Vector2(19, 4):
+		rooms = 6
+		cam_allow[1] = 1
+		$player/camera.limit_left = $player/camera.limit_right - (res.x * rooms)
+	
+	if player_room == Vector2(20, 0):
+		cam_allow[2] = 0
+
 	
 	#Save for rooms that scroll to the left.
 #	if player_room == Vector2(1, 8):
@@ -246,7 +280,7 @@ func _process(delta):
 	_camera()
 	
 	#Print Shit
-	print(spawn_pt)
+	
 	
 	#Get other player information.
 	player_tilepos = $coll_mask/tiles.world_to_map(pos)
@@ -342,6 +376,24 @@ func _process(delta):
 		palette_swap()
 	
 	#Right Analog Stick
+	
+	#Teleporters
+	if spawn_pt != -1 and $player.is_on_floor():
+		if spawn_pt >= 49 and spawn_pt <= 68 and !$player.lock_ctrl:
+			$player.lock_ctrl = true
+			$player.anim_state(2)
+			$player.slide = false
+			$player.slide_timer = 0
+			tele_timer = 60
+			tele_dest = spawn_pt + 20
+	
+	if $player.lock_ctrl and tele_timer > -1:
+		tele_timer -= 1
+	
+	if tele_timer == 0:
+		$player.can_move = false
+		$player/anim.play('appear1')
+			
 	
 	#Special Effects
 	if overlap == 7 and !spl_trigger:
@@ -453,7 +505,13 @@ func _on_fade_fadein():
 func _on_fade_fadeout():
 	if $fade/fade.state == 2:
 
-		$player.position = main_room
+		for teleport in $coll_mask/spawn_pts.get_used_cells():
+			var tele_id = $coll_mask/spawn_pts.get_cellv(teleport)
+			if tele_id == tele_dest:
+				var tele_pos = $coll_mask/spawn_pts.map_to_world(teleport)
+			
+				$player.position.x = tele_pos.x + $coll_mask/spawn_pts.cell_size.x
+				$player.position.y = tele_pos.y + $coll_mask/spawn_pts.cell_size.y / 2
 
 		$player/camera.limit_top = ((floor($player.position.y/240))*240)
 		$player/camera.limit_bottom = ((floor($player.position.y/240))*240)+240
@@ -686,3 +744,9 @@ func kill():
 	for splash in effects:
 		splash.queue_free()
 	bbl_count = 0
+
+func _on_teleport():
+	if tele_timer <= 0:
+		$player.hide()
+		$fade/fade.state = 2
+		$fade/fade.end = true
