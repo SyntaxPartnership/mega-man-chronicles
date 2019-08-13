@@ -7,10 +7,18 @@ onready var world = get_parent()
 #Use this to get TileMap data.
 onready var tiles = world.get_child(0).get_child(1)
 
+#Set special effect animations to object layer.
+onready var effect = world.get_child(3)
+
 #Player velocity constants
 const RUN_SPEED = 90
 const JUMP_SPEED = -310
 const GRAVITY = 900
+
+#Player special effect constants.
+const DMG_SPARK = preload('res://scenes/dmg_spark.tscn')
+const SLIDE_SMOKE = preload('res://scenes/slide_smoke.tscn')
+const DEATH_BOOM = preload('res://scenes/s_explode_loop.tscn')
 
 #Determines if the player can move or not.
 var start_stage = false
@@ -81,6 +89,7 @@ var c_flash = 0
 var w_icon = 0
 
 var dmg_button = false
+var dead_button = false
 
 #Player States
 enum {
@@ -414,6 +423,12 @@ func _physics_process(delta):
 				if global.player == 0:
 					if y_dir == 1 and jump_tap and is_on_floor() and !wall:
 						anim_state(SLIDE)
+						#Add slide smoke.
+						var smoke = SLIDE_SMOKE.instance()
+						var smk_sprite = smoke.get_child(0)
+						smk_sprite.flip_h = $sprite.flip_h
+						smoke.position = position + Vector2(0, 7)
+						effect.add_child(smoke)
 						slide_timer = 15
 						slide = true
 						$standbox.set_disabled(true)
@@ -421,6 +436,11 @@ func _physics_process(delta):
 				else:
 					if dash_tap and is_on_floor() and !wall:
 						anim_state(SLIDE)
+						var smoke = SLIDE_SMOKE.instance()
+						var smk_sprite = smoke.get_child(0)
+						smk_sprite.flip_h = $sprite.flip_h
+						smoke.position = position + Vector2(0, 7)
+						effect.add_child(smoke)
 						slide_timer = 15
 						slide = true
 						shot_state(NORMAL)
@@ -442,6 +462,11 @@ func _physics_process(delta):
 								slide = true
 								slide_timer = 15
 								anim_state(SLIDE)
+								var smoke = SLIDE_SMOKE.instance()
+								var smk_sprite = smoke.get_child(0)
+								smk_sprite.flip_h = $sprite.flip_h
+								smoke.position = position + Vector2(0, 7)
+								effect.add_child(smoke)
 								slide_delay = 0
 								slide_act = 0
 								slide_tap_dir = 0
@@ -577,11 +602,9 @@ func _physics_process(delta):
 				x_speed = 0
 			else:
 				if $sprite.flip_h == true:
-					velocity.x = (RUN_SPEED * 0.8) / x_spd_mod
-					x_speed = RUN_SPEED
+					x_speed = (RUN_SPEED * 0.6) / x_spd_mod
 				else:
-					velocity.x = (-RUN_SPEED * 0.8) / x_spd_mod
-					x_speed = -RUN_SPEED
+					x_speed = (-RUN_SPEED * 0.6) / x_spd_mod
 
 			hurt_timer -= 1
 			#When hurt_timer reaches 0, start blinking functions.
@@ -628,6 +651,18 @@ func _physics_process(delta):
 
 		if !Input.is_key_pressed(KEY_SPACE) and anim_st != HURT and dmg_button:
 			dmg_button = false
+		
+		#KILL TEH PLAYAR
+		if Input.is_key_pressed(KEY_BACKSPACE) and !dead_button:
+			dead_button = true
+			
+			#Spawn the death boom.
+			for n in range(16):
+				var boom = DEATH_BOOM.instance()
+				boom.position = position
+				boom.id = n
+				print(n,', ',boom.id)
+				effect.add_child(boom)
 
 		#Move the player
 		velocity = move_and_slide(velocity, Vector2(0, -1))
@@ -695,6 +730,9 @@ func anim_state(new_anim_state):
 			change_anim('climbtop')
 		HURT:
 			change_anim('hurt')
+			var spark = DMG_SPARK.instance()
+			spark.position = position
+			effect.add_child(spark)
 		FALL:
 			change_anim('fall')
 

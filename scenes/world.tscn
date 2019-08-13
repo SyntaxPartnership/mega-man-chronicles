@@ -33,6 +33,7 @@ pause_mode = 2
 script = ExtResource( 1 )
 
 [node name="coll_mask" type="Control" parent="."]
+editor/display_folded = true
 margin_right = 40.0
 margin_bottom = 40.0
 
@@ -110,6 +111,7 @@ format = 1
 tile_data = PoolIntArray( 1311419, 68, 0, 11403524, 68, 0, 12189967, 0, 0, 12845327, 88, 0, 30933499, 68, 0 )
 
 [node name="graphic" type="Control" parent="."]
+editor/display_folded = true
 margin_right = 40.0
 margin_bottom = 40.0
 

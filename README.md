@@ -149,6 +149,10 @@ Changes - Version 0.0.1 ():
 - Teleporters and continue points added.
 - Relocated teleporter and player spawning script to the World script for ease of access.
 - Adjusted the Y speed of the player during vertical scrolling.
+- Added damage spark.
+- Added slide smoke.
+- Adjusted X movement when taking damage.
+- Added the player's Death Boom.
 
 Credits:
 --
