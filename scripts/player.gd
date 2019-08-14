@@ -25,6 +25,9 @@ var start_stage = false
 var can_move = false
 var lock_ctrl = false
 var gate = false
+var dead = false
+var dead_delay = 16
+var boom_count = 0
 
 #Handles the direction behing held on the D-Pad/Analog stick.
 var x_dir
@@ -89,7 +92,6 @@ var c_flash = 0
 var w_icon = 0
 
 var dmg_button = false
-var dead_button = false
 
 #Player States
 enum {
@@ -660,16 +662,6 @@ func _physics_process(delta):
 		if !Input.is_key_pressed(KEY_SPACE) and anim_st != HURT and dmg_button:
 			dmg_button = false
 		
-		#KILL TEH PLAYAR
-		if Input.is_key_pressed(KEY_BACKSPACE) and !dead_button:
-			dead_button = true
-			
-			#Spawn the death boom.
-			for n in range(16):
-				var boom = DEATH_BOOM.instance()
-				boom.position = position
-				boom.id = n
-				effect.add_child(boom)
 
 		#Move the player
 		velocity = move_and_slide(velocity, Vector2(0, -1))
@@ -696,6 +688,14 @@ func _physics_process(delta):
 
 			if is_on_floor() and collision.collider.name == 'ice':
 				ice = true
+			
+			if collision.collider.name == 'death':
+				#Spawn the death boom. Replace when HP bar is added.
+				if !dead:
+					dead = true
+					can_move = false
+					get_tree().paused = true
+			
 
 		#This is a small fix to handle the x speed modifier.
 		if !is_on_floor():
@@ -704,6 +704,7 @@ func _physics_process(delta):
 			ice = false
 
 		#Print Shit
+		print(world.dead_delay)
 
 #There are 3 states that the player will call. Animation, Action, and Shot
 #Pull the matching Animation State and set the animation accordingly.

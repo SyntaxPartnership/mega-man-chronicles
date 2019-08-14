@@ -17,6 +17,8 @@ var ladder_set
 var ladder_top
 var player_room = Vector2(0, 0)
 var spawn_pt
+var dead_delay = 16
+var heal_delay
 
 #Camera values
 var res = Vector2()
@@ -93,7 +95,7 @@ func _camera():
 		scroll = true
 		scroll_len = -res.y
 		cam_move = 1
-		kill()
+		kill_effects()
 		emit_signal("scrolling")
 	
 	#Scroll down (Edge of screen)
@@ -101,7 +103,7 @@ func _camera():
 		scroll = true
 		scroll_len = res.y
 		cam_move = 2
-		kill()
+		kill_effects()
 		emit_signal("scrolling")
 	
 	#Scroll left (Edge of screen)
@@ -111,7 +113,7 @@ func _camera():
 		scroll = true
 		scroll_len = -res.x
 		cam_move = 3
-		kill()
+		kill_effects()
 		emit_signal("scrolling")
 	
 	#Scroll right (Edge of screen)
@@ -121,7 +123,7 @@ func _camera():
 		scroll = true
 		scroll_len = res.x
 		cam_move = 4
-		kill()
+		kill_effects()
 		emit_signal("scrolling")
 	
 	#Pan the camera
@@ -278,7 +280,6 @@ func _rooms():
 #warning-ignore:unused_argument
 func _process(delta):
 	_camera()
-	
 	#Print Shit
 	
 	
@@ -725,18 +726,20 @@ func spawn_objects():
 			$graphic.add_child(c)
 
 func splash():
-	var splash = load('res://scenes/splash.tscn').instance()
-	$overlap.add_child(splash)
-	splash.position.x = $player.position.x
-	splash.position.y = $coll_mask/tiles.map_to_world(player_tilepos).y - 2
+	if !$player.dead:
+		var splash = load('res://scenes/splash.tscn').instance()
+		$overlap.add_child(splash)
+		splash.position.x = $player.position.x
+		splash.position.y = $coll_mask/tiles.map_to_world(player_tilepos).y - 2
 
 func bubble():
-	var bubble = load('res://scenes/bubble.tscn').instance()
-	$overlap.add_child(bubble)
-	bubble.position = $player.position
-	bbl_count += 1
+	if !$player.dead:
+		var bubble = load('res://scenes/bubble.tscn').instance()
+		$overlap.add_child(bubble)
+		bubble.position = $player.position
+		bbl_count += 1
 
-func kill():
+func kill_effects():
 	#Use this to kill special effect sprites when scrolling.
 	var effects = get_tree().get_nodes_in_group('effects')
 	for bubble in effects:
@@ -750,3 +753,18 @@ func _on_teleport():
 		$player.hide()
 		$fade/fade.state = 2
 		$fade/fade.end = true
+
+
+#func kill_player():
+#	if $player.dead and dead_delay > 0:
+#			dead_delay -= 1
+#
+#	if $player.dead and dead_delay == 0:
+#		if get_tree().paused:
+#			get_tree().paused = false
+#			hide()
+#			for n in range(16):
+#				var boom = $player.DEATH_BOOM.instance()
+#				boom.position = $player.position
+#				boom.id = n
+#				$overlap.add_child(boom)

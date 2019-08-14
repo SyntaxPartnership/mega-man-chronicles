@@ -35,3 +35,5 @@ frame = 4
 anims/anim = SubResource( 1 )
 
 [node name="on_screen" type="VisibilityNotifier2D" parent="."]
+rect = Rect2( -12, -12, 24, 24 )
+[connection signal="screen_exited" from="on_screen" to="." method="_on_screen_exited"]

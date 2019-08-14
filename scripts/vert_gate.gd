@@ -37,7 +37,7 @@ func _on_act_left_body_entered(body):
 		open = true
 		right = true
 		player.gate = true
-		world.kill()
+		world.kill_effects()
 		#Open the gate.
 		$anim.play('opening')
 
@@ -51,7 +51,7 @@ func _on_act_right_body_entered(body):
 		open = true
 		left = true
 		player.gate = true
-		world.kill()
+		world.kill_effects()
 		#Open the gate.
 		$anim.play('opening')
 

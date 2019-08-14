@@ -5,11 +5,8 @@ var dir = Vector2()
 var speed
 var velocity
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	$anim.play('anim')
-
-func _physics_process(delta):
 	
 	match id:
 		0:
@@ -60,5 +57,10 @@ func _physics_process(delta):
 		15:
 			dir = Vector2(-1, -1)
 			speed = 35
+
+func _physics_process(delta):
 	
 	position += (dir * speed) * delta
+
+func _on_screen_exited():
+	queue_free()
