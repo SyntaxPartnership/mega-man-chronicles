@@ -7,7 +7,8 @@ const CONFIG_FILE = 'user://options.cfg'
 
 
 func _ready():
-	load_config()
+#	load_config()
+	pass
 
 #Using the example of loading/saving from the Input Mapping tutorial.
 func load_config():

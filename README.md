@@ -155,6 +155,10 @@ Changes - Version 0.0.1 ():
 - Added the player's Death Boom.
 - Made death tiles capable of killing the player.
 - Fixed an issue where the player would sometimes get stuck in the floor if sliding immediately after landing on the floor.
+- Added the HUD.
+- Life Meter added.
+- Weapon Meters added.
+- Boss Meter added.
 
 Credits:
 --

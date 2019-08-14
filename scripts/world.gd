@@ -20,9 +20,10 @@ var ladder_set
 var ladder_top
 var player_room = Vector2(0, 0)
 var spawn_pt
+var boss = false
 var dead = false
 var dead_delay = 16
-var boom_count = 0
+var restart = 360
 var heal_delay
 
 #Camera values
@@ -286,7 +287,7 @@ func _rooms():
 func _process(delta):
 	_camera()
 	#Print Shit
-	print($fade/fade.state,', ',$fade/fade.end)
+	
 	
 	#Get other player information.
 	player_tilepos = $coll_mask/tiles.world_to_map(pos)
@@ -308,16 +309,16 @@ func _process(delta):
 				var boom = DEATH_BOOM.instance()
 				boom.position = $player.position
 				boom.id = n
-				boom_count += 1
 				$overlap.add_child(boom)
 			get_tree().paused = false
+			
+	if dead and dead_delay == 0 and restart > -1:
+		restart -= 1
 	
-	if dead and dead_delay == 0 and boom_count == 0:
+	if dead and dead_delay == 0 and restart == 0:
 		if !$fade/fade.end:
-			print('Setting Fade Out')
 			$fade/fade.state = 4
 			$fade/fade.end = true
-			boom_count = -1
 	
 	#Weapon Swapping.
 	if $player.can_move:
@@ -740,6 +741,8 @@ func palette_swap():
 	$player/sprite.material.set_shader_param('r_col3', palette[2])
 	
 	#HUD
+	$hud/hud/weap.material.set_shader_param('r_col2', palette[1])
+	$hud/hud/weap.material.set_shader_param('r_col3', palette[2])
 	
 	#Items
 	

@@ -16,9 +16,9 @@ extents = Vector2( 8, 7 )
 
 [sub_resource type="ShaderMaterial" id=4]
 shader = ExtResource( 2 )
-shader_param/t_col1 = null
-shader_param/t_col2 = null
-shader_param/t_col3 = null
+shader_param/t_col1 = Color( 0, 0, 0, 1 )
+shader_param/t_col2 = Color( 0, 0, 0, 1 )
+shader_param/t_col3 = Color( 0, 0, 0, 1 )
 shader_param/t_col4 = null
 shader_param/f_col1 = null
 shader_param/f_col2 = null

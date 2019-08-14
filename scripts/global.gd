@@ -6,7 +6,7 @@ var debug_menu = 0
 #Player Variables
 var player = 0
 var player_id = [0, 0]
-var player_life = [280, 280]
+var player_life = [140, 280]
 var player_weap = [0, 0]
 
 #Global Level/Option Flags
@@ -46,12 +46,12 @@ var rescued = false
 #Master Weapon flags and energy. First number determines if the weapon has been acquired or not. rp_coil will always be set to true at the start of the game.
 var rp_coil = [true, 280, 280]
 var rp_jet = [true, 280, 280]
-var weapon1 = [true, 280, 280]
-var weapon2 = [true, 280, 280]
+var weapon1 = [true, 10, 280]
+var weapon2 = [true, 20, 280]
 var weapon3 = [true, 280, 280]
-var weapon4 = [true, 280, 280]
+var weapon4 = [true, 0, 280]
 var weapon5 = [true, 280, 280]
-var weapon6 = [true, 280, 280]
+var weapon6 = [true, 140, 280]
 var weapon7 = [true, 280, 280]
 var weapon8 = [true, 280, 280]
 var beat = [true, 280, 280]
