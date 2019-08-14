@@ -1,11 +1,16 @@
 extends Node2D
 
+onready var world = get_parent().get_parent()
+
 var id = 0
 var dir = Vector2()
 var speed
 var velocity
 
 func _ready():
+	
+
+	
 	$anim.play('anim')
 	
 	match id:
@@ -63,4 +68,5 @@ func _physics_process(delta):
 	position += (dir * speed) * delta
 
 func _on_screen_exited():
+	world.boom_count -= 1
 	queue_free()

@@ -22,6 +22,7 @@ tracks/0/keys = {
 [node name="splash" type="Node2D" groups=[
 "effects",
 ]]
+pause_mode = 1
 script = ExtResource( 1 )
 
 [node name="sprite" type="Sprite" parent="."]

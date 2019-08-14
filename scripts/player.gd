@@ -18,16 +18,12 @@ const GRAVITY = 900
 #Player special effect constants.
 const DMG_SPARK = preload('res://scenes/dmg_spark.tscn')
 const SLIDE_SMOKE = preload('res://scenes/slide_smoke.tscn')
-const DEATH_BOOM = preload('res://scenes/s_explode_loop.tscn')
 
 #Determines if the player can move or not.
 var start_stage = false
 var can_move = false
 var lock_ctrl = false
 var gate = false
-var dead = false
-var dead_delay = 16
-var boom_count = 0
 
 #Handles the direction behing held on the D-Pad/Analog stick.
 var x_dir
@@ -689,10 +685,10 @@ func _physics_process(delta):
 			if is_on_floor() and collision.collider.name == 'ice':
 				ice = true
 			
-			if collision.collider.name == 'death':
+			if collision.collider.name == 'death' and blink_timer == 0 and hurt_timer == 0:
 				#Spawn the death boom. Replace when HP bar is added.
-				if !dead:
-					dead = true
+				if !world.dead:
+					world.dead = true
 					can_move = false
 					get_tree().paused = true
 			
@@ -704,7 +700,7 @@ func _physics_process(delta):
 			ice = false
 
 		#Print Shit
-		print(world.dead_delay)
+		
 
 #There are 3 states that the player will call. Animation, Action, and Shot
 #Pull the matching Animation State and set the animation accordingly.
@@ -751,10 +747,7 @@ func change_anim(new_anim):
 #Pull the action state.
 func act_state(new_act_state):
 	act_st = new_act_state
-	match act_st:
-		DEAD:
-# warning-ignore:return_value_discarded
-			get_tree().reload_current_scene()
+	#Add things here as necessary, if at all.
 
 #Pull the shooting/throwing state and set the appropriate texture.
 func shot_state(new_shot_state):

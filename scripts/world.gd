@@ -5,6 +5,9 @@ signal close_gate
 
 onready var objects = $graphic/objects
 
+#Object constants
+const DEATH_BOOM = preload('res://scenes/s_explode_loop.tscn')
+
 # warning-ignore:unused_class_variable
 var fade_state
 
@@ -17,7 +20,9 @@ var ladder_set
 var ladder_top
 var player_room = Vector2(0, 0)
 var spawn_pt
+var dead = false
 var dead_delay = 16
+var boom_count = 0
 var heal_delay
 
 #Camera values
@@ -281,7 +286,7 @@ func _rooms():
 func _process(delta):
 	_camera()
 	#Print Shit
-	
+	print($fade/fade.state,', ',$fade/fade.end)
 	
 	#Get other player information.
 	player_tilepos = $coll_mask/tiles.world_to_map(pos)
@@ -291,6 +296,28 @@ func _process(delta):
 	ladder_top = $coll_mask/tiles.map_to_world(player_tilepos)
 	player_room = Vector2(floor(pos.x / 256), floor(pos.y / 240))
 	spawn_pt = $coll_mask/spawn_pts.get_cellv($coll_mask/spawn_pts.world_to_map(Vector2(pos.x - 4, pos.y)))
+	
+	#If the player is dead, run the kill script.
+	if dead and dead_delay > 0:
+		dead_delay -= 1
+	
+	if dead and dead_delay == 0:
+		if $player.is_visible():
+			$player.hide()
+			for n in range(16):
+				var boom = DEATH_BOOM.instance()
+				boom.position = $player.position
+				boom.id = n
+				boom_count += 1
+				$overlap.add_child(boom)
+			get_tree().paused = false
+	
+	if dead and dead_delay == 0 and boom_count == 0:
+		if !$fade/fade.end:
+			print('Setting Fade Out')
+			$fade/fade.state = 4
+			$fade/fade.end = true
+			boom_count = -1
 	
 	#Weapon Swapping.
 	if $player.can_move:
@@ -521,6 +548,9 @@ func _on_fade_fadeout():
 
 		$fade/fade.begin = true
 		$fade/fade.state = 3
+	
+	if $fade/fade.state == 4:
+		get_tree().reload_current_scene()
 
 func palette_swap():
 	#Set palettes for the player.
@@ -726,14 +756,14 @@ func spawn_objects():
 			$graphic.add_child(c)
 
 func splash():
-	if !$player.dead:
+	if !dead:
 		var splash = load('res://scenes/splash.tscn').instance()
 		$overlap.add_child(splash)
 		splash.position.x = $player.position.x
 		splash.position.y = $coll_mask/tiles.map_to_world(player_tilepos).y - 2
 
 func bubble():
-	if !$player.dead:
+	if !dead:
 		var bubble = load('res://scenes/bubble.tscn').instance()
 		$overlap.add_child(bubble)
 		bubble.position = $player.position

@@ -25,6 +25,6 @@ func _process(delta):
 func _on_fade_fade_tween_completed(object, key):
 	if state == 0 or state == 3:
 		emit_signal("fadein")
-	if state == 1 or state == 2:
+	if state == 1 or state == 2 or state == 4:
 		emit_signal("fadeout")
 		
