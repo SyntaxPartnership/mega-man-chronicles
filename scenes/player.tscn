@@ -400,11 +400,9 @@ position = Vector2( 0, -7 )
 shape = SubResource( 1 )
 
 [node name="standbox" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource( 2 )
 
 [node name="slidebox" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2( 0, 5 )
 shape = SubResource( 3 )
 disabled = true
@@ -450,19 +448,15 @@ anims/stand-shot-d-up = SubResource( 25 )
 anims/stand-shot-up = SubResource( 26 )
 
 [node name="slide_top" type="Area2D" parent="."]
-editor/display_folded = true
-visible = false
 position = Vector2( 0, -4 )
 collision_layer = 2
 collision_mask = 0
 
 [node name="area" type="CollisionShape2D" parent="slide_top"]
-visible = false
 shape = SubResource( 27 )
 
 [node name="slide_wall" type="Area2D" parent="."]
 editor/display_folded = true
-visible = false
 position = Vector2( 7, 0 )
 collision_layer = 2
 collision_mask = 0

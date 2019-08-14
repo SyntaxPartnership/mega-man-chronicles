@@ -316,7 +316,7 @@ func _physics_process(delta):
 					anim_state(IDLE)
 				
 				#Reset the jumps counter. Cancel sliding.
-				if !jump and is_on_floor() and jumps == 0:
+				if !jump and is_on_floor() and jumps == 0 and !slide:
 					jumps = 1
 					slide = false
 					slide_timer = 0
@@ -326,6 +326,7 @@ func _physics_process(delta):
 				
 				#When the slide timer reaches 0. Cancel slide.
 				if slide_timer == 0 and slide and is_on_floor() and !slide_top:
+					slide_timer = 0
 					if x_dir == 0:
 						anim_state(IDLE)
 					else:
@@ -349,12 +350,12 @@ func _physics_process(delta):
 				
 				#When the player is no longer on the floor, cancel slide.
 				if slide and !is_on_floor() and jumps > 0:
-					slide = false
 					slide_timer = 0
-					jumps = 0
 					anim_state(JUMP)
+					jumps = 0
 					$standbox.set_disabled(false)
 					$slidebox.set_disabled(true)
+					slide = false
 				
 				#When the opposite direction is pressed on the ground, cancel slide.
 				if slide:
@@ -364,6 +365,13 @@ func _physics_process(delta):
 						$standbox.set_disabled(false)
 						$slidebox.set_disabled(true)
 						slide = false
+				
+				#Failsafe in case the player gets stuck on the floor.
+				if is_on_floor() and !slide and slide_timer <= 0 and anim_st == 6 and !slide_top:
+					if x_dir == 0:
+						anim_state(IDLE)
+					else:
+						anim_state(RUN)
 
 				#Change the player's animation based on if they're on the floor or not.
 				if !is_on_floor() and anim_st != JUMP and !force_idle:
@@ -421,7 +429,7 @@ func _physics_process(delta):
 					
 				#Begin sliding functions.
 				if global.player == 0:
-					if y_dir == 1 and jump_tap and is_on_floor() and !wall:
+					if y_dir == 1 and jump_tap and is_on_floor() and !wall and !slide:
 						anim_state(SLIDE)
 						#Add slide smoke.
 						var smoke = SLIDE_SMOKE.instance()
@@ -434,7 +442,7 @@ func _physics_process(delta):
 						$standbox.set_disabled(true)
 						$slidebox.set_disabled(false)
 				else:
-					if dash_tap and is_on_floor() and !wall:
+					if dash_tap and is_on_floor() and !wall and !slide:
 						anim_state(SLIDE)
 						var smoke = SLIDE_SMOKE.instance()
 						var smk_sprite = smoke.get_child(0)
@@ -458,7 +466,7 @@ func _physics_process(delta):
 								slide_act += 1
 								
 						if slide_act == 2:
-							if left_tap and slide_tap_dir == -1 or right_tap and slide_tap_dir == 1:
+							if left_tap and slide_tap_dir == -1 or right_tap and slide_tap_dir == 1 and !slide:
 								slide = true
 								slide_timer = 15
 								anim_state(SLIDE)
@@ -661,7 +669,6 @@ func _physics_process(delta):
 				var boom = DEATH_BOOM.instance()
 				boom.position = position
 				boom.id = n
-				print(n,', ',boom.id)
 				effect.add_child(boom)
 
 		#Move the player
@@ -697,7 +704,6 @@ func _physics_process(delta):
 			ice = false
 
 		#Print Shit
-		
 
 #There are 3 states that the player will call. Animation, Action, and Shot
 #Pull the matching Animation State and set the animation accordingly.
