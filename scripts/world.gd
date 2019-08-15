@@ -60,6 +60,8 @@ var spl_trigger = false
 var bbl_count = 0
 
 func _ready():
+	print(global.player_life)
+	
 	res = get_viewport_rect().size
 	
 	#Hide Object Layer
@@ -299,6 +301,14 @@ func _process(delta):
 	spawn_pt = $coll_mask/spawn_pts.get_cellv($coll_mask/spawn_pts.world_to_map(Vector2(pos.x - 4, pos.y)))
 	
 	#If the player is dead, run the kill script.
+	if $player.position.y > $player/camera.limit_bottom + 24 and !dead:
+		global.player_life[0] = 0
+		global.player_life[1] = 0
+		dead = true
+		$player.can_move = false
+		get_tree().paused = true
+		$player.hide()
+	
 	if dead and dead_delay > 0:
 		dead_delay -= 1
 	
@@ -310,7 +320,7 @@ func _process(delta):
 				boom.position = $player.position
 				boom.id = n
 				$overlap.add_child(boom)
-			get_tree().paused = false
+		get_tree().paused = false
 			
 	if dead and dead_delay == 0 and restart > -1:
 		restart -= 1
@@ -525,7 +535,6 @@ func _process(delta):
 func _on_fade_fadein():
 	
 	if $fade/fade.state == 3 and $player.lock_ctrl:
-		print('Reappearing')
 		$player/anim.stop(true)
 		$player.show()
 		$player/anim.play('appear1')
@@ -551,6 +560,10 @@ func _on_fade_fadeout():
 		$fade/fade.state = 3
 	
 	if $fade/fade.state == 4:
+		print('Refilling Life 1')
+		global.player_life[0] = 280
+		print('Refilling Life 2')
+		global.player_life[1] = 280
 		get_tree().reload_current_scene()
 
 func palette_swap():

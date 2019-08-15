@@ -159,6 +159,8 @@ Changes - Version 0.0.1 ():
 - Life Meter added.
 - Weapon Meters added.
 - Boss Meter added.
+- Pits now kill the player.
+- Life energy is restored when the stage restarts after a death.
 
 Credits:
 --

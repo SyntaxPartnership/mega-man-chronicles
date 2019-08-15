@@ -688,6 +688,8 @@ func _physics_process(delta):
 			if collision.collider.name == 'death' and blink_timer == 0 and hurt_timer == 0:
 				#Spawn the death boom. Replace when HP bar is added.
 				if !world.dead:
+					global.player_life[0] = 0
+					global.player_life[1] = 0
 					world.dead = true
 					can_move = false
 					get_tree().paused = true
