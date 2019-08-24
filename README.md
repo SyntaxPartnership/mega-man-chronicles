@@ -161,6 +161,7 @@ Changes - Version 0.0.1 ():
 - Boss Meter added.
 - Pits now kill the player.
 - Life energy is restored when the stage restarts after a death.
+- Fixed a 'Can't change state while flushing queries' error with the boss gates.
 
 Credits:
 --

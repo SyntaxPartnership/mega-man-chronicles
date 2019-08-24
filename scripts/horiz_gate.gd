@@ -29,8 +29,6 @@ func _physics_process(delta):
 
 func _on_act_top_body_entered(body):
 	if !$act_top/box.is_disabled():
-		$act_top/box.set_disabled(true)
-		$act_bottom/box.set_disabled(true)
 		#Stop player animation
 		player_anim.stop()
 		player.can_move = false
@@ -43,8 +41,6 @@ func _on_act_top_body_entered(body):
 
 func _on_act_bottom_body_entered(body):
 	if !$act_bottom/box.is_disabled():
-		$act_top/box.set_disabled(true)
-		$act_bottom/box.set_disabled(true)
 		#Stop player animation
 		player_anim.stop()
 		player.can_move = false
@@ -54,6 +50,7 @@ func _on_act_bottom_body_entered(body):
 		world.kill_effects()
 		#Open the gate.
 		$anim.play('opening')
+		
 
 func _on_act_top_body_exited(body):
 	bottom = false
@@ -68,6 +65,9 @@ func _on_anim_animation_finished(opening):
 		world.scroll_len = -world.res.y
 		world.cam_move = 1
 		top = false
+		#Disable the area2d boxes
+		$act_top/box.set_deferred('disabled', true)
+		$act_bottom/box.set_deferred('disabled', true)
 	
 	if open and bottom:
 		player_anim.play()
@@ -75,6 +75,9 @@ func _on_anim_animation_finished(opening):
 		world.scroll_len = world.res.y
 		world.cam_move = 2
 		bottom = false
+		#Disable the area2d boxes
+		$act_top/box.set_deferred('disabled', true)
+		$act_bottom/box.set_deferred('disabled', true)
 	
 	if !open:
 		player_anim.play()

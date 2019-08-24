@@ -29,8 +29,6 @@ func _physics_process(delta):
 
 func _on_act_left_body_entered(body):
 	if !$act_left/box.is_disabled():
-		$act_left/box.set_disabled(true)
-		$act_right/box.set_disabled(true)
 		#Stop player animation
 		player_anim.stop()
 		player.can_move = false
@@ -43,8 +41,6 @@ func _on_act_left_body_entered(body):
 
 func _on_act_right_body_entered(body):
 	if !$act_right/box.is_disabled():
-		$act_left/box.set_disabled(true)
-		$act_right/box.set_disabled(true)
 		#Stop player animation
 		player_anim.stop()
 		player.can_move = false
@@ -70,6 +66,9 @@ func _on_anim_animation_finished(opening):
 		world.scroll_len = -world.res.x
 		world.cam_move = 3
 		left = false
+		#Disable the area2d boxes
+		$act_left/box.set_deferred('disabled', true)
+		$act_right/box.set_deferred('disabled', true)
 	
 	if open and right:
 		player_anim.play()
@@ -79,6 +78,9 @@ func _on_anim_animation_finished(opening):
 		world.scroll_len = world.res.x
 		world.cam_move = 4
 		right = false
+		#Disable the area2d boxes
+		$act_left/box.set_deferred('disabled', true)
+		$act_right/box.set_deferred('disabled', true)
 	
 	if !open:
 		player_anim.play()
