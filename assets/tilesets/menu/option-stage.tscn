@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://assets/tilesets/menu/option-stage.png" type="Texture" id=1]
+[ext_resource path="res://assets/tilesets/menu/option-stage_2.png" type="Texture" id=1]
 
 [node name="option-stage" type="Node2D"]
 
@@ -389,14 +389,14 @@ hframes = 21
 frame = 55
 
 [node name="tile56" type="Sprite" parent="."]
-position = Vector2( 152, 32 )
+position = Vector2( 164, 32 )
 texture = ExtResource( 1 )
 vframes = 3
 hframes = 21
 frame = 56
 
 [node name="tile57" type="Sprite" parent="."]
-position = Vector2( 164, 32 )
+position = Vector2( 176, 32 )
 texture = ExtResource( 1 )
 vframes = 3
 hframes = 21
