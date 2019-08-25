@@ -380,3 +380,24 @@ texture = ExtResource( 1 )
 vframes = 3
 hframes = 21
 frame = 54
+
+[node name="tile55" type="Sprite" parent="."]
+position = Vector2( 152, 32 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 21
+frame = 55
+
+[node name="tile56" type="Sprite" parent="."]
+position = Vector2( 152, 32 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 21
+frame = 56
+
+[node name="tile57" type="Sprite" parent="."]
+position = Vector2( 164, 32 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 21
+frame = 57

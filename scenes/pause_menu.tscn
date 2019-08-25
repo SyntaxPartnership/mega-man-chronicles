@@ -1,0 +1,565 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://assets/tilesets/menu/option-stage.tres" type="TileSet" id=1]
+[ext_resource path="res://assets/font.tres" type="DynamicFont" id=2]
+[ext_resource path="res://assets/sprites/player/weapicons.png" type="Texture" id=3]
+[ext_resource path="res://assets/sprites/pause/meter_e.png" type="Texture" id=4]
+[ext_resource path="res://assets/sprites/pause/meter_f.png" type="Texture" id=5]
+[ext_resource path="res://assets/sprites/pause/p_icons.png" type="Texture" id=6]
+
+[node name="pause_menu" type="Node2D"]
+
+[node name="background" type="TileMap" parent="."]
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 8, 8 )
+format = 1
+tile_data = PoolIntArray( 0, 48, 0, 1, 48, 0, 2, 48, 0, 3, 48, 0, 4, 48, 0, 5, 48, 0, 6, 28, 0, 7, 29, 0, 8, 30, 0, 9, 31, 0, 10, 31, 0, 11, 31, 0, 12, 31, 0, 13, 31, 0, 14, 31, 0, 15, 31, 0, 16, 31, 0, 17, 31, 0, 18, 31, 0, 19, 31, 0, 20, 31, 0, 21, 31, 0, 22, 31, 0, 23, 32, 0, 24, 33, 0, 25, 34, 0, 26, 48, 0, 27, 48, 0, 28, 48, 0, 29, 48, 0, 30, 48, 0, 31, 48, 0, 65536, 28, 0, 65537, 29, 0, 65538, 30, 0, 65539, 31, 0, 65540, 32, 0, 65541, 33, 0, 65542, 55, 0, 65561, 56, 0, 65562, 29, 0, 65563, 30, 0, 65564, 31, 0, 65565, 32, 0, 65566, 33, 0, 65567, 34, 0, 131072, 49, 0, 131103, 50, 0, 196608, 53, 0, 196639, 53, 0, 262144, 53, 0, 262175, 53, 0, 327680, 53, 0, 327711, 53, 0, 393216, 53, 0, 393247, 53, 0, 458752, 53, 0, 458783, 53, 0, 524288, 53, 0, 524319, 53, 0, 589824, 53, 0, 589855, 53, 0, 655360, 53, 0, 655391, 53, 0, 720896, 53, 0, 720927, 53, 0, 786432, 53, 0, 786463, 53, 0, 851968, 53, 0, 851999, 53, 0, 917504, 53, 0, 917535, 53, 0, 983040, 51, 0, 983071, 52, 0, 1048576, 53, 0, 1048577, 54, 0, 1048578, 54, 0, 1048579, 54, 0, 1048580, 54, 0, 1048581, 54, 0, 1048582, 54, 0, 1048583, 54, 0, 1048584, 54, 0, 1048585, 54, 0, 1048586, 54, 0, 1048587, 54, 0, 1048588, 54, 0, 1048589, 54, 0, 1048590, 54, 0, 1048591, 54, 0, 1048592, 54, 0, 1048593, 54, 0, 1048594, 54, 0, 1048595, 54, 0, 1048596, 54, 0, 1048597, 54, 0, 1048598, 54, 0, 1048599, 54, 0, 1048600, 54, 0, 1048601, 54, 0, 1048602, 54, 0, 1048603, 54, 0, 1048604, 54, 0, 1048605, 54, 0, 1048606, 54, 0, 1048607, 53, 0, 1114112, 49, 0, 1114126, 53, 0, 1114143, 50, 0, 1179648, 53, 0, 1179662, 53, 0, 1179664, 0, 0, 1179665, 5, 0, 1179667, 0, 0, 1179668, 5, 0, 1179670, 0, 0, 1179671, 5, 0, 1179673, 0, 0, 1179674, 5, 0, 1179676, 0, 0, 1179677, 5, 0, 1179679, 53, 0, 1245184, 53, 0, 1245198, 53, 0, 1245200, 14, 0, 1245201, 19, 0, 1245203, 14, 0, 1245204, 19, 0, 1245206, 14, 0, 1245207, 19, 0, 1245209, 14, 0, 1245210, 19, 0, 1245212, 14, 0, 1245213, 19, 0, 1245215, 53, 0, 1310720, 53, 0, 1310734, 51, 0, 1310751, 52, 0, 1376256, 53, 0, 1376270, 53, 0, 1376271, 54, 0, 1376272, 54, 0, 1376273, 54, 0, 1376274, 54, 0, 1376275, 54, 0, 1376276, 54, 0, 1376277, 54, 0, 1376278, 54, 0, 1376279, 54, 0, 1376280, 54, 0, 1376281, 54, 0, 1376282, 54, 0, 1376283, 54, 0, 1376284, 54, 0, 1376285, 54, 0, 1376286, 54, 0, 1376287, 53, 0, 1441792, 53, 0, 1441806, 49, 0, 1441823, 50, 0, 1507328, 53, 0, 1507342, 53, 0, 1507344, 0, 0, 1507345, 5, 0, 1507347, 0, 0, 1507348, 5, 0, 1507350, 0, 0, 1507351, 5, 0, 1507353, 0, 0, 1507354, 5, 0, 1507356, 0, 0, 1507357, 5, 0, 1507359, 53, 0, 1572864, 53, 0, 1572878, 53, 0, 1572880, 14, 0, 1572881, 19, 0, 1572883, 14, 0, 1572884, 19, 0, 1572886, 14, 0, 1572887, 19, 0, 1572889, 14, 0, 1572890, 19, 0, 1572892, 14, 0, 1572893, 19, 0, 1572895, 53, 0, 1638400, 53, 0, 1638414, 53, 0, 1638431, 53, 0, 1703936, 53, 0, 1703950, 53, 0, 1703952, 0, 0, 1703953, 5, 0, 1703955, 0, 0, 1703956, 5, 0, 1703958, 0, 0, 1703959, 5, 0, 1703961, 0, 0, 1703962, 5, 0, 1703964, 0, 0, 1703965, 5, 0, 1703967, 53, 0, 1769472, 53, 0, 1769486, 53, 0, 1769488, 14, 0, 1769489, 19, 0, 1769491, 14, 0, 1769492, 19, 0, 1769494, 14, 0, 1769495, 19, 0, 1769497, 14, 0, 1769498, 19, 0, 1769500, 14, 0, 1769501, 19, 0, 1769503, 53, 0, 1835008, 51, 0, 1835022, 53, 0, 1835039, 52, 0, 1900544, 37, 0, 1900545, 38, 0, 1900546, 39, 0, 1900547, 40, 0, 1900548, 40, 0, 1900549, 40, 0, 1900550, 40, 0, 1900551, 40, 0, 1900552, 40, 0, 1900553, 40, 0, 1900554, 40, 0, 1900555, 40, 0, 1900556, 40, 0, 1900557, 40, 0, 1900558, 40, 0, 1900559, 40, 0, 1900560, 40, 0, 1900561, 40, 0, 1900562, 40, 0, 1900563, 40, 0, 1900564, 40, 0, 1900565, 40, 0, 1900566, 40, 0, 1900567, 40, 0, 1900568, 40, 0, 1900569, 40, 0, 1900570, 40, 0, 1900571, 40, 0, 1900572, 40, 0, 1900573, 41, 0, 1900574, 42, 0, 1900575, 43, 0 )
+
+[node name="top" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 64.0
+margin_top = 8.0
+margin_right = 192.0
+margin_bottom = 13.0
+custom_fonts/font = ExtResource( 2 )
+text = "-WEAPONS ENERGY-"
+
+[node name="weap_01" type="Control" parent="."]
+editor/display_folded = true
+margin_left = -8.0
+margin_top = -8.0
+margin_right = 32.0
+margin_bottom = 32.0
+
+[node name="icon" type="Sprite" parent="weap_01"]
+position = Vector2( 48, 40 )
+texture = ExtResource( 3 )
+vframes = 18
+
+[node name="text" type="Label" parent="weap_01"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 36.0
+margin_top = 32.0
+margin_right = 108.0
+margin_bottom = 37.0
+custom_fonts/font = ExtResource( 2 )
+text = "M. BUSTER"
+
+[node name="meter" type="TextureProgress" parent="weap_01"]
+margin_left = 64.0
+margin_top = 40.0
+margin_right = 120.0
+margin_bottom = 48.0
+max_value = 280.0
+value = 280.0
+texture_under = ExtResource( 4 )
+texture_progress = ExtResource( 5 )
+
+[node name="weap_02" type="Control" parent="."]
+editor/display_folded = true
+margin_left = -8.0
+margin_top = -8.0
+margin_right = 32.0
+margin_bottom = 32.0
+
+[node name="icon" type="Sprite" parent="weap_02"]
+position = Vector2( 48, 56 )
+texture = ExtResource( 3 )
+vframes = 18
+frame = 2
+
+[node name="text" type="Label" parent="weap_02"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 36.0
+margin_top = 48.0
+margin_right = 108.0
+margin_bottom = 53.0
+custom_fonts/font = ExtResource( 2 )
+text = "RUSH COIL"
+
+[node name="meter" type="TextureProgress" parent="weap_02"]
+margin_left = 64.0
+margin_top = 56.0
+margin_right = 120.0
+margin_bottom = 64.0
+max_value = 280.0
+value = 280.0
+texture_under = ExtResource( 4 )
+texture_progress = ExtResource( 5 )
+
+[node name="weap_03" type="Control" parent="."]
+editor/display_folded = true
+margin_left = -8.0
+margin_top = -8.0
+margin_right = 32.0
+margin_bottom = 32.0
+
+[node name="icon" type="Sprite" parent="weap_03"]
+position = Vector2( 48, 72 )
+texture = ExtResource( 3 )
+vframes = 18
+frame = 3
+
+[node name="text" type="Label" parent="weap_03"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 36.0
+margin_top = 64.0
+margin_right = 108.0
+margin_bottom = 69.0
+custom_fonts/font = ExtResource( 2 )
+text = "RUSH JET"
+
+[node name="meter" type="TextureProgress" parent="weap_03"]
+margin_left = 64.0
+margin_top = 72.0
+margin_right = 120.0
+margin_bottom = 80.0
+max_value = 280.0
+value = 280.0
+texture_under = ExtResource( 4 )
+texture_progress = ExtResource( 5 )
+
+[node name="weap_04" type="Control" parent="."]
+editor/display_folded = true
+margin_left = -8.0
+margin_top = -8.0
+margin_right = 32.0
+margin_bottom = 32.0
+
+[node name="icon" type="Sprite" parent="weap_04"]
+position = Vector2( 48, 88 )
+texture = ExtResource( 3 )
+vframes = 18
+frame = 7
+
+[node name="text" type="Label" parent="weap_04"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 36.0
+margin_top = 80.0
+margin_right = 108.0
+margin_bottom = 85.0
+custom_fonts/font = ExtResource( 2 )
+text = "WEAP - 01"
+
+[node name="meter" type="TextureProgress" parent="weap_04"]
+margin_left = 64.0
+margin_top = 88.0
+margin_right = 120.0
+margin_bottom = 96.0
+max_value = 280.0
+value = 280.0
+texture_under = ExtResource( 4 )
+texture_progress = ExtResource( 5 )
+
+[node name="weap_05" type="Control" parent="."]
+editor/display_folded = true
+margin_left = -8.0
+margin_top = -8.0
+margin_right = 32.0
+margin_bottom = 32.0
+
+[node name="icon" type="Sprite" parent="weap_05"]
+position = Vector2( 48, 104 )
+texture = ExtResource( 3 )
+vframes = 18
+frame = 7
+
+[node name="text" type="Label" parent="weap_05"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 36.0
+margin_top = 96.0
+margin_right = 108.0
+margin_bottom = 104.0
+custom_fonts/font = ExtResource( 2 )
+text = "WEAP - 02"
+
+[node name="meter" type="TextureProgress" parent="weap_05"]
+margin_left = 64.0
+margin_top = 104.0
+margin_right = 120.0
+margin_bottom = 112.0
+max_value = 280.0
+value = 280.0
+texture_under = ExtResource( 4 )
+texture_progress = ExtResource( 5 )
+
+[node name="weap_06" type="Control" parent="."]
+editor/display_folded = true
+margin_left = -8.0
+margin_top = -8.0
+margin_right = 32.0
+margin_bottom = 32.0
+
+[node name="icon" type="Sprite" parent="weap_06"]
+position = Vector2( 48, 120 )
+texture = ExtResource( 3 )
+vframes = 18
+frame = 7
+
+[node name="text" type="Label" parent="weap_06"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 36.0
+margin_top = 112.0
+margin_right = 108.0
+margin_bottom = 120.0
+custom_fonts/font = ExtResource( 2 )
+text = "WEAP - 03"
+
+[node name="meter" type="TextureProgress" parent="weap_06"]
+margin_left = 64.0
+margin_top = 120.0
+margin_right = 120.0
+margin_bottom = 128.0
+max_value = 280.0
+value = 280.0
+texture_under = ExtResource( 4 )
+texture_progress = ExtResource( 5 )
+
+[node name="weap_07" type="Control" parent="."]
+editor/display_folded = true
+margin_left = -8.0
+margin_top = -8.0
+margin_right = 32.0
+margin_bottom = 32.0
+
+[node name="icon" type="Sprite" parent="weap_07"]
+position = Vector2( 152, 40 )
+texture = ExtResource( 3 )
+vframes = 18
+frame = 7
+
+[node name="text" type="Label" parent="weap_07"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 140.0
+margin_top = 32.0
+margin_right = 212.0
+margin_bottom = 40.0
+custom_fonts/font = ExtResource( 2 )
+text = "WEAP - 04"
+
+[node name="meter" type="TextureProgress" parent="weap_07"]
+margin_left = 168.0
+margin_top = 40.0
+margin_right = 224.0
+margin_bottom = 48.0
+max_value = 280.0
+value = 280.0
+texture_under = ExtResource( 4 )
+texture_progress = ExtResource( 5 )
+
+[node name="weap_08" type="Control" parent="."]
+editor/display_folded = true
+margin_left = -8.0
+margin_top = -8.0
+margin_right = 32.0
+margin_bottom = 32.0
+
+[node name="icon" type="Sprite" parent="weap_08"]
+position = Vector2( 152, 56 )
+texture = ExtResource( 3 )
+vframes = 18
+frame = 7
+
+[node name="text" type="Label" parent="weap_08"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 140.0
+margin_top = 48.0
+margin_right = 212.0
+margin_bottom = 56.0
+custom_fonts/font = ExtResource( 2 )
+text = "WEAP - 05"
+
+[node name="meter" type="TextureProgress" parent="weap_08"]
+margin_left = 168.0
+margin_top = 56.0
+margin_right = 224.0
+margin_bottom = 64.0
+max_value = 280.0
+value = 280.0
+texture_under = ExtResource( 4 )
+texture_progress = ExtResource( 5 )
+
+[node name="weap_09" type="Control" parent="."]
+editor/display_folded = true
+margin_left = -8.0
+margin_top = -8.0
+margin_right = 32.0
+margin_bottom = 32.0
+
+[node name="icon" type="Sprite" parent="weap_09"]
+position = Vector2( 152, 72 )
+texture = ExtResource( 3 )
+vframes = 18
+frame = 7
+
+[node name="text" type="Label" parent="weap_09"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 140.0
+margin_top = 64.0
+margin_right = 212.0
+margin_bottom = 72.0
+custom_fonts/font = ExtResource( 2 )
+text = "WEAP - 06"
+
+[node name="meter" type="TextureProgress" parent="weap_09"]
+margin_left = 168.0
+margin_top = 72.0
+margin_right = 224.0
+margin_bottom = 80.0
+max_value = 280.0
+value = 280.0
+texture_under = ExtResource( 4 )
+texture_progress = ExtResource( 5 )
+
+[node name="weap_10" type="Control" parent="."]
+editor/display_folded = true
+margin_left = -8.0
+margin_top = -8.0
+margin_right = 32.0
+margin_bottom = 32.0
+
+[node name="icon" type="Sprite" parent="weap_10"]
+position = Vector2( 152, 88 )
+texture = ExtResource( 3 )
+vframes = 18
+frame = 7
+
+[node name="text" type="Label" parent="weap_10"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 140.0
+margin_top = 80.0
+margin_right = 212.0
+margin_bottom = 88.0
+custom_fonts/font = ExtResource( 2 )
+text = "WEAP - 07"
+
+[node name="meter" type="TextureProgress" parent="weap_10"]
+margin_left = 168.0
+margin_top = 88.0
+margin_right = 224.0
+margin_bottom = 96.0
+max_value = 280.0
+value = 280.0
+texture_under = ExtResource( 4 )
+texture_progress = ExtResource( 5 )
+
+[node name="weap_11" type="Control" parent="."]
+editor/display_folded = true
+margin_left = -8.0
+margin_top = -8.0
+margin_right = 32.0
+margin_bottom = 32.0
+
+[node name="icon" type="Sprite" parent="weap_11"]
+position = Vector2( 152, 104 )
+texture = ExtResource( 3 )
+vframes = 18
+frame = 7
+
+[node name="text" type="Label" parent="weap_11"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 140.0
+margin_top = 96.0
+margin_right = 212.0
+margin_bottom = 104.0
+custom_fonts/font = ExtResource( 2 )
+text = "WEAP - 08"
+
+[node name="meter" type="TextureProgress" parent="weap_11"]
+margin_left = 168.0
+margin_top = 104.0
+margin_right = 224.0
+margin_bottom = 112.0
+max_value = 280.0
+value = 280.0
+texture_under = ExtResource( 4 )
+texture_progress = ExtResource( 5 )
+
+[node name="weap_12" type="Control" parent="."]
+editor/display_folded = true
+margin_left = -8.0
+margin_top = -8.0
+margin_right = 32.0
+margin_bottom = 32.0
+
+[node name="icon" type="Sprite" parent="weap_12"]
+position = Vector2( 152, 120 )
+texture = ExtResource( 3 )
+vframes = 18
+frame = 7
+
+[node name="text" type="Label" parent="weap_12"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 140.0
+margin_top = 112.0
+margin_right = 212.0
+margin_bottom = 120.0
+custom_fonts/font = ExtResource( 2 )
+text = "B. ATTACK"
+
+[node name="meter" type="TextureProgress" parent="weap_12"]
+margin_left = 168.0
+margin_top = 120.0
+margin_right = 224.0
+margin_bottom = 128.0
+max_value = 280.0
+value = 280.0
+texture_under = ExtResource( 4 )
+texture_progress = ExtResource( 5 )
+
+[node name="plyr_1" type="Control" parent="."]
+editor/display_folded = true
+margin_left = -8.0
+margin_top = -8.0
+margin_right = 32.0
+margin_bottom = 32.0
+
+[node name="icon" type="Sprite" parent="plyr_1"]
+position = Vector2( 36, 160 )
+texture = ExtResource( 6 )
+hframes = 3
+
+[node name="text" type="Label" parent="plyr_1"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 28.0
+margin_top = 152.0
+margin_right = 100.0
+margin_bottom = 160.0
+custom_fonts/font = ExtResource( 2 )
+text = "MEGA MAN"
+
+[node name="meter" type="TextureProgress" parent="plyr_1"]
+margin_left = 48.0
+margin_top = 160.0
+margin_right = 104.0
+margin_bottom = 168.0
+max_value = 280.0
+value = 280.0
+texture_under = ExtResource( 4 )
+texture_progress = ExtResource( 5 )
+
+[node name="plyr_2" type="Control" parent="."]
+editor/display_folded = true
+margin_left = -8.0
+margin_top = -8.0
+margin_right = 32.0
+margin_bottom = 32.0
+
+[node name="icon" type="Sprite" parent="plyr_2"]
+position = Vector2( 36, 192 )
+texture = ExtResource( 6 )
+hframes = 3
+
+[node name="text" type="Label" parent="plyr_2"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 28.0
+margin_top = 184.0
+margin_right = 100.0
+margin_bottom = 192.0
+custom_fonts/font = ExtResource( 2 )
+text = "PROTO MAN"
+
+[node name="meter" type="TextureProgress" parent="plyr_2"]
+margin_left = 48.0
+margin_top = 192.0
+margin_right = 104.0
+margin_bottom = 200.0
+max_value = 280.0
+value = 280.0
+texture_under = ExtResource( 4 )
+texture_progress = ExtResource( 5 )
+
+[node name="etank" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 128.0
+margin_top = 160.0
+margin_right = 144.0
+margin_bottom = 168.0
+custom_fonts/font = ExtResource( 2 )
+text = "00"
+
+[node name="mtank" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 152.0
+margin_top = 160.0
+margin_right = 168.0
+margin_bottom = 168.0
+custom_fonts/font = ExtResource( 2 )
+text = "00"
+
+[node name="spk_prot" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 176.0
+margin_top = 160.0
+margin_right = 192.0
+margin_bottom = 168.0
+custom_fonts/font = ExtResource( 2 )
+text = "00"
+
+[node name="half_dmg" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 200.0
+margin_top = 160.0
+margin_right = 216.0
+margin_bottom = 168.0
+custom_fonts/font = ExtResource( 2 )
+text = "00"
+
+[node name="bolts" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 80.0
+margin_top = 216.0
+margin_right = 104.0
+margin_bottom = 224.0
+custom_fonts/font = ExtResource( 2 )
+text = "000"
+
+[node name="lives" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 40.0
+margin_top = 216.0
+margin_right = 64.0
+margin_bottom = 224.0
+custom_fonts/font = ExtResource( 2 )
+text = "00"
+
+[node name="colon" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 72.0
+margin_top = 216.0
+margin_right = 80.0
+margin_bottom = 224.0
+custom_fonts/font = ExtResource( 2 )
+text = ":"
+
+[node name="colon2" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 32.0
+margin_top = 216.0
+margin_right = 40.0
+margin_bottom = 224.0
+custom_fonts/font = ExtResource( 2 )
+text = ":"
