@@ -799,18 +799,3 @@ func _on_teleport():
 		$player.hide()
 		$fade/fade.state = 2
 		$fade/fade.end = true
-
-
-#func kill_player():
-#	if $player.dead and dead_delay > 0:
-#			dead_delay -= 1
-#
-#	if $player.dead and dead_delay == 0:
-#		if get_tree().paused:
-#			get_tree().paused = false
-#			hide()
-#			for n in range(16):
-#				var boom = $player.DEATH_BOOM.instance()
-#				boom.position = $player.position
-#				boom.id = n
-#				$overlap.add_child(boom)

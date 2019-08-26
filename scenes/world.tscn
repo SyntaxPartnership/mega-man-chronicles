@@ -180,6 +180,7 @@ script = ExtResource( 16 )
 [node name="pause" type="CanvasLayer" parent="."]
 
 [node name="pause_menu" parent="pause" instance=ExtResource( 18 )]
+visible = false
 
 [node name="debug_stats" type="CanvasLayer" parent="."]
 editor/display_folded = true

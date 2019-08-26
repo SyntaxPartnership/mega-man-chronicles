@@ -127,6 +127,11 @@ func _ready():
 	$sprite.material.set_shader_param('t_col4', global.t_color4)
 	#Set transparent pixels.
 	$sprite.material.set_shader_param('trans', global.trans)
+	#Set facial colors
+	$sprite.material.set_shader_param('f_col1', global.black)
+	$sprite.material.set_shader_param('f_col2', global.yellow0)
+	$sprite.material.set_shader_param('f_col3', global.white)
+	
 	#Set colors
 	world.palette_swap()
 	

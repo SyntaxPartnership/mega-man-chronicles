@@ -23,6 +23,8 @@ func _ready():
 
 # warning-ignore:unused_argument
 func _input(event):
+	if !get_tree().paused:
+		return
 	#Weapons menu.
 	#Set the weapon values.
 	if menu == 0:
