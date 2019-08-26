@@ -142,8 +142,11 @@ func _process(delta):
 	#Reset the item menu position when in the weapons menu.
 	if m_pos != 0 and menu == 0:
 		m_pos = menu
+		
+	if menu != 0 and blink > 0:
+		blink -= 8
 	
-	print(global.player_weap[int(player.swap)],', ',menu,', ',m_pos)
+	print(global.player_weap[int(player.swap)],', ',menu,', ',m_pos,', ',blink)
 
 func color():
 	if new_plyr != global.player:

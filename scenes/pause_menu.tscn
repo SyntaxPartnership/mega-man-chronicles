@@ -37,6 +37,7 @@ custom_colors/font_color = Color( 0.988235, 0.972549, 0.988235, 1 )
 text = "-WEAPONS ENERGY-"
 
 [node name="weap_01" type="Control" parent="."]
+editor/display_folded = true
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
@@ -69,6 +70,7 @@ texture_under = ExtResource( 5 )
 texture_progress = ExtResource( 6 )
 
 [node name="weap_02" type="Control" parent="."]
+editor/display_folded = true
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
@@ -102,6 +104,7 @@ texture_under = ExtResource( 5 )
 texture_progress = ExtResource( 6 )
 
 [node name="weap_03" type="Control" parent="."]
+editor/display_folded = true
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
@@ -135,6 +138,7 @@ texture_under = ExtResource( 5 )
 texture_progress = ExtResource( 6 )
 
 [node name="weap_04" type="Control" parent="."]
+editor/display_folded = true
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
@@ -168,6 +172,7 @@ texture_under = ExtResource( 5 )
 texture_progress = ExtResource( 6 )
 
 [node name="weap_05" type="Control" parent="."]
+editor/display_folded = true
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
@@ -201,6 +206,7 @@ texture_under = ExtResource( 5 )
 texture_progress = ExtResource( 6 )
 
 [node name="weap_06" type="Control" parent="."]
+editor/display_folded = true
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
@@ -438,6 +444,7 @@ texture_under = ExtResource( 5 )
 texture_progress = ExtResource( 6 )
 
 [node name="plyr_1" type="Control" parent="."]
+editor/display_folded = true
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
