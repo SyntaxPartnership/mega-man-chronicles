@@ -6,6 +6,9 @@ onready var player = get_parent().get_parent().get_child(2)
 var new_plyr
 
 var menu = 0
+var m_pos = 0
+
+var blink = 8
 
 var down_a = 1
 var down_b = 0
@@ -18,9 +21,16 @@ func _ready():
 	hide_icons()
 	color()
 
+# warning-ignore:unused_argument
 func _input(event):
+	#Weapons menu.
 	#Set the weapon values.
 	if menu == 0:
+		#Set this section here to prevent issues transitioning between weapon selection and item selection.
+		if Input.is_action_just_pressed('down'):
+			if global.player_weap[int(player.swap)] == down_a or global.player_weap[int(player.swap)] == down_b:
+				menu += 1
+		
 		if Input.is_action_just_pressed('up'):
 			#Left Side
 			if global.player_weap[int(player.swap)] > 0 and global.player_weap[int(player.swap)] <= 5:
@@ -108,11 +118,30 @@ func _input(event):
 			#Move selection to the right side.
 			if global.player_weap[int(player.swap)] > down_b and global.player_weap[int(player.swap)] > 5:
 				global.player_weap[int(player.swap)] = down_b
-			
-			
+	
+	if menu != 0:
+		#Items menu.
+		#Move through items.
+		if Input.is_action_just_pressed('up'):
+			#There's no need to set the value to down_a or down_b as the player cannot proceed passed these values.
+			menu -= 1
+		
+		if Input.is_action_just_pressed('left'):
+			if m_pos > 0:
+				m_pos -= 1
+		
+		if Input.is_action_just_pressed('right'):
+			if m_pos < 4:
+				m_pos += 1
+		
 
+# warning-ignore:unused_argument
 func _process(delta):
-	print(global.player_weap[int(player.swap)])
+	#Reset the item menu position when in the weapons menu.
+	if m_pos != 0 and menu == 0:
+		m_pos = menu
+	
+	print(global.player_weap[int(player.swap)],', ',menu,', ',m_pos)
 
 func color():
 	if new_plyr != global.player:
