@@ -138,13 +138,22 @@ func _input(event):
 		
 
 # warning-ignore:unused_argument
-func _process(delta):
+func _physics_process(delta):
 	#Reset the item menu position when in the weapons menu.
 	if m_pos != 0 and menu == 0:
 		m_pos = menu
 		
 	if menu != 0 and blink > 0:
-		blink -= 8
+		blink -= 1
+	
+	if menu != 0 and blink == 0:
+		if m_pos == 0:
+			if $e_tanks/icon.visible:
+				$e_tanks/icon.hide()
+			else:
+				$e_tanks/icon.show()
+		blink = 8
+		
 	
 	print(global.player_weap[int(player.swap)],', ',menu,', ',m_pos,', ',blink)
 
