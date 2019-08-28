@@ -54,9 +54,9 @@ var weapon5 = [true, 280, 280]
 var weapon6 = [true, 140, 280]
 var weapon7 = [true, 280, 280]
 var weapon8 = [true, 280, 280]
-var beat = [true, 280, 280]
-var tango = [true, 280, 280]
-var reggae = [true, 280, 280]
+var beat = [true, 30, 280]
+var tango = [true, 50, 280]
+var reggae = [true, 140, 280]
 
 #Color values. Based on the realnes.aseprite palette included in the file heirarchy.
 

@@ -23,8 +23,8 @@ func _process(delta):
 		$fade_fade.start()
 
 func _on_fade_fade_tween_completed(object, key):
-	if state == 0 or state == 3:
+	if state == 0 or state == 3 or state == 7 or state == 9:
 		emit_signal("fadein")
-	if state == 1 or state == 2 or state == 4:
+	if state == 1 or state == 2 or state == 4 or state == 6 or state == 8:
 		emit_signal("fadeout")
 		

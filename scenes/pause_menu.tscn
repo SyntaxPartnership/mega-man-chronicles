@@ -22,18 +22,6 @@ shader_param/r_col2 = null
 shader_param/r_col3 = null
 shader_param/r_col4 = null
 
-[sub_resource type="ShaderMaterial" id=16]
-shader = ExtResource( 4 )
-shader_param/black = null
-shader_param/t_col1 = null
-shader_param/t_col2 = null
-shader_param/t_col3 = null
-shader_param/t_col4 = null
-shader_param/r_col1 = null
-shader_param/r_col2 = null
-shader_param/r_col3 = null
-shader_param/r_col4 = null
-
 [sub_resource type="ShaderMaterial" id=2]
 shader = ExtResource( 4 )
 shader_param/black = null
@@ -178,18 +166,6 @@ shader_param/r_col2 = null
 shader_param/r_col3 = null
 shader_param/r_col4 = null
 
-[sub_resource type="ShaderMaterial" id=17]
-shader = ExtResource( 4 )
-shader_param/black = null
-shader_param/t_col1 = null
-shader_param/t_col2 = null
-shader_param/t_col3 = null
-shader_param/t_col4 = null
-shader_param/r_col1 = null
-shader_param/r_col2 = null
-shader_param/r_col3 = null
-shader_param/r_col4 = null
-
 [sub_resource type="ShaderMaterial" id=14]
 shader = ExtResource( 4 )
 shader_param/black = null
@@ -202,7 +178,7 @@ shader_param/r_col2 = null
 shader_param/r_col3 = null
 shader_param/r_col4 = null
 
-[sub_resource type="ShaderMaterial" id=18]
+[sub_resource type="ShaderMaterial" id=15]
 shader = ExtResource( 4 )
 shader_param/black = null
 shader_param/t_col1 = null
@@ -214,7 +190,31 @@ shader_param/r_col2 = null
 shader_param/r_col3 = null
 shader_param/r_col4 = null
 
-[sub_resource type="ShaderMaterial" id=15]
+[sub_resource type="ShaderMaterial" id=16]
+shader = ExtResource( 4 )
+shader_param/black = null
+shader_param/t_col1 = null
+shader_param/t_col2 = null
+shader_param/t_col3 = null
+shader_param/t_col4 = null
+shader_param/r_col1 = null
+shader_param/r_col2 = null
+shader_param/r_col3 = null
+shader_param/r_col4 = null
+
+[sub_resource type="ShaderMaterial" id=17]
+shader = ExtResource( 4 )
+shader_param/black = null
+shader_param/t_col1 = null
+shader_param/t_col2 = null
+shader_param/t_col3 = null
+shader_param/t_col4 = null
+shader_param/r_col1 = null
+shader_param/r_col2 = null
+shader_param/r_col3 = null
+shader_param/r_col4 = null
+
+[sub_resource type="ShaderMaterial" id=18]
 shader = ExtResource( 4 )
 shader_param/black = null
 shader_param/t_col1 = null
@@ -256,7 +256,6 @@ text = "-WEAPONS ENERGY-"
 [node name="weap_01" type="Control" parent="." groups=[
 "wpn_icons",
 ]]
-editor/display_folded = true
 material = SubResource( 1 )
 margin_left = -8.0
 margin_top = -8.0
@@ -283,7 +282,7 @@ text = "M. BUSTER"
 [node name="meter" type="TextureProgress" parent="weap_01" groups=[
 "meters",
 ]]
-material = SubResource( 16 )
+material = SubResource( 2 )
 margin_left = 64.0
 margin_top = 40.0
 margin_right = 120.0
@@ -297,7 +296,7 @@ texture_progress = ExtResource( 7 )
 "wpn_icons",
 ]]
 editor/display_folded = true
-material = SubResource( 2 )
+material = SubResource( 3 )
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
@@ -336,7 +335,7 @@ texture_progress = ExtResource( 7 )
 "wpn_icons",
 ]]
 editor/display_folded = true
-material = SubResource( 3 )
+material = SubResource( 4 )
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
@@ -375,7 +374,7 @@ texture_progress = ExtResource( 7 )
 "wpn_icons",
 ]]
 editor/display_folded = true
-material = SubResource( 4 )
+material = SubResource( 5 )
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
@@ -414,7 +413,7 @@ texture_progress = ExtResource( 7 )
 "wpn_icons",
 ]]
 editor/display_folded = true
-material = SubResource( 5 )
+material = SubResource( 6 )
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
@@ -453,7 +452,7 @@ texture_progress = ExtResource( 7 )
 "wpn_icons",
 ]]
 editor/display_folded = true
-material = SubResource( 6 )
+material = SubResource( 7 )
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
@@ -492,7 +491,7 @@ texture_progress = ExtResource( 7 )
 "wpn_icons",
 ]]
 editor/display_folded = true
-material = SubResource( 7 )
+material = SubResource( 8 )
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
@@ -531,7 +530,7 @@ texture_progress = ExtResource( 7 )
 "wpn_icons",
 ]]
 editor/display_folded = true
-material = SubResource( 8 )
+material = SubResource( 9 )
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
@@ -570,7 +569,7 @@ texture_progress = ExtResource( 7 )
 "wpn_icons",
 ]]
 editor/display_folded = true
-material = SubResource( 9 )
+material = SubResource( 10 )
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
@@ -609,7 +608,7 @@ texture_progress = ExtResource( 7 )
 "wpn_icons",
 ]]
 editor/display_folded = true
-material = SubResource( 10 )
+material = SubResource( 11 )
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
@@ -648,7 +647,7 @@ texture_progress = ExtResource( 7 )
 "wpn_icons",
 ]]
 editor/display_folded = true
-material = SubResource( 11 )
+material = SubResource( 12 )
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
@@ -687,7 +686,7 @@ texture_progress = ExtResource( 7 )
 "wpn_icons",
 ]]
 editor/display_folded = true
-material = SubResource( 12 )
+material = SubResource( 13 )
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
@@ -725,8 +724,7 @@ texture_progress = ExtResource( 7 )
 [node name="plyr_1" type="Control" parent="." groups=[
 "plyr_icon",
 ]]
-editor/display_folded = true
-material = SubResource( 13 )
+material = SubResource( 14 )
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
@@ -752,7 +750,7 @@ text = "MEGA MAN"
 [node name="meter" type="TextureProgress" parent="plyr_1" groups=[
 "meters",
 ]]
-material = SubResource( 17 )
+material = SubResource( 15 )
 margin_left = 56.0
 margin_top = 160.0
 margin_right = 112.0
@@ -766,7 +764,7 @@ texture_progress = ExtResource( 7 )
 "plyr_icon",
 ]]
 editor/display_folded = true
-material = SubResource( 14 )
+material = SubResource( 16 )
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
@@ -792,7 +790,7 @@ text = "PROTO MAN"
 [node name="meter" type="TextureProgress" parent="plyr_2" groups=[
 "meters",
 ]]
-material = SubResource( 18 )
+material = SubResource( 17 )
 margin_left = 56.0
 margin_top = 192.0
 margin_right = 112.0
@@ -1023,7 +1021,7 @@ text = "000"
 "item_icon",
 "plyr_icon",
 ]]
-material = SubResource( 15 )
+material = SubResource( 18 )
 position = Vector2( 24, 216 )
 texture = ExtResource( 9 )
 hframes = 18

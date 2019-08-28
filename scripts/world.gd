@@ -88,6 +88,99 @@ func _ready():
 	$player/camera.limit_bottom = (player_room.y*240)+240
 	$player/camera.limit_left = (player_room.x*256)
 	$player/camera.limit_right = (player_room.x*256)+256
+
+func _input(event):
+	#Weapon Swapping.
+	if $player.can_move:
+		#L and R Button.
+		if Input.is_action_just_pressed("prev"):
+			global.player_weap[int($player.swap)] -= 1
+			$player.w_icon = 64
+		if Input.is_action_just_pressed("next"):
+			global.player_weap[int($player.swap)] += 1
+			$player.w_icon = 64
+		
+		#Skip Unacquired Weapons.
+		if Input.is_action_just_pressed("next"):
+			#Skip Rush/Proto Jet if if playing as Mega/Proto Man and hasn't been acquired. Skip altogether if playing as Bass.
+			if global.player_weap[int($player.swap)] == 2 and !global.rp_jet[0] or global.player_weap[int($player.swap)] == 2 and global.player == 2:
+				global.player_weap[int($player.swap)] += 1
+			#Skip unacquired Master Weapons
+			if global.player_weap[int($player.swap)] == 3 and !global.weapon1[0]:
+				global.player_weap[int($player.swap)] += 1
+			if global.player_weap[int($player.swap)] == 4 and !global.weapon2[0]:
+				global.player_weap[int($player.swap)] += 1
+			if global.player_weap[int($player.swap)] == 5 and !global.weapon3[0]:
+				global.player_weap[int($player.swap)] += 1
+			if global.player_weap[int($player.swap)] == 6 and !global.weapon4[0]:
+				global.player_weap[int($player.swap)] += 1
+			if global.player_weap[int($player.swap)] == 7 and !global.weapon5[0]:
+				global.player_weap[int($player.swap)] += 1
+			if global.player_weap[int($player.swap)] == 8 and !global.weapon6[0]:
+				global.player_weap[int($player.swap)] += 1
+			if global.player_weap[int($player.swap)] == 9 and !global.weapon7[0]:
+				global.player_weap[int($player.swap)] += 1
+			if global.player_weap[int($player.swap)] == 10 and !global.weapon8[0]:
+				global.player_weap[int($player.swap)] += 1
+			#Skip player specific adaptors.
+			if global.player_weap[int($player.swap)] == 11 and !global.beat[0] and global.player == 0:
+				global.player_weap[int($player.swap)] += 1
+			if global.player_weap[int($player.swap)] == 11 and !global.tango[0] and global.player == 1:
+				global.player_weap[int($player.swap)] += 1
+			if global.player_weap[int($player.swap)] == 11 and !global.reggae[0] and global.player == 2:
+				global.player_weap[int($player.swap)] += 1
+		
+		if Input.is_action_just_pressed("prev"):
+			#These skips are done in reverse order to make them move to the next item seemlessly.
+			if global.player_weap[int($player.swap)] == 11 and !global.beat[0] and global.player == 0:
+				global.player_weap[int($player.swap)] -= 1
+			if global.player_weap[int($player.swap)] == 11 and !global.tango[0] and global.player == 1:
+				global.player_weap[int($player.swap)] -= 1
+			if global.player_weap[int($player.swap)] == 11 and !global.reggae[0] and global.player == 2:
+				global.player_weap[int($player.swap)] -= 1
+			#Master Weapons
+			if global.player_weap[int($player.swap)] == 10 and !global.weapon8[0]:
+				global.player_weap[int($player.swap)] -= 1
+			if global.player_weap[int($player.swap)] == 9 and !global.weapon7[0]:
+				global.player_weap[int($player.swap)] -= 1
+			if global.player_weap[int($player.swap)] == 8 and !global.weapon6[0]:
+				global.player_weap[int($player.swap)] -= 1
+			if global.player_weap[int($player.swap)] == 7 and !global.weapon5[0]:
+				global.player_weap[int($player.swap)] -= 1
+			if global.player_weap[int($player.swap)] == 6 and !global.weapon4[0]:
+				global.player_weap[int($player.swap)] -= 1
+			if global.player_weap[int($player.swap)] == 5 and !global.weapon3[0]:
+				global.player_weap[int($player.swap)] -= 1
+			if global.player_weap[int($player.swap)] == 4 and !global.weapon2[0]:
+				global.player_weap[int($player.swap)] -= 1
+			if global.player_weap[int($player.swap)] == 3 and !global.weapon1[0]:
+				global.player_weap[int($player.swap)] -= 1
+			#Rush/Proto Jet
+			if global.player_weap[int($player.swap)] == 2 and !global.rp_jet[0] or global.player_weap[int($player.swap)] == 2 and global.player == 2:
+				global.player_weap[int($player.swap)] -= 1
+	
+		#Loop the value.
+		if global.player_weap[int($player.swap)] < 0:
+			global.player_weap[int($player.swap)] = 11
+		elif global.player_weap[int($player.swap)] > 11:
+			global.player_weap[int($player.swap)] = 0
+			
+		palette_swap()
+	
+		#Pause menu
+		if Input.is_action_just_pressed('start') and !$pause/pause_menu.start:
+			$fade/fade.state = 6
+			$fade/fade.end = true
+			$player.can_move = false
+			get_tree().paused = true
+	
+	else:
+		#Return to the game.
+		if Input.is_action_just_pressed('start') and $pause/pause_menu.start:
+			$fade/fade.state = 8
+			$fade/fade.end = true
+			$pause/pause_menu.start = false
+		
 	
 func _camera():
 	#Calculate player position.
@@ -289,7 +382,7 @@ func _rooms():
 func _process(delta):
 	_camera()
 	#Print Shit
-	
+	print($fade/fade.state)
 	
 	#Get other player information.
 	player_tilepos = $coll_mask/tiles.world_to_map(pos)
@@ -329,21 +422,6 @@ func _process(delta):
 		if !$fade/fade.end:
 			$fade/fade.state = 4
 			$fade/fade.end = true
-	
-	#Weapon Swapping.
-	if $player.can_move:
-		left = Input.is_action_just_pressed("prev")
-		right = Input.is_action_just_pressed("next")
-		if left or right:
-			last_dir = int(right)-int(left)
-	
-	#L and R Button.
-	if left:
-		global.player_weap[int($player.swap)] -= 1
-		$player.w_icon = 64
-	elif right:
-		global.player_weap[int($player.swap)] += 1
-		$player.w_icon = 64
 		
 	#Skip Unacquired Weapons.
 	if last_dir == 1:
@@ -539,6 +617,13 @@ func _on_fade_fadein():
 		$player.show()
 		$player/anim.play('appear1')
 		$player.lock_ctrl = false
+	
+	if $fade/fade.state == 7:
+		$pause/pause_menu.start = true
+	
+	if $fade/fade.state == 9:
+		get_tree().paused = false
+		$player.can_move = true
 
 func _on_fade_fadeout():
 	if $fade/fade.state == 2:
@@ -565,6 +650,16 @@ func _on_fade_fadeout():
 		print('Refilling Life 2')
 		global.player_life[1] = 280
 		get_tree().reload_current_scene()
+	
+	if $fade/fade.state == 6:
+		$pause/pause_menu.show()
+		$fade/fade.begin = true
+		$fade/fade.state = 7
+	
+	if $fade/fade.state == 8:
+		$pause/pause_menu.hide()
+		$fade/fade.begin = true
+		$fade/fade.state = 9
 
 func palette_swap():
 	#Set palettes for the player.

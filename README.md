@@ -163,6 +163,8 @@ Changes - Version 0.0.1 ():
 - Life energy is restored when the stage restarts after a death.
 - Fixed a 'Can't change state while flushing queries' error with the boss gates.
 - Started pause menu.
+- Added ability to change weapons in the pause menu.
+- Fixed several issues with palette swapping and blinking of icons for the pause menu.
 
 Credits:
 --

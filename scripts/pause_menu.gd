@@ -4,6 +4,27 @@ onready var icons = get_tree().get_nodes_in_group('item_icon')
 onready var world = get_parent().get_parent()
 onready var player = get_parent().get_parent().get_child(2)
 
+onready var wpn_lvl = [
+				global.player_life[int(player.swap)],
+				global.rp_coil[int(player.swap) + 1],
+				global.rp_jet[int(player.swap) + 1],
+				global.weapon1[int(player.swap) + 1],
+				global.weapon2[int(player.swap) + 1],
+				global.weapon3[int(player.swap) + 1],
+				global.weapon4[int(player.swap) + 1],
+				global.weapon5[int(player.swap) + 1],
+				global.weapon6[int(player.swap) + 1],
+				global.weapon7[int(player.swap) + 1], 
+				global.weapon8[int(player.swap) + 1],
+				global.beat[int(player.swap) + 1],
+				global.tango[int(player.swap) + 1],
+				global.reggae[int(player.swap) + 1]
+				]
+
+var start = false
+
+var kill_wpn
+
 var new_plyr
 var new_wpn
 var new_menu = 0
@@ -26,14 +47,16 @@ var desel_color = [global.grey3, global.grey2, global.grey1, global.grey0]
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
-	set_max()
-	set_names()
-	hide_icons()
-	menu_color()
+	print(wpn_lvl)
 	
 	color_set = get_tree().get_nodes_in_group('wpn_icons')
 	get_meters = get_tree().get_nodes_in_group('meters')
 	get_plyr = get_tree().get_nodes_in_group('plyr_icon')
+	
+	set_max()
+	set_names()
+	hide_icons()
+	menu_color()
 	
 	for c in color_set:
 		c.material.set_shader_param('black', global.black)
@@ -58,7 +81,7 @@ func _ready():
 
 # warning-ignore:unused_argument
 func _input(event):
-	if !get_tree().paused:
+	if !get_tree().paused or !start:
 		return
 	#Weapons menu.
 	#Set the weapon values.
@@ -183,7 +206,7 @@ func _input(event):
 		
 
 # warning-ignore:unused_argument
-func _physics_process(delta):
+func _process(delta):
 	
 	if new_wpn != global.player_weap[int(player.swap)]:
 		new_wpn = global.player_weap[int(player.swap)]
@@ -194,7 +217,6 @@ func _physics_process(delta):
 		wpn_menu()
 
 	item_menu()
-	print(global.player_weap[int(player.swap)],', ',menu,', ',m_pos,', ',blink)
 
 func menu_color():
 	if new_plyr != global.player:
@@ -203,7 +225,38 @@ func menu_color():
 		
 		for i in icons:
 			i.texture = load('res://assets/sprites/pause/icons_'+str(global.player)+'.png')
-			
+		
+		#Set active characer's color.
+		get_plyr[int(!player.swap)].material.set_shader_param('r_col1', desel_color[0])
+		get_plyr[int(!player.swap)].material.set_shader_param('r_col2', desel_color[1])
+		get_plyr[int(!player.swap)].material.set_shader_param('r_col3', desel_color[1])
+		get_plyr[int(!player.swap)].material.set_shader_param('r_col4', desel_color[2])
+		
+		#Set active character's meter color
+		get_meters[int(player.swap)+1].material.set_shader_param('r_col1', sel_color[2])
+		get_meters[int(player.swap)+1].material.set_shader_param('r_col2', sel_color[3])
+		
+		get_meters[int(!player.swap)+1].material.set_shader_param('r_col1', desel_color[0])
+		get_meters[int(!player.swap)+1].material.set_shader_param('r_col2', desel_color[1])
+		
+		if player.swap:
+			$plyr_1/text.set('custom_colors/font_color', desel_color[2])
+		else:
+			$plyr_2/text.set('custom_colors/font_color', desel_color[2])
+		
+		#This section is also used to update the player's meter levels.
+		for i in range(color_set.size()):
+			for n in range(wpn_lvl.size()):
+				if n < 11:
+					if i == n:
+						color_set[i].get_child(2).set('value', wpn_lvl[n])
+				if n >= 11:
+					color_set[11].get_child(2).set('value', wpn_lvl[11 + global.player])
+				get_meters[1].set('value', global.player_life[0])
+				get_meters[2].set('value', global.player_life[1])
+		
+		#Update how many items are in possession as well.
+					
 		new_plyr = global.player
 
 func set_max():
@@ -398,79 +451,24 @@ func wpn_menu():
 	
 	var get_nodes = get_tree().get_nodes_in_group('wpn_icons')
 	
+	world.palette_swap()
+	sel_color[0] = world.palette[1]
+	sel_color[1] = world.palette[2]
+
 	if global.player_weap[int(player.swap)] == 0:
-		if global.player == 0:
-			sel_color[0] = global.blue2
-			sel_color[1] = global.blue1
-		if global.player == 1:
-			sel_color[0] = global.red3
-			sel_color[1] = global.grey1
-		if global.player == 2:
-			sel_color[0] = global.grey2
-			sel_color[1] = global.brown1
-		
 		$weap_01/meter.material.set_shader_param('r_col1', sel_color[2])
 		$weap_01/meter.material.set_shader_param('r_col2', sel_color[3])
 	else:
 		$weap_01/meter.material.set_shader_param('r_col1', desel_color[0])
 		$weap_01/meter.material.set_shader_param('r_col2', desel_color[1])
 	
-	if global.player_weap[int(player.swap)] == 1 or global.player_weap[int(player.swap)] == 2:
-		if global.player == 0 or global.player == 1:
-			sel_color[0] = global.red3
-			sel_color[1] = global.white
-		if global.player == 2:
-			sel_color[0] = global.grey2
-			sel_color[1] = global.purple2
-	
-	if global.player_weap[int(player.swap)] == 3:
-		sel_color[0] = global.red3
-		sel_color[1] = global.yellow1
-	
-	if global.player_weap[int(player.swap)] == 4:
-		sel_color[0] = global.blue3
-		sel_color[1] = global.grey2
-		
-	if global.player_weap[int(player.swap)] == 5:
-		sel_color[0] = global.green3
-		sel_color[1] = global.lime1
-	
-	if global.player_weap[int(player.swap)] == 6:
-		sel_color[0] = global.grey3
-		sel_color[1] = global.grey0
-	
-	if global.player_weap[int(player.swap)] == 7:
-		sel_color[0] = global.purple3
-		sel_color[1] = global.purple1
-		
-	if global.player_weap[int(player.swap)] == 8:
-		sel_color[0] = global.grey2
-		sel_color[1] = global.yellow1
-	
-	if global.player_weap[int(player.swap)] == 9:
-		sel_color[0] = global.pink2
-		sel_color[1] = global.white
-	
-	if global.player_weap[int(player.swap)] == 10:
-		sel_color[0] = global.rblue2
-		sel_color[1] = global.yellow0
-	
-	if global.player_weap[int(player.swap)] == 11:
-		if global.player == 0:
-			sel_color[0] = global.blue2
-			sel_color[1] = global.blue1
-		if global.player == 1:
-			sel_color[0] = global.green1
-			sel_color[1] = global.blue0
-		if global.player == 2:
-			sel_color[0] = global.pink1
-			sel_color[1] = global.yellow0
-	
 	for i in range(get_nodes.size()):
 		if i == global.player_weap[int(player.swap)] and menu == 0:
 			get_nodes[i].material.set_shader_param('r_col1', sel_color[0])
 			get_nodes[i].material.set_shader_param('r_col2', sel_color[1])
 			get_nodes[i].material.set_shader_param('r_col3', sel_color[2])
+			
+			get_nodes[i].get_child(1).set('custom_colors/font_color', sel_color[3])
 			
 			get_plyr[int(player.swap)].material.set_shader_param('r_col1', sel_color[0])
 			get_plyr[int(player.swap)].material.set_shader_param('r_col2', sel_color[1])
@@ -485,3 +483,5 @@ func wpn_menu():
 			get_nodes[i].material.set_shader_param('r_col1', desel_color[0])
 			get_nodes[i].material.set_shader_param('r_col2', desel_color[1])
 			get_nodes[i].material.set_shader_param('r_col3', desel_color[2])
+			
+			get_nodes[i].get_child(1).set('custom_colors/font_color', desel_color[2])
