@@ -60,17 +60,19 @@ var spl_trigger = false
 var bbl_count = 0
 
 func _ready():
-	print(global.player_life)
-	
 	res = get_viewport_rect().size
 	
 	#Hide Object Layer
 	objects.hide()
 	
+	#Spawn stage objects.
 	spawn_objects()
 	
 	#Add Continue and Spawn Scripts here
 	cam_allow = [1, 1, 1, 1]
+	
+	#Set lives counter.
+	$hud/hud/lives.set_text(str(global.lives))
 	
 	#Set player position and reset camera.
 	for spawn in $coll_mask/spawn_pts.get_used_cells():
@@ -382,7 +384,7 @@ func _rooms():
 func _process(delta):
 	_camera()
 	#Print Shit
-	print($fade/fade.state)
+	
 	
 	#Get other player information.
 	player_tilepos = $coll_mask/tiles.world_to_map(pos)
@@ -645,11 +647,15 @@ func _on_fade_fadeout():
 		$fade/fade.state = 3
 	
 	if $fade/fade.state == 4:
-		print('Refilling Life 1')
-		global.player_life[0] = 280
-		print('Refilling Life 2')
-		global.player_life[1] = 280
-		get_tree().reload_current_scene()
+		if global.lives > 0:
+			global.player_life[0] = 280
+			global.player_life[1] = 280
+			global.player_weap[0] = 0
+			global.player_weap[1] = 0
+			global.lives -= 1
+			get_tree().reload_current_scene()
+		else:
+			get_tree().quit()
 	
 	if $fade/fade.state == 6:
 		$pause/pause_menu.show()

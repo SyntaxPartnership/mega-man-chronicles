@@ -165,6 +165,8 @@ Changes - Version 0.0.1 ():
 - Started pause menu.
 - Added ability to change weapons in the pause menu.
 - Fixed several issues with palette swapping and blinking of icons for the pause menu.
+- Added lives counter.
+- Made the player's hitbox slightly smaller.
 
 Credits:
 --

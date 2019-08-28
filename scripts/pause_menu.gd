@@ -47,8 +47,6 @@ var desel_color = [global.grey3, global.grey2, global.grey1, global.grey0]
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
-	print(wpn_lvl)
-	
 	color_set = get_tree().get_nodes_in_group('wpn_icons')
 	get_meters = get_tree().get_nodes_in_group('meters')
 	get_plyr = get_tree().get_nodes_in_group('plyr_icon')
@@ -78,6 +76,9 @@ func _ready():
 		p.material.set_shader_param('t_col2', global.t_color3)
 		p.material.set_shader_param('t_col3', global.yellow0)
 		p.material.set_shader_param('t_col4', global.white)
+		
+	#Update number of lives.
+	$lives_amt.set_text('0'+str(global.lives))
 
 # warning-ignore:unused_argument
 func _input(event):

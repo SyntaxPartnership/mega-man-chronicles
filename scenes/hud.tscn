@@ -71,7 +71,7 @@ texture_under = ExtResource( 2 )
 texture_progress = ExtResource( 4 )
 fill_mode = 3
 
-[node name="Label" type="Label" parent="."]
+[node name="lives" type="Label" parent="."]
 margin_left = 24.0
 margin_top = 72.0
 margin_right = 16.0

@@ -387,6 +387,7 @@ func _physics_process(delta):
 					
 				#Make the player jump.
 				if global.player == 0 and y_dir != 1 and jump_tap and is_on_floor() and jumps > 0 and !slide_top:
+					anim_state(JUMP)
 					jumps -= 1
 					velocity.y = JUMP_SPEED
 					slide = false

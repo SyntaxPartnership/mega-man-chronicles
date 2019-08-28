@@ -8,6 +8,7 @@ var player = 2
 var player_id = [0, 1]
 var player_life = [140, 280]
 var player_weap = [0, 0]
+var lives = 2
 
 #Global Level/Option Flags
 var icey = false
