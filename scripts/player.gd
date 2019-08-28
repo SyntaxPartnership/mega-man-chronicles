@@ -16,8 +16,8 @@ const JUMP_SPEED = -310
 const GRAVITY = 900
 
 #Player special effect constants.
-const DMG_SPARK = preload('res://scenes/dmg_spark.tscn')
-const SLIDE_SMOKE = preload('res://scenes/slide_smoke.tscn')
+const DMG_SPARK = preload('res://scenes/effects/dmg_spark.tscn')
+const SLIDE_SMOKE = preload('res://scenes/effects/slide_smoke.tscn')
 
 #Determines if the player can move or not.
 var start_stage = false

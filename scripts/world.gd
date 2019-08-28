@@ -6,7 +6,7 @@ signal close_gate
 onready var objects = $graphic/objects
 
 #Object constants
-const DEATH_BOOM = preload('res://scenes/s_explode_loop.tscn')
+const DEATH_BOOM = preload('res://scenes/effects/s_explode_loop.tscn')
 
 # warning-ignore:unused_class_variable
 var fade_state
@@ -25,6 +25,7 @@ var dead = false
 var dead_delay = 16
 var restart = 360
 var heal_delay
+var swapping = false
 
 #Camera values
 var res = Vector2()
@@ -166,6 +167,16 @@ func _input(event):
 			global.player_weap[int($player.swap)] = 11
 		elif global.player_weap[int($player.swap)] > 11:
 			global.player_weap[int($player.swap)] = 0
+		
+		#Start swap process.
+		if Input.is_action_just_pressed('select'):
+			if global.player_life[int(!$player.swap)] != 0:
+				print('SWAPPING!')
+				$player.hide()
+				get_tree().paused = true
+				swapping = true
+			else:
+				print('CANNOT SWAP. SECOND PLAYER DEAD.')
 			
 		palette_swap()
 	
@@ -862,22 +873,22 @@ func spawn_objects():
 		var id = objects.get_cellv(cell)
 		var type = objects.tile_set.tile_get_name(id)
 		#Get object ID and load into the level.
-		if type in ['vert_gate', 'horiz_gate', 'teleporter']:
-			var c = load('res://scenes/'+type+'.tscn').instance()
+		if type in ['vert_gate', 'horiz_gate']:
+			var c = load('res://scenes/objects/'+type+'.tscn').instance()
 			var pos = objects.map_to_world(cell)
 			c.position = pos + (objects.cell_size / 2)
 			$graphic.add_child(c)
 
 func splash():
 	if !dead:
-		var splash = load('res://scenes/splash.tscn').instance()
+		var splash = load('res://scenes/effects/splash.tscn').instance()
 		$overlap.add_child(splash)
 		splash.position.x = $player.position.x
 		splash.position.y = $coll_mask/tiles.map_to_world(player_tilepos).y - 2
 
 func bubble():
 	if !dead:
-		var bubble = load('res://scenes/bubble.tscn').instance()
+		var bubble = load('res://scenes/effects/bubble.tscn').instance()
 		$overlap.add_child(bubble)
 		bubble.position = $player.position
 		bbl_count += 1
@@ -896,3 +907,6 @@ func _on_teleport():
 		$player.hide()
 		$fade/fade.state = 2
 		$fade/fade.end = true
+
+func swap():
+	pass

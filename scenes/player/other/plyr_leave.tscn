@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 8, 8 )
+
+[node name="leaving" type="KinematicBody2D"]
+pause_mode = 2
+
+[node name="box" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="sprite" type="Sprite" parent="."]
+
+[node name="anim" type="AnimationPlayer" parent="."]
+
+[node name="on_screen" type="VisibilityNotifier2D" parent="."]
+rect = Rect2( -4, -4, 8, 8 )

@@ -167,6 +167,7 @@ Changes - Version 0.0.1 ():
 - Fixed several issues with palette swapping and blinking of icons for the pause menu.
 - Added lives counter.
 - Made the player's hitbox slightly smaller.
+- Reorganized scenes folder to make finding scenes and nodes easier.
 
 Credits:
 --
