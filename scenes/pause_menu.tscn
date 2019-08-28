@@ -1,13 +1,230 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://scripts/pause_menu.gd" type="Script" id=1]
 [ext_resource path="res://assets/tilesets/menu/option-stage_0.tres" type="TileSet" id=2]
 [ext_resource path="res://assets/font.tres" type="DynamicFont" id=3]
-[ext_resource path="res://assets/sprites/player/weapicons.png" type="Texture" id=4]
-[ext_resource path="res://assets/sprites/pause/meter_e.png" type="Texture" id=5]
-[ext_resource path="res://assets/sprites/pause/meter_f.png" type="Texture" id=6]
-[ext_resource path="res://assets/sprites/pause/p_icons.png" type="Texture" id=7]
-[ext_resource path="res://assets/sprites/pause/icons_0.png" type="Texture" id=8]
+[ext_resource path="res://shaders/pause_menu.shader" type="Shader" id=4]
+[ext_resource path="res://assets/sprites/player/weapicons.png" type="Texture" id=5]
+[ext_resource path="res://assets/sprites/pause/meter_e.png" type="Texture" id=6]
+[ext_resource path="res://assets/sprites/pause/meter_f.png" type="Texture" id=7]
+[ext_resource path="res://assets/sprites/pause/p_icons.png" type="Texture" id=8]
+[ext_resource path="res://assets/sprites/pause/icons_0.png" type="Texture" id=9]
+
+[sub_resource type="ShaderMaterial" id=1]
+shader = ExtResource( 4 )
+shader_param/black = null
+shader_param/t_col1 = null
+shader_param/t_col2 = null
+shader_param/t_col3 = null
+shader_param/t_col4 = null
+shader_param/r_col1 = null
+shader_param/r_col2 = null
+shader_param/r_col3 = null
+shader_param/r_col4 = null
+
+[sub_resource type="ShaderMaterial" id=16]
+shader = ExtResource( 4 )
+shader_param/black = null
+shader_param/t_col1 = null
+shader_param/t_col2 = null
+shader_param/t_col3 = null
+shader_param/t_col4 = null
+shader_param/r_col1 = null
+shader_param/r_col2 = null
+shader_param/r_col3 = null
+shader_param/r_col4 = null
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = ExtResource( 4 )
+shader_param/black = null
+shader_param/t_col1 = null
+shader_param/t_col2 = null
+shader_param/t_col3 = null
+shader_param/t_col4 = null
+shader_param/r_col1 = null
+shader_param/r_col2 = null
+shader_param/r_col3 = null
+shader_param/r_col4 = null
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = ExtResource( 4 )
+shader_param/black = null
+shader_param/t_col1 = null
+shader_param/t_col2 = null
+shader_param/t_col3 = null
+shader_param/t_col4 = null
+shader_param/r_col1 = null
+shader_param/r_col2 = null
+shader_param/r_col3 = null
+shader_param/r_col4 = null
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = ExtResource( 4 )
+shader_param/black = null
+shader_param/t_col1 = null
+shader_param/t_col2 = null
+shader_param/t_col3 = null
+shader_param/t_col4 = null
+shader_param/r_col1 = null
+shader_param/r_col2 = null
+shader_param/r_col3 = null
+shader_param/r_col4 = null
+
+[sub_resource type="ShaderMaterial" id=5]
+shader = ExtResource( 4 )
+shader_param/black = null
+shader_param/t_col1 = null
+shader_param/t_col2 = null
+shader_param/t_col3 = null
+shader_param/t_col4 = null
+shader_param/r_col1 = null
+shader_param/r_col2 = null
+shader_param/r_col3 = null
+shader_param/r_col4 = null
+
+[sub_resource type="ShaderMaterial" id=6]
+shader = ExtResource( 4 )
+shader_param/black = null
+shader_param/t_col1 = null
+shader_param/t_col2 = null
+shader_param/t_col3 = null
+shader_param/t_col4 = null
+shader_param/r_col1 = null
+shader_param/r_col2 = null
+shader_param/r_col3 = null
+shader_param/r_col4 = null
+
+[sub_resource type="ShaderMaterial" id=7]
+shader = ExtResource( 4 )
+shader_param/black = null
+shader_param/t_col1 = null
+shader_param/t_col2 = null
+shader_param/t_col3 = null
+shader_param/t_col4 = null
+shader_param/r_col1 = null
+shader_param/r_col2 = null
+shader_param/r_col3 = null
+shader_param/r_col4 = null
+
+[sub_resource type="ShaderMaterial" id=8]
+shader = ExtResource( 4 )
+shader_param/black = null
+shader_param/t_col1 = null
+shader_param/t_col2 = null
+shader_param/t_col3 = null
+shader_param/t_col4 = null
+shader_param/r_col1 = null
+shader_param/r_col2 = null
+shader_param/r_col3 = null
+shader_param/r_col4 = null
+
+[sub_resource type="ShaderMaterial" id=9]
+shader = ExtResource( 4 )
+shader_param/black = null
+shader_param/t_col1 = null
+shader_param/t_col2 = null
+shader_param/t_col3 = null
+shader_param/t_col4 = null
+shader_param/r_col1 = null
+shader_param/r_col2 = null
+shader_param/r_col3 = null
+shader_param/r_col4 = null
+
+[sub_resource type="ShaderMaterial" id=10]
+shader = ExtResource( 4 )
+shader_param/black = null
+shader_param/t_col1 = null
+shader_param/t_col2 = null
+shader_param/t_col3 = null
+shader_param/t_col4 = null
+shader_param/r_col1 = null
+shader_param/r_col2 = null
+shader_param/r_col3 = null
+shader_param/r_col4 = null
+
+[sub_resource type="ShaderMaterial" id=11]
+shader = ExtResource( 4 )
+shader_param/black = null
+shader_param/t_col1 = null
+shader_param/t_col2 = null
+shader_param/t_col3 = null
+shader_param/t_col4 = null
+shader_param/r_col1 = null
+shader_param/r_col2 = null
+shader_param/r_col3 = null
+shader_param/r_col4 = null
+
+[sub_resource type="ShaderMaterial" id=12]
+shader = ExtResource( 4 )
+shader_param/black = null
+shader_param/t_col1 = null
+shader_param/t_col2 = null
+shader_param/t_col3 = null
+shader_param/t_col4 = null
+shader_param/r_col1 = null
+shader_param/r_col2 = null
+shader_param/r_col3 = null
+shader_param/r_col4 = null
+
+[sub_resource type="ShaderMaterial" id=13]
+shader = ExtResource( 4 )
+shader_param/black = null
+shader_param/t_col1 = null
+shader_param/t_col2 = null
+shader_param/t_col3 = null
+shader_param/t_col4 = null
+shader_param/r_col1 = null
+shader_param/r_col2 = null
+shader_param/r_col3 = null
+shader_param/r_col4 = null
+
+[sub_resource type="ShaderMaterial" id=17]
+shader = ExtResource( 4 )
+shader_param/black = null
+shader_param/t_col1 = null
+shader_param/t_col2 = null
+shader_param/t_col3 = null
+shader_param/t_col4 = null
+shader_param/r_col1 = null
+shader_param/r_col2 = null
+shader_param/r_col3 = null
+shader_param/r_col4 = null
+
+[sub_resource type="ShaderMaterial" id=14]
+shader = ExtResource( 4 )
+shader_param/black = null
+shader_param/t_col1 = null
+shader_param/t_col2 = null
+shader_param/t_col3 = null
+shader_param/t_col4 = null
+shader_param/r_col1 = null
+shader_param/r_col2 = null
+shader_param/r_col3 = null
+shader_param/r_col4 = null
+
+[sub_resource type="ShaderMaterial" id=18]
+shader = ExtResource( 4 )
+shader_param/black = null
+shader_param/t_col1 = null
+shader_param/t_col2 = null
+shader_param/t_col3 = null
+shader_param/t_col4 = null
+shader_param/r_col1 = null
+shader_param/r_col2 = null
+shader_param/r_col3 = null
+shader_param/r_col4 = null
+
+[sub_resource type="ShaderMaterial" id=15]
+shader = ExtResource( 4 )
+shader_param/black = null
+shader_param/t_col1 = null
+shader_param/t_col2 = null
+shader_param/t_col3 = null
+shader_param/t_col4 = null
+shader_param/r_col1 = null
+shader_param/r_col2 = null
+shader_param/r_col3 = null
+shader_param/r_col4 = null
 
 [node name="pause_menu" type="Node2D"]
 pause_mode = 2
@@ -36,16 +253,20 @@ custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 0.988235, 0.972549, 0.988235, 1 )
 text = "-WEAPONS ENERGY-"
 
-[node name="weap_01" type="Control" parent="."]
+[node name="weap_01" type="Control" parent="." groups=[
+"wpn_icons",
+]]
 editor/display_folded = true
+material = SubResource( 1 )
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
 margin_bottom = 32.0
 
 [node name="icon" type="Sprite" parent="weap_01"]
+use_parent_material = true
 position = Vector2( 48, 40 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 vframes = 18
 
 [node name="text" type="Label" parent="weap_01"]
@@ -59,26 +280,33 @@ custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 0.988235, 0.972549, 0.988235, 1 )
 text = "M. BUSTER"
 
-[node name="meter" type="TextureProgress" parent="weap_01"]
+[node name="meter" type="TextureProgress" parent="weap_01" groups=[
+"meters",
+]]
+material = SubResource( 16 )
 margin_left = 64.0
 margin_top = 40.0
 margin_right = 120.0
 margin_bottom = 48.0
 max_value = 280.0
 value = 280.0
-texture_under = ExtResource( 5 )
-texture_progress = ExtResource( 6 )
+texture_under = ExtResource( 6 )
+texture_progress = ExtResource( 7 )
 
-[node name="weap_02" type="Control" parent="."]
+[node name="weap_02" type="Control" parent="." groups=[
+"wpn_icons",
+]]
 editor/display_folded = true
+material = SubResource( 2 )
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
 margin_bottom = 32.0
 
 [node name="icon" type="Sprite" parent="weap_02"]
+use_parent_material = true
 position = Vector2( 48, 56 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 vframes = 18
 frame = 2
 
@@ -94,25 +322,30 @@ custom_colors/font_color = Color( 0.988235, 0.972549, 0.988235, 1 )
 text = "RUSH COIL"
 
 [node name="meter" type="TextureProgress" parent="weap_02"]
+use_parent_material = true
 margin_left = 64.0
 margin_top = 56.0
 margin_right = 120.0
 margin_bottom = 64.0
 max_value = 280.0
 value = 280.0
-texture_under = ExtResource( 5 )
-texture_progress = ExtResource( 6 )
+texture_under = ExtResource( 6 )
+texture_progress = ExtResource( 7 )
 
-[node name="weap_03" type="Control" parent="."]
+[node name="weap_03" type="Control" parent="." groups=[
+"wpn_icons",
+]]
 editor/display_folded = true
+material = SubResource( 3 )
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
 margin_bottom = 32.0
 
 [node name="icon" type="Sprite" parent="weap_03"]
+use_parent_material = true
 position = Vector2( 48, 72 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 vframes = 18
 frame = 3
 
@@ -128,25 +361,30 @@ custom_colors/font_color = Color( 0.988235, 0.972549, 0.988235, 1 )
 text = "RUSH JET"
 
 [node name="meter" type="TextureProgress" parent="weap_03"]
+use_parent_material = true
 margin_left = 64.0
 margin_top = 72.0
 margin_right = 120.0
 margin_bottom = 80.0
 max_value = 280.0
 value = 280.0
-texture_under = ExtResource( 5 )
-texture_progress = ExtResource( 6 )
+texture_under = ExtResource( 6 )
+texture_progress = ExtResource( 7 )
 
-[node name="weap_04" type="Control" parent="."]
+[node name="weap_04" type="Control" parent="." groups=[
+"wpn_icons",
+]]
 editor/display_folded = true
+material = SubResource( 4 )
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
 margin_bottom = 32.0
 
 [node name="icon" type="Sprite" parent="weap_04"]
+use_parent_material = true
 position = Vector2( 48, 88 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 vframes = 18
 frame = 7
 
@@ -162,25 +400,30 @@ custom_colors/font_color = Color( 0.988235, 0.972549, 0.988235, 1 )
 text = "WEAP - 01"
 
 [node name="meter" type="TextureProgress" parent="weap_04"]
+use_parent_material = true
 margin_left = 64.0
 margin_top = 88.0
 margin_right = 120.0
 margin_bottom = 96.0
 max_value = 280.0
 value = 280.0
-texture_under = ExtResource( 5 )
-texture_progress = ExtResource( 6 )
+texture_under = ExtResource( 6 )
+texture_progress = ExtResource( 7 )
 
-[node name="weap_05" type="Control" parent="."]
+[node name="weap_05" type="Control" parent="." groups=[
+"wpn_icons",
+]]
 editor/display_folded = true
+material = SubResource( 5 )
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
 margin_bottom = 32.0
 
 [node name="icon" type="Sprite" parent="weap_05"]
+use_parent_material = true
 position = Vector2( 48, 104 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 vframes = 18
 frame = 7
 
@@ -196,25 +439,30 @@ custom_colors/font_color = Color( 0.988235, 0.972549, 0.988235, 1 )
 text = "WEAP - 02"
 
 [node name="meter" type="TextureProgress" parent="weap_05"]
+use_parent_material = true
 margin_left = 64.0
 margin_top = 104.0
 margin_right = 120.0
 margin_bottom = 112.0
 max_value = 280.0
 value = 280.0
-texture_under = ExtResource( 5 )
-texture_progress = ExtResource( 6 )
+texture_under = ExtResource( 6 )
+texture_progress = ExtResource( 7 )
 
-[node name="weap_06" type="Control" parent="."]
+[node name="weap_06" type="Control" parent="." groups=[
+"wpn_icons",
+]]
 editor/display_folded = true
+material = SubResource( 6 )
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
 margin_bottom = 32.0
 
 [node name="icon" type="Sprite" parent="weap_06"]
+use_parent_material = true
 position = Vector2( 48, 120 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 vframes = 18
 frame = 7
 
@@ -230,25 +478,30 @@ custom_colors/font_color = Color( 0.988235, 0.972549, 0.988235, 1 )
 text = "WEAP - 03"
 
 [node name="meter" type="TextureProgress" parent="weap_06"]
+use_parent_material = true
 margin_left = 64.0
 margin_top = 120.0
 margin_right = 120.0
 margin_bottom = 128.0
 max_value = 280.0
 value = 280.0
-texture_under = ExtResource( 5 )
-texture_progress = ExtResource( 6 )
+texture_under = ExtResource( 6 )
+texture_progress = ExtResource( 7 )
 
-[node name="weap_07" type="Control" parent="."]
+[node name="weap_07" type="Control" parent="." groups=[
+"wpn_icons",
+]]
 editor/display_folded = true
+material = SubResource( 7 )
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
 margin_bottom = 32.0
 
 [node name="icon" type="Sprite" parent="weap_07"]
+use_parent_material = true
 position = Vector2( 152, 40 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 vframes = 18
 frame = 7
 
@@ -264,25 +517,30 @@ custom_colors/font_color = Color( 0.988235, 0.972549, 0.988235, 1 )
 text = "WEAP - 04"
 
 [node name="meter" type="TextureProgress" parent="weap_07"]
+use_parent_material = true
 margin_left = 168.0
 margin_top = 40.0
 margin_right = 224.0
 margin_bottom = 48.0
 max_value = 280.0
 value = 280.0
-texture_under = ExtResource( 5 )
-texture_progress = ExtResource( 6 )
+texture_under = ExtResource( 6 )
+texture_progress = ExtResource( 7 )
 
-[node name="weap_08" type="Control" parent="."]
+[node name="weap_08" type="Control" parent="." groups=[
+"wpn_icons",
+]]
 editor/display_folded = true
+material = SubResource( 8 )
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
 margin_bottom = 32.0
 
 [node name="icon" type="Sprite" parent="weap_08"]
+use_parent_material = true
 position = Vector2( 152, 56 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 vframes = 18
 frame = 7
 
@@ -298,25 +556,30 @@ custom_colors/font_color = Color( 0.988235, 0.972549, 0.988235, 1 )
 text = "WEAP - 05"
 
 [node name="meter" type="TextureProgress" parent="weap_08"]
+use_parent_material = true
 margin_left = 168.0
 margin_top = 56.0
 margin_right = 224.0
 margin_bottom = 64.0
 max_value = 280.0
 value = 280.0
-texture_under = ExtResource( 5 )
-texture_progress = ExtResource( 6 )
+texture_under = ExtResource( 6 )
+texture_progress = ExtResource( 7 )
 
-[node name="weap_09" type="Control" parent="."]
+[node name="weap_09" type="Control" parent="." groups=[
+"wpn_icons",
+]]
 editor/display_folded = true
+material = SubResource( 9 )
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
 margin_bottom = 32.0
 
 [node name="icon" type="Sprite" parent="weap_09"]
+use_parent_material = true
 position = Vector2( 152, 72 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 vframes = 18
 frame = 7
 
@@ -332,25 +595,30 @@ custom_colors/font_color = Color( 0.988235, 0.972549, 0.988235, 1 )
 text = "WEAP - 06"
 
 [node name="meter" type="TextureProgress" parent="weap_09"]
+use_parent_material = true
 margin_left = 168.0
 margin_top = 72.0
 margin_right = 224.0
 margin_bottom = 80.0
 max_value = 280.0
 value = 280.0
-texture_under = ExtResource( 5 )
-texture_progress = ExtResource( 6 )
+texture_under = ExtResource( 6 )
+texture_progress = ExtResource( 7 )
 
-[node name="weap_10" type="Control" parent="."]
+[node name="weap_10" type="Control" parent="." groups=[
+"wpn_icons",
+]]
 editor/display_folded = true
+material = SubResource( 10 )
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
 margin_bottom = 32.0
 
 [node name="icon" type="Sprite" parent="weap_10"]
+use_parent_material = true
 position = Vector2( 152, 88 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 vframes = 18
 frame = 7
 
@@ -366,25 +634,30 @@ custom_colors/font_color = Color( 0.988235, 0.972549, 0.988235, 1 )
 text = "WEAP - 07"
 
 [node name="meter" type="TextureProgress" parent="weap_10"]
+use_parent_material = true
 margin_left = 168.0
 margin_top = 88.0
 margin_right = 224.0
 margin_bottom = 96.0
 max_value = 280.0
 value = 280.0
-texture_under = ExtResource( 5 )
-texture_progress = ExtResource( 6 )
+texture_under = ExtResource( 6 )
+texture_progress = ExtResource( 7 )
 
-[node name="weap_11" type="Control" parent="."]
+[node name="weap_11" type="Control" parent="." groups=[
+"wpn_icons",
+]]
 editor/display_folded = true
+material = SubResource( 11 )
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
 margin_bottom = 32.0
 
 [node name="icon" type="Sprite" parent="weap_11"]
+use_parent_material = true
 position = Vector2( 152, 104 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 vframes = 18
 frame = 7
 
@@ -400,25 +673,30 @@ custom_colors/font_color = Color( 0.988235, 0.972549, 0.988235, 1 )
 text = "WEAP - 08"
 
 [node name="meter" type="TextureProgress" parent="weap_11"]
+use_parent_material = true
 margin_left = 168.0
 margin_top = 104.0
 margin_right = 224.0
 margin_bottom = 112.0
 max_value = 280.0
 value = 280.0
-texture_under = ExtResource( 5 )
-texture_progress = ExtResource( 6 )
+texture_under = ExtResource( 6 )
+texture_progress = ExtResource( 7 )
 
-[node name="weap_12" type="Control" parent="."]
+[node name="weap_12" type="Control" parent="." groups=[
+"wpn_icons",
+]]
 editor/display_folded = true
+material = SubResource( 12 )
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
 margin_bottom = 32.0
 
 [node name="icon" type="Sprite" parent="weap_12"]
+use_parent_material = true
 position = Vector2( 152, 120 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 vframes = 18
 frame = 7
 
@@ -434,25 +712,30 @@ custom_colors/font_color = Color( 0.988235, 0.972549, 0.988235, 1 )
 text = "B. ATTACK"
 
 [node name="meter" type="TextureProgress" parent="weap_12"]
+use_parent_material = true
 margin_left = 168.0
 margin_top = 120.0
 margin_right = 224.0
 margin_bottom = 128.0
 max_value = 280.0
 value = 280.0
-texture_under = ExtResource( 5 )
-texture_progress = ExtResource( 6 )
+texture_under = ExtResource( 6 )
+texture_progress = ExtResource( 7 )
 
-[node name="plyr_1" type="Control" parent="."]
+[node name="plyr_1" type="Control" parent="." groups=[
+"plyr_icon",
+]]
 editor/display_folded = true
+material = SubResource( 13 )
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
 margin_bottom = 32.0
 
 [node name="icon" type="Sprite" parent="plyr_1"]
+use_parent_material = true
 position = Vector2( 36, 160 )
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 hframes = 3
 
 [node name="text" type="Label" parent="plyr_1"]
@@ -466,26 +749,33 @@ custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 0.988235, 0.972549, 0.988235, 1 )
 text = "MEGA MAN"
 
-[node name="meter" type="TextureProgress" parent="plyr_1"]
+[node name="meter" type="TextureProgress" parent="plyr_1" groups=[
+"meters",
+]]
+material = SubResource( 17 )
 margin_left = 56.0
 margin_top = 160.0
 margin_right = 112.0
 margin_bottom = 168.0
 max_value = 280.0
 value = 280.0
-texture_under = ExtResource( 5 )
-texture_progress = ExtResource( 6 )
+texture_under = ExtResource( 6 )
+texture_progress = ExtResource( 7 )
 
-[node name="plyr_2" type="Control" parent="."]
+[node name="plyr_2" type="Control" parent="." groups=[
+"plyr_icon",
+]]
 editor/display_folded = true
+material = SubResource( 14 )
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
 margin_bottom = 32.0
 
 [node name="icon" type="Sprite" parent="plyr_2"]
+use_parent_material = true
 position = Vector2( 36, 192 )
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 hframes = 3
 
 [node name="text" type="Label" parent="plyr_2"]
@@ -499,15 +789,18 @@ custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 0.988235, 0.972549, 0.988235, 1 )
 text = "PROTO MAN"
 
-[node name="meter" type="TextureProgress" parent="plyr_2"]
+[node name="meter" type="TextureProgress" parent="plyr_2" groups=[
+"meters",
+]]
+material = SubResource( 18 )
 margin_left = 56.0
 margin_top = 192.0
 margin_right = 112.0
 margin_bottom = 200.0
 max_value = 280.0
 value = 280.0
-texture_under = ExtResource( 5 )
-texture_progress = ExtResource( 6 )
+texture_under = ExtResource( 6 )
+texture_progress = ExtResource( 7 )
 
 [node name="e_tanks" type="Control" parent="."]
 editor/display_folded = true
@@ -520,7 +813,7 @@ margin_bottom = 32.0
 "item_icon",
 ]]
 position = Vector2( 144, 160 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 hframes = 18
 
 [node name="amt" type="Label" parent="e_tanks"]
@@ -545,7 +838,7 @@ margin_bottom = 32.0
 "item_icon",
 ]]
 position = Vector2( 168, 160 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 hframes = 18
 frame = 1
 
@@ -560,22 +853,22 @@ custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 0.988235, 0.972549, 0.988235, 1 )
 text = "00"
 
-[node name="e-t_call" type="Control" parent="."]
+[node name="et_call" type="Control" parent="."]
 editor/display_folded = true
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 32.0
 margin_bottom = 32.0
 
-[node name="icon" type="Sprite" parent="e-t_call" groups=[
+[node name="icon" type="Sprite" parent="et_call" groups=[
 "item_icon",
 ]]
 position = Vector2( 192, 160 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 hframes = 18
 frame = 2
 
-[node name="amt" type="Label" parent="e-t_call"]
+[node name="amt" type="Label" parent="et_call"]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = 164.0
@@ -597,7 +890,7 @@ margin_bottom = 32.0
 "item_icon",
 ]]
 position = Vector2( 216, 160 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 hframes = 18
 frame = 3
 
@@ -623,7 +916,7 @@ margin_bottom = 32.0
 "item_icon",
 ]]
 position = Vector2( 240, 160 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 hframes = 18
 frame = 4
 
@@ -631,7 +924,7 @@ frame = 4
 "item_icon",
 ]]
 position = Vector2( 136, 192 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 hframes = 18
 frame = 5
 
@@ -639,7 +932,7 @@ frame = 5
 "item_icon",
 ]]
 position = Vector2( 160, 192 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 hframes = 18
 frame = 6
 
@@ -647,7 +940,7 @@ frame = 6
 "item_icon",
 ]]
 position = Vector2( 184, 192 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 hframes = 18
 frame = 6
 
@@ -655,7 +948,7 @@ frame = 6
 "item_icon",
 ]]
 position = Vector2( 208, 192 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 hframes = 18
 frame = 6
 
@@ -663,7 +956,7 @@ frame = 6
 "item_icon",
 ]]
 position = Vector2( 232, 192 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 hframes = 18
 frame = 6
 
@@ -671,7 +964,7 @@ frame = 6
 "item_icon",
 ]]
 position = Vector2( 136, 216 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 hframes = 18
 frame = 6
 
@@ -679,7 +972,7 @@ frame = 6
 "item_icon",
 ]]
 position = Vector2( 160, 216 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 hframes = 18
 frame = 6
 
@@ -687,7 +980,7 @@ frame = 6
 "item_icon",
 ]]
 position = Vector2( 184, 216 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 hframes = 18
 frame = 6
 
@@ -695,7 +988,7 @@ frame = 6
 "item_icon",
 ]]
 position = Vector2( 208, 216 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 hframes = 18
 frame = 6
 
@@ -703,7 +996,7 @@ frame = 6
 "item_icon",
 ]]
 position = Vector2( 232, 216 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 hframes = 18
 frame = 6
 
@@ -711,7 +1004,7 @@ frame = 6
 "item_icon",
 ]]
 position = Vector2( 72, 216 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 hframes = 18
 frame = 16
 
@@ -728,9 +1021,11 @@ text = "000"
 
 [node name="lives_icon" type="Sprite" parent="." groups=[
 "item_icon",
+"plyr_icon",
 ]]
+material = SubResource( 15 )
 position = Vector2( 24, 216 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 hframes = 18
 frame = 17
 

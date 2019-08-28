@@ -689,10 +689,6 @@ func palette_swap():
 		palette[2] = global.purple1
 	if global.player_weap[int($player.swap)] == 8:
 		palette[0] = global.black
-		palette[1] = global.turq3
-		palette[2] = global.blue0
-	if global.player_weap[int($player.swap)] == 8:
-		palette[0] = global.black
 		palette[1] = global.grey2
 		palette[2] = global.yellow1
 	if global.player_weap[int($player.swap)] == 9:

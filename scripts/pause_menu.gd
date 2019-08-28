@@ -1,9 +1,12 @@
 extends Node2D
 
 onready var icons = get_tree().get_nodes_in_group('item_icon')
+onready var world = get_parent().get_parent()
 onready var player = get_parent().get_parent().get_child(2)
 
 var new_plyr
+var new_wpn
+var new_menu = 0
 
 var menu = 0
 var m_pos = 0
@@ -13,13 +16,45 @@ var blink = 8
 var down_a = 1
 var down_b = 0
 
+var color_set
+var get_meters
+var get_plyr
+
+var sel_color = [Color(), Color(), global.yellow0, global.white]
+var desel_color = [global.grey3, global.grey2, global.grey1, global.grey0]
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
 	set_max()
 	set_names()
 	hide_icons()
-	color()
+	menu_color()
+	
+	color_set = get_tree().get_nodes_in_group('wpn_icons')
+	get_meters = get_tree().get_nodes_in_group('meters')
+	get_plyr = get_tree().get_nodes_in_group('plyr_icon')
+	
+	for c in color_set:
+		c.material.set_shader_param('black', global.black)
+		c.material.set_shader_param('t_col1', global.t_color2)
+		c.material.set_shader_param('t_col2', global.t_color3)
+		c.material.set_shader_param('t_col3', global.yellow0)
+		c.material.set_shader_param('t_col4', global.white)
+	
+	for g in get_meters:
+		g.material.set_shader_param('black', global.black)
+		g.material.set_shader_param('t_col1', global.t_color2)
+		g.material.set_shader_param('t_col2', global.t_color3)
+		g.material.set_shader_param('t_col3', global.yellow0)
+		g.material.set_shader_param('t_col4', global.white)
+	
+	for p in get_plyr:
+		p.material.set_shader_param('black', global.black)
+		p.material.set_shader_param('t_col1', global.t_color2)
+		p.material.set_shader_param('t_col2', global.t_color3)
+		p.material.set_shader_param('t_col3', global.yellow0)
+		p.material.set_shader_param('t_col4', global.white)
 
 # warning-ignore:unused_argument
 func _input(event):
@@ -127,6 +162,16 @@ func _input(event):
 		if Input.is_action_just_pressed('up'):
 			#There's no need to set the value to down_a or down_b as the player cannot proceed passed these values.
 			menu -= 1
+			if !$e_tanks/icon.visible:
+				$e_tanks/icon.show()
+			if !$m_tanks/icon.visible:
+				$m_tanks/icon.show()
+			if !$et_call/icon.visible:
+				$et_call/icon.show()
+			if !$half_dmg/icon.visible:
+				$half_dmg/icon.show()
+			if !$spk_prtct/icon.visible:
+				$spk_prtct/icon.show()
 		
 		if Input.is_action_just_pressed('left'):
 			if m_pos > 0:
@@ -139,25 +184,19 @@ func _input(event):
 
 # warning-ignore:unused_argument
 func _physics_process(delta):
-	#Reset the item menu position when in the weapons menu.
-	if m_pos != 0 and menu == 0:
-		m_pos = menu
-		
-	if menu != 0 and blink > 0:
-		blink -= 1
 	
-	if menu != 0 and blink == 0:
-		if m_pos == 0:
-			if $e_tanks/icon.visible:
-				$e_tanks/icon.hide()
-			else:
-				$e_tanks/icon.show()
-		blink = 8
-		
+	if new_wpn != global.player_weap[int(player.swap)]:
+		new_wpn = global.player_weap[int(player.swap)]
+		wpn_menu()
 	
+	if new_menu != menu:
+		new_wpn = menu
+		wpn_menu()
+
+	item_menu()
 	print(global.player_weap[int(player.swap)],', ',menu,', ',m_pos,', ',blink)
 
-func color():
+func menu_color():
 	if new_plyr != global.player:
 		#Set the appropriate colors for the menu.
 		$background.tile_set = load('res://assets/tilesets/menu/option-stage_'+str(global.player)+'.tres')
@@ -268,3 +307,181 @@ func set_names():
 	if global.player_id[1] == 2:
 		$plyr_2/icon.set_frame(2)
 		$plyr_2/text.set_text('BASS')
+
+func item_menu():
+	#Reset the item menu position when in the weapons menu.
+	if m_pos != 0 and menu == 0:
+		m_pos = menu
+	
+	#Make the selected icons blink.
+	if menu != 0 and blink > 0:
+		blink -= 1
+	
+	if menu != 0 and blink == 0:
+		if m_pos == 0:
+			if $e_tanks/icon.visible:
+				$e_tanks/icon.hide()
+			else:
+				$e_tanks/icon.show()
+		if m_pos == 1:
+			if $m_tanks/icon.visible:
+				$m_tanks/icon.hide()
+			else:
+				$m_tanks/icon.show()
+		if m_pos == 2:
+			if $et_call/icon.visible:
+				$et_call/icon.hide()
+			else:
+				$et_call/icon.show()
+		if m_pos == 3:
+			if $half_dmg/icon.visible:
+				$half_dmg/icon.hide()
+			else:
+				$half_dmg/icon.show()
+		if m_pos == 4:
+			if $spk_prtct/icon.visible:
+				$spk_prtct/icon.hide()
+			else:
+				$spk_prtct/icon.show()
+		
+		blink = 8
+	
+	#Reset other icons to visible when not selected.
+	if menu != 0:
+		if m_pos == 0:
+			if !$m_tanks/icon.visible:
+				$m_tanks/icon.show()
+			if !$et_call/icon.visible:
+				$et_call/icon.show()
+			if !$half_dmg/icon.visible:
+				$half_dmg/icon.show()
+			if !$spk_prtct/icon.visible:
+				$spk_prtct/icon.show()
+		if m_pos == 1:
+			if !$e_tanks/icon.visible:
+				$e_tanks/icon.show()
+			if !$et_call/icon.visible:
+				$et_call/icon.show()
+			if !$half_dmg/icon.visible:
+				$half_dmg/icon.show()
+			if !$spk_prtct/icon.visible:
+				$spk_prtct/icon.show()
+		if m_pos == 2:
+			if !$e_tanks/icon.visible:
+				$e_tanks/icon.show()
+			if !$m_tanks/icon.visible:
+				$m_tanks/icon.show()
+			if !$half_dmg/icon.visible:
+				$half_dmg/icon.show()
+			if !$spk_prtct/icon.visible:
+				$spk_prtct/icon.show()
+		if m_pos == 3:
+			if !$e_tanks/icon.visible:
+				$e_tanks/icon.show()
+			if !$m_tanks/icon.visible:
+				$m_tanks/icon.show()
+			if !$et_call/icon.visible:
+				$et_call/icon.show()
+			if !$spk_prtct/icon.visible:
+				$spk_prtct/icon.show()
+		if m_pos == 4:
+			if !$e_tanks/icon.visible:
+				$e_tanks/icon.show()
+			if !$m_tanks/icon.visible:
+				$m_tanks/icon.show()
+			if !$et_call/icon.visible:
+				$et_call/icon.show()
+			if !$half_dmg/icon.visible:
+				$half_dmg/icon.show()
+
+func wpn_menu():
+	
+	var get_nodes = get_tree().get_nodes_in_group('wpn_icons')
+	
+	if global.player_weap[int(player.swap)] == 0:
+		if global.player == 0:
+			sel_color[0] = global.blue2
+			sel_color[1] = global.blue1
+		if global.player == 1:
+			sel_color[0] = global.red3
+			sel_color[1] = global.grey1
+		if global.player == 2:
+			sel_color[0] = global.grey2
+			sel_color[1] = global.brown1
+		
+		$weap_01/meter.material.set_shader_param('r_col1', sel_color[2])
+		$weap_01/meter.material.set_shader_param('r_col2', sel_color[3])
+	else:
+		$weap_01/meter.material.set_shader_param('r_col1', desel_color[0])
+		$weap_01/meter.material.set_shader_param('r_col2', desel_color[1])
+	
+	if global.player_weap[int(player.swap)] == 1 or global.player_weap[int(player.swap)] == 2:
+		if global.player == 0 or global.player == 1:
+			sel_color[0] = global.red3
+			sel_color[1] = global.white
+		if global.player == 2:
+			sel_color[0] = global.grey2
+			sel_color[1] = global.purple2
+	
+	if global.player_weap[int(player.swap)] == 3:
+		sel_color[0] = global.red3
+		sel_color[1] = global.yellow1
+	
+	if global.player_weap[int(player.swap)] == 4:
+		sel_color[0] = global.blue3
+		sel_color[1] = global.grey2
+		
+	if global.player_weap[int(player.swap)] == 5:
+		sel_color[0] = global.green3
+		sel_color[1] = global.lime1
+	
+	if global.player_weap[int(player.swap)] == 6:
+		sel_color[0] = global.grey3
+		sel_color[1] = global.grey0
+	
+	if global.player_weap[int(player.swap)] == 7:
+		sel_color[0] = global.purple3
+		sel_color[1] = global.purple1
+		
+	if global.player_weap[int(player.swap)] == 8:
+		sel_color[0] = global.grey2
+		sel_color[1] = global.yellow1
+	
+	if global.player_weap[int(player.swap)] == 9:
+		sel_color[0] = global.pink2
+		sel_color[1] = global.white
+	
+	if global.player_weap[int(player.swap)] == 10:
+		sel_color[0] = global.rblue2
+		sel_color[1] = global.yellow0
+	
+	if global.player_weap[int(player.swap)] == 11:
+		if global.player == 0:
+			sel_color[0] = global.blue2
+			sel_color[1] = global.blue1
+		if global.player == 1:
+			sel_color[0] = global.green1
+			sel_color[1] = global.blue0
+		if global.player == 2:
+			sel_color[0] = global.pink1
+			sel_color[1] = global.yellow0
+	
+	for i in range(get_nodes.size()):
+		if i == global.player_weap[int(player.swap)] and menu == 0:
+			get_nodes[i].material.set_shader_param('r_col1', sel_color[0])
+			get_nodes[i].material.set_shader_param('r_col2', sel_color[1])
+			get_nodes[i].material.set_shader_param('r_col3', sel_color[2])
+			
+			get_plyr[int(player.swap)].material.set_shader_param('r_col1', sel_color[0])
+			get_plyr[int(player.swap)].material.set_shader_param('r_col2', sel_color[1])
+			get_plyr[int(player.swap)].material.set_shader_param('r_col3', sel_color[2])
+			get_plyr[int(player.swap)].material.set_shader_param('r_col4', sel_color[3])
+			
+			get_plyr[2].material.set_shader_param('r_col1', sel_color[0])
+			get_plyr[2].material.set_shader_param('r_col2', sel_color[1])
+			get_plyr[2].material.set_shader_param('r_col3', sel_color[2])
+			get_plyr[2].material.set_shader_param('r_col4', sel_color[3])
+		else:
+			get_nodes[i].material.set_shader_param('r_col1', desel_color[0])
+			get_nodes[i].material.set_shader_param('r_col2', desel_color[1])
+			get_nodes[i].material.set_shader_param('r_col3', desel_color[2])
