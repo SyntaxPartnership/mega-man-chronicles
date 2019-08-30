@@ -247,8 +247,8 @@ func _physics_process(delta):
 				world.palette_swap()
 			
 			if !fire and charge > 0 and global.player != 2:
-				weapons()
 				world.palette_swap()
+				weapons()
 
 			#Code to revert back to normal sprites.
 			if shot_delay > 0:

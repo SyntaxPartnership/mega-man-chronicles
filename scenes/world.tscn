@@ -178,7 +178,6 @@ script = ExtResource( 16 )
 [node name="hud" parent="hud" instance=ExtResource( 17 )]
 
 [node name="pause" type="CanvasLayer" parent="."]
-editor/display_folded = true
 
 [node name="pause_menu" parent="pause" instance=ExtResource( 18 )]
 visible = false
@@ -358,6 +357,6 @@ position = Vector2( 128, 120 )
 [connection signal="scrolling" from="." to="player" method="_on_world_scrolling"]
 [connection signal="teleport" from="player" to="." method="_on_teleport"]
 [connection signal="start" from="hud/ready" to="player" method="_on_ready_start"]
-[connection signal="fadein" from="fade/fade" to="." method="_on_fade_fadein"]
 [connection signal="fadein" from="fade/fade" to="hud/ready" method="_on_fade_fadein"]
+[connection signal="fadein" from="fade/fade" to="." method="_on_fade_fadein"]
 [connection signal="fadeout" from="fade/fade" to="." method="_on_fade_fadeout"]

@@ -6,8 +6,8 @@ var debug_menu = 0
 #Player Variables
 var player = 2
 var player_id = [0, 1]
-var player_life = [140, 240]
-var player_weap = [0, 0]
+var player_life = [140, 280]
+var player_weap = [0, 4]
 var lives = 2
 
 #Global Level/Option Flags

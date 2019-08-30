@@ -168,6 +168,9 @@ Changes - Version 0.0.1 ():
 - Added lives counter.
 - Made the player's hitbox slightly smaller.
 - Reorganized scenes folder to make finding scenes and nodes easier.
+- Started swap mechanic.
+- Player is now forced into a swap if their HP hits 0, but not when contacting with a death tile.
+- Added nodes to help animate the swap.
 
 Credits:
 --
