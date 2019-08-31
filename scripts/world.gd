@@ -172,16 +172,20 @@ func _input(event):
 		if Input.is_action_just_pressed('select') and !swapping:
 			if $player.act_st != 13 and !$player.slide:
 				if global.player_life[int(!$player.swap)] != 0:
-					print('SWAPPING!')
+					$player.w_icon = 0
+					$player/sprite/weap_icon_lr.hide()
+					$player.hide()
 					swapping = true
-					swap_leave()
+					swap_out()
 					if !$player.swap:
 						$player.swap = true
 					else:
 						$player.swap = false
 					swap()
 					$pause/pause_menu.menu_color()
-					swap_come()
+					$pause/pause_menu.set_names()
+					$pause/pause_menu.wpn_menu()
+					swap_in()
 					get_tree().paused = true
 				else:
 					print('CANNOT SWAP. SECOND PLAYER DEAD.')
@@ -901,15 +905,18 @@ func bubble():
 		bubble.position = $player.position
 		bbl_count += 1
 
-func swap_leave():
+func swap_out():
 	#Spawn the leaving sprite.
-	var leave = load('res://scenes/player/other/plyr_leave.tscn').instance()
-	$overlap.add_child(leave)
-	leave.position = $player.position
+	var out = load('res://scenes/player/other/plyr_out.tscn').instance()
+	$overlap.add_child(out)
+	out.position = $player.position
 
-func swap_come():
+func swap_in():
 	#Spawn the inbound sprite.
-	pass
+	var p_in = load('res://scenes/player/other/plyr_in.tscn').instance()
+	$overlap.add_child(p_in)
+	p_in.position.x = $player.position.x
+	p_in.position.y = $player.position.y - 240
 
 func kill_effects():
 	#Use this to kill special effect sprites when scrolling.

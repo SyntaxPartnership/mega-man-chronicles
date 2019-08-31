@@ -171,6 +171,9 @@ Changes - Version 0.0.1 ():
 - Started swap mechanic.
 - Player is now forced into a swap if their HP hits 0, but not when contacting with a death tile.
 - Added nodes to help animate the swap.
+- Fixed an issue where the beam in animation didn't leave upon finishing.
+- Fixed an issue where the player's sprite and the beam out animation could collide with one another.
+- Fixed an issue where the incorrect idle animation would play depending on who the player swapped to.
 
 Credits:
 --

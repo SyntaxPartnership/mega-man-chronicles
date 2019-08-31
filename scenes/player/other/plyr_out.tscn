@@ -1,13 +1,13 @@
 [gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://scripts/plyr_leave.gd" type="Script" id=1]
+[ext_resource path="res://scripts/plyr_out.gd" type="Script" id=1]
 [ext_resource path="res://shaders/player.shader" type="Shader" id=2]
 [ext_resource path="res://assets/sprites/player/mega-norm.png" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 8, 10 )
 
-[sub_resource type="ShaderMaterial" id=8]
+[sub_resource type="ShaderMaterial" id=2]
 shader = ExtResource( 2 )
 shader_param/t_col1 = Color( 0, 0, 0, 1 )
 shader_param/t_col2 = Color( 0, 0, 0, 1 )
@@ -103,10 +103,10 @@ tracks/0/keys = {
 "values": [ 10 ]
 }
 
-[node name="plyr_leave" type="KinematicBody2D"]
+[node name="plyr_out" type="KinematicBody2D"]
 pause_mode = 2
 collision_layer = 2
-collision_mask = 2
+collision_mask = 16
 script = ExtResource( 1 )
 
 [node name="box" type="CollisionShape2D" parent="."]
@@ -114,7 +114,7 @@ position = Vector2( 0, 2 )
 shape = SubResource( 1 )
 
 [node name="sprite" type="Sprite" parent="."]
-material = SubResource( 8 )
+material = SubResource( 2 )
 texture = ExtResource( 3 )
 vframes = 4
 hframes = 14

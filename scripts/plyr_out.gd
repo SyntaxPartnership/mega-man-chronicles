@@ -72,7 +72,7 @@ func _process(delta):
 	if hurt and hurt_timer > 0:
 		hurt_timer -= 1
 	
-	if hurt and hurt_timer == 0 and !stop:
+	if hurt and hurt_timer == 0 and is_on_floor() and !stop:
 		$anim.play('down')
 		stop = true
 	
