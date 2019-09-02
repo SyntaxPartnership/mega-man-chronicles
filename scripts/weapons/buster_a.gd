@@ -4,7 +4,7 @@ onready var world = get_parent().get_parent()
 onready var player = world.get_child(2)
 onready var p_sprite = player.get_child(3)
 
-const SPEED = 250
+const SPEED = 300
 
 var reflect = false
 
@@ -25,6 +25,13 @@ func _physics_process(delta):
 			velocity.x = -SPEED
 		else:
 			velocity.x = SPEED
+	else:
+		if $sprite.flip_h:
+			velocity.x = SPEED
+		else:
+			velocity.x = -SPEED
+		
+		velocity.y = -SPEED
 	
 	velocity = move_and_slide(velocity, Vector2(0, -1))
 

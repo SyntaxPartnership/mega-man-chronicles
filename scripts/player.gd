@@ -221,9 +221,14 @@ func _physics_process(delta):
 			#Begin weapon functions.
 			if slide_timer == 0:
 				if fire_tap and global.player != 2 and global.player_weap[int(swap)] == 0 or fire_tap and global.player_weap[int(swap)] != 0:
-					if world.shots < 3:
-						world.shots += 1
-						weapons()
+					if global.player == 0:
+						if world.shots < 3:
+							world.shots += 1
+							weapons()
+					if global.player == 1:
+						if world.shots < 2:
+							world.shots += 1
+							weapons()
 
 				if fire and global.player == 2 and global.player_weap[int(swap)] == 0:
 					shot_state(BASSSHOT)
