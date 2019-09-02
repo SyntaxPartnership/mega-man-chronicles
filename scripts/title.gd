@@ -3,8 +3,6 @@ extends Node2D
 var menu_pos = 0
 var menu = 0
 var can_move = false
-var accept = false
-var cancel = false
 var fade_in = false
 var fade_out = false
 var cursor_pos = Vector2()
@@ -13,49 +11,42 @@ func _ready():
 	cursor_pos = $cursor.position
 
 # warning-ignore:unused_argument
-func _physics_process(delta):
-	
+func _input(event):
 	if can_move:
-		#If this returns true, then a button is being held and menu selection cannot continue.
-		if Input.is_action_pressed("start") or Input.is_action_pressed("jump"):
-			accept = true
-		else:
-			accept = false
 		
-		if Input.is_action_pressed("fire"):
-			cancel = true
-		else:
-			cancel = false
+		if Input.is_action_just_pressed('start') or Input.is_action_just_pressed('jump'):
+			if menu == 1:
+				if menu_pos == 0:
+					$sounds/select.play()
+					menu += 1
+					$fade.state = 1
+					$fade.set("end", true)
+			if menu == 0:
+				$sounds/select.play()
+				menu += 1
+				fade_in = true
+				can_move = false
+				$menu_fade.interpolate_property($menu, 'modulate', Color(1.0, 1.0, 1.0, 1.0), Color(1.0, 1.0, 1.0, 0.0), 0.125, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+				$menu_fade.start()
 		
-		if accept and menu == 1 and menu_pos != 1 and menu_pos != 3:
-			menu += 1
-			$fade.state = 1
-			$fade.set("end", true)
+		if Input.is_action_just_pressed('fire'):
+			if menu == 1:
+				$sounds/back.play()
+				menu -= 1
+				fade_in = true
+				can_move = false
+				$menu_fade.interpolate_property($menu, 'modulate', Color(1.0, 1.0, 1.0, 1.0), Color(1.0, 1.0, 1.0, 0.0), 0.125, Tween.TRANS_LINEAR, Tween.EASE_OUT_IN)
+				$menu_fade.start()
+				$cursor.hide()
 		
-		#If the accept button is pressed.
-		if accept and menu == 0:
-			menu += 1
-			fade_in = true
-			can_move = false
-			$menu_fade.interpolate_property($menu, 'modulate', Color(1.0, 1.0, 1.0, 1.0), Color(1.0, 1.0, 1.0, 0.0), 0.125, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-			$menu_fade.start()
-		
-		#If the cancel button is pressed.
-		if cancel and menu == 1:
-			menu -= 1
-			fade_in = true
-			can_move = false
-			$menu_fade.interpolate_property($menu, 'modulate', Color(1.0, 1.0, 1.0, 1.0), Color(1.0, 1.0, 1.0, 0.0), 0.125, Tween.TRANS_LINEAR, Tween.EASE_OUT_IN)
-			$menu_fade.start()
-			$cursor.hide()
-		
-		#Set cursor position.
-		if menu == 1 and Input.is_action_just_pressed("up"):
+		if menu == 1 and Input.is_action_just_pressed('up'):
+			$sounds/cursor.play()
 			menu_pos -= 1
-		elif menu == 1 and Input.is_action_just_pressed("down"):
+		elif menu == 1 and Input.is_action_just_pressed('down'):
+			$sounds/cursor.play()
 			menu_pos += 1
 		
-		#Loop position.
+		#Loop cursor position.
 		if menu_pos < 0:
 			menu_pos = 3
 		elif menu_pos > 3:
@@ -63,7 +54,6 @@ func _physics_process(delta):
 		
 		#Set sprite to position.
 		$cursor.position.y = cursor_pos.y + (16 * menu_pos)
-		
 
 func _on_fade_fadein():
 	can_move = true
@@ -75,7 +65,6 @@ func _on_fade_fadeout():
 	elif menu_pos == 2:
 		# warning-ignore:return_value_discarded
 		get_tree().change_scene("res://scenes/options.tscn")
-
 
 # warning-ignore:unused_argument
 # warning-ignore:unused_argument

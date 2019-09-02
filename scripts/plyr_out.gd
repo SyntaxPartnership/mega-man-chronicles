@@ -4,7 +4,7 @@ onready var world = get_parent().get_parent()
 onready var player = world.get_child(2)
 onready var flip = player.get_child(3)
 
-var hurt = true
+var hurt = false
 var hurt_timer = 16
 
 var x_dir

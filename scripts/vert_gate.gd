@@ -2,7 +2,8 @@ extends Node2D
 
 onready var world = get_parent().get_parent()
 onready var player = world.get_child(2)
-onready var camera = player.get_child(7)
+#Update is more child nodes are added to player.
+onready var camera = player.get_child(8)
 onready var player_anim = player.get_child(4)
 
 var open = false
@@ -29,6 +30,7 @@ func _physics_process(delta):
 
 func _on_act_left_body_entered(body):
 	if !$act_left/box.is_disabled():
+		$open.play()
 		#Stop player animation
 		player_anim.stop()
 		player.can_move = false
@@ -41,6 +43,7 @@ func _on_act_left_body_entered(body):
 
 func _on_act_right_body_entered(body):
 	if !$act_right/box.is_disabled():
+		$open.play()
 		#Stop player animation
 		player_anim.stop()
 		player.can_move = false
@@ -94,6 +97,7 @@ func _on_anim_animation_finished(opening):
 func on_close_gate():
 	if open:
 		open = false
+		$open.play()
 		player_anim.stop()
 		$anim.play_backwards("opening")
 

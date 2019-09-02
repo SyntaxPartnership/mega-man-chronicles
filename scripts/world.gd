@@ -22,10 +22,11 @@ var player_room = Vector2(0, 0)
 var spawn_pt
 var boss = false
 var dead = false
-var dead_delay = 16
+var dead_delay = 24
 var restart = 360
 var heal_delay
 var swapping = false
+var shots = 0
 
 #Camera values
 var res = Vector2()
@@ -427,95 +428,29 @@ func _process(delta):
 		get_tree().paused = true
 		$player.hide()
 	
-	if dead and dead_delay > 0:
+	if dead and dead_delay > -1:
 		dead_delay -= 1
 	
 	if dead and dead_delay == 0:
 		if $player.is_visible():
+			$audio/death.play()
 			$player.hide()
 			for n in range(16):
 				var boom = DEATH_BOOM.instance()
 				boom.position = $player.position
 				boom.id = n
 				$overlap.add_child(boom)
+		else:
+			$audio/death.play()
 		get_tree().paused = false
 			
-	if dead and dead_delay == 0 and restart > -1:
+	if dead and dead_delay < 0 and restart > -1:
 		restart -= 1
 	
-	if dead and dead_delay == 0 and restart == 0:
+	if dead and dead_delay < 0 and restart == 0:
 		if !$fade/fade.end:
 			$fade/fade.state = 4
 			$fade/fade.end = true
-		
-	#Skip Unacquired Weapons.
-	if last_dir == 1:
-		#Skip Rush/Proto Jet if if playing as Mega/Proto Man and hasn't been acquired. Skip altogether if playing as Bass.
-		if global.player_weap[int($player.swap)] == 2 and !global.rp_jet[0] or global.player_weap[int($player.swap)] == 2 and global.player == 2:
-			global.player_weap[int($player.swap)] += 1
-		#Skip unacquired Master Weapons
-		if global.player_weap[int($player.swap)] == 3 and !global.weapon1[0]:
-			global.player_weap[int($player.swap)] += 1
-		if global.player_weap[int($player.swap)] == 4 and !global.weapon2[0]:
-			global.player_weap[int($player.swap)] += 1
-		if global.player_weap[int($player.swap)] == 5 and !global.weapon3[0]:
-			global.player_weap[int($player.swap)] += 1
-		if global.player_weap[int($player.swap)] == 6 and !global.weapon4[0]:
-			global.player_weap[int($player.swap)] += 1
-		if global.player_weap[int($player.swap)] == 7 and !global.weapon5[0]:
-			global.player_weap[int($player.swap)] += 1
-		if global.player_weap[int($player.swap)] == 8 and !global.weapon6[0]:
-			global.player_weap[int($player.swap)] += 1
-		if global.player_weap[int($player.swap)] == 9 and !global.weapon7[0]:
-			global.player_weap[int($player.swap)] += 1
-		if global.player_weap[int($player.swap)] == 10 and !global.weapon8[0]:
-			global.player_weap[int($player.swap)] += 1
-		#Skip player specific adaptors.
-		if global.player_weap[int($player.swap)] == 11 and !global.beat[0] and global.player == 0:
-			global.player_weap[int($player.swap)] += 1
-		if global.player_weap[int($player.swap)] == 11 and !global.tango[0] and global.player == 1:
-			global.player_weap[int($player.swap)] += 1
-		if global.player_weap[int($player.swap)] == 11 and !global.reggae[0] and global.player == 2:
-			global.player_weap[int($player.swap)] += 1
-	
-	elif last_dir == -1:
-		#These skips are done in reverse order to make them move to the next item seemlessly.
-		if global.player_weap[int($player.swap)] == 11 and !global.beat[0] and global.player == 0:
-			global.player_weap[int($player.swap)] -= 1
-		if global.player_weap[int($player.swap)] == 11 and !global.tango[0] and global.player == 1:
-			global.player_weap[int($player.swap)] -= 1
-		if global.player_weap[int($player.swap)] == 11 and !global.reggae[0] and global.player == 2:
-			global.player_weap[int($player.swap)] -= 1
-		#Master Weapons
-		if global.player_weap[int($player.swap)] == 10 and !global.weapon8[0]:
-			global.player_weap[int($player.swap)] -= 1
-		if global.player_weap[int($player.swap)] == 9 and !global.weapon7[0]:
-			global.player_weap[int($player.swap)] -= 1
-		if global.player_weap[int($player.swap)] == 8 and !global.weapon6[0]:
-			global.player_weap[int($player.swap)] -= 1
-		if global.player_weap[int($player.swap)] == 7 and !global.weapon5[0]:
-			global.player_weap[int($player.swap)] -= 1
-		if global.player_weap[int($player.swap)] == 6 and !global.weapon4[0]:
-			global.player_weap[int($player.swap)] -= 1
-		if global.player_weap[int($player.swap)] == 5 and !global.weapon3[0]:
-			global.player_weap[int($player.swap)] -= 1
-		if global.player_weap[int($player.swap)] == 4 and !global.weapon2[0]:
-			global.player_weap[int($player.swap)] -= 1
-		if global.player_weap[int($player.swap)] == 3 and !global.weapon1[0]:
-			global.player_weap[int($player.swap)] -= 1
-		#Rush/Proto Jet
-		if global.player_weap[int($player.swap)] == 2 and !global.rp_jet[0] or global.player_weap[int($player.swap)] == 2 and global.player == 2:
-			global.player_weap[int($player.swap)] -= 1
-
-	#Loop the value.
-	if global.player_weap[int($player.swap)] < 0:
-		global.player_weap[int($player.swap)] = 11
-	elif global.player_weap[int($player.swap)] > 11:
-		global.player_weap[int($player.swap)] = 0
-	
-	if last_weap != global.player_weap[int($player.swap)]:
-		last_weap = global.player_weap[int($player.swap)]
-		palette_swap()
 	
 	#Right Analog Stick
 	
@@ -534,6 +469,7 @@ func _process(delta):
 	
 	if tele_timer == 0:
 		$player.can_move = false
+		$audio/appear.play()
 		$player/anim.play('appear1')
 			
 	
@@ -640,6 +576,7 @@ func _on_fade_fadein():
 	if $fade/fade.state == 3 and $player.lock_ctrl:
 		$player/anim.stop(true)
 		$player.show()
+		$audio/appear.play()
 		$player/anim.play('appear1')
 		$player.lock_ctrl = false
 	
@@ -893,6 +830,8 @@ func spawn_objects():
 
 func splash():
 	if !dead:
+		$audio/splash.stop()
+		$audio/splash.play()
 		var splash = load('res://scenes/effects/splash.tscn').instance()
 		$overlap.add_child(splash)
 		splash.position.x = $player.position.x

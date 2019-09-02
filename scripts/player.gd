@@ -4,6 +4,7 @@ signal teleport
 
 #Use this to pull values from the World script.
 onready var world = get_parent()
+onready var wpn_layer = world.get_child(3)
 #Use this to get TileMap data.
 onready var tiles = world.get_child(0).get_child(1)
 
@@ -135,9 +136,12 @@ func _ready():
 	#Set colors
 	world.palette_swap()
 	
+	#Ready Proto Man's whistle if he is the first player.
+	if global.player == 1:
+		$audio/whistle.play()
 
 func _physics_process(delta):
-
+	
 	#Make the inputs easier to handle.
 	if !lock_ctrl:
 		x_dir = int(Input.is_action_pressed("right")) - int(Input.is_action_pressed("left"))
@@ -189,6 +193,7 @@ func _physics_process(delta):
 			$sprite.offset.y += 8
 		elif start_stage and $sprite.offset.y == -1:
 			anim_state(APPEAR)
+			$audio/appear.play()
 			start_stage = false
 
 		if !start_stage and !$anim.is_playing() and anim_st == APPEAR:
@@ -216,14 +221,18 @@ func _physics_process(delta):
 			#Begin weapon functions.
 			if slide_timer == 0:
 				if fire_tap and global.player != 2 and global.player_weap[int(swap)] == 0 or fire_tap and global.player_weap[int(swap)] != 0:
-					weapons()
+					if world.shots < 3:
+						world.shots += 1
+						weapons()
 
 				if fire and global.player == 2 and global.player_weap[int(swap)] == 0:
 					shot_state(BASSSHOT)
 					shot_rapid += 1
 
 					if shot_rapid == 1:
-						weapons()
+						if world.shots < 3:
+							world.shots += 1
+							weapons()
 
 					if shot_rapid >= 4:
 						shot_rapid = 0
@@ -235,6 +244,10 @@ func _physics_process(delta):
 			if fire and charge < 99:
 				charge += 1
 				
+			#Start charge sound loop.
+			if charge == 32:
+				$audio/charge_start.play()
+				
 			if charge >= 32:
 				c_flash += 1
 			
@@ -242,13 +255,16 @@ func _physics_process(delta):
 				c_flash = 0
 			elif charge >= 96 and c_flash > 7:
 				c_flash = 0
+			
+			if charge > 32 and !$audio/charge_start.is_playing() and !$audio/charge_loop.is_playing():
+				$audio/charge_loop.play()
 
 			if c_flash == 0 or c_flash == 2 or c_flash == 4 or c_flash == 6:
 				world.palette_swap()
 			
-			if !fire and charge > 0 and global.player != 2:
-				world.palette_swap()
+			if !fire and charge > 32 and global.player != 2:
 				weapons()
+				world.palette_swap()
 
 			#Code to revert back to normal sprites.
 			if shot_delay > 0:
@@ -320,6 +336,7 @@ func _physics_process(delta):
 				
 				#Reset the jumps counter. Cancel sliding.
 				if !jump and is_on_floor() and jumps == 0 and !slide:
+					$audio/land.play()
 					jumps = 1
 					slide = false
 					slide_timer = 0
@@ -655,6 +672,7 @@ func _physics_process(delta):
 		#WARNING! DEBUG FUCKERY AHEAD!
 		#Replace this with an Area Enter Body code when enemies and hazards are in place.
 		if Input.is_key_pressed(KEY_SPACE) and anim_st != HURT and !dmg_button:
+			$audio/hurt.play()
 			dmg_button = true
 			velocity.y = 0
 
@@ -857,10 +875,15 @@ func weapons():
 
 	#NOTE: Edit this section as weapons become usable.
 	if global.player != 2:
+		$audio/charge_start.stop()
+		$audio/charge_loop.stop()
 		if !slide:
 			#Mega Buster/Proto Strike
 			if global.player_weap[int(swap)] == 0 and charge < 32:
 				shot_state(SHOOT)
+				var buster_a = load('res://scenes/player/weapons/buster_a.tscn').instance()
+				wpn_layer.add_child(buster_a)
+				buster_a.position = $sprite/shoot_pos.global_position
 			elif global.player_weap[int(swap)] == 0 and charge >= 32 and charge < 96:
 				shot_state(SHOOT)
 			elif global.player_weap[int(swap)] == 0 and charge >= 96:

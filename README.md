@@ -174,6 +174,10 @@ Changes - Version 0.0.1 ():
 - Fixed an issue where the beam in animation didn't leave upon finishing.
 - Fixed an issue where the player's sprite and the beam out animation could collide with one another.
 - Fixed an issue where the incorrect idle animation would play depending on who the player swapped to.
+- Started adding sound effects
+- Moved code from _process() to _input() in the title screen.
+- Simplified code in title screen.
+- Start Mega/Proto/Bass Buster coding.
 
 Credits:
 --
