@@ -89,10 +89,13 @@ func _input(event):
 	if menu == 0:
 		#Set this section here to prevent issues transitioning between weapon selection and item selection.
 		if Input.is_action_just_pressed('down'):
+			$cursor.stop()
+			$cursor.play()
 			if global.player_weap[int(player.swap)] == down_a or global.player_weap[int(player.swap)] == down_b:
 				menu += 1
 		
 		if Input.is_action_just_pressed('up'):
+			$cursor.play()
 			#Left Side
 			if global.player_weap[int(player.swap)] > 0 and global.player_weap[int(player.swap)] <= 5:
 				global.player_weap[int(player.swap)] -= 1
@@ -101,6 +104,8 @@ func _input(event):
 				global.player_weap[int(player.swap)] -= 1
 		
 		if Input.is_action_just_pressed('down'):
+			$cursor.stop()
+			$cursor.play()
 			#Left Side
 			if global.player_weap[int(player.swap)] >= 0 and global.player_weap[int(player.swap)] < down_a:
 				global.player_weap[int(player.swap)] += 1
@@ -161,6 +166,8 @@ func _input(event):
 				global.player_weap[int(player.swap)] += 1
 		
 		if Input.is_action_just_pressed('left'):
+			$cursor.stop()
+			$cursor.play()
 			#Move selection to left side.
 			if global.player_weap[int(player.swap)] > 5:
 				global.player_weap[int(player.swap)] -= 6
@@ -171,6 +178,8 @@ func _input(event):
 				global.player_weap[int(player.swap)] = down_a
 		
 		if Input.is_action_just_pressed('right'):
+			$cursor.stop()
+			$cursor.play()
 			#Move selection to the right side.
 			if down_b != 0 and global.player_weap[int(player.swap)] < 6:
 				global.player_weap[int(player.swap)] += 6
@@ -184,6 +193,8 @@ func _input(event):
 		#Items menu.
 		#Move through items.
 		if Input.is_action_just_pressed('up'):
+			$cursor.stop()
+			$cursor.play()
 			#There's no need to set the value to down_a or down_b as the player cannot proceed passed these values.
 			menu -= 1
 			if !$e_tanks/icon.visible:
@@ -198,10 +209,14 @@ func _input(event):
 				$spk_prtct/icon.show()
 		
 		if Input.is_action_just_pressed('left'):
+			$cursor.stop()
+			$cursor.play()
 			if m_pos > 0:
 				m_pos -= 1
 		
 		if Input.is_action_just_pressed('right'):
+			$cursor.stop()
+			$cursor.play()
 			if m_pos < 4:
 				m_pos += 1
 		

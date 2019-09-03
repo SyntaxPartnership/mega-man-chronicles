@@ -178,6 +178,12 @@ Changes - Version 0.0.1 ():
 - Moved code from _process() to _input() in the title screen.
 - Simplified code in title screen.
 - Start Mega/Proto/Bass Buster coding.
+- Fixed an issue where the charge up sound would play when a different weapon was equipped.
+- Fixed an issue where the charge loop would separate itself from the charge start sounds.
+- Level 1 buster shots complete.
+- Fixed an issue where Bass Buster bullets would not spawn at correct points.
+- Fixed an issue where the player could dash as Bass while shooting.
+- FIxed an issue where bullets would not pause when the rest of the game normally would.
 
 Credits:
 --

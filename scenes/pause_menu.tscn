@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://scripts/pause_menu.gd" type="Script" id=1]
 [ext_resource path="res://assets/tilesets/menu/option-stage_0.tres" type="TileSet" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://assets/sprites/pause/meter_f.png" type="Texture" id=7]
 [ext_resource path="res://assets/sprites/pause/p_icons.png" type="Texture" id=8]
 [ext_resource path="res://assets/sprites/pause/icons_0.png" type="Texture" id=9]
+[ext_resource path="res://assets/audio/se/Cursor.wav" type="AudioStream" id=10]
 
 [sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 4 )
@@ -1050,3 +1051,6 @@ margin_bottom = 224.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 0.988235, 0.972549, 0.988235, 1 )
 text = ":     :"
+
+[node name="cursor" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 10 )

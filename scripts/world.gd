@@ -195,6 +195,7 @@ func _input(event):
 	
 		#Pause menu
 		if Input.is_action_just_pressed('start') and !$pause/pause_menu.start and !swapping:
+			$audio/menu.play()
 			$fade/fade.state = 6
 			$fade/fade.end = true
 			$player.can_move = false
@@ -202,10 +203,12 @@ func _input(event):
 	
 	else:
 		#Return to the game.
-		if Input.is_action_just_pressed('start') and $pause/pause_menu.start:
-			$fade/fade.state = 8
-			$fade/fade.end = true
-			$pause/pause_menu.start = false
+		if Input.is_action_just_pressed('start') or Input.is_action_just_pressed('jump'):
+			if $pause/pause_menu.start:
+				$audio/bling.play()
+				$fade/fade.state = 8
+				$fade/fade.end = true
+				$pause/pause_menu.start = false
 		
 	
 func _camera():
@@ -223,6 +226,7 @@ func _camera():
 		scroll_len = -res.y
 		cam_move = 1
 		kill_effects()
+		kill_weapons()
 		emit_signal("scrolling")
 	
 	#Scroll down (Edge of screen)
@@ -231,6 +235,7 @@ func _camera():
 		scroll_len = res.y
 		cam_move = 2
 		kill_effects()
+		kill_weapons()
 		emit_signal("scrolling")
 	
 	#Scroll left (Edge of screen)
@@ -241,6 +246,7 @@ func _camera():
 		scroll_len = -res.x
 		cam_move = 3
 		kill_effects()
+		kill_weapons()
 		emit_signal("scrolling")
 	
 	#Scroll right (Edge of screen)
@@ -251,6 +257,7 @@ func _camera():
 		scroll_len = res.x
 		cam_move = 4
 		kill_effects()
+		kill_weapons()
 		emit_signal("scrolling")
 	
 	#Pan the camera
@@ -865,6 +872,12 @@ func kill_effects():
 	for splash in effects:
 		splash.queue_free()
 	bbl_count = 0
+
+func kill_weapons():
+	var wpns = get_tree().get_nodes_in_group('weapons')
+	for i in wpns:
+		i.queue_free()
+	shots = 0
 
 func _on_teleport():
 	if tele_timer <= 0:

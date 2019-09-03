@@ -254,6 +254,7 @@ k_qs_downright={
 2d_physics/layer_4="powerups"
 2d_physics/layer_5="effects"
 2d_physics/layer_6="weapons"
+2d_physics/layer_7="doors"
 
 [logging]
 

@@ -49,6 +49,7 @@ var ice = false
 var conveyor = 0
 var grav_mod = 1
 var velocity = Vector2()
+var shot_dir = 1
 
 #Animation and FSM
 var play_anim = ''
@@ -89,6 +90,62 @@ var c_flash = 0
 var w_icon = 0
 
 var dmg_button = false
+
+var key = ''
+
+var s_frame = {
+	'0_4' : Vector2(16, 0),
+	'0_5' : Vector2(16, 0),
+	'0_6' : Vector2(16, 0),
+	'0_7' : Vector2(14, 1),
+	'0_8' : Vector2(14, 0),
+	'0_9' : Vector2(14, 1),
+	'0_10' : Vector2(12, -4),
+	'0_11' : Vector2(12, -4),
+	'0_12' : Vector2(12, -4),
+	'0_13' : Vector2(12, -4),
+	'1_4' : Vector2(10, 4),
+	'1_5' : Vector2(10, 4),
+	'1_6' : Vector2(10, 4),
+	'1_7' : Vector2(10, 4),
+	'1_8' : Vector2(10, 3),
+	'1_9' : Vector2(10, 4),
+	'1_10' : Vector2(10, 1),
+	'1_11' : Vector2(13, 0),
+	'1_12' : Vector2(13, 0),
+	'1_13' : Vector2(13, 0),
+	'2_4' : Vector2(17, 1),
+	'2_5' : Vector2(17, 1),
+	'2_6' : Vector2(17, 1),
+	'2_7' : Vector2(15, 2),
+	'2_8' : Vector2(15, 0),
+	'2_9' : Vector2(15, 2),
+	'2_10' : Vector2(13, -3),
+	'2_11' : Vector2(14, -3),
+	'2_12' : Vector2(14, -3),
+	'2_13' : Vector2(14, -3),
+	'2_4-up' : Vector2(4, -9),
+	'2_5-up' : Vector2(4, -9),
+	'2_6-up' : Vector2(4, -9),
+	'2_10-up' : Vector2(5, -12),
+	'2_11-up' : Vector2(6, -13),
+	'2_12-up' : Vector2(6, -13),
+	'2_13-up' : Vector2(6, -13),
+	'2_4-d-up' : Vector2(14, -6),
+	'2_5-d-up' : Vector2(14, -6),
+	'2_6-d-up' : Vector2(14, -6),
+	'2_10-d-up' : Vector2(11, -8),
+	'2_11-d-up' : Vector2(12, -9),
+	'2_12-d-up' : Vector2(12, -9),
+	'2_13-d-up' : Vector2(12, -9),
+	'2_4-d-down' : Vector2(14, 8),
+	'2_5-d-down' : Vector2(14, 8),
+	'2_6-d-down' : Vector2(14, 8),
+	'2_10-d-down' : Vector2(11, 4),
+	'2_11-d-down' : Vector2(12, 4),
+	'2_12-d-down' : Vector2(12, 4),
+	'2_13-d-down' : Vector2(12, 4)
+	}
 
 #Player States
 enum {
@@ -187,7 +244,7 @@ func _physics_process(delta):
 		$sprite/weap_icon_lr.hide()
 
 	if !can_move:
-		#Bring the sprite down aftfer READY vanishes.
+		#Bring the sprite down after READY vanishes.
 		#NOTE: This will have to be modified when character swapping is implemented.
 		if start_stage and $sprite.offset.y < -1:
 			$sprite.offset.y += 8
@@ -231,7 +288,9 @@ func _physics_process(delta):
 							weapons()
 
 				if fire and global.player == 2 and global.player_weap[int(swap)] == 0:
+					shot_delay = 20
 					shot_state(BASSSHOT)
+					shot_pos()
 					shot_rapid += 1
 
 					if shot_rapid == 1:
@@ -239,14 +298,14 @@ func _physics_process(delta):
 							world.shots += 1
 							weapons()
 
-					if shot_rapid >= 4:
+					if shot_rapid >= 6:
 						shot_rapid = 0
 
 				if !fire and global.player == 2 and global.player_weap[int(swap)] == 0:
 					shot_rapid = 0
 			
 			#Charge functions. Mega/Proto Man only.	
-			if fire and charge < 99:
+			if fire and charge < 99 and global.player_weap[int(swap)] == 0 and global.player != 2:
 				charge += 1
 				
 			#Start charge sound loop.
@@ -256,13 +315,13 @@ func _physics_process(delta):
 			if charge >= 32:
 				c_flash += 1
 			
+			if charge == 96 and !$audio/charge_loop.is_playing():
+				$audio/charge_loop.play()
+			
 			if charge < 96 and c_flash > 3:
 				c_flash = 0
 			elif charge >= 96 and c_flash > 7:
 				c_flash = 0
-			
-			if charge > 32 and !$audio/charge_start.is_playing() and !$audio/charge_loop.is_playing():
-				$audio/charge_loop.play()
 
 			if c_flash == 0 or c_flash == 2 or c_flash == 4 or c_flash == 6:
 				world.palette_swap()
@@ -270,6 +329,8 @@ func _physics_process(delta):
 			if !fire and charge > 32 and global.player != 2:
 				weapons()
 				world.palette_swap()
+			
+			shot_pos()
 
 			#Code to revert back to normal sprites.
 			if shot_delay > 0:
@@ -439,9 +500,11 @@ func _physics_process(delta):
 				
 				#Change the player direction.
 				if x_dir < 0:
+					shot_dir = 0
 					$sprite.flip_h = true
 					$slide_wall.position.x = -7
 				elif x_dir > 0 :
+					shot_dir = 1
 					$sprite.flip_h = false
 					$slide_wall.position.x = 7
 				
@@ -468,7 +531,7 @@ func _physics_process(delta):
 						$standbox.set_disabled(true)
 						$slidebox.set_disabled(false)
 				else:
-					if dash_tap and is_on_floor() and !wall and !slide:
+					if dash_tap and is_on_floor() and !wall and !slide and !fire:
 						anim_state(SLIDE)
 						var smoke = SLIDE_SMOKE.instance()
 						var smk_sprite = smoke.get_child(0)
@@ -481,17 +544,17 @@ func _physics_process(delta):
 						bass_dir = ''
 					
 					if is_on_floor() and y_dir == 0 and !wall:
-						if slide_act == 0:
+						if slide_act == 0 and !fire:
 							if left_tap or right_tap:
 								slide_delay = 16
 								slide_tap_dir = x_dir
 								slide_act += 1
 						
-						if slide_act == 1:
+						if slide_act == 1 and !fire:
 							if !left_tap and !right_tap:
 								slide_act += 1
 								
-						if slide_act == 2:
+						if slide_act == 2 and !fire:
 							if left_tap and slide_tap_dir == -1 or right_tap and slide_tap_dir == 1 and !slide:
 								slide = true
 								slide_timer = 15
@@ -571,6 +634,11 @@ func _physics_process(delta):
 				#Change the direction based on if the player is shooting or not.
 				if x_dir != 0:
 					ladder_dir = x_dir
+				
+				if ladder_dir == -1:
+					shot_dir = 0
+				elif ladder_dir == 1:
+					shot_dir = 1
 
 				if shot_st == NORMAL or shot_st != NORMAL and ladder_dir == 1:
 					$sprite.flip_h = false
@@ -731,7 +799,6 @@ func _physics_process(delta):
 			ice = false
 
 		#Print Shit
-		
 
 #There are 3 states that the player will call. Animation, Action, and Shot
 #Pull the matching Animation State and set the animation accordingly.
@@ -899,7 +966,10 @@ func weapons():
 	#Bass Only
 	if global.player == 2:
 		#Bass Buster
-		pass
+		if !slide:
+			var buster_b = load('res://scenes/player/weapons/buster_b.tscn').instance()
+			wpn_layer.add_child(buster_b)
+			buster_b.position = $sprite/shoot_pos.global_position
 
 func _on_anim_animation_finished(anim_name):
 	if anim_name == 'appear1':
@@ -909,3 +979,18 @@ func _on_anim_animation_finished(anim_name):
 			anim_state(IDLE)
 			can_move = true
 			
+func shot_pos():
+	
+	print(key,', ',s_frame.get(key))
+	
+	if global.player != 2:
+		key = str(global.player)+'_'+str($sprite.frame)
+	else:
+		key = str(global.player)+'_'+str($sprite.frame)+str(bass_dir)
+	
+	if s_frame.has(key):
+		if shot_dir == 0:
+			$sprite/shoot_pos.position.x = -s_frame.get(key).x
+		else:
+			$sprite/shoot_pos.position.x = s_frame.get(key).x
+		$sprite/shoot_pos.position.y = s_frame.get(key).y

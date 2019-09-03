@@ -91,7 +91,6 @@ collision_mask = 2
 shape = SubResource( 4 )
 
 [node name="act_top" type="Area2D" parent="."]
-editor/display_folded = true
 position = Vector2( 24, -4 )
 collision_mask = 2
 
