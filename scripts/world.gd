@@ -100,9 +100,11 @@ func _input(event):
 		if Input.is_action_just_pressed("prev"):
 			global.player_weap[int($player.swap)] -= 1
 			$player.w_icon = 64
+			kill_weapons()
 		if Input.is_action_just_pressed("next"):
 			global.player_weap[int($player.swap)] += 1
 			$player.w_icon = 64
+			kill_weapons()
 		
 		#Skip Unacquired Weapons.
 		if Input.is_action_just_pressed("next"):
@@ -195,6 +197,7 @@ func _input(event):
 	
 		#Pause menu
 		if Input.is_action_just_pressed('start') and !$pause/pause_menu.start and !swapping:
+			$pause/pause_menu.kill_wpn = global.player_weap[int($player.swap)]
 			$audio/menu.play()
 			$fade/fade.state = 6
 			$fade/fade.end = true
@@ -204,11 +207,15 @@ func _input(event):
 	else:
 		#Return to the game.
 		if Input.is_action_just_pressed('start') or Input.is_action_just_pressed('jump'):
-			if $pause/pause_menu.start:
-				$audio/bling.play()
-				$fade/fade.state = 8
-				$fade/fade.end = true
-				$pause/pause_menu.start = false
+			if $pause/pause_menu.menu == 0:
+				if $pause/pause_menu.start:
+					if $pause/pause_menu.kill_wpn != global.player_weap[int($player.swap)]:
+						print('Killing Weapons')
+						kill_weapons()
+					$audio/bling.play()
+					$fade/fade.state = 8
+					$fade/fade.end = true
+					$pause/pause_menu.start = false
 		
 	
 func _camera():

@@ -184,6 +184,8 @@ Changes - Version 0.0.1 ():
 - Fixed an issue where Bass Buster bullets would not spawn at correct points.
 - Fixed an issue where the player could dash as Bass while shooting.
 - FIxed an issue where bullets would not pause when the rest of the game normally would.
+- Exiting the pause menu with a different weapon than what was originally equipped kills all weapons on screen.
+- Using weapon quick swap kills all weapons on screen.
 
 Credits:
 --

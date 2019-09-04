@@ -402,14 +402,13 @@ func _physics_process(delta):
 				
 				#Reset the jumps counter. Cancel sliding.
 				if !jump and is_on_floor() and jumps == 0 and !slide:
-					$audio/land.play()
 					jumps = 1
 					slide = false
 					slide_timer = 0
 					x_speed = (x_dir * RUN_SPEED) / x_spd_mod
 					$standbox.set_disabled(false)
 					$slidebox.set_disabled(true)
-				
+					
 				#When the slide timer reaches 0. Cancel slide.
 				if slide_timer == 0 and slide and is_on_floor() and !slide_top:
 					slide_timer = 0
@@ -463,11 +462,13 @@ func _physics_process(delta):
 				if !is_on_floor() and anim_st != JUMP and !force_idle:
 					anim_state(JUMP)
 					jumps = 0
-				elif is_on_floor() and anim_st == JUMP and x_dir == 0:
-					anim_state(IDLE)
-				elif is_on_floor() and anim_st == JUMP and x_dir != 0:
-					anim_state(RUN)
-					
+				elif is_on_floor() and anim_st == JUMP:
+					if x_dir == 0:
+						anim_state(IDLE)
+					else:
+						anim_state(RUN)
+					$audio/land.play()
+
 				#Make the player jump.
 				if global.player == 0 and y_dir != 1 and jump_tap and is_on_floor() and jumps > 0 and !slide_top:
 					anim_state(JUMP)
@@ -544,31 +545,51 @@ func _physics_process(delta):
 						bass_dir = ''
 					
 					if is_on_floor() and y_dir == 0 and !wall:
-						if slide_act == 0 and !fire:
+						if slide_act == 0:
 							if left_tap or right_tap:
-								slide_delay = 16
-								slide_tap_dir = x_dir
-								slide_act += 1
+								if global.player == 1:
+									slide_delay = 16
+									slide_tap_dir = x_dir
+									slide_act += 1
+								elif global.player == 2 and !fire:
+									slide_delay = 16
+									slide_tap_dir = x_dir
+									slide_act += 1
 						
-						if slide_act == 1 and !fire:
+						if slide_act == 1:
 							if !left_tap and !right_tap:
 								slide_act += 1
 								
-						if slide_act == 2 and !fire:
+						if slide_act == 2:
 							if left_tap and slide_tap_dir == -1 or right_tap and slide_tap_dir == 1 and !slide:
-								slide = true
-								slide_timer = 15
-								anim_state(SLIDE)
-								var smoke = SLIDE_SMOKE.instance()
-								var smk_sprite = smoke.get_child(0)
-								smk_sprite.flip_h = $sprite.flip_h
-								smoke.position = position + Vector2(0, 7)
-								effect.add_child(smoke)
-								slide_delay = 0
-								slide_act = 0
-								slide_tap_dir = 0
-								shot_state(NORMAL)
-								bass_dir = ''
+								if global.player == 1:
+									slide = true
+									slide_timer = 15
+									anim_state(SLIDE)
+									var smoke = SLIDE_SMOKE.instance()
+									var smk_sprite = smoke.get_child(0)
+									smk_sprite.flip_h = $sprite.flip_h
+									smoke.position = position + Vector2(0, 7)
+									effect.add_child(smoke)
+									slide_delay = 0
+									slide_act = 0
+									slide_tap_dir = 0
+									shot_state(NORMAL)
+									bass_dir = ''
+								elif global.player == 2 and !fire:
+									slide = true
+									slide_timer = 15
+									anim_state(SLIDE)
+									var smoke = SLIDE_SMOKE.instance()
+									var smk_sprite = smoke.get_child(0)
+									smk_sprite.flip_h = $sprite.flip_h
+									smoke.position = position + Vector2(0, 7)
+									effect.add_child(smoke)
+									slide_delay = 0
+									slide_act = 0
+									slide_tap_dir = 0
+									shot_state(NORMAL)
+									bass_dir = ''
 							elif left_tap and slide_tap_dir == 1 or right_tap and slide_tap_dir == -1:
 								slide_delay = 0
 								slide_act = 0
@@ -980,8 +1001,6 @@ func _on_anim_animation_finished(anim_name):
 			can_move = true
 			
 func shot_pos():
-	
-	print(key,', ',s_frame.get(key))
 	
 	if global.player != 2:
 		key = str(global.player)+'_'+str($sprite.frame)
