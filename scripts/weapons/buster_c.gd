@@ -15,6 +15,8 @@ var velocity = Vector2()
 func _ready():
 	#Change the sound effect to whatever is needed.
 	$audio/shoot.play()
+	
+	$anim.play("loop")
 
 	#Set direction if necessary
 	if p_sprite.flip_h:

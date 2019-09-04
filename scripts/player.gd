@@ -971,16 +971,26 @@ func weapons():
 		$audio/charge_start.stop()
 		$audio/charge_loop.stop()
 		if !slide:
+			shot_state(SHOOT)
 			#Mega Buster/Proto Strike
 			if global.player_weap[int(swap)] == 0 and charge < 32:
-				shot_state(SHOOT)
 				var buster_a = load('res://scenes/player/weapons/buster_a.tscn').instance()
 				wpn_layer.add_child(buster_a)
 				buster_a.position = $sprite/shoot_pos.global_position
 			elif global.player_weap[int(swap)] == 0 and charge >= 32 and charge < 96:
-				shot_state(SHOOT)
+				if global.player == 0:
+					var buster_c = load('res://scenes/player/weapons/buster_c.tscn').instance()
+					wpn_layer.add_child(buster_c)
+					buster_c.position = $sprite/shoot_pos.global_position
+				else:
+					var buster_d = load('res://scenes/player/weapons/buster_d.tscn').instance()
+					wpn_layer.add_child(buster_d)
+					buster_d.position = $sprite/shoot_pos.global_position
 			elif global.player_weap[int(swap)] == 0 and charge >= 96:
-				shot_state(SHOOT)
+				if global.player == 0:
+					var buster_e = load('res://scenes/player/weapons/buster_e.tscn').instance()
+					wpn_layer.add_child(buster_e)
+					buster_e.position = $sprite/shoot_pos.global_position
 		charge = 0
 		c_flash = 0
 

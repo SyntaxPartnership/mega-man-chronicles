@@ -16,6 +16,8 @@ func _ready():
 	#Change the sound effect to whatever is needed.
 	$audio/shoot.play()
 
+	$anim.play("loop")
+
 	#Set direction if necessary
 	if p_sprite.flip_h:
 		$sprite.flip_h = true

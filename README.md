@@ -186,6 +186,8 @@ Changes - Version 0.0.1 ():
 - FIxed an issue where bullets would not pause when the rest of the game normally would.
 - Exiting the pause menu with a different weapon than what was originally equipped kills all weapons on screen.
 - Using weapon quick swap kills all weapons on screen.
+- Fixed an iss where jumping the jump button would not allow the landing sound to play.
+- Added level 2 shots to Mega/Proto Man
 
 Credits:
 --
