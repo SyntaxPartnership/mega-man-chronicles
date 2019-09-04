@@ -442,6 +442,13 @@ func _physics_process(delta):
 					$slidebox.set_disabled(true)
 					slide = false
 				
+				if global.player == 1 and slide and !is_on_floor():
+					slide_timer = 0
+					jumps = 0
+					$standbox.set_disabled(false)
+					$slidebox.set_disabled(true)
+					slide = false
+				
 				#When the opposite direction is pressed on the ground, cancel slide.
 				if slide:
 					if !slide_top and $sprite.flip_h == true and x_dir == 1 or !slide_top and $sprite.flip_h == false and x_dir == -1:

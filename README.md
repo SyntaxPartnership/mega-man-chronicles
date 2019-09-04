@@ -190,6 +190,9 @@ Changes - Version 0.0.1 ():
 - Added level 2 shots to Mega/Proto Man
 - Added level 3 shots for Mega/Proto Man
 - Forced Proto Man's level 3 shot to stay on the player sprite as it's appear animation is playing.
+- Fixed an issue where swapping while shooting sometimes causes the other player to have the previous one's palette.
+- Fixed an issue where Proto Man could dash jump is both buttons were pressed at the same time.
+- Weapons on screen are now destroyed upon swapping.
 
 Credits:
 --
