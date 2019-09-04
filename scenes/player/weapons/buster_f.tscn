@@ -5,7 +5,7 @@
 [ext_resource path="res://assets/audio/se/BigShot.wav" type="AudioStream" id=3]
 [ext_resource path="res://assets/audio/se/Reflect.wav" type="AudioStream" id=4]
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=1]
 resource_name = "appear"
 length = 0.2
 step = 0.05
@@ -22,7 +22,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 3 ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=2]
 resource_name = "loop"
 length = 0.1
 loop = true
@@ -40,7 +40,7 @@ tracks/0/keys = {
 "values": [ 4, 5 ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=3]
 resource_name = "reflect"
 length = 0.1
 loop = true
@@ -57,7 +57,7 @@ tracks/0/keys = {
 "values": [ 0 ]
 }
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 4, 4 )
 
 [node name="buster_f" type="KinematicBody2D" groups=[
@@ -74,12 +74,12 @@ hframes = 6
 frame = 1
 
 [node name="anim" type="AnimationPlayer" parent="."]
-anims/appear = SubResource( 2 )
-anims/loop = SubResource( 3 )
-anims/reflect = SubResource( 4 )
+anims/appear = SubResource( 1 )
+anims/loop = SubResource( 2 )
+anims/reflect = SubResource( 3 )
 
 [node name="hitbox" type="CollisionShape2D" parent="."]
-shape = SubResource( 1 )
+shape = SubResource( 4 )
 disabled = true
 
 [node name="on_screen" type="VisibilityNotifier2D" parent="."]
@@ -94,4 +94,5 @@ stream = ExtResource( 3 )
 
 [node name="reflect" type="AudioStreamPlayer" parent="audio"]
 stream = ExtResource( 4 )
+[connection signal="animation_finished" from="anim" to="." method="_on_anim_finished"]
 [connection signal="screen_exited" from="on_screen" to="." method="_on_screen_exited"]

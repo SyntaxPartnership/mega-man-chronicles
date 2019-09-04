@@ -188,6 +188,7 @@ Changes - Version 0.0.1 ():
 - Using weapon quick swap kills all weapons on screen.
 - Fixed an iss where jumping the jump button would not allow the landing sound to play.
 - Added level 2 shots to Mega/Proto Man
+- Added level 3 shots for Mega/Proto Man
 
 Credits:
 --

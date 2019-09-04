@@ -9,6 +9,7 @@ const SPEED = 300
 var dir = 0
 
 var reflect = false
+var move = false
 
 var velocity = Vector2()
 
@@ -16,7 +17,7 @@ func _ready():
 	#Change the sound effect to whatever is needed.
 	$audio/shoot.play()
 
-	$anim.play("loop")
+	$anim.play("appear")
 
 	#Set direction if necessary
 	if p_sprite.flip_h:
@@ -29,15 +30,21 @@ func _ready():
 
 func _physics_process(delta):
 
-	if !reflect:
-		velocity.x = dir * SPEED
-	else:
-		velocity.x = -dir * SPEED
-
-		velocity.y = -SPEED
-
-	velocity = move_and_slide(velocity, Vector2(0, -1))
+	if move:
+		if !reflect:
+			velocity.x = dir * SPEED
+		else:
+			velocity.x = -dir * SPEED
+	
+			velocity.y = -SPEED
+	
+		velocity = move_and_slide(velocity, Vector2(0, -1))
 
 func _on_screen_exited():
 	world.shots -= 1
 	queue_free()
+
+func _on_anim_finished(anim_name):
+	if anim_name == 'appear':
+		$anim.play("loop")
+		move = true

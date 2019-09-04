@@ -991,6 +991,10 @@ func weapons():
 					var buster_e = load('res://scenes/player/weapons/buster_e.tscn').instance()
 					wpn_layer.add_child(buster_e)
 					buster_e.position = $sprite/shoot_pos.global_position
+				else:
+					var buster_f = load('res://scenes/player/weapons/buster_f.tscn').instance()
+					wpn_layer.add_child(buster_f)
+					buster_f.position = $sprite/shoot_pos.global_position
 		charge = 0
 		c_flash = 0
 
