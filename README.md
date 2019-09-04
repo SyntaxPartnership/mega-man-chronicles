@@ -189,6 +189,7 @@ Changes - Version 0.0.1 ():
 - Fixed an iss where jumping the jump button would not allow the landing sound to play.
 - Added level 2 shots to Mega/Proto Man
 - Added level 3 shots for Mega/Proto Man
+- Forced Proto Man's level 3 shot to stay on the player sprite as it's appear animation is playing.
 
 Credits:
 --
