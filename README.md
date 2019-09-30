@@ -195,6 +195,10 @@ Changes - Version 0.0.1 ():
 - Weapons on screen are now destroyed upon swapping.
 - Fixed an issue where the charge sound loop wouldn't loop.
 - Rush Coil added.
+- Fixed an issue where continuous shooting of the buster would prevent Rush from being called.
+- Fixed an issue where weapons could interact with doors.
+- Fixed an issue where energy meters only displayed 27 units instead of 28.
+- Rush Coil completed.
 
 Credits:
 --

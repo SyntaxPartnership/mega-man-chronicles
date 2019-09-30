@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scripts/horiz_gate.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/objects/horiz_gate.png" type="Texture" id=2]
@@ -59,6 +59,9 @@ tracks/0/keys = {
 extents = Vector2( 32, 4 )
 
 [sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 32, 16 )
+
+[sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 32, 4 )
 
 [node name="horiz_gate" type="Node2D"]
@@ -90,12 +93,22 @@ collision_mask = 2
 [node name="box" type="CollisionShape2D" parent="solid_bottom"]
 shape = SubResource( 4 )
 
+[node name="anti-weap" type="StaticBody2D" parent="."]
+editor/display_folded = true
+position = Vector2( 24, 8 )
+collision_layer = 0
+collision_mask = 64
+
+[node name="box" type="CollisionShape2D" parent="anti-weap"]
+shape = SubResource( 5 )
+
 [node name="act_top" type="Area2D" parent="."]
+editor/display_folded = true
 position = Vector2( 24, -4 )
 collision_mask = 2
 
 [node name="box" type="CollisionShape2D" parent="act_top"]
-shape = SubResource( 5 )
+shape = SubResource( 6 )
 
 [node name="act_bottom" type="Area2D" parent="."]
 editor/display_folded = true
@@ -103,7 +116,7 @@ position = Vector2( 24, 20 )
 collision_mask = 2
 
 [node name="box" type="CollisionShape2D" parent="act_bottom"]
-shape = SubResource( 5 )
+shape = SubResource( 6 )
 
 [node name="open" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )

@@ -479,6 +479,7 @@ collision_mask = 0
 shape = SubResource( 28 )
 
 [node name="audio" type="Control" parent="."]
+editor/display_folded = true
 margin_right = 40.0
 margin_bottom = 40.0
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scripts/vert_gate.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/objects/vert_gate.png" type="Texture" id=2]
@@ -59,6 +59,9 @@ tracks/0/keys = {
 extents = Vector2( 4, 32 )
 
 [sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 16, 32 )
+
+[sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 4, 32 )
 
 [node name="vert_gate" type="Node2D"]
@@ -94,6 +97,15 @@ collision_mask = 2
 shape = SubResource( 4 )
 disabled = true
 
+[node name="anti-weap" type="StaticBody2D" parent="."]
+editor/display_folded = true
+position = Vector2( 8, 24 )
+collision_layer = 0
+collision_mask = 64
+
+[node name="box" type="CollisionShape2D" parent="anti-weap"]
+shape = SubResource( 5 )
+
 [node name="act_left" type="Area2D" parent="."]
 editor/display_folded = true
 visible = false
@@ -101,7 +113,7 @@ position = Vector2( -4, 24 )
 collision_mask = 2
 
 [node name="box" type="CollisionShape2D" parent="act_left"]
-shape = SubResource( 5 )
+shape = SubResource( 6 )
 
 [node name="act_right" type="Area2D" parent="."]
 editor/display_folded = true
@@ -110,7 +122,7 @@ position = Vector2( 20, 24 )
 collision_mask = 2
 
 [node name="box" type="CollisionShape2D" parent="act_right"]
-shape = SubResource( 5 )
+shape = SubResource( 6 )
 
 [node name="open" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )

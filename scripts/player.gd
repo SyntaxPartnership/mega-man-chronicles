@@ -336,10 +336,13 @@ func _physics_process(delta):
 			#Adaptors
 			#Rush Coil/Carry/Treble Boost
 			if fire_tap and global.player_weap[int(swap)] == 1:
-				#Since the player doesn't actually fire Rush, there's no need to swap to the shooting sprites.
-				if world.shots == 0:
+				#Since the player doesn't actually fire Rush, there's no need to swap to the shooting sprites until AFTER he is on screen.
+				if world.shots < 2 and world.adaptors == 1:
 					world.shots += 1
 					weapons()
+				if world.adaptors < 1:
+					weapons()
+					world.adaptors += 1
 					
 			
 			shot_pos()
@@ -1030,13 +1033,21 @@ func weapons():
 	if global.player_weap[int(swap)] == 1:
 		#Mega Man
 		if global.player == 0:
-			var r_coil = load('res://scenes/player/weapons/rush_coil.tscn').instance()
-			wpn_layer.add_child(r_coil)
-			if !$sprite.flip_h:
-				r_coil.position.x = position.x + 32
+			#Fire standard buster shots if Rush is on screen.
+			if world.adaptors == 0:
+				var r_coil = load('res://scenes/player/weapons/rush_coil.tscn').instance()
+				wpn_layer.add_child(r_coil)
+				if !$sprite.flip_h:
+					r_coil.position.x = position.x + 32
+				else:
+					r_coil.position.x = position.x - 32
+				r_coil.position.y = camera.limit_top - 16
 			else:
-				r_coil.position.x = position.x - 32
-			r_coil.position.y = camera.limit_top - 16
+				shot_state(SHOOT)
+				var buster_a = load('res://scenes/player/weapons/buster_a.tscn').instance()
+				wpn_layer.add_child(buster_a)
+				buster_a.position = $sprite/shoot_pos.global_position
+			
 	
 	
 

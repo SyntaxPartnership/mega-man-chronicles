@@ -27,6 +27,7 @@ var restart = 360
 var heal_delay
 var swapping = false
 var shots = 0
+var adaptors = 0
 
 #Camera values
 var res = Vector2()
@@ -892,6 +893,7 @@ func kill_weapons():
 	for i in wpns:
 		i.queue_free()
 	shots = 0
+	adaptors = 0
 
 func _on_teleport():
 	if tele_timer <= 0:

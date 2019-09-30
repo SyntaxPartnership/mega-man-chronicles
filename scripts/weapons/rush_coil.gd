@@ -87,13 +87,14 @@ func _on_plyr_entered(body):
 		player.velocity.y = player.JUMP_SPEED * 1.6
 		$jump_box.set_deferred('monitoring', false)
 		$anim.play("used")
+		global.rp_coil[int(player.swap)+1] -= 20
 
 func _on_screen_exited():
 	#If Rush is no on screen, kill him.
 	if !is_on_floor() and !leave:
-		world.shots -= 1
+		world.adaptors -= 1
 		queue_free()
 	
 	if leave:
-		world.shots -= 1
+		world.adaptors -= 1
 		queue_free()
