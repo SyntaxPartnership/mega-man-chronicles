@@ -199,6 +199,7 @@ Changes - Version 0.0.1 ():
 - Fixed an issue where weapons could interact with doors.
 - Fixed an issue where energy meters only displayed 27 units instead of 28.
 - Rush Coil completed.
+- Started Rush Jet... And subsequently ran into a LOT of problems.
 
 Credits:
 --

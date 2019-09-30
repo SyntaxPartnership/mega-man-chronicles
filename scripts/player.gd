@@ -89,7 +89,7 @@ var blink = 0
 var charge = 0
 var c_flash = 0
 var w_icon = 0
-var rush = false
+var rush_coil = false
 
 var dmg_button = false
 
@@ -335,15 +335,25 @@ func _physics_process(delta):
 			
 			#Adaptors
 			#Rush Coil/Carry/Treble Boost
-			if fire_tap and global.player_weap[int(swap)] == 1:
-				#Since the player doesn't actually fire Rush, there's no need to swap to the shooting sprites until AFTER he is on screen.
-				if world.shots < 2 and world.adaptors == 1:
-					world.shots += 1
-					weapons()
-				if world.adaptors < 1:
-					weapons()
-					world.adaptors += 1
-					
+			if global.player == 0:
+				if fire_tap and global.player_weap[int(swap)] == 1:
+					#Since the player doesn't actually fire Rush, there's no need to swap to the shooting sprites until AFTER he is on screen.
+					if world.shots < 2 and world.adaptors == 1:
+						world.shots += 1
+						weapons()
+					if world.adaptors < 1:
+						weapons()
+						world.adaptors += 1
+			
+			#Rush Jet
+			if global.player == 0:
+				if fire_tap and global.player_weap[int(swap)] == 2:
+					if world.shots < 2 and world.adaptors == 1:
+						world.shots += 1
+						weapons()
+					if world.adaptors < 1:
+						weapons()
+						world.adaptors += 1
 			
 			shot_pos()
 
@@ -485,7 +495,7 @@ func _physics_process(delta):
 					anim_state(JUMP)
 					jumps = 0
 				elif is_on_floor() and anim_st == JUMP:
-					rush = false
+					rush_coil = false
 					if x_dir == 0:
 						anim_state(IDLE)
 					else:
@@ -515,7 +525,7 @@ func _physics_process(delta):
 					grav_mod = 1
 				
 				#Set velocity.y to 0 when releasing the jump button before reaching the peak of a jump.;
-				if !jump and velocity.y < 0 and !rush:
+				if !jump and velocity.y < 0 and !rush_coil:
 					velocity.y = 0
 				
 				#This is a small fix to prevent the jumping sprite from appearing during some animations.
@@ -805,6 +815,10 @@ func _physics_process(delta):
 		#Get what the player is standing on.
 		for idx in range(get_slide_count()):
 			var collision = get_slide_collision(idx)
+			
+			if is_on_floor() and collision.collider.get_parent().name == 'rush_jet':
+				if !collision.collider.get_parent().flying:
+					collision.collider.get_parent().flying = true
 
 			if is_on_floor() and collision.collider.name == 'tiles' or is_on_floor() and collision.collider.name == 'death':
 				x_spd_mod = 1
@@ -1047,7 +1061,23 @@ func weapons():
 				var buster_a = load('res://scenes/player/weapons/buster_a.tscn').instance()
 				wpn_layer.add_child(buster_a)
 				buster_a.position = $sprite/shoot_pos.global_position
-			
+	
+	if global.player_weap[int(swap)] == 2:
+		#Mega Man
+		if global.player == 0:
+			if world.adaptors == 0:
+				var r_jet = load('res://scenes/player/weapons/rush_jet.tscn').instance()
+				wpn_layer.add_child(r_jet)
+				if !$sprite.flip_h:
+					r_jet.position.x = position.x + 32
+				else:
+					r_jet.position.x = position.x - 32
+				r_jet.position.y = camera.limit_top - 16
+			else:
+				shot_state(SHOOT)
+				var buster_a = load('res://scenes/player/weapons/buster_a.tscn').instance()
+				wpn_layer.add_child(buster_a)
+				buster_a.position = $sprite/shoot_pos.global_position
 	
 	
 
