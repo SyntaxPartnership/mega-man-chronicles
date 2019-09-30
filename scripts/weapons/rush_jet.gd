@@ -30,8 +30,11 @@ func _physics_process(delta):
 			$floor_det.set_disabled(false)
 	
 	#Handle the up and down movement when flying.
-	if !wall and flying:
-		y_dir = int(Input.is_action_pressed("down")) - int(Input.is_action_pressed("up"))
+	if flying:
+		if !is_on_ceiling() or !is_on_floor():
+			y_dir = int(Input.is_action_pressed("down")) - int(Input.is_action_pressed("up"))
+		else:
+			y_dir = 0
 	else:
 		y_dir = 0
 	
