@@ -90,6 +90,7 @@ var charge = 0
 var c_flash = 0
 var w_icon = 0
 var rush_coil = false
+var rush_jet = Vector2()
 
 var dmg_button = false
 
@@ -526,7 +527,7 @@ func _physics_process(delta):
 				
 				#Set velocity.y to 0 when releasing the jump button before reaching the peak of a jump.;
 				if !jump and velocity.y < 0 and !rush_coil:
-					velocity.y = 0
+					velocity.y = 0 + rush_jet.y
 				
 				#This is a small fix to prevent the jumping sprite from appearing during some animations.
 				if force_idle and is_on_floor():
@@ -775,8 +776,8 @@ func _physics_process(delta):
 
 		#Use GRAVITY to pull the player down.
 		if act_st != CLIMBING:
-			velocity.x = x_speed
-			velocity.y += (GRAVITY / grav_mod) * delta
+			velocity.x = x_speed + rush_jet.x
+			velocity.y += ((GRAVITY / grav_mod) + rush_jet.y) * delta
 
 		#Set the maximum downward velocity.
 		if velocity.y > 500:
@@ -811,14 +812,18 @@ func _physics_process(delta):
 		
 
 		#Move the player
-		velocity = move_and_slide(velocity, Vector2(0, -1))
+		velocity = move_and_slide_with_snap(velocity, Vector2(0, 2), Vector2(0, -1))
+		rush_jet = Vector2(0, 0)
 		#Get what the player is standing on.
 		for idx in range(get_slide_count()):
 			var collision = get_slide_collision(idx)
 			
 			if is_on_floor() and collision.collider.get_parent().name == 'rush_jet':
-				if !collision.collider.get_parent().flying:
+				if !collision.collider.get_parent().flying and !collision.collider.get_parent().wall:
 					collision.collider.get_parent().flying = true
+					collision.collider.get_parent().play = true
+				
+				rush_jet = collision.collider.get_parent().velocity
 
 			if is_on_floor() and collision.collider.name == 'tiles' or is_on_floor() and collision.collider.name == 'death':
 				x_spd_mod = 1
@@ -857,6 +862,7 @@ func _physics_process(delta):
 			ice = false
 
 		#Print Shit
+		print(rush_jet)
 
 #There are 3 states that the player will call. Animation, Action, and Shot
 #Pull the matching Animation State and set the animation accordingly.
