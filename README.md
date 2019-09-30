@@ -194,6 +194,7 @@ Changes - Version 0.0.1 ():
 - Fixed an issue where Proto Man could dash jump is both buttons were pressed at the same time.
 - Weapons on screen are now destroyed upon swapping.
 - Fixed an issue where the charge sound loop wouldn't loop.
+- Rush Coil added.
 
 Credits:
 --

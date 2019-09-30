@@ -5,6 +5,7 @@ signal teleport
 #Use this to pull values from the World script.
 onready var world = get_parent()
 onready var wpn_layer = world.get_child(3)
+onready var camera = self.get_child(8)
 #Use this to get TileMap data.
 onready var tiles = world.get_child(0).get_child(1)
 
@@ -88,6 +89,7 @@ var blink = 0
 var charge = 0
 var c_flash = 0
 var w_icon = 0
+var rush = false
 
 var dmg_button = false
 
@@ -276,8 +278,9 @@ func _physics_process(delta):
 					show()
 		
 			#Begin weapon functions.
+			#Busters
 			if slide_timer == 0:
-				if fire_tap and global.player != 2 and global.player_weap[int(swap)] == 0 or fire_tap and global.player_weap[int(swap)] != 0:
+				if fire_tap and global.player != 2 and global.player_weap[int(swap)] == 0:# or fire_tap and global.player_weap[int(swap)] != 0:
 					if global.player == 0:
 						if world.shots < 3:
 							world.shots += 1
@@ -329,6 +332,15 @@ func _physics_process(delta):
 			if !fire and charge > 32 and global.player != 2:
 				weapons()
 				world.palette_swap()
+			
+			#Adaptors
+			#Rush Coil/Carry/Treble Boost
+			if fire_tap and global.player_weap[int(swap)] == 1:
+				#Since the player doesn't actually fire Rush, there's no need to swap to the shooting sprites.
+				if world.shots == 0:
+					world.shots += 1
+					weapons()
+					
 			
 			shot_pos()
 
@@ -470,6 +482,7 @@ func _physics_process(delta):
 					anim_state(JUMP)
 					jumps = 0
 				elif is_on_floor() and anim_st == JUMP:
+					rush = false
 					if x_dir == 0:
 						anim_state(IDLE)
 					else:
@@ -499,7 +512,7 @@ func _physics_process(delta):
 					grav_mod = 1
 				
 				#Set velocity.y to 0 when releasing the jump button before reaching the peak of a jump.;
-				if !jump and velocity.y < 0:
+				if !jump and velocity.y < 0 and !rush:
 					velocity.y = 0
 				
 				#This is a small fix to prevent the jumping sprite from appearing during some animations.
@@ -974,44 +987,58 @@ func weapons():
 	shot_delay = 20
 
 	#NOTE: Edit this section as weapons become usable.
-	if global.player != 2:
-		$audio/charge_start.stop()
-		$audio/charge_loop.stop()
-		if !slide:
-			shot_state(SHOOT)
-			#Mega Buster/Proto Strike
-			if global.player_weap[int(swap)] == 0 and charge < 32:
-				var buster_a = load('res://scenes/player/weapons/buster_a.tscn').instance()
-				wpn_layer.add_child(buster_a)
-				buster_a.position = $sprite/shoot_pos.global_position
-			elif global.player_weap[int(swap)] == 0 and charge >= 32 and charge < 96:
-				if global.player == 0:
-					var buster_c = load('res://scenes/player/weapons/buster_c.tscn').instance()
-					wpn_layer.add_child(buster_c)
-					buster_c.position = $sprite/shoot_pos.global_position
-				else:
-					var buster_d = load('res://scenes/player/weapons/buster_d.tscn').instance()
-					wpn_layer.add_child(buster_d)
-					buster_d.position = $sprite/shoot_pos.global_position
-			elif global.player_weap[int(swap)] == 0 and charge >= 96:
-				if global.player == 0:
-					var buster_e = load('res://scenes/player/weapons/buster_e.tscn').instance()
-					wpn_layer.add_child(buster_e)
-					buster_e.position = $sprite/shoot_pos.global_position
-				else:
-					var buster_f = load('res://scenes/player/weapons/buster_f.tscn').instance()
-					wpn_layer.add_child(buster_f)
-					buster_f.position = $sprite/shoot_pos.global_position
-		charge = 0
-		c_flash = 0
-
-	#Bass Only
-	if global.player == 2:
-		#Bass Buster
-		if !slide:
-			var buster_b = load('res://scenes/player/weapons/buster_b.tscn').instance()
-			wpn_layer.add_child(buster_b)
-			buster_b.position = $sprite/shoot_pos.global_position
+	if global.player_weap[int(swap)] == 0:
+		if global.player != 2:
+			$audio/charge_start.stop()
+			$audio/charge_loop.stop()
+			if !slide:
+				shot_state(SHOOT)
+				#Mega Buster/Proto Strike
+				if global.player_weap[int(swap)] == 0 and charge < 32:
+					var buster_a = load('res://scenes/player/weapons/buster_a.tscn').instance()
+					wpn_layer.add_child(buster_a)
+					buster_a.position = $sprite/shoot_pos.global_position
+				elif global.player_weap[int(swap)] == 0 and charge >= 32 and charge < 96:
+					if global.player == 0:
+						var buster_c = load('res://scenes/player/weapons/buster_c.tscn').instance()
+						wpn_layer.add_child(buster_c)
+						buster_c.position = $sprite/shoot_pos.global_position
+					else:
+						var buster_d = load('res://scenes/player/weapons/buster_d.tscn').instance()
+						wpn_layer.add_child(buster_d)
+						buster_d.position = $sprite/shoot_pos.global_position
+				elif global.player_weap[int(swap)] == 0 and charge >= 96:
+					if global.player == 0:
+						var buster_e = load('res://scenes/player/weapons/buster_e.tscn').instance()
+						wpn_layer.add_child(buster_e)
+						buster_e.position = $sprite/shoot_pos.global_position
+					else:
+						var buster_f = load('res://scenes/player/weapons/buster_f.tscn').instance()
+						wpn_layer.add_child(buster_f)
+						buster_f.position = $sprite/shoot_pos.global_position
+			charge = 0
+			c_flash = 0
+	
+		#Bass Only
+		if global.player == 2:
+			#Bass Buster
+			if !slide:
+				var buster_b = load('res://scenes/player/weapons/buster_b.tscn').instance()
+				wpn_layer.add_child(buster_b)
+				buster_b.position = $sprite/shoot_pos.global_position
+	
+	if global.player_weap[int(swap)] == 1:
+		#Mega Man
+		if global.player == 0:
+			var r_coil = load('res://scenes/player/weapons/rush_coil.tscn').instance()
+			wpn_layer.add_child(r_coil)
+			if !$sprite.flip_h:
+				r_coil.position.x = position.x + 32
+			else:
+				r_coil.position.x = position.x - 32
+			r_coil.position.y = camera.limit_top - 16
+	
+	
 
 func _on_anim_animation_finished(anim_name):
 	if anim_name == 'appear1':
