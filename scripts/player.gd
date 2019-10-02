@@ -340,7 +340,7 @@ func _physics_process(delta):
 			if global.player == 0 and global.rp_coil[int(swap) + 1] > 0:
 				if fire_tap and global.player_weap[int(swap)] == 1:
 					#Since the player doesn't actually fire Rush, there's no need to swap to the shooting sprites until AFTER he is on screen.
-					if world.shots < 2 and world.adaptors == 1:
+					if world.shots < 3 and world.adaptors == 1:
 						world.shots += 1
 						weapons()
 					if world.adaptors < 1:
@@ -350,7 +350,7 @@ func _physics_process(delta):
 			#Rush Jet
 			if global.player == 0 and global.rp_jet[int(swap) + 1] > 0:
 				if fire_tap and global.player_weap[int(swap)] == 2:
-					if world.shots < 2 and world.adaptors == 1:
+					if world.shots < 3 and world.adaptors == 1:
 						world.shots += 1
 						weapons()
 					if world.adaptors < 1:
@@ -826,7 +826,7 @@ func _physics_process(delta):
 		if velocity.y <= 0:
 			snap = Vector2()
 		else:
-			snap = Vector2(0, 2)
+			snap = Vector2(0, 8)
 
 		#Move the player
 		velocity = move_and_slide_with_snap(velocity, snap, Vector2(0, -1))
