@@ -83,7 +83,7 @@ func _on_plyr_entered(body):
 		time = 240
 		used = true
 		$sprite.show()
-		player.rush = true
+		player.rush_coil = true
 		player.velocity.y = player.JUMP_SPEED * 1.6
 		$jump_box.set_deferred('monitoring', false)
 		$anim.play("used")

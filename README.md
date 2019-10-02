@@ -183,7 +183,7 @@ Changes - Version 0.0.1 ():
 - Level 1 buster shots complete.
 - Fixed an issue where Bass Buster bullets would not spawn at correct points.
 - Fixed an issue where the player could dash as Bass while shooting.
-- FIxed an issue where bullets would not pause when the rest of the game normally would.
+- Fixed an issue where bullets would not pause when the rest of the game normally would.
 - Exiting the pause menu with a different weapon than what was originally equipped kills all weapons on screen.
 - Using weapon quick swap kills all weapons on screen.
 - Fixed an iss where jumping the jump button would not allow the landing sound to play.
@@ -200,6 +200,12 @@ Changes - Version 0.0.1 ():
 - Fixed an issue where energy meters only displayed 27 units instead of 28.
 - Rush Coil completed.
 - Started Rush Jet... And subsequently ran into a LOT of problems.
+- Completely redid Rush Jet. Works more like it should.
+- Fixed an issue where the player could turn around while riding Rush.
+- Fixed an issue where the player could walk on Rush while riding him.
+- Fixed an issue where the player's bullets would no sync up with the direction of the player's sprite.
+- Fixed an issue where Rush's hitbox would prevent him from leaving the screen if a ceiling is in place.
+- Rush Jet complete.
 
 Credits:
 --
@@ -209,7 +215,7 @@ Special Thanks
 harraps  
 N64Mario  
 Marc Wyzomirski  
-Duane Von Voorst  
+Duane van Voorst  
 GDQuest  
 KidsCanCode  
 GamesFromScratch  

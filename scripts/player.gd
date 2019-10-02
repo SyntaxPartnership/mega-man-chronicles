@@ -90,7 +90,8 @@ var charge = 0
 var c_flash = 0
 var w_icon = 0
 var rush_coil = false
-var rush_jet = Vector2()
+var rush_jet = false
+var snap = Vector2()
 
 var dmg_button = false
 
@@ -336,7 +337,7 @@ func _physics_process(delta):
 			
 			#Adaptors
 			#Rush Coil/Carry/Treble Boost
-			if global.player == 0:
+			if global.player == 0 and global.rp_coil[int(swap) + 1] > 0:
 				if fire_tap and global.player_weap[int(swap)] == 1:
 					#Since the player doesn't actually fire Rush, there's no need to swap to the shooting sprites until AFTER he is on screen.
 					if world.shots < 2 and world.adaptors == 1:
@@ -347,7 +348,7 @@ func _physics_process(delta):
 						world.adaptors += 1
 			
 			#Rush Jet
-			if global.player == 0:
+			if global.player == 0 and global.rp_jet[int(swap) + 1] > 0:
 				if fire_tap and global.player_weap[int(swap)] == 2:
 					if world.shots < 2 and world.adaptors == 1:
 						world.shots += 1
@@ -379,7 +380,7 @@ func _physics_process(delta):
 					x_speed = 0
 				
 				#Transition to the little step.
-				if x_dir != 0 and shot_st != THROW and shot_st != BASSSHOT and anim_st == IDLE and is_on_floor():
+				if x_dir != 0 and shot_st != THROW and shot_st != BASSSHOT and anim_st == IDLE and is_on_floor() and !rush_jet:
 					anim_state(LILSTEP)
 					if !ice:
 						x_speed = (x_dir * RUN_SPEED) / x_spd_mod
@@ -390,7 +391,7 @@ func _physics_process(delta):
 				
 				#Set X Velocity.
 				if !slide:
-					if anim_st == RUN:
+					if anim_st == RUN and !rush_jet:
 						if shot_st != THROW and shot_st != BASSSHOT:
 							if !ice:
 								x_speed = (x_dir * RUN_SPEED) / x_spd_mod
@@ -403,6 +404,9 @@ func _physics_process(delta):
 									x_speed += 1
 									if x_dir == 1 and x_speed < 0:
 										x_speed += 1
+					#Prevent the player from running while riding Rush
+					if anim_st == RUN and rush_jet:
+						anim_state(IDLE)
 					if anim_st == IDLE or anim_st == LILSTEP:
 						if ice:
 							if x_dir == 0 and x_speed > 0:
@@ -527,18 +531,18 @@ func _physics_process(delta):
 				
 				#Set velocity.y to 0 when releasing the jump button before reaching the peak of a jump.;
 				if !jump and velocity.y < 0 and !rush_coil:
-					velocity.y = 0 + rush_jet.y
+					velocity.y = 0
 				
 				#This is a small fix to prevent the jumping sprite from appearing during some animations.
 				if force_idle and is_on_floor():
 					force_idle = false
 				
 				#Change the player direction.
-				if x_dir < 0:
+				if x_dir < 0 and !rush_jet:
 					shot_dir = 0
 					$sprite.flip_h = true
 					$slide_wall.position.x = -7
-				elif x_dir > 0 :
+				elif x_dir > 0 and !rush_jet:
 					shot_dir = 1
 					$sprite.flip_h = false
 					$slide_wall.position.x = 7
@@ -776,8 +780,8 @@ func _physics_process(delta):
 
 		#Use GRAVITY to pull the player down.
 		if act_st != CLIMBING:
-			velocity.x = x_speed + rush_jet.x
-			velocity.y += ((GRAVITY / grav_mod) + rush_jet.y) * delta
+			velocity.x = x_speed
+			velocity.y += (GRAVITY / grav_mod) * delta
 
 		#Set the maximum downward velocity.
 		if velocity.y > 500:
@@ -810,20 +814,28 @@ func _physics_process(delta):
 		if !Input.is_key_pressed(KEY_SPACE) and anim_st != HURT and dmg_button:
 			dmg_button = false
 		
+		var snap
+		
+		if velocity.y <= 0:
+			snap = Vector2()
+		else:
+			snap = Vector2(0, 4)
+		
+		rush_jet = false
+		
+		if velocity.y <= 0:
+			snap = Vector2()
+		else:
+			snap = Vector2(0, 2)
 
 		#Move the player
-		velocity = move_and_slide_with_snap(velocity, Vector2(0, 2), Vector2(0, -1))
-		rush_jet = Vector2(0, 0)
+		velocity = move_and_slide_with_snap(velocity, snap, Vector2(0, -1))
 		#Get what the player is standing on.
 		for idx in range(get_slide_count()):
 			var collision = get_slide_collision(idx)
 			
 			if is_on_floor() and collision.collider.get_parent().name == 'rush_jet':
-				if !collision.collider.get_parent().flying and !collision.collider.get_parent().wall:
-					collision.collider.get_parent().flying = true
-					collision.collider.get_parent().play = true
-				
-				rush_jet = collision.collider.get_parent().velocity
+				rush_jet = true
 
 			if is_on_floor() and collision.collider.name == 'tiles' or is_on_floor() and collision.collider.name == 'death':
 				x_spd_mod = 1
@@ -862,7 +874,6 @@ func _physics_process(delta):
 			ice = false
 
 		#Print Shit
-		print(rush_jet)
 
 #There are 3 states that the player will call. Animation, Action, and Shot
 #Pull the matching Animation State and set the animation accordingly.
