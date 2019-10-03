@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://scripts/world.gd" type="Script" id=1]
 [ext_resource path="res://assets/tilesets/test/testroom.tres" type="TileSet" id=2]
@@ -14,16 +14,17 @@
 [ext_resource path="res://assets/tilesets/stage_graphics/testwily3/testwily3.tres" type="TileSet" id=12]
 [ext_resource path="res://assets/tilesets/stage_graphics/testcossack1/testcossack1.tres" type="TileSet" id=13]
 [ext_resource path="res://assets/tilesets/objects/objects.tres" type="TileSet" id=14]
-[ext_resource path="res://scenes/player/player.tscn" type="PackedScene" id=15]
-[ext_resource path="res://scripts/ready.gd" type="Script" id=16]
-[ext_resource path="res://scenes/hud.tscn" type="PackedScene" id=17]
-[ext_resource path="res://scenes/pause_menu.tscn" type="PackedScene" id=18]
-[ext_resource path="res://scenes/fade.tscn" type="PackedScene" id=19]
-[ext_resource path="res://assets/audio/se/Death.wav" type="AudioStream" id=20]
-[ext_resource path="res://assets/audio/se/Splash.wav" type="AudioStream" id=21]
-[ext_resource path="res://assets/audio/se/Beam In.wav" type="AudioStream" id=22]
-[ext_resource path="res://assets/audio/se/Weapon Menu.wav" type="AudioStream" id=23]
-[ext_resource path="res://assets/audio/se/BLING.wav" type="AudioStream" id=24]
+[ext_resource path="res://assets/tilesets/enemies/enemies.tres" type="TileSet" id=15]
+[ext_resource path="res://scenes/player/player.tscn" type="PackedScene" id=16]
+[ext_resource path="res://scripts/ready.gd" type="Script" id=17]
+[ext_resource path="res://scenes/hud.tscn" type="PackedScene" id=18]
+[ext_resource path="res://scenes/pause_menu.tscn" type="PackedScene" id=19]
+[ext_resource path="res://scenes/fade.tscn" type="PackedScene" id=20]
+[ext_resource path="res://assets/audio/se/Death.wav" type="AudioStream" id=21]
+[ext_resource path="res://assets/audio/se/Splash.wav" type="AudioStream" id=22]
+[ext_resource path="res://assets/audio/se/Beam In.wav" type="AudioStream" id=23]
+[ext_resource path="res://assets/audio/se/Weapon Menu.wav" type="AudioStream" id=24]
+[ext_resource path="res://assets/audio/se/BLING.wav" type="AudioStream" id=25]
 
 [sub_resource type="DynamicFontData" id=1]
 antialiased = false
@@ -118,7 +119,6 @@ format = 1
 tile_data = PoolIntArray( 1311419, 68, 0, 11403524, 68, 0, 12189967, 0, 0, 12845327, 88, 0, 30933499, 68, 0 )
 
 [node name="graphic" type="Control" parent="."]
-editor/display_folded = true
 margin_right = 40.0
 margin_bottom = 40.0
 
@@ -140,7 +140,13 @@ cell_size = Vector2( 16, 16 )
 format = 1
 tile_data = PoolIntArray( 459071, 0, 0, 459087, 0, 0, 5832838, 1, 0, 6291583, 0, 0, 6291599, 0, 0, 6815878, 1, 0, 15270111, 0, 0, 15270127, 0, 0 )
 
-[node name="player" parent="." instance=ExtResource( 15 )]
+[node name="enemies" type="TileMap" parent="graphic"]
+tile_set = ExtResource( 15 )
+cell_size = Vector2( 32, 32 )
+format = 1
+tile_data = PoolIntArray( 3211340, 0, 0 )
+
+[node name="player" parent="." instance=ExtResource( 16 )]
 pause_mode = 1
 editor/display_folded = true
 position = Vector2( 64, 132 )
@@ -179,14 +185,14 @@ margin_bottom = 2.5
 custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "READY"
-script = ExtResource( 16 )
+script = ExtResource( 17 )
 
-[node name="hud" parent="hud" instance=ExtResource( 17 )]
+[node name="hud" parent="hud" instance=ExtResource( 18 )]
 
 [node name="pause" type="CanvasLayer" parent="."]
 editor/display_folded = true
 
-[node name="pause_menu" parent="pause" instance=ExtResource( 18 )]
+[node name="pause_menu" parent="pause" instance=ExtResource( 19 )]
 visible = false
 
 [node name="debug_stats" type="CanvasLayer" parent="."]
@@ -359,7 +365,7 @@ text = "Place menu options here."
 pause_mode = 2
 editor/display_folded = true
 
-[node name="fade" parent="fade" instance=ExtResource( 19 )]
+[node name="fade" parent="fade" instance=ExtResource( 20 )]
 position = Vector2( 128, 120 )
 
 [node name="audio" type="Control" parent="."]
@@ -368,19 +374,19 @@ margin_right = 40.0
 margin_bottom = 40.0
 
 [node name="death" type="AudioStreamPlayer" parent="audio"]
-stream = ExtResource( 20 )
-
-[node name="splash" type="AudioStreamPlayer" parent="audio"]
 stream = ExtResource( 21 )
 
-[node name="appear" type="AudioStreamPlayer" parent="audio"]
+[node name="splash" type="AudioStreamPlayer" parent="audio"]
 stream = ExtResource( 22 )
 
-[node name="menu" type="AudioStreamPlayer" parent="audio"]
+[node name="appear" type="AudioStreamPlayer" parent="audio"]
 stream = ExtResource( 23 )
 
-[node name="bling" type="AudioStreamPlayer" parent="audio"]
+[node name="menu" type="AudioStreamPlayer" parent="audio"]
 stream = ExtResource( 24 )
+
+[node name="bling" type="AudioStreamPlayer" parent="audio"]
+stream = ExtResource( 25 )
 [connection signal="scrolling" from="." to="player" method="_on_world_scrolling"]
 [connection signal="teleport" from="player" to="." method="_on_teleport"]
 [connection signal="start" from="hud/ready" to="player" method="_on_ready_start"]

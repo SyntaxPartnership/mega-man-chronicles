@@ -850,6 +850,18 @@ func spawn_objects():
 			c.position = pos + (objects.cell_size / 2)
 			$graphic.add_child(c)
 
+func spawn_enemies():
+	#Scan tilemap for enemies.
+	for e_cell in objects.get_used_cells():
+		var e_id = objects.get_cellv(e_cell)
+		var e_type = objects.tile_set.tile_get_name(e_id)
+		#Get enemy ID and load into the level.
+		if e_type in ['vert_gate', 'horiz_gate']:
+			var e = load('res://scenes/objects/'+e_type+'.tscn').instance()
+			var e_pos = objects.map_to_world(e_cell)
+			e.position = pos + (objects.cell_size / 2)
+			$graphic.add_child(e)
+
 func splash():
 	if !dead:
 		$audio/splash.stop()
