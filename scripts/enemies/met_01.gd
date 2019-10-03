@@ -18,7 +18,7 @@ var hp
 
 #Damage enemy does to the player.
 var touch = false
-var damage = 20
+var damage = 40
 
 #Other
 var dead = false
@@ -85,7 +85,7 @@ func _physics_process(delta):
 		$sprite.show()
 		flash = false
 	
-	if touch and player.hurt_timer == 0 and player.blink_timer == 0:
+	if touch and player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap:
 		player.damage()
 		global.player_life[int(player.swap)] -= damage
 	

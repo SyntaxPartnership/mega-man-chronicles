@@ -444,7 +444,7 @@ func _process(delta):
 	player_room = Vector2(floor(pos.x / 256), floor(pos.y / 240))
 	spawn_pt = $coll_mask/spawn_pts.get_cellv($coll_mask/spawn_pts.world_to_map(Vector2(pos.x - 4, pos.y)))
 	
-	if global.player_life[0] == 0 and global.player_life[1] != 0 or global.player_life[0] != 0 and global.player_life[1] == 0:
+	if global.player_life[0] <= 0 and global.player_life[1] != 0 or global.player_life[0] != 0 and global.player_life[1] <= 0:
 		if !hurt_swap:
 			hurt_swap = true
 			if $player.act_st != 13 and !$player.slide:
@@ -455,10 +455,11 @@ func _process(delta):
 				$player.c_flash = 0
 				$player.charge = 0
 				$player.w_icon = 0
+				$player.blink_timer = 96
+				$player.hurt_swap = true
 				$player.shot_state($player.NORMAL)
 				$player/sprite/weap_icon_lr.hide()
 				$player.hide()
-				$player.blink_timer = 96
 				swapping = true
 				swap_out()
 				if !$player.swap:
@@ -914,8 +915,8 @@ func bubble():
 func swap_out():
 	#Spawn the leaving sprite.
 	var out = load('res://scenes/player/other/plyr_out.tscn').instance()
-	$overlap.add_child(out)
 	out.hurt = true
+	$overlap.add_child(out)
 	out.position = $player.position
 
 func swap_in():

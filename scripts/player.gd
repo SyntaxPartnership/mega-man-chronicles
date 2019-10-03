@@ -86,6 +86,7 @@ var lad_top_overlap
 var hurt_timer = 0
 var blink_timer = 0
 var blink = 0
+var hurt_swap = false
 var charge = 0
 var c_flash = 0
 var w_icon = 0
@@ -861,6 +862,7 @@ func _physics_process(delta):
 			ice = false
 
 		#Print Shit
+		print(hurt_timer,', ',blink_timer,', ',hurt_swap)
 
 #There are 3 states that the player will call. Animation, Action, and Shot
 #Pull the matching Animation State and set the animation accordingly.
@@ -1108,8 +1110,9 @@ func shot_pos():
 		$sprite/shoot_pos.position.y = s_frame.get(key).y
 
 func damage():
-	if hurt_timer == 0 and blink_timer == 0:
-		$audio/hurt.play()
-		velocity.y = 0
-		anim_state(HURT)
-		hurt_timer = 16
+	if !hurt_swap:
+		if hurt_timer == 0 and blink_timer == 0:
+			$audio/hurt.play()
+			velocity.y = 0
+			anim_state(HURT)
+			hurt_timer = 16
