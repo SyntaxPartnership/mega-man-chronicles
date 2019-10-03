@@ -22,6 +22,7 @@ var ladder_top
 var player_room = Vector2(0, 0)
 var spawn_pt
 var boss = false
+var hurt_swap = false
 var dead = false
 var dead_delay = 24
 var restart = 360
@@ -203,8 +204,6 @@ func _input(event):
 					$pause/pause_menu.wpn_menu()
 					swap_in()
 					get_tree().paused = true
-				else:
-					print('CANNOT SWAP. SECOND PLAYER DEAD.')
 			
 		palette_swap()
 	
@@ -444,6 +443,34 @@ func _process(delta):
 	ladder_top = $coll_mask/tiles.map_to_world(player_tilepos)
 	player_room = Vector2(floor(pos.x / 256), floor(pos.y / 240))
 	spawn_pt = $coll_mask/spawn_pts.get_cellv($coll_mask/spawn_pts.world_to_map(Vector2(pos.x - 4, pos.y)))
+	
+	if global.player_life[0] == 0 and global.player_life[1] != 0 or global.player_life[0] != 0 and global.player_life[1] == 0:
+		if !hurt_swap:
+			hurt_swap = true
+			if $player.act_st != 13 and !$player.slide:
+				kill_weapons()
+				$player/audio/charge_start.stop()
+				$player/audio/charge_loop.stop()
+				$player.shot_delay = 0
+				$player.c_flash = 0
+				$player.charge = 0
+				$player.w_icon = 0
+				$player.shot_state($player.NORMAL)
+				$player/sprite/weap_icon_lr.hide()
+				$player.hide()
+				$player.blink_timer = 96
+				swapping = true
+				swap_out()
+				if !$player.swap:
+					$player.swap = true
+				else:
+					$player.swap = false
+				swap()
+				$pause/pause_menu.menu_color()
+				$pause/pause_menu.set_names()
+				$pause/pause_menu.wpn_menu()
+				swap_in()
+				get_tree().paused = true
 	
 	#If the player is dead, run the kill script.
 	if $player.position.y > $player/camera.limit_bottom + 24 and !dead:
@@ -888,6 +915,7 @@ func swap_out():
 	#Spawn the leaving sprite.
 	var out = load('res://scenes/player/other/plyr_out.tscn').instance()
 	$overlap.add_child(out)
+	out.hurt = true
 	out.position = $player.position
 
 func swap_in():
