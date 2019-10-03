@@ -5,7 +5,7 @@
 [node name="enemy_tile" type="Node2D"]
 
 [node name="met_01" type="Sprite" parent="."]
-position = Vector2( 16, 16 )
+position = Vector2( 8, 8 )
 texture = ExtResource( 1 )
-vframes = 10
-hframes = 10
+vframes = 20
+hframes = 20

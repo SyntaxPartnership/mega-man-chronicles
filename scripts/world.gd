@@ -4,6 +4,7 @@ signal scrolling
 signal close_gate
 
 onready var objects = $graphic/objects
+onready var enemies = $graphic/enemies
 
 #Object constants
 const DEATH_BOOM = preload('res://scenes/effects/s_explode_loop.tscn')
@@ -65,11 +66,13 @@ var bbl_count = 0
 func _ready():
 	res = get_viewport_rect().size
 	
-	#Hide Object Layer
+	#Hide Object and Enemy Layers
 	objects.hide()
+	enemies.hide()
 	
 	#Spawn stage objects.
 	spawn_objects()
+	spawn_enemies()
 	
 	#Add Continue and Spawn Scripts here
 	cam_allow = [1, 1, 1, 1]
@@ -852,14 +855,14 @@ func spawn_objects():
 
 func spawn_enemies():
 	#Scan tilemap for enemies.
-	for e_cell in objects.get_used_cells():
-		var e_id = objects.get_cellv(e_cell)
-		var e_type = objects.tile_set.tile_get_name(e_id)
+	for e_cell in enemies.get_used_cells():
+		var e_id = enemies.get_cellv(e_cell)
+		var e_type = enemies.tile_set.tile_get_name(e_id)
 		#Get enemy ID and load into the level.
-		if e_type in ['vert_gate', 'horiz_gate']:
-			var e = load('res://scenes/objects/'+e_type+'.tscn').instance()
-			var e_pos = objects.map_to_world(e_cell)
-			e.position = pos + (objects.cell_size / 2)
+		if e_type in ['met_01']:
+			var e = load('res://scenes/enemies/'+e_type+'.tscn').instance()
+			var e_pos = enemies.map_to_world(e_cell)
+			e.position = e_pos + (enemies.cell_size / 2)
 			$graphic.add_child(e)
 
 func splash():

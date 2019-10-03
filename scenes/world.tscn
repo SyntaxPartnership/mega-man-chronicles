@@ -142,9 +142,9 @@ tile_data = PoolIntArray( 459071, 0, 0, 459087, 0, 0, 5832838, 1, 0, 6291583, 0,
 
 [node name="enemies" type="TileMap" parent="graphic"]
 tile_set = ExtResource( 15 )
-cell_size = Vector2( 32, 32 )
+cell_size = Vector2( 16, 16 )
 format = 1
-tile_data = PoolIntArray( 3211340, 0, 0 )
+tile_data = PoolIntArray( 6488216, 0, 0 )
 
 [node name="player" parent="." instance=ExtResource( 16 )]
 pause_mode = 1
