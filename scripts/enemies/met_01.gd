@@ -100,8 +100,6 @@ func _physics_process(delta):
 		var boom = load("res://scenes/effects/s_explode.tscn").instance()
 		boom.global_position = global_position
 		world.get_child(3).add_child(boom)
-	
-	print(hp)
 
 func _on_anim_finished(anim_name):
 	#Shoot when open.
