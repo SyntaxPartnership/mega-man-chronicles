@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scripts/enemies/met_01.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/enemies/met_01.png" type="Texture" id=2]
+[ext_resource path="res://assets/audio/se/Hit.wav" type="AudioStream" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 8, 8 )
@@ -79,7 +80,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id=7]
 resource_name = "open"
-length = 0.35
+length = 0.21
 step = 0.07
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite:frame")
@@ -88,10 +89,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.07, 0.14, 0.21, 0.28 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.07, 0.14 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ 1, 2, 3, 4, 4 ]
+"values": [ 1, 2, 3 ]
 }
 
 [sub_resource type="Animation" id=8]
@@ -123,7 +124,8 @@ shape = SubResource( 1 )
 
 [node name="hit_box" type="Area2D" parent="."]
 editor/display_folded = true
-collision_mask = 4
+collision_layer = 33
+collision_mask = 0
 
 [node name="box" type="CollisionShape2D" parent="hit_box"]
 shape = SubResource( 2 )
@@ -132,7 +134,7 @@ shape = SubResource( 2 )
 position = Vector2( 0, -2 )
 texture = ExtResource( 2 )
 hframes = 8
-frame = 4
+frame = 3
 
 [node name="anim" type="AnimationPlayer" parent="."]
 anims/close = SubResource( 3 )
@@ -141,4 +143,14 @@ anims/idle2 = SubResource( 5 )
 anims/jump = SubResource( 6 )
 anims/open = SubResource( 7 )
 anims/walk = SubResource( 8 )
+
+[node name="audio" type="Control" parent="."]
+editor/display_folded = true
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="hit" type="AudioStreamPlayer" parent="audio"]
+stream = ExtResource( 3 )
+[connection signal="body_entered" from="hit_box" to="." method="_on_hit_box_body_entered"]
+[connection signal="body_exited" from="hit_box" to="." method="_on_hit_box_body_exited"]
 [connection signal="animation_finished" from="anim" to="." method="_on_anim_finished"]

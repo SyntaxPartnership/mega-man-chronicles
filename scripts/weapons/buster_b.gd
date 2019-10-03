@@ -11,6 +11,10 @@ var y_dir = 0
 
 var reflect = false
 
+var ref_dink = false
+
+var damage = 10
+
 var velocity = Vector2()
 
 func _ready():
@@ -42,6 +46,10 @@ func _physics_process(delta):
 		velocity.x = x_dir * SPEED
 		velocity.y = y_dir * SPEED
 	else:
+		if !ref_dink:
+			$audio/reflect.play()
+			ref_dink = true
+		
 		velocity.x = -x_dir * SPEED
 		velocity.y = -1 * SPEED
 	

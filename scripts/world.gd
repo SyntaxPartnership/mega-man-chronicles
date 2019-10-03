@@ -105,10 +105,12 @@ func _input(event):
 			global.player_weap[int($player.swap)] -= 1
 			$player.w_icon = 64
 			kill_weapons()
+			palette_swap()
 		if Input.is_action_just_pressed("next"):
 			global.player_weap[int($player.swap)] += 1
 			$player.w_icon = 64
 			kill_weapons()
+			palette_swap()
 		
 		#Skip Unacquired Weapons.
 		if Input.is_action_just_pressed("next"):
@@ -434,7 +436,6 @@ func _process(delta):
 	_camera()
 	#Print Shit
 	
-	
 	#Get other player information.
 	player_tilepos = $coll_mask/tiles.world_to_map(pos)
 	stand_on = $coll_mask/tiles.get_cellv(Vector2(player_tilepos.x, player_tilepos.y + 1))
@@ -593,7 +594,9 @@ func _process(delta):
 #		$debug1/collide.set_uppercase(true)
 		
 		$debug_stats/debug/fps.set_text(str(Engine.get_frames_per_second()))#Display frames per second.
-
+	
+	if shots < 0:
+		shots = 0
 
 #These functions handle the states of the fade in node.
 func _on_fade_fadein():

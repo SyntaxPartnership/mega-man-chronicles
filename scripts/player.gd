@@ -800,19 +800,6 @@ func _physics_process(delta):
 				velocity.x += RUN_SPEED
 			if conveyor == 4:
 				velocity.x -= RUN_SPEED
-
-		#WARNING! DEBUG FUCKERY AHEAD!
-		#Replace this with an Area Enter Body code when enemies and hazards are in place.
-		if Input.is_key_pressed(KEY_SPACE) and anim_st != HURT and !dmg_button:
-			$audio/hurt.play()
-			dmg_button = true
-			velocity.y = 0
-
-			anim_state(HURT)
-			hurt_timer = 16
-
-		if !Input.is_key_pressed(KEY_SPACE) and anim_st != HURT and dmg_button:
-			dmg_button = false
 		
 		var snap
 		
@@ -1119,3 +1106,10 @@ func shot_pos():
 		else:
 			$sprite/shoot_pos.position.x = s_frame.get(key).x
 		$sprite/shoot_pos.position.y = s_frame.get(key).y
+
+func damage():
+	if hurt_timer == 0 and blink_timer == 0:
+		$audio/hurt.play()
+		velocity.y = 0
+		anim_state(HURT)
+		hurt_timer = 16

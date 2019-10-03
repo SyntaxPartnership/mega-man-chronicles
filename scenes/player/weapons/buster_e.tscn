@@ -5,7 +5,7 @@
 [ext_resource path="res://assets/audio/se/BigShot.wav" type="AudioStream" id=3]
 [ext_resource path="res://assets/audio/se/Reflect.wav" type="AudioStream" id=4]
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=1]
 resource_name = "loop"
 length = 0.2
 loop = true
@@ -23,7 +23,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 3 ]
 }
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 4, 4 )
 
 [node name="buster_e" type="KinematicBody2D" groups=[
@@ -40,10 +40,10 @@ hframes = 4
 frame = 1
 
 [node name="anim" type="AnimationPlayer" parent="."]
-anims/loop = SubResource( 2 )
+anims/loop = SubResource( 1 )
 
 [node name="hitbox" type="CollisionShape2D" parent="."]
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 
 [node name="on_screen" type="VisibilityNotifier2D" parent="."]
 rect = Rect2( -4, -4, 8, 8 )

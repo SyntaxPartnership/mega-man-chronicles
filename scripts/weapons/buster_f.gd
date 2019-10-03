@@ -10,6 +10,11 @@ const SPEED = 300
 var dir = 0
 
 var reflect = false
+
+var ref_dink = false
+
+var damage = 30
+
 var move = false
 
 var strt_p = Vector2()
@@ -30,23 +35,26 @@ func _ready():
 		dir = -1
 	else:
 		dir = 1
-	
-	print(start_pos.position)
 
 func _physics_process(delta):
 
 	if move:
+		if $hitbox.is_disabled():
+			$hitbox.set_disabled(false)
+			
 		if !reflect:
 			velocity.x = dir * SPEED
 		else:
+			if !ref_dink:
+				$audio/reflect.play()
+				$anim.play("reflect")
+				ref_dink = true
+			
 			velocity.x = -dir * SPEED
 	
 			velocity.y = -SPEED
 	
 		velocity = move_and_slide(velocity, Vector2(0, -1))
-	
-	else:
-		position = player.position + start_pos.position
 
 func _on_screen_exited():
 	world.shots -= 1

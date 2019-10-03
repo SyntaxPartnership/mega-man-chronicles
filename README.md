@@ -206,6 +206,11 @@ Changes - Version 0.0.1 ():
 - Fixed an issue where the player's bullets would no sync up with the direction of the player's sprite.
 - Fixed an issue where Rush's hitbox would prevent him from leaving the screen if a ceiling is in place.
 - Rush Jet complete.
+- Added Stationary met.
+- Fixed an issue that allowed players to fire more than the normal amount of bullets on screen after a swap.
+- Removed the spacebar dealing damage to the player.
+- Added damage functions when coming in contact with enemies.
+
 
 Credits:
 --
