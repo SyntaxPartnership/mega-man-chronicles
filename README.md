@@ -210,6 +210,7 @@ Changes - Version 0.0.1 ():
 - Fixed an issue that allowed players to fire more than the normal amount of bullets on screen after a swap.
 - Removed the spacebar dealing damage to the player.
 - Added damage functions when coming in contact with enemies.
+- Added death and respawn functions for enemies.
 
 
 Credits:

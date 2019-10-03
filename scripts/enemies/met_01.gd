@@ -3,7 +3,8 @@ extends KinematicBody2D
 #Most of these variables will be shared amongst all enemies.
 
 #Get the player node.
-onready var player = get_parent().get_parent().get_child(2)
+onready var world = get_parent().get_parent()
+onready var player = world.get_child(2)
 
 #Starting X and Y coordinates. To allow the enemy to respawn when off screen.
 var start_pos = Vector2()
@@ -12,7 +13,8 @@ var start_pos = Vector2()
 var dist
 
 #Enemy HP.
-var hp = 10
+const DEFAULT_HP = 10
+var hp
 
 #Damage enemy does to the player.
 var touch = false
@@ -33,6 +35,8 @@ var reset = 0
 
 func _ready():
 	start_pos = Vector2(global_position.x, global_position.y)
+	
+	hp = DEFAULT_HP
 	
 	dist = floor(abs(player.global_position.x) - abs(global_position.x))
 	
@@ -84,6 +88,20 @@ func _physics_process(delta):
 	if touch and player.hurt_timer == 0 and player.blink_timer == 0:
 		player.damage()
 		global.player_life[int(player.swap)] -= damage
+	
+	if hp <= 0 and !dead:
+		#Calculate item drops here.
+		$sprite.hide()
+		dead = true
+		flash = false
+		f_delay = 0
+		reset = 0
+		#Spawn explosion sprite.
+		var boom = load("res://scenes/effects/s_explode.tscn").instance()
+		boom.global_position = global_position
+		world.get_child(3).add_child(boom)
+	
+	print(hp)
 
 func _on_anim_finished(anim_name):
 	#Shoot when open.
@@ -100,23 +118,31 @@ func _on_anim_finished(anim_name):
 
 func _on_hit_box_body_entered(body):
 	if body.is_in_group("weapons"):
-		if immune == true:
-			body.reflect = true
-		else:
-			if hp < body.damage:
-				if body.name != "buster_f":
-					body._on_screen_exited()
+		if !dead:
+			if immune == true:
+				body.reflect = true
 			else:
-				body._on_screen_exited()
-			$audio/hit.stop()
-			$audio/hit.play()
-			$sprite.hide()
-			flash = true
-			f_delay = 2
+				if hp < body.damage:
+					if body.name != "buster_f":
+						body._on_screen_exited()
+				else:
+					body._on_screen_exited()
+				hp -= body.damage
+				$audio/hit.stop()
+				$audio/hit.play()
+				$sprite.hide()
+				flash = true
+				f_delay = 2
 	
-	if body.name == "player":
+	if body.name == "player" and !dead:
 		touch = true
 
 func _on_hit_box_body_exited(body):
 	if body.name == "player":
 		touch = false
+
+func _on_screen_exited():
+	if dead:
+		dead = false
+		$sprite.show()
+		hp = DEFAULT_HP
