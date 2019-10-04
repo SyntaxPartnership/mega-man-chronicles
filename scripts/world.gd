@@ -444,7 +444,7 @@ func _process(delta):
 	player_room = Vector2(floor(pos.x / 256), floor(pos.y / 240))
 	spawn_pt = $coll_mask/spawn_pts.get_cellv($coll_mask/spawn_pts.world_to_map(Vector2(pos.x - 4, pos.y)))
 	
-	if global.player_life[0] <= 0 and global.player_life[1] != 0 and !$player.swap or global.player_life[0] != 0 and global.player_life[1] <= 0 and !$player.swap:
+	if global.player_life[0] <= 0 and global.player_life[1] != 0 and !$player.swap or global.player_life[0] != 0 and global.player_life[1] <= 0 and $player.swap:
 		if !hurt_swap:
 			hurt_swap = true
 			if $player.act_st != 13 and !$player.slide:
@@ -486,7 +486,7 @@ func _process(delta):
 		get_tree().paused = true
 		$player.hide()
 		
-	if global.player_life[0] + global.player_life[1] == 0 and !dead:
+	if global.player_life[0] == 0 and global.player_life[1] == 0 and !dead:
 		dead = true
 		$player.can_move = false
 		get_tree().paused = true

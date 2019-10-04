@@ -280,7 +280,6 @@ func _physics_process(delta):
 				if blink_timer == 0:
 					show()
 					if hurt_swap:
-						print('Reverting')
 						hurt_swap = false
 						world.hurt_swap = false
 		
@@ -866,7 +865,6 @@ func _physics_process(delta):
 			ice = false
 
 		#Print Shit
-		print(hurt_swap,', ',world.hurt_swap)
 
 #There are 3 states that the player will call. Animation, Action, and Shot
 #Pull the matching Animation State and set the animation accordingly.

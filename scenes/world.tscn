@@ -145,7 +145,7 @@ tile_data = PoolIntArray( 459071, 0, 0, 459087, 0, 0, 5832838, 1, 0, 6291583, 0,
 tile_set = ExtResource( 15 )
 cell_size = Vector2( 16, 16 )
 format = 1
-tile_data = PoolIntArray( 6226086, 0, 0, 6357154, 0, 0, 6488216, 0, 0, 6488219, 0, 0, 6488222, 0, 0 )
+tile_data = PoolIntArray( 6226086, 0, 0, 6357154, 0, 0, 6488216, 0, 0, 6488219, 0, 0, 6488222, 0, 0, 9240716, 0, 0, 9633931, 0, 0, 10420364, 0, 0 )
 
 [node name="player" parent="." instance=ExtResource( 16 )]
 pause_mode = 1

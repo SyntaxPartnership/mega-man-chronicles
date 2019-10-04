@@ -6,6 +6,7 @@ onready var flip = player.get_child(3)
 
 var hurt = false
 var hurt_timer = 16
+var hurt_boom = false
 
 var x_dir
 var velocity = Vector2()
@@ -28,6 +29,9 @@ func _ready():
 	
 	#Determine which animation is to be played.
 	if hurt:
+		if !hurt_boom:
+			var boom = load('res://scenes/effects/l_explode.tscn').instance()
+			add_child(boom)
 		$anim.play("hurt")
 		velocity.y = 0
 	else:
