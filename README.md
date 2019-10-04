@@ -211,6 +211,9 @@ Changes - Version 0.0.1 ():
 - Removed the spacebar dealing damage to the player.
 - Added damage functions when coming in contact with enemies.
 - Added death and respawn functions for enemies.
+- Fixed an issue where the player would take additional damage upon a forced swap if the player was overlapping an enemy.
+- Fixed an issue where the player would force swap endlessly.
+- The player can now be killed by enemies.
 
 
 Credits:

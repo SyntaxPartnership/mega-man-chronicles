@@ -279,6 +279,10 @@ func _physics_process(delta):
 
 				if blink_timer == 0:
 					show()
+					if hurt_swap:
+						print('Reverting')
+						hurt_swap = false
+						world.hurt_swap = false
 		
 			#Begin weapon functions.
 			#Busters
@@ -862,7 +866,7 @@ func _physics_process(delta):
 			ice = false
 
 		#Print Shit
-		print(hurt_timer,', ',blink_timer,', ',hurt_swap)
+		print(hurt_swap,', ',world.hurt_swap)
 
 #There are 3 states that the player will call. Animation, Action, and Shot
 #Pull the matching Animation State and set the animation accordingly.
@@ -1111,7 +1115,7 @@ func shot_pos():
 
 func damage():
 	if !hurt_swap:
-		if hurt_timer == 0 and blink_timer == 0:
+		if hurt_timer == 0 and blink_timer == 0 and global.player_life[int(swap)] > 0:
 			$audio/hurt.play()
 			velocity.y = 0
 			anim_state(HURT)

@@ -86,8 +86,8 @@ func _physics_process(delta):
 		flash = false
 	
 	if touch and player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap:
-		player.damage()
 		global.player_life[int(player.swap)] -= damage
+		player.damage()
 	
 	if hp <= 0 and !dead:
 		#Calculate item drops here.

@@ -72,8 +72,9 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id=6]
 resource_name = "hurt"
-length = 0.1
+length = 0.06
 loop = true
+step = 0.03
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite:frame")
 tracks/0/interp = 1
@@ -81,10 +82,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 0.03 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ 17 ]
+"values": [ 17, 16 ]
 }
 
 [sub_resource type="Animation" id=7]
@@ -118,7 +119,7 @@ material = SubResource( 2 )
 texture = ExtResource( 3 )
 vframes = 4
 hframes = 14
-frame = 18
+frame = 17
 
 [node name="anim" type="AnimationPlayer" parent="."]
 anims/appear = SubResource( 3 )
