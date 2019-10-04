@@ -91,10 +91,5 @@ func _on_plyr_entered(body):
 
 func _on_screen_exited():
 	#If Rush is no on screen, kill him.
-	if !is_on_floor() and !leave:
-		world.adaptors -= 1
-		queue_free()
-	
-	if leave:
-		world.adaptors -= 1
-		queue_free()
+	world.adaptors = 0
+	queue_free()

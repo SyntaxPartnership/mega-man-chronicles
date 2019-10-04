@@ -137,5 +137,4 @@ func _on_anim_finished(anim_name):
 
 func _on_screen_exited():
 	queue_free()
-	print('Gone')
 	world.adaptors = 0

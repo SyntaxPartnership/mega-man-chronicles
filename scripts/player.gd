@@ -825,28 +825,30 @@ func _physics_process(delta):
 		for idx in range(get_slide_count()):
 			var collision = get_slide_collision(idx)
 			
-			if is_on_floor() and collision.collider.get_parent().name == 'rush_jet':
-				rush_jet = true
-
-			if is_on_floor() and collision.collider.name == 'tiles' or is_on_floor() and collision.collider.name == 'death':
-				x_spd_mod = 1
-				conveyor = 0
-				ice = false
-
-			if is_on_floor() and collision.collider.name == 'snow':
-				x_spd_mod = 2
-
-			if is_on_floor() and  collision.collider.name == 'slw_conv_r':
-				conveyor = 1
-			elif is_on_floor() and collision.collider.name == 'slw_conv_l':
-				conveyor = 2
-			elif is_on_floor() and collision.collider.name == 'fst_conv_r':
-				conveyor = 3
-			elif is_on_floor() and collision.collider.name == 'fst_conv_l':
-				conveyor = 4
-
-			if is_on_floor() and collision.collider.name == 'ice':
-				ice = true
+			if !is_on_wall():
+			
+				if is_on_floor() and collision.collider.get_parent().name == 'rush_jet':
+					rush_jet = true
+	
+				if is_on_floor() and collision.collider.name == 'tiles' or is_on_floor() and collision.collider.name == 'death':
+					x_spd_mod = 1
+					conveyor = 0
+					ice = false
+	
+				if is_on_floor() and collision.collider.name == 'snow':
+					x_spd_mod = 2
+	
+				if is_on_floor() and  collision.collider.name == 'slw_conv_r':
+					conveyor = 1
+				elif is_on_floor() and collision.collider.name == 'slw_conv_l':
+					conveyor = 2
+				elif is_on_floor() and collision.collider.name == 'fst_conv_r':
+					conveyor = 3
+				elif is_on_floor() and collision.collider.name == 'fst_conv_l':
+					conveyor = 4
+	
+				if is_on_floor() and collision.collider.name == 'ice':
+					ice = true
 			
 			if collision.collider.name == 'death' and blink_timer == 0 and hurt_timer == 0:
 				#Spawn the death boom. Replace when HP bar is added.

@@ -214,6 +214,8 @@ Changes - Version 0.0.1 ():
 - Fixed an issue where the player would take additional damage upon a forced swap if the player was overlapping an enemy.
 - Fixed an issue where the player would force swap endlessly.
 - The player can now be killed by enemies.
+- Fixed an issue where touching another obstacle type while standing on another (IE: Standing on snow, but walked into ice) would set the player to have the properties of the newly touched tile.
+- Fixed an issue where Rush Coil could interact with the floor in rooms below the player.
 
 
 Credits:
