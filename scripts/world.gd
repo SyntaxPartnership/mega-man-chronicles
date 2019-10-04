@@ -74,6 +74,7 @@ func _ready():
 	#Spawn stage objects.
 	spawn_objects()
 	spawn_enemies()
+	get_cell_rect()
 	
 	#Add Continue and Spawn Scripts here
 	cam_allow = [1, 1, 1, 1]
@@ -92,7 +93,6 @@ func _ready():
 			
 	pos = $player.position
 	player_room = Vector2(floor(pos.x / 256), floor(pos.y / 240))
-	get_cell_rect(player_room)
 
 	$player/camera.limit_top = (player_room.y*240)
 	$player/camera.limit_bottom = (player_room.y*240)+240
@@ -327,7 +327,6 @@ func _camera():
 	#not performing a screen transition.
 	if prev_room != player_room and !scroll:
 		prev_room = player_room
-		get_cell_rect(player_room)
 		_rooms()
 		
 #	Certain special conditions for allowing camera movement can be allowed as well. Such as player position within a room.
@@ -966,10 +965,5 @@ func swap():
 		$player.change_char()
 		palette_swap()
 
-func get_cell_rect(tile_pos):
-	var row = []
-	var used_cells = $graphic/enemies.get_used_cells()
-	for cell in used_cells:
-		if cell.x >= tile_pos.x and cell.x <= tile_pos.x + 16 and cell.y >= tile_pos.y and cell.y <= tile_pos.y + 16:
-			row.append(cell)
-	print(row)
+func get_cell_rect():
+	print($graphic/enemies.get_used_cells())
