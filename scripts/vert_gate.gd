@@ -30,6 +30,7 @@ func _physics_process(delta):
 
 func _on_act_left_body_entered(body):
 	if !$act_left/box.is_disabled():
+		world.kill_enemies()
 		$open.play()
 		#Stop player animation
 		player_anim.stop()
@@ -44,6 +45,7 @@ func _on_act_left_body_entered(body):
 
 func _on_act_right_body_entered(body):
 	if !$act_right/box.is_disabled():
+		world.kill_enemies()
 		$open.play()
 		#Stop player animation
 		player_anim.stop()

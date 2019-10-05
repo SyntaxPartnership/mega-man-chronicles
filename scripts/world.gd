@@ -4,7 +4,7 @@ signal scrolling
 signal close_gate
 
 onready var objects = $graphic/objects
-onready var enemies = $graphic/enemies
+onready var enemies = $graphic/enemy_map
 
 #Object constants
 const DEATH_BOOM = preload('res://scenes/effects/s_explode_loop.tscn')
@@ -47,6 +47,36 @@ var prev_room = Vector2(0, 0)
 var endless = false
 var endless_rms = []
 var screens = 0
+var shake = 0
+var enemy_count = 0
+
+#Reference. The following dictionary contains data for the rooms loaded into the game. The key is the room coordinates. The first four numbers hold values for cam_allow.
+#The final two hold how many rooms that particular area can scroll before stopping and which direction to scroll (1 for right, -1 for left). If rooms has a 0, ignore the
+#scrolling section of the code, as it will only change the screen transitions.
+
+var room_data = {
+				#Cossack Test Area
+				"(8, 6)": [1, 1, 0, 1, 1, 1],
+				"(9, 6)": [0, 0, 1, 0, 6, 1],
+				"(14, 6)": [1, 0, 0, 0, 6, -1],
+				"(14, 5)": [1, 1, 0, 0, 1, -1],
+				"(14, 4)": [0, 1, 0, 0, 6, 1],
+				"(15, 4)": [0, 0, 0, 0, 0, 1],
+				"(19, 4)": [1, 0, 0, 0, 6, -1],
+				"(19, 3)": [1, 1, 0, 0, 1, -1],
+				"(19, 1)": [1, 1, 0, 0, 1, -1],
+				"(19, 0)": [0, 1, 0, 1, 1, -1],
+				#Wily Test Area
+				"(8, 7)": [0, 1, 0, 0, 1, 1],
+				"(8, 10)": [0, 0, 0, 0, 5, 1],
+				"(11, 10)": [0, 0, 0, 0, 0, -1],
+				"(12, 10)": [0, 1, 0, 0, 5, -1],
+				"(12, 11)": [0, 1, 0, 0, 1, 1],
+				"(12, 15)": [0, 0, 0, 1, 2, 1]
+				}
+
+var boss_rooms = {#Insert boss room coordinates here.
+				}
 
 #Color Variables.
 var palette = [Color('#000000'), Color('#000000'), Color('#000000')]
@@ -73,8 +103,6 @@ func _ready():
 	
 	#Spawn stage objects.
 	spawn_objects()
-	spawn_enemies()
-	get_cell_rect()
 	
 	#Add Continue and Spawn Scripts here
 	cam_allow = [1, 1, 1, 1]
@@ -223,7 +251,6 @@ func _input(event):
 			if $pause/pause_menu.menu == 0:
 				if $pause/pause_menu.start:
 					if $pause/pause_menu.kill_wpn != global.player_weap[int($player.swap)]:
-						print('Killing Weapons')
 						kill_weapons()
 					$audio/bling.play()
 					$fade/fade.state = 8
@@ -240,8 +267,19 @@ func _camera():
 	center = $player/camera.get_camera_screen_center()
 	center = Vector2(floor(center.x), floor(center.y))
 	
+	#Basic screen shaking effect. Change if needed.
+	if shake > 0:
+		$player/camera.set_offset(Vector2(rand_range(-2.0, 2.0), rand_range(-3.0, 3.0)))
+		shake -= 1
+	
+	if shake == 0:
+		$player/camera.set_offset(Vector2(0, 0))
+	
+	#FOR FUTURE REFERENCE: The cam_allow stores values for up, down, left, right in that order in the array.
+	
 	#Scroll up (Edge of screen)
 	if pos.y < $player/camera.limit_top and cam_allow[0] == 1 and !scroll:
+		kill_enemies()
 		scroll = true
 		scroll_len = -res.y
 		cam_move = 1
@@ -251,6 +289,7 @@ func _camera():
 	
 	#Scroll down (Edge of screen)
 	if pos.y > $player/camera.limit_bottom and cam_allow[1] == 1 and !scroll:
+		kill_enemies()
 		scroll = true
 		scroll_len = res.y
 		cam_move = 2
@@ -260,6 +299,7 @@ func _camera():
 	
 	#Scroll left (Edge of screen)
 	if pos.x < $player/camera.limit_left + 8 and cam_allow[2] == 1 and !scroll:
+		kill_enemies()
 		$player/camera.limit_left = center.x - (res.x / 2)
 		$player/camera.limit_right = center.x + (res.x / 2)
 		scroll = true
@@ -271,6 +311,7 @@ func _camera():
 	
 	#Scroll right (Edge of screen)
 	if pos.x > $player/camera.limit_right - 8 and cam_allow[3] == 1 and !scroll:
+		kill_enemies()
 		$player/camera.limit_left = center.x - (res.x / 2)
 		$player/camera.limit_right = center.x + (res.x / 2)
 		scroll = true
@@ -349,87 +390,55 @@ func _rooms():
 	
 	#Add function here to clear endless_rms to prevent lag. (Example: When the player reaches a teleporter, clear endless_rms)
 	
-	#Example
-	#Water test area.
-	if player_room == Vector2(8, 10):
-		rooms = 5
-		cam_allow[0] = 0
-		cam_allow[1] = 0
-		cam_allow[2] = 0		#Don't forget this snippet.
-		$player/camera.limit_right = $player/camera.limit_left + (res.x * rooms)
-	
-	#Allow the player to fall after reaching a certain point.
-	if player_room == Vector2(12, 10):
-		cam_allow[1] = 1
-	
-	#Save for rooms with no horizontal scrolling.
-	if player_room == Vector2(12, 11):
-		rooms = 1
-		$player/camera.limit_left = $player/camera.limit_right - (res.x * rooms)
-	
-	if player_room == Vector2(12, 15):
-		rooms = 2
-		$player/camera.limit_right = $player/camera.limit_left + (res.x * rooms)
-	
-	#Snow/Ice Test Area
-	if player_room == Vector2(9, 6):
-		rooms = 6
-		cam_allow[1] = 0
-		$player/camera.limit_right = $player/camera.limit_left + (res.x * rooms)
-	
-	if player_room == Vector2(14, 6):
-		cam_allow[1] = 0
-	
-	if player_room == Vector2(14, 5) and cam_allow[1] != 1:
-		rooms = 1
-		cam_allow[1] = 1
-		$player/camera.limit_left = $player/camera.limit_right - (res.x * rooms)
-	
-	if player_room == Vector2(14, 4):
-		rooms = 6
-		cam_allow[1] = 1
-		$player/camera.limit_right = $player/camera.limit_left + (res.x * rooms)
-	
-	if player_room == Vector2(15, 4):
-		cam_allow[1] = 0
-	
-	if player_room == Vector2(19, 3):
-		rooms = 1
-		cam_allow[1] = 1
-		$player/camera.limit_left = $player/camera.limit_right - (res.x * rooms)
-	
-	if player_room == Vector2(19, 4):
-		rooms = 6
-		cam_allow[1] = 1
-		$player/camera.limit_left = $player/camera.limit_right - (res.x * rooms)
-	
-	if player_room == Vector2(20, 0):
-		cam_allow[2] = 0
-
-	
-	#Save for rooms that scroll to the left.
-#	if player_room == Vector2(1, 8):
-#		rooms = 1
-#		$player/camera.limit_left = $player/camera.limit_right - (res.x * rooms)
-	
-	#Special camera condition. Will prevent horizontal scrolling while the player is on the top half of the screen at the beginning of this section.
-#	if player_room == Vector2(7, 10):
-#		cam_allow[1] = 0
-#		if $player.position.y < ($player/camera.limit_bottom - 120):
-#			rooms = 1
-#			$player/camera.limit_left = player_room.x * 256
-#			$player/camera.limit_right = (player_room.x + 1) * 256
-#		else:
-#			rooms = 8
-#			$player/camera.limit_left = player_room.x * 256
-#			$player/camera.limit_right = $player/camera.limit_left + (res.x * rooms)
-#
-#	if player_room == Vector2(15, 10) and cam_allow[2] != 0:
-#		cam_allow[2] = 0
-	
-	#Eventually, this function will encompass every room in the game. But only triggers at certain
-	#intervals as to not bog down RAM usage. IE: When the room value is different from the previous
-	#value.
+	if room_data.has(str(player_room)):
+		#Set camera allow values.
+		cam_allow[0] = room_data.get(str(player_room))[0]
+		cam_allow[1] = room_data.get(str(player_room))[1]
+		cam_allow[2] = room_data.get(str(player_room))[2]
+		cam_allow[3] = room_data.get(str(player_room))[3]
+		#Set scrolling.
+		if room_data.get(str(player_room))[4] != 0:
+			#Is it a single room area?
+			if room_data.get(str(player_room))[4] != 1:
+				if room_data.get(str(player_room))[5] == 1:
+					$player/camera.limit_right = $player/camera.limit_left + (res.x * room_data.get(str(player_room))[4])
+				else:
+					$player/camera.limit_left = $player/camera.limit_right - (res.x * room_data.get(str(player_room))[4])
+			else:
+				$player/camera.limit_right = (player_room.x * res.x) + res.x
+				$player/camera.limit_left = player_room.x * res.x
+				
+			
+		#Check tilemap for enemies. If so, place them.
+	if enemy_count == 0:
+		var enemy_loc = []
+		var enemy_name = []
+		
+		var x_tiles = $player/camera.limit_left / 16
+		var y_tiles = player_room.y * 15
+		
+		if room_data.has(str(player_room)):
+			rooms = room_data.get(str(player_room))[4]
+		else:
+			rooms = 1
+		
+		for y in range(y_tiles, y_tiles + 15):
+			#Use separate actions depending on if the room is in the dictionary or not.
+			for x in range(x_tiles, x_tiles + (rooms * 16)):
+				if enemies.get_cell(x, y) != -1:
+						enemy_loc.append(Vector2(x, y))
+		
+		for id in(enemy_loc):
+			var e_id = enemies.get_cellv(id)
+			var e_type = enemies.tile_set.tile_get_name(e_id)
+			if !enemy_name.has(e_type):
+				enemy_name.append(e_type)
+			if e_type in enemy_name:
+				var e = load("res://scenes/enemies/"+e_type+".tscn").instance()
+				var e_pos = enemies.map_to_world(id)
+				e.position = e_pos + (enemies.cell_size / 2)
+				$graphic.add_child(e)
+				enemy_count += 1
 	
 #warning-ignore:unused_argument
 func _process(delta):
@@ -894,18 +903,6 @@ func spawn_objects():
 			c.position = pos + (objects.cell_size / 2)
 			$graphic.add_child(c)
 
-func spawn_enemies():
-	#Scan tilemap for enemies.
-	for e_cell in enemies.get_used_cells():
-		var e_id = enemies.get_cellv(e_cell)
-		var e_type = enemies.tile_set.tile_get_name(e_id)
-		#Get enemy ID and load into the level.
-		if e_type in ['met_01']:
-			var e = load('res://scenes/enemies/'+e_type+'.tscn').instance()
-			var e_pos = enemies.map_to_world(e_cell)
-			e.position = e_pos + (enemies.cell_size / 2)
-			$graphic.add_child(e)
-
 func splash():
 	if !dead:
 		$audio/splash.stop()
@@ -950,8 +947,17 @@ func kill_weapons():
 	var wpns = get_tree().get_nodes_in_group('weapons')
 	for i in wpns:
 		i.queue_free()
+	var adapt = get_tree().get_nodes_in_group('adaptors')
+	for a in adapt:
+		a.queue_free()
 	shots = 0
 	adaptors = 0
+
+func kill_enemies():
+	var enemy_kill = get_tree().get_nodes_in_group('enemies')
+	for i in enemy_kill:
+		i.queue_free()
+	enemy_count = 0
 
 func _on_teleport():
 	if tele_timer <= 0:
@@ -964,6 +970,3 @@ func swap():
 		global.player = global.player_id[int($player.swap)]
 		$player.change_char()
 		palette_swap()
-
-func get_cell_rect():
-	print($graphic/enemies.get_used_cells())

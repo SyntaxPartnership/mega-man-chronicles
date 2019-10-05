@@ -216,6 +216,11 @@ Changes - Version 0.0.1 ():
 - The player can now be killed by enemies.
 - Fixed an issue where touching another obstacle type while standing on another (IE: Standing on snow, but walked into ice) would set the player to have the properties of the newly touched tile.
 - Fixed an issue where Rush Coil could interact with the floor in rooms below the player.
+- Completely redid the room data and enemy spawn code to make it more efficient.
+- Enemies now spawn after a screen transition and are wiped when touching a screen edge or gate.
+- Added a basic screen shake effect.
+- Fixed a couple issues involving single room areas of the map. Both camera settings and enemy spawning.
+- Fixed an issue where the game would crash if Rush touched an enemy.
 
 
 Credits:

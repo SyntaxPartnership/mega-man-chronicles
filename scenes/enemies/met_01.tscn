@@ -113,7 +113,9 @@ tracks/0/keys = {
 "values": [ 5, 3, 6, 3 ]
 }
 
-[node name="met_01" type="KinematicBody2D"]
+[node name="met_01" type="KinematicBody2D" groups=[
+"enemies",
+]]
 pause_mode = 1
 collision_layer = 66
 collision_mask = 0
@@ -134,7 +136,6 @@ shape = SubResource( 2 )
 position = Vector2( 0, -2 )
 texture = ExtResource( 2 )
 hframes = 8
-frame = 3
 
 [node name="anim" type="AnimationPlayer" parent="."]
 anims/close = SubResource( 3 )

@@ -77,7 +77,7 @@ tracks/0/keys = {
 }
 
 [node name="rush_coil" type="KinematicBody2D" groups=[
-"weapons",
+"adaptors",
 ]]
 pause_mode = 1
 collision_layer = 66

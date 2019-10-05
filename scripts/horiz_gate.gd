@@ -29,6 +29,7 @@ func _physics_process(delta):
 
 func _on_act_top_body_entered(body):
 	if !$act_top/box.is_disabled():
+		world.kill_enemies()
 		$open.play()
 		#Stop player animation
 		player_anim.stop()
@@ -43,6 +44,7 @@ func _on_act_top_body_entered(body):
 
 func _on_act_bottom_body_entered(body):
 	if !$act_bottom/box.is_disabled():
+		world.kill_enemies()
 		$open.play()
 		#Stop player animation
 		player_anim.stop()

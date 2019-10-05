@@ -92,7 +92,7 @@ extents = Vector2( 10, 4 )
 extents = Vector2( 10, 4 )
 
 [node name="rush_jet" type="KinematicBody2D" groups=[
-"weapons",
+"adaptors",
 ]]
 pause_mode = 1
 collision_layer = 66
