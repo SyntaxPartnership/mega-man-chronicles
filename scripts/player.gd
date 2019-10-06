@@ -331,13 +331,16 @@ func _physics_process(delta):
 				c_flash = 0
 			elif charge >= 96 and c_flash > 7:
 				c_flash = 0
-
-			if c_flash == 0 or c_flash == 2 or c_flash == 4 or c_flash == 6:
-				world.palette_swap()
 			
-			if !fire and charge > 32 and global.player != 2:
-				weapons()
-				world.palette_swap()
+			if global.player_weap[int(swap)] == 0:
+				if charge > 32 and c_flash == 0 or c_flash == 2 or c_flash == 4 or c_flash == 6:
+					world.palette_swap()
+				
+				if !fire and charge > 32 and global.player != 2 and global.player_weap[int(swap)] == 0:
+					weapons()
+			
+			if !fire and charge > 0:
+				charge = 0
 			
 			#Adaptors
 			#Rush Coil/Carry/Treble Boost
@@ -352,7 +355,7 @@ func _physics_process(delta):
 						world.adaptors += 1
 			
 			#Rush Jet
-			if global.player == 0 and global.rp_jet[int(swap) + 1] > 0:
+			if global.player == 0 and global.rp_jet[0] and global.rp_jet[int(swap) + 1] > 0:
 				if fire_tap and global.player_weap[int(swap)] == 2:
 					if world.shots < 3 and world.adaptors == 1:
 						world.shots += 1
@@ -360,6 +363,24 @@ func _physics_process(delta):
 					if world.adaptors < 1:
 						weapons()
 						world.adaptors += 1
+			
+			#Carry
+			
+			#Treble Boost
+			
+			#Beat
+			
+			#Tango
+			if global.player == 1 and global.tango[0] and global.rp_jet[int(swap) + 1] > 0:
+				if fire_tap and global.player_weap[int(swap)] == 11:
+					if world.shots < 2 and world.adaptors == 1:
+						world.shots += 1
+						weapons()
+					if world.adaptors < 1:
+						weapons()
+						world.adaptors += 1
+			
+			#Reggae
 			
 			shot_pos()
 
@@ -1045,6 +1066,7 @@ func weapons():
 						buster_f.position = $sprite/shoot_pos.global_position
 			charge = 0
 			c_flash = 0
+			world.palette_swap()
 	
 		#Bass Only
 		if global.player == 2:
@@ -1054,6 +1076,7 @@ func weapons():
 				wpn_layer.add_child(buster_b)
 				buster_b.position = $sprite/shoot_pos.global_position
 	
+	#Movement Adaptors
 	if global.player_weap[int(swap)] == 1:
 		#Mega Man
 		if global.player == 0:
@@ -1066,6 +1089,26 @@ func weapons():
 				else:
 					r_coil.position.x = position.x - 32
 				r_coil.position.y = camera.limit_top - 16
+			else:
+				shot_state(SHOOT)
+				var buster_a = load('res://scenes/player/weapons/buster_a.tscn').instance()
+				wpn_layer.add_child(buster_a)
+				buster_a.position = $sprite/shoot_pos.global_position
+		
+	#Helper Adaptors
+	if global.player_weap[int(swap)] == 11:
+		#Mega Man
+		#Proto Man
+		if global.player == 1:
+			#Fire standard buster shots if Rush is on screen.
+			if world.adaptors == 0:
+				var tango = load('res://scenes/player/weapons/tango.tscn').instance()
+				wpn_layer.add_child(tango)
+				if !$sprite.flip_h:
+					tango.position.x = position.x + 32
+				else:
+					tango.position.x = position.x - 32
+				tango.position.y = camera.limit_top - 16
 			else:
 				shot_state(SHOOT)
 				var buster_a = load('res://scenes/player/weapons/buster_a.tscn').instance()

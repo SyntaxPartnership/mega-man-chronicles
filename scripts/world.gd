@@ -234,7 +234,7 @@ func _input(event):
 					swap_in()
 					get_tree().paused = true
 			
-		palette_swap()
+#		palette_swap()
 	
 		#Pause menu
 		if Input.is_action_just_pressed('start') and !$pause/pause_menu.start and !swapping:
@@ -776,7 +776,7 @@ func palette_swap():
 		
 		if global.player_weap[int($player.swap)] == 11:
 			palette[0] = global.black
-			palette[1] = global.green1
+			palette[1] = global.green2
 			palette[2] = global.blue0
 			
 	#Bass
