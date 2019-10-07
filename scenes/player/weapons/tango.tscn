@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://scripts/weapons/tango.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/weapons/tango.png" type="Texture" id=2]
@@ -79,6 +79,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=7]
+resource_name = "sleep"
 length = 1.25
 loop = true
 step = 0.75
@@ -96,6 +97,40 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=8]
+resource_name = "sleep_1"
+length = 0.6
+step = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 4, 5, 6 ]
+}
+
+[sub_resource type="Animation" id=9]
+resource_name = "sleep_2"
+length = 0.6
+step = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 7, 8, 9 ]
+}
+
+[sub_resource type="Animation" id=10]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite:frame")
@@ -109,8 +144,6 @@ tracks/0/keys = {
 "update": 1,
 "values": [ 10, 11, 12 ]
 }
-
-[sub_resource type="Animation" id=9]
 
 [node name="tango" type="KinematicBody2D" groups=[
 "weapons",
@@ -130,26 +163,21 @@ collision_mask = 32
 [node name="box" type="CollisionShape2D" parent="block_det"]
 shape = SubResource( 2 )
 
-[node name="enemy_det" type="Area2D" parent="."]
-collision_layer = 2
-collision_mask = 32
-
-[node name="box" type="CollisionShape2D" parent="enemy_det"]
-shape = SubResource( 2 )
-
 [node name="sprite" type="Sprite" parent="."]
 position = Vector2( 0, -7 )
 texture = ExtResource( 2 )
 hframes = 17
+frame = 14
 
 [node name="anim" type="AnimationPlayer" parent="."]
 anims/appear = SubResource( 3 )
 anims/attack = SubResource( 4 )
 anims/beam = SubResource( 5 )
 anims/idle1 = SubResource( 6 )
-anims/idle2 = SubResource( 7 )
-anims/sleep = SubResource( 8 )
-anims/z = SubResource( 9 )
+anims/sleep = SubResource( 7 )
+anims/sleep_1 = SubResource( 8 )
+anims/sleep_2 = SubResource( 9 )
+anims/sleep_3 = SubResource( 10 )
 
 [node name="meow" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
@@ -159,6 +187,4 @@ stream = ExtResource( 4 )
 
 [node name="dink" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
-[connection signal="body_entered" from="enemy_det" to="." method="_on_enemy_entered"]
-[connection signal="body_exited" from="enemy_det" to="." method="_on_enemy_exited"]
 [connection signal="animation_finished" from="anim" to="." method="_on_anim_finished"]

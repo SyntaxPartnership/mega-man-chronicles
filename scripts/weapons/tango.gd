@@ -19,17 +19,23 @@ var leave = false
 var x_spd = 0
 var attack = false
 var atk_pos = Vector2()
-var atk_time = 60
+var atk_time = 120
 var targets = []
+var dead_targs = []
 var sleep = false
+var slp_anim = 0
 var bounce = 0
-var hit = 120
-var hit_reset = false
+var move = false
+var sleep_anim = false
 var velocity = Vector2()
 
 func _ready():
 	$anim.play("beam")
-	$meow.play()
+	
+	dead_targs = get_tree().get_nodes_in_group("enemies")
+	
+	for d in dead_targs:
+		d.connect("dead", self, "on_dead")
 
 func _physics_process(delta):
 	
@@ -43,68 +49,93 @@ func _physics_process(delta):
 	else:
 		if leave:
 			velocity.y = -BEAM_SPD
-	
+
 	#Begin functions.
 	if is_on_floor() and !on_floor:
 		$anim.play("appear")
 		on_floor = true
-		for e in (get_tree().get_nodes_in_group("enemies")):
-			if !e.dead:
-				targets.append(Vector2(floor(e.global_position.x), floor(e.global_position.y)))
-	
-	if on_floor and !sleep:
-		#Clear current targets array to update enemy locations.
-		targets.clear()
-		#Check for enemies.
-		for e in (get_tree().get_nodes_in_group("enemies")):
-			if !e.dead:
-				targets.append(Vector2(floor(e.global_position.x), floor(e.global_position.y)))
-		#If no enemies are available, go to sleep.
-	
-	if atk_time > -1:
-		atk_time -= 1
 		
-	#Subtract from the hit timer.
-	if hit > -1:
-		hit -= 1
+	if atk_time > 0 and on_floor:
+		atk_time -=1
 	
-	#Set nearest target and begin attack.
-	if atk_time == 0 and !attack and !targets.has(atk_pos):
-		atk_pos = targets.min()
+	#Get target and distance data.
+	if on_floor and !attack:
+		#Always clear the table before getting enemy position data.
+		targets.clear()
+		#Get coordinates.
+		for e in (get_tree().get_nodes_in_group("enemies")):
+			if !e.dead:
+				var dist = e.global_position
+				if !targets.has(dist):
+					targets.append(dist)
+		
+		#Lock the attack position and proceed to attack.
+		for atk in targets:
+			atk = targets[atk].distance_to(global_position)
+		
+		print(targets.min(),', ',targets)
+		
 		attack = true
-		$buzzsaw.play()
-		$anim.play("attack")
 	
-	#If the target was destroyed, select next target.
+	#Begin attack if enemies are in an area.
+	if attack and atk_time == 0 and !move:
+		if targets != []:
+			$anim.play("attack")
+			$buzzsaw.play()
+			move = true
+			bounce()
 	
-	if attack:
-		if global_position.x < atk_pos.x and x_spd < MAX_X:
-			x_spd += 5
-		elif global_position.x > atk_pos.x and x_spd > -MAX_X:
-			x_spd -= 5
-	
-	if is_on_floor() and attack:
+	if move:
+		if global_position.x < atk_pos and x_spd < MAX_X:
+			x_spd += 7.5
+			$sprite.flip_h = false
+		if global_position.x > atk_pos and x_spd > -MAX_X:
+			x_spd -= 7.5
+			$sprite.flip_h = true
+#	if is_on_floor() and move and sleep and !sleep_anim:
+#		$anim.play("sleep_1")
+#		x_spd = 0
+#		sleep_anim = true
+#
+#	if on_floor and !attack:
+#		get_targets()
+#		#If no enemies are available, go to sleep.
+#		if targets == []:
+#			attack = false
+#			sleep = true
+#		if targets != [] and sleep:
+#			sleep = false
+#
+#
+#	if atk_time > 0:
+#		atk_time -= 1
+#
+#	#Set nearest target and begin attack.
+#	if atk_time == 0 and !sleep and !attack and !targets.has(atk_pos):
+#		atk_pos = targets.min()
+#		print(targets)
+#		attack = true
+#		$buzzsaw.play()
+#		$anim.play("attack")
+#
+#	if attack:
+#		if floor(global_position.x) < floor(global_position.x) + atk_pos.x and x_spd < MAX_X:
+#			x_spd += 5
+#		elif floor(global_position.x) > floor(global_position.x) + atk_pos.x and x_spd > -MAX_X:
+#			x_spd -= 5
+#
+	if is_on_floor() and move:
+		attack = false
 		bounce()
-	
+
 	if reflect:
+		attack = false
 		bounce()
-	
+
 	velocity.y += GRAVITY * delta
 	velocity.x = x_spd
-	
-	velocity = move_and_slide(velocity, Vector2(0, -1))
-	
-	if hit_reset:
-		hit = 120
-	
-	print(hit)
 
-func _on_anim_finished(anim_name):
-	if anim_name == "appear":
-		if !leave:
-			$anim.play("idle1")
-		else:
-			$anim.play("beam")
+	velocity = move_and_slide(velocity, Vector2(0, -1))
 
 func bounce():
 	bounce = rand_range(1, 4)
@@ -116,10 +147,29 @@ func bounce():
 		$buzzsaw.play()
 
 func _on_screen_exited():
-	pass
+	if leave:
+		world.adaptors = 0
+		queue_free()
 
-func _on_enemy_entered(body):
-	hit_reset = true
+#func on_dead():
+#	targets.clear()
+#	attack = false
+#
+#func get_targets():
+#	#Clear current targets array to update enemy locations.
+#	targets.clear()
+#	#Check for enemies.
+#	for e in (get_tree().get_nodes_in_group("enemies")):
+#		if !e.dead:
+#			var dist = Vector2(floor(e.global_position.x - global_position.x), floor(global_position.y - e.global_position.y))
+#			targets.append(dist)
 
-func _on_enemy_exited(body):
-	hit_reset = false
+
+func _on_anim_finished(anim_name):
+	match anim_name:
+		"appear":
+			if !leave:
+				$meow.play()
+				$anim.play("idle1")
+			else:
+				$anim.play("beam")

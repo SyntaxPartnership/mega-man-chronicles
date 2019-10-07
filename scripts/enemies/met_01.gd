@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+signal dead
+
 #Most of these variables will be shared amongst all enemies.
 
 #Get the player node.
@@ -96,6 +98,7 @@ func _physics_process(delta):
 		flash = false
 		f_delay = 0
 		reset = 0
+		emit_signal("dead")
 		#Spawn explosion sprite.
 		var boom = load("res://scenes/effects/s_explode.tscn").instance()
 		boom.global_position = global_position
