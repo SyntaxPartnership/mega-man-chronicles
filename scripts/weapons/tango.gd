@@ -5,7 +5,7 @@ onready var player = world.get_child(2)
 onready var camera = world.get_child(2).get_child(8)
 
 const BEAM_SPD = 400
-const MAX_X = 90
+const MAX_X = 100
 const JUMP = -100
 const GRAVITY = 900
 
@@ -17,16 +17,15 @@ var time = 240
 var on_floor = false
 var leave = false
 var x_spd = 0
+var dir = 0
 var attack = false
 var atk_pos = Vector2()
 var atk_time = 120
-var targets = []
+var nearest
 var dead_targs = []
 var sleep = false
-var slp_anim = 0
 var bounce = 0
 var move = false
-var sleep_anim = false
 var velocity = Vector2()
 
 func _ready():
@@ -44,132 +43,104 @@ func _physics_process(delta):
 		if !leave:
 			$box.set_disabled(false)
 	
+	#Move Tango
 	if !on_floor:
 			velocity.y = BEAM_SPD
 	else:
 		if leave:
 			velocity.y = -BEAM_SPD
+	
+	if attack:
+		if x_spd != MAX_X * dir:
+			x_spd += 10 * dir
+	
+	velocity.x = x_spd
+	velocity.y += GRAVITY * delta
+	
+	velocity = move_and_slide(velocity, Vector2(0, -1))
 
 	#Begin functions.
 	if is_on_floor() and !on_floor:
 		$anim.play("appear")
 		on_floor = true
-		
-	if atk_time > 0 and on_floor:
-		atk_time -=1
 	
-	#Get target and distance data.
-	if on_floor and !attack:
-		#Always clear the table before getting enemy position data.
-		targets.clear()
-		#Get coordinates.
-		for e in (get_tree().get_nodes_in_group("enemies")):
-			if !e.dead:
-				var dist = e.global_position
-				if !targets.has(dist):
-					targets.append(dist)
+	#Subtract from the atk_time counter.
+	if !sleep:
+		if on_floor and atk_time > 0:
+			atk_time -= 1
 		
-		#Lock the attack position and proceed to attack.
-		for atk in targets:
-			atk = targets[atk].distance_to(global_position)
+		if atk_time == 0 and !attack:
+			get_target()
+			if !sleep:
+				attack = true
+				$anim.play("attack")
+				$buzzsaw.play()
+				if is_on_floor():
+					bounce()
+					
+		#Update atk_pos value for moving enemies.
+		if attack:
+			atk_pos = nearest.global_position
 		
-		print(targets.min(),', ',targets)
-		
-		attack = true
-	
-	#Begin attack if enemies are in an area.
-	if attack and atk_time == 0 and !move:
-		if targets != []:
-			$anim.play("attack")
-			$buzzsaw.play()
-			move = true
+		if is_on_floor() and attack:
 			bounce()
-	
-	if move:
-		if global_position.x < atk_pos and x_spd < MAX_X:
-			x_spd += 7.5
-			$sprite.flip_h = false
-		if global_position.x > atk_pos and x_spd > -MAX_X:
-			x_spd -= 7.5
-			$sprite.flip_h = true
-#	if is_on_floor() and move and sleep and !sleep_anim:
-#		$anim.play("sleep_1")
-#		x_spd = 0
-#		sleep_anim = true
-#
-#	if on_floor and !attack:
-#		get_targets()
-#		#If no enemies are available, go to sleep.
-#		if targets == []:
-#			attack = false
-#			sleep = true
-#		if targets != [] and sleep:
-#			sleep = false
-#
-#
-#	if atk_time > 0:
-#		atk_time -= 1
-#
-#	#Set nearest target and begin attack.
-#	if atk_time == 0 and !sleep and !attack and !targets.has(atk_pos):
-#		atk_pos = targets.min()
-#		print(targets)
-#		attack = true
-#		$buzzsaw.play()
-#		$anim.play("attack")
-#
-#	if attack:
-#		if floor(global_position.x) < floor(global_position.x) + atk_pos.x and x_spd < MAX_X:
-#			x_spd += 5
-#		elif floor(global_position.x) > floor(global_position.x) + atk_pos.x and x_spd > -MAX_X:
-#			x_spd -= 5
-#
-	if is_on_floor() and move:
-		attack = false
-		bounce()
-
-	if reflect:
-		attack = false
-		bounce()
-
-	velocity.y += GRAVITY * delta
-	velocity.x = x_spd
-
-	velocity = move_and_slide(velocity, Vector2(0, -1))
+		
+		if is_on_wall() and attack:
+			x_spd *= -1
+			dir *= -1
+		
+		if reflect and attack:
+			bounce()
+			reflect = false
+		
+func _on_screen_exited():
+	pass
 
 func bounce():
+	
 	bounce = rand_range(1, 4)
+	
 	velocity.y = JUMP * bounce
-	if reflect:
-		$dink.play()
-		reflect = false
+	
+	#Only allow Tango to change directions during a bounce. Unless he comes into contact with a wall.
+	if global_position.x > atk_pos.x:
+		$sprite.flip_h = true
+		dir = -1
 	else:
+		$sprite.flip_h = false
+		dir = 1
+	
+	if !reflect:
 		$buzzsaw.play()
+	else:
+		$dink.play()
 
-func _on_screen_exited():
-	if leave:
-		world.adaptors = 0
-		queue_free()
+func get_target():
+	#Get enemy nodes
+	var targets = get_tree().get_nodes_in_group("enemies")
+	
+	if targets != []:
+	#Assume the first entry is the closest
+		nearest = targets[0]
+		
+		#Check to see if the enemies are closer to the player, and if they are dead.
+		for target in targets:
+			if !target.dead:
+				if target.global_position.distance_to(global_position) < nearest.global_position.distance_to(global_position):
+					nearest = target
+	else:
+		print('No Moar Enemies')
+		sleep = true
+	
+	print(nearest)
 
-#func on_dead():
-#	targets.clear()
-#	attack = false
-#
-#func get_targets():
-#	#Clear current targets array to update enemy locations.
-#	targets.clear()
-#	#Check for enemies.
-#	for e in (get_tree().get_nodes_in_group("enemies")):
-#		if !e.dead:
-#			var dist = Vector2(floor(e.global_position.x - global_position.x), floor(global_position.y - e.global_position.y))
-#			targets.append(dist)
-
+func on_dead():
+	attack = false
 
 func _on_anim_finished(anim_name):
 	match anim_name:
 		"appear":
 			if !leave:
-				$meow.play()
 				$anim.play("idle1")
 			else:
 				$anim.play("beam")

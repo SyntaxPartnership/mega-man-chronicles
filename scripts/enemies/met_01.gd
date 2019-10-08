@@ -120,7 +120,7 @@ func _on_anim_finished(anim_name):
 func _on_hit_box_body_entered(body):
 	if body.is_in_group("weapons"):
 		if !dead:
-			if immune == true:
+			if immune and !body.reflect:
 				body.reflect = true
 			else:
 				if hp < body.damage:

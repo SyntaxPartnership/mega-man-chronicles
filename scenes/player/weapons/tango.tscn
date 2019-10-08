@@ -10,7 +10,7 @@
 extents = Vector2( 8, 8 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 12, 12 )
+extents = Vector2( 8, 8 )
 
 [sub_resource type="Animation" id=3]
 length = 0.3
@@ -179,6 +179,9 @@ anims/sleep_1 = SubResource( 8 )
 anims/sleep_2 = SubResource( 9 )
 anims/sleep_3 = SubResource( 10 )
 
+[node name="on_screen" type="VisibilityNotifier2D" parent="."]
+rect = Rect2( -8, -8, 16, 16 )
+
 [node name="meow" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
 
@@ -188,3 +191,4 @@ stream = ExtResource( 4 )
 [node name="dink" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
 [connection signal="animation_finished" from="anim" to="." method="_on_anim_finished"]
+[connection signal="screen_exited" from="on_screen" to="." method="_on_screen_exited"]
