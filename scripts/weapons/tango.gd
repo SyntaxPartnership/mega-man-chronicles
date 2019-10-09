@@ -2,36 +2,41 @@ extends KinematicBody2D
 
 onready var world = get_parent().get_parent()
 onready var player = world.get_child(2)
-onready var camera = world.get_child(2).get_child(8)
 
 const BEAM_SPD = 400
 const MAX_X = 100
 const JUMP = -100
 const GRAVITY = 900
 
+# warning-ignore:unused_class_variable
 var damage = 20
 
 var reflect = false
 
-var time = 240
+var time = 420
+var f_delay = 0
 var on_floor = false
 var leave = false
 var x_spd = 0
 var dir = 0
 var attack = false
 var atk_pos = Vector2()
-var atk_time = 120
+var atk_time = 160
 var nearest
+var other_anim = false
 var dead_targs = []
 var sleep = false
-var bounce = 0
-var move = false
+var slp_anim = false
+var anim_cnt = 0
+var bounce_str = 0
 var velocity = Vector2()
 
 func _ready():
 	$anim.play("beam")
 	
 	dead_targs = get_tree().get_nodes_in_group("enemies")
+	
+	get_target()
 	
 	for d in dead_targs:
 		d.connect("dead", self, "on_dead")
@@ -83,6 +88,7 @@ func _physics_process(delta):
 			atk_pos = nearest.global_position
 		
 		if is_on_floor() and attack:
+			get_target()
 			bounce()
 		
 		if is_on_wall() and attack:
@@ -92,15 +98,49 @@ func _physics_process(delta):
 		if reflect and attack:
 			bounce()
 			reflect = false
+	else:
+		#Animate Tango unrolling.
+		if is_on_floor() and !slp_anim:
+			x_spd = 0
+			if other_anim:
+				$anim.play("get_up")
+			slp_anim = true
+			
+		if time > 0:
+			time -= 1
+			
+		if time <= 60 and time > 0 and !leave:
+			f_delay += 1
+		
+		if f_delay == 1:
+			$sprite.hide()
+	
+		if f_delay == 3:
+			$sprite.show()
+		
+		#Loop f_delay
+		if f_delay > 3:
+			f_delay = 0
+			
+		if time == 0 and !leave:
+			f_delay = 0
+			$anim.play("appear")
+			$sprite.show()
+			$box.set_disabled(true)
+	
+	print(attack,', ',sleep,', ',time)
 		
 func _on_screen_exited():
-	pass
+	if leave:
+		world.adaptors = 0
+		queue_free()
 
+# warning-ignore:function_conflicts_variable
 func bounce():
 	
-	bounce = rand_range(1, 4)
+	bounce_str = rand_range(1, 4)
 	
-	velocity.y = JUMP * bounce
+	velocity.y = JUMP * bounce_str
 	
 	#Only allow Tango to change directions during a bounce. Unless he comes into contact with a wall.
 	if global_position.x > atk_pos.x:
@@ -128,11 +168,12 @@ func get_target():
 			if !target.dead:
 				if target.global_position.distance_to(global_position) < nearest.global_position.distance_to(global_position):
 					nearest = target
+		
+		if nearest.dead:
+			sleep = true
+			
 	else:
-		print('No Moar Enemies')
 		sleep = true
-	
-	print(nearest)
 
 func on_dead():
 	attack = false
@@ -140,7 +181,36 @@ func on_dead():
 func _on_anim_finished(anim_name):
 	match anim_name:
 		"appear":
-			if !leave:
-				$anim.play("idle1")
+			if time > 0:
+				other_anim = true
+				$anim.play("sleep_1")
 			else:
+				leave = true
 				$anim.play("beam")
+		
+		"sleep_1":
+			if !sleep:
+				if anim_cnt < 1:
+					anim_cnt += 1
+					$anim.play("sleep_1")
+				else:
+					$anim.play("sleep_2")
+					$meow.play()
+			else:
+				if anim_cnt < 4:
+					anim_cnt += 1
+					$anim.play("sleep_1")
+				else:
+					$anim.play("sleep_3")
+		
+		"sleep_2":
+			if !sleep:
+				if anim_cnt < 2:
+					anim_cnt += 1
+					$anim.play("sleep_2")
+		
+		"get_up":
+			$anim.play("sleep_1")
+		
+		"sleep_3":
+			$anim.play("sleep")

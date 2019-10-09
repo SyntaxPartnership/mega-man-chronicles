@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://scripts/weapons/tango.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/weapons/tango.png" type="Texture" id=2]
@@ -29,9 +29,9 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=4]
-length = 0.15
+length = 0.06
 loop = true
-step = 0.05
+step = 0.02
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite:frame")
 tracks/0/interp = 1
@@ -39,7 +39,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.05, 0.1 ),
+"times": PoolRealArray( 0, 0.02, 0.04 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ 14, 15, 16 ]
@@ -59,6 +59,23 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=11]
+resource_name = "get_up"
+length = 0.4
+step = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 11, 10 ]
 }
 
 [sub_resource type="Animation" id=6]
@@ -131,7 +148,8 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=10]
-length = 0.4
+length = 0.8
+step = 0.2
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite:frame")
 tracks/0/interp = 1
@@ -139,7 +157,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2 ),
+"times": PoolRealArray( 0, 0.2, 0.4 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ 10, 11, 12 ]
@@ -167,12 +185,13 @@ shape = SubResource( 2 )
 position = Vector2( 0, -7 )
 texture = ExtResource( 2 )
 hframes = 17
-frame = 14
+frame = 11
 
 [node name="anim" type="AnimationPlayer" parent="."]
 anims/appear = SubResource( 3 )
 anims/attack = SubResource( 4 )
 anims/beam = SubResource( 5 )
+anims/get_up = SubResource( 11 )
 anims/idle1 = SubResource( 6 )
 anims/sleep = SubResource( 7 )
 anims/sleep_1 = SubResource( 8 )
