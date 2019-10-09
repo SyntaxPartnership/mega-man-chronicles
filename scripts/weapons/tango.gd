@@ -15,6 +15,7 @@ var reflect = false
 
 var time = 420
 var f_delay = 0
+var t_start = false
 var on_floor = false
 var leave = false
 var x_spd = 0
@@ -102,11 +103,12 @@ func _physics_process(delta):
 		if is_on_floor() and !slp_anim:
 			x_spd = 0
 			if other_anim:
+				bounce()
 				$anim.play("get_up1")
 				anim_cnt = 0
 			slp_anim = true
 			
-		if time > 0:
+		if time > 0 and t_start:
 			time -= 1
 			
 		if time <= 60 and time > 0 and !leave:
@@ -138,7 +140,10 @@ func _on_screen_exited():
 # warning-ignore:function_conflicts_variable
 func bounce():
 	
-	bounce_str = rand_range(1, 4)
+	if !sleep:
+		bounce_str = rand_range(1, 4.5)
+	else:
+		bounce_str = 2
 	
 	velocity.y = JUMP * bounce_str
 	
@@ -182,6 +187,7 @@ func _on_anim_finished(anim_name):
 	match anim_name:
 		"appear":
 			if time > 0:
+				$sprite.flip_h = player.get_child(3).flip_h
 				other_anim = true
 				$anim.play("sleep_1")
 			else:
@@ -210,6 +216,7 @@ func _on_anim_finished(anim_name):
 				$anim.play("get_up1")
 				anim_cnt += 1
 			else:
+				t_start = true
 				$anim.play("get_up2")
 		
 		"get_up2":
