@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://scripts/weapons/tango.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/weapons/tango.png" type="Texture" id=2]
@@ -61,8 +61,24 @@ tracks/0/keys = {
 "values": [ 0 ]
 }
 
-[sub_resource type="Animation" id=11]
-resource_name = "get_up"
+[sub_resource type="Animation" id=12]
+resource_name = "get_up1"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 14, 15, 16 ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "get_up2"
 length = 0.4
 step = 0.2
 tracks/0/type = "value"
@@ -78,7 +94,7 @@ tracks/0/keys = {
 "values": [ 11, 10 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=7]
 length = 0.6
 loop = true
 step = 0.2
@@ -95,8 +111,7 @@ tracks/0/keys = {
 "values": [ 4, 5, 6 ]
 }
 
-[sub_resource type="Animation" id=7]
-resource_name = "sleep"
+[sub_resource type="Animation" id=8]
 length = 1.25
 loop = true
 step = 0.75
@@ -113,8 +128,7 @@ tracks/0/keys = {
 "values": [ 12, 13 ]
 }
 
-[sub_resource type="Animation" id=8]
-resource_name = "sleep_1"
+[sub_resource type="Animation" id=9]
 length = 0.6
 step = 0.2
 tracks/0/type = "value"
@@ -130,8 +144,7 @@ tracks/0/keys = {
 "values": [ 4, 5, 6 ]
 }
 
-[sub_resource type="Animation" id=9]
-resource_name = "sleep_2"
+[sub_resource type="Animation" id=10]
 length = 0.6
 step = 0.2
 tracks/0/type = "value"
@@ -147,7 +160,7 @@ tracks/0/keys = {
 "values": [ 7, 8, 9 ]
 }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=11]
 length = 0.8
 step = 0.2
 tracks/0/type = "value"
@@ -191,12 +204,13 @@ frame = 11
 anims/appear = SubResource( 3 )
 anims/attack = SubResource( 4 )
 anims/beam = SubResource( 5 )
-anims/get_up = SubResource( 11 )
-anims/idle1 = SubResource( 6 )
-anims/sleep = SubResource( 7 )
-anims/sleep_1 = SubResource( 8 )
-anims/sleep_2 = SubResource( 9 )
-anims/sleep_3 = SubResource( 10 )
+anims/get_up1 = SubResource( 12 )
+anims/get_up2 = SubResource( 6 )
+anims/idle1 = SubResource( 7 )
+anims/sleep = SubResource( 8 )
+anims/sleep_1 = SubResource( 9 )
+anims/sleep_2 = SubResource( 10 )
+anims/sleep_3 = SubResource( 11 )
 
 [node name="on_screen" type="VisibilityNotifier2D" parent="."]
 rect = Rect2( -8, -8, 16, 16 )

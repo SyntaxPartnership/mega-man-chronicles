@@ -21,7 +21,7 @@ var x_spd = 0
 var dir = 0
 var attack = false
 var atk_pos = Vector2()
-var atk_time = 160
+var atk_time = 120
 var nearest
 var other_anim = false
 var dead_targs = []
@@ -88,7 +88,6 @@ func _physics_process(delta):
 			atk_pos = nearest.global_position
 		
 		if is_on_floor() and attack:
-			get_target()
 			bounce()
 		
 		if is_on_wall() and attack:
@@ -103,7 +102,8 @@ func _physics_process(delta):
 		if is_on_floor() and !slp_anim:
 			x_spd = 0
 			if other_anim:
-				$anim.play("get_up")
+				$anim.play("get_up1")
+				anim_cnt = 0
 			slp_anim = true
 			
 		if time > 0:
@@ -190,12 +190,8 @@ func _on_anim_finished(anim_name):
 		
 		"sleep_1":
 			if !sleep:
-				if anim_cnt < 1:
-					anim_cnt += 1
-					$anim.play("sleep_1")
-				else:
-					$anim.play("sleep_2")
-					$meow.play()
+				$anim.play("sleep_2")
+				$meow.play()
 			else:
 				if anim_cnt < 4:
 					anim_cnt += 1
@@ -209,7 +205,14 @@ func _on_anim_finished(anim_name):
 					anim_cnt += 1
 					$anim.play("sleep_2")
 		
-		"get_up":
+		"get_up1":
+			if anim_cnt < 2:
+				$anim.play("get_up1")
+				anim_cnt += 1
+			else:
+				$anim.play("get_up2")
+		
+		"get_up2":
 			$anim.play("sleep_1")
 		
 		"sleep_3":

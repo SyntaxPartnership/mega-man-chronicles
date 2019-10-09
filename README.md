@@ -222,6 +222,8 @@ Changes - Version 0.0.1 ():
 - Fixed a couple issues involving single room areas of the map. Both camera settings and enemy spawning.
 - Fixed an issue where the game would crash if Rush touched an enemy.
 - Fixed an issue where the player's charge value would prevent the default player palette from loading during a weapon swap.
+- Added Tango
+- Fixed several issues with Tango's targeting routine.
 
 
 Credits:
