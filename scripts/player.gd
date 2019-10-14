@@ -365,6 +365,14 @@ func _physics_process(delta):
 						world.adaptors += 1
 			
 			#Carry
+			if global.player == 1 and global.rp_coil[int(swap) + 1] > 0:
+				if fire_tap and global.player_weap[int(swap)] == 1:
+					if world.shots < 2 and world.adaptors == 1:
+						world.shots += 1
+						weapons()
+					if world.adaptors < 1:
+						weapons()
+						world.adaptors += 1
 			
 			#Treble Boost
 			
@@ -564,10 +572,12 @@ func _physics_process(delta):
 				
 				#Change the player direction.
 				if x_dir < 0 and !rush_jet:
+					shot_pos()
 					shot_dir = 0
 					$sprite.flip_h = true
 					$slide_wall.position.x = -7
 				elif x_dir > 0 and !rush_jet:
+					shot_pos()
 					shot_dir = 1
 					$sprite.flip_h = false
 					$slide_wall.position.x = 7
@@ -1095,6 +1105,33 @@ func weapons():
 				wpn_layer.add_child(buster_a)
 				buster_a.position = $sprite/shoot_pos.global_position
 		
+		#Proto Man
+		if global.player == 1:
+			#Summon Carry.
+			if world.adaptors == 0:
+				shot_state(THROW)
+				global.rp_coil[int(swap) + 1] -= 20
+				var carry = load('res://scenes/player/weapons/carry.tscn').instance()
+				wpn_layer.add_child(carry)
+				if !is_on_floor():
+					if !$sprite.flip_h:
+						carry.position.x = position.x + 8
+					else:
+						carry.position.x = position.x - 8
+					carry.position.y = position.y + 24
+				else:
+					if !$sprite.flip_h:
+						carry.position.x = position.x + 16
+					else:
+						carry.position.x = position.x - 16
+					carry.position.y = position.y + 8
+			else:
+				#Allow the player to shoot is Carry is active.
+				shot_state(SHOOT)
+				var buster_a = load('res://scenes/player/weapons/buster_a.tscn').instance()
+				wpn_layer.add_child(buster_a)
+				buster_a.position = $sprite/shoot_pos.global_position
+		
 	#Helper Adaptors
 	if global.player_weap[int(swap)] == 11:
 		#Mega Man
@@ -1163,3 +1200,17 @@ func damage():
 			velocity.y = 0
 			anim_state(HURT)
 			hurt_timer = 16
+
+func _on_item_entered(body):
+	
+	#Check to see if the body is an item.
+	if body.is_in_group('items'):
+		match body.name:
+			'bolt_s':
+				global.bolts += body.value
+				$audio/bolt.play()
+				body.queue_free()
+			'bolt_l':
+				global.bolts += body.value
+				$audio/bolt.play()
+				body.queue_free()

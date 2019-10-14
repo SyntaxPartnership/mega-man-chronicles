@@ -78,6 +78,9 @@ var room_data = {
 var boss_rooms = {#Insert boss room coordinates here.
 				}
 
+var got_items = {
+				}
+
 #Color Variables.
 var palette = [Color('#000000'), Color('#000000'), Color('#000000')]
 
@@ -145,7 +148,7 @@ func _input(event):
 		#Skip Unacquired Weapons.
 		if Input.is_action_just_pressed("next"):
 			#Skip Rush/Proto Jet if if playing as Mega/Proto Man and hasn't been acquired. Skip altogether if playing as Bass.
-			if global.player_weap[int($player.swap)] == 2 and !global.rp_jet[0] or global.player_weap[int($player.swap)] == 2 and global.player == 2:
+			if global.player_weap[int($player.swap)] == 2 and !global.rp_jet[0] or global.player_weap[int($player.swap)] == 2 and global.player != 0:
 				global.player_weap[int($player.swap)] += 1
 			#Skip unacquired Master Weapons
 			if global.player_weap[int($player.swap)] == 3 and !global.weapon1[0]:
@@ -198,7 +201,7 @@ func _input(event):
 			if global.player_weap[int($player.swap)] == 3 and !global.weapon1[0]:
 				global.player_weap[int($player.swap)] -= 1
 			#Rush/Proto Jet
-			if global.player_weap[int($player.swap)] == 2 and !global.rp_jet[0] or global.player_weap[int($player.swap)] == 2 and global.player == 2:
+			if global.player_weap[int($player.swap)] == 2 and !global.rp_jet[0] or global.player_weap[int($player.swap)] == 2 and global.player != 0:
 				global.player_weap[int($player.swap)] -= 1
 	
 		#Loop the value.
@@ -228,10 +231,11 @@ func _input(event):
 					else:
 						$player.swap = false
 					swap()
+					swap_in()
 					$pause/pause_menu.menu_color()
 					$pause/pause_menu.set_names()
+					$pause/pause_menu.hide_icons()
 					$pause/pause_menu.wpn_menu()
-					swap_in()
 					get_tree().paused = true
 			
 #		palette_swap()
@@ -439,6 +443,12 @@ func _rooms():
 				e.position = e_pos + (enemies.cell_size / 2)
 				$graphic.add_child(e)
 				enemy_count += 1
+		
+		#Make items appear.
+		var see_item = get_tree().get_nodes_in_group('items')
+		
+		for s in see_item:
+			s.get_child(0).show()
 	
 #warning-ignore:unused_argument
 func _process(delta):
@@ -890,6 +900,11 @@ func palette_swap():
 	$hud/hud/weap.material.set_shader_param('r_col3', palette[2])
 	
 	#Items
+	var items = get_tree().get_nodes_in_group('items')
+	for i in items:
+		i.material.set_shader_param('r_col1', palette[0])
+		i.material.set_shader_param('r_col2', palette[1])
+		i.material.set_shader_param('r_col3', palette[2])
 	
 func spawn_objects():
 	#Scan tilemap for objects.
@@ -942,6 +957,11 @@ func kill_effects():
 	for splash in effects:
 		splash.queue_free()
 	bbl_count = 0
+	
+	#This function will also make collectible items invisible until the next area is loaded.
+	var set_item = get_tree().get_nodes_in_group('items')
+	for s in set_item:
+		s.get_child(0).hide()
 
 func kill_weapons():
 	var wpns = get_tree().get_nodes_in_group('weapons')

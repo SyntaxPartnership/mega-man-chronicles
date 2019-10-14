@@ -4,26 +4,11 @@ onready var icons = get_tree().get_nodes_in_group('item_icon')
 onready var world = get_parent().get_parent()
 onready var player = get_parent().get_parent().get_child(2)
 
-onready var wpn_lvl = [
-				global.player_life[int(player.swap)],
-				global.rp_coil[int(player.swap) + 1],
-				global.rp_jet[int(player.swap) + 1],
-				global.weapon1[int(player.swap) + 1],
-				global.weapon2[int(player.swap) + 1],
-				global.weapon3[int(player.swap) + 1],
-				global.weapon4[int(player.swap) + 1],
-				global.weapon5[int(player.swap) + 1],
-				global.weapon6[int(player.swap) + 1],
-				global.weapon7[int(player.swap) + 1], 
-				global.weapon8[int(player.swap) + 1],
-				global.beat[int(player.swap) + 1],
-				global.tango[int(player.swap) + 1],
-				global.reggae[int(player.swap) + 1]
-				]
-
-var start = false
+var wpn_lvl = []
 
 var kill_wpn
+
+var start = false
 
 var new_plyr
 var new_wpn
@@ -122,7 +107,7 @@ func _input(event):
 				global.player_weap[int(player.swap)] -= 1
 			if global.player_weap[int(player.swap)] == 3 and !global.weapon1[0]:
 				global.player_weap[int(player.swap)] -= 1
-			if global.player_weap[int(player.swap)] == 2 and !global.rp_jet[0] or global.player_weap[int(player.swap)] == 2 and global.player == 2:
+			if global.player_weap[int(player.swap)] == 2 and !global.rp_jet[0] or global.player_weap[int(player.swap)] == 2 and global.player != 0:
 				global.player_weap[int(player.swap)] -= 1
 			
 			#Right Side (Weapon ID 6 is skipped because the player should not be able to access this side when down_b = 0)
@@ -144,7 +129,7 @@ func _input(event):
 		if Input.is_action_just_pressed('down'):
 			#Skip unacquired weapons.
 			#Left Side
-			if global.player_weap[int(player.swap)] == 2 and !global.rp_jet[0] or global.player_weap[int(player.swap)] == 2 and global.player == 2:
+			if global.player_weap[int(player.swap)] == 2 and !global.rp_jet[0] or global.player_weap[int(player.swap)] == 2 and global.player != 0:
 				global.player_weap[int(player.swap)] += 1
 			if global.player_weap[int(player.swap)] == 3 and !global.weapon1[0]:
 				global.player_weap[int(player.swap)] += 1
@@ -176,6 +161,8 @@ func _input(event):
 			#Skip unacquired weapons.
 			if global.player_weap[int(player.swap)] > down_a and global.player_weap[int(player.swap)] < 6:
 				global.player_weap[int(player.swap)] = down_a
+			if global.player_weap[int(player.swap)] == 2 and !global.rp_jet[0] or global.player_weap[int(player.swap)] == 2 and global.player != 0:
+				global.player_weap[int(player.swap)] -= 1
 		
 		if Input.is_action_just_pressed('right'):
 			$cursor.stop()
@@ -224,6 +211,15 @@ func _input(event):
 # warning-ignore:unused_argument
 func _process(delta):
 	
+	#Set the appropriate number of bolts.
+	if int($bolts_amt.get_text()) != global.bolts:
+		if global.bolts < 10:
+			$bolts_amt.set_text('00'+str(global.bolts))
+		elif global.bolts >= 10 and global.bolts < 100:
+			$bolts_amt.set_text('0'+str(global.bolts))
+		else:
+			$bolts_amt.set_text(str(global.bolts))
+	
 	if new_wpn != global.player_weap[int(player.swap)]:
 		new_wpn = global.player_weap[int(player.swap)]
 		wpn_menu()
@@ -259,6 +255,23 @@ func menu_color():
 			$plyr_1/text.set('custom_colors/font_color', desel_color[2])
 		else:
 			$plyr_2/text.set('custom_colors/font_color', desel_color[2])
+		
+		wpn_lvl = [
+				global.player_life[int(player.swap)],
+				global.rp_coil[int(player.swap) + 1],
+				global.rp_jet[int(player.swap) + 1],
+				global.weapon1[int(player.swap) + 1],
+				global.weapon2[int(player.swap) + 1],
+				global.weapon3[int(player.swap) + 1],
+				global.weapon4[int(player.swap) + 1],
+				global.weapon5[int(player.swap) + 1],
+				global.weapon6[int(player.swap) + 1],
+				global.weapon7[int(player.swap) + 1], 
+				global.weapon8[int(player.swap) + 1],
+				global.beat[int(player.swap) + 1],
+				global.tango[int(player.swap) + 1],
+				global.reggae[int(player.swap) + 1]
+				]
 		
 		#This section is also used to update the player's meter levels.
 		for i in range(color_set.size()):
@@ -303,8 +316,12 @@ func set_max():
 
 func hide_icons():
 	#Check global values and make unacquired weapons and items invisible.
-	if !global.rp_jet[0] and global.player != 2 or global.player == 2:
+	if !global.rp_jet[0] and global.player == 0 or global.player != 0:
 		$weap_03.hide()
+	#This is only required for Rush Jet.
+	if global.rp_jet[0] and global.player == 0:
+		$weap_03.show()
+		
 	if !global.weapon1[0]:
 		$weap_04.hide()
 	if !global.weapon2[0]:
@@ -343,9 +360,7 @@ func set_names():
 		$weap_01/icon.set_frame(0)
 		$weap_01/text.set_text('P. BUSTER')
 		$weap_02/icon.set_frame(4)
-		$weap_02/text.set_text('P. COIL')
-		$weap_03/icon.set_frame(5)
-		$weap_03/text.set_text('P. JET')
+		$weap_02/text.set_text('CARRY')
 		$weap_12/icon.set_frame(16)
 		$weap_12/text.set_text('T. BALL')
 	if global.player == 2:

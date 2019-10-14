@@ -224,6 +224,12 @@ Changes - Version 0.0.1 ():
 - Fixed an issue where the player's charge value would prevent the default player palette from loading during a weapon swap.
 - Added Tango
 - Fixed several issues with Tango's targeting routine.
+- Added Carry
+- Fixed an issue where the pause menu was not displaying the proper energy meter values.
+- Fixed an issue where Rush Jet would disappear from the pause menu if the player swaps to Mega Man and Rush Jet has been acquired.
+- Started item functions.
+- Small Bolt added.
+- Large Bolt added.
 
 
 Credits:

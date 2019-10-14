@@ -9,6 +9,7 @@ var player_id = [0, 1]
 var player_life = [280, 280]
 var player_weap = [0, 0]
 var lives = 2
+var bolts = 0
 
 #Global Level/Option Flags
 var icey = false
