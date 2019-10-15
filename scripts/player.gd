@@ -1213,6 +1213,25 @@ func _on_item_entered(body):
 				if body.type == 1:
 					global.bolts += 20
 		
+		if global.player_life[int(swap)] < 280:
+			if body.type == 2:
+				var diff = 280 - global.player_life[int(swap)]
+				var max_en = 20
+				if diff < max_en:
+					world.life_en = max_en + (global.player_life[int(swap)] - 280)
+				else:
+					world.life_en = max_en
+			
+			if body.type == 3:
+				var diff = 280 - global.player_life[int(swap)]
+				var max_en = 80
+				if diff < max_en:
+					world.life_en = max_en + (global.player_life[int(swap)] - 280)
+				else:
+					world.life_en = max_en
+			
+			print(world.life_en)
+		
 		if global.lives < 9:
 			if body.type == 8:
 				$audio/oneup.play()

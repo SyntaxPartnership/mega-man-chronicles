@@ -27,7 +27,9 @@ var hurt_swap = false
 var dead = false
 var dead_delay = 24
 var restart = 360
-var heal_delay
+var life_en = 0
+var wpn_en = 0
+var heal_delay = 0
 var swapping = false
 var shots = 0
 var adaptors = 0
@@ -466,6 +468,13 @@ func _process(delta):
 	player_room = Vector2(floor(pos.x / 256), floor(pos.y / 240))
 	spawn_pt = $coll_mask/spawn_pts.get_cellv($coll_mask/spawn_pts.world_to_map(Vector2(pos.x - 4, pos.y)))
 	
+	#Pause the game if life_en or wpn_en is greater than 0.
+	if wpn_en != 0 or life_en != 0 and !get_tree().paused:
+		get_tree().paused = true
+	
+	#Refill the necessary energy.
+	
+	#Force the player to swap if one character dies.
 	if global.player_life[0] <= 0 and global.player_life[1] != 0 and !$player.swap or global.player_life[0] != 0 and global.player_life[1] <= 0 and $player.swap:
 		if !hurt_swap:
 			hurt_swap = true
@@ -481,7 +490,6 @@ func _process(delta):
 				$player.w_icon = 0
 				$player.hurt_timer = 0
 				$player.blink_timer = 96
-				print('Setting Swap')
 				$player.hurt_swap = true
 				$player.shot_state($player.NORMAL)
 				$player/sprite/weap_icon_lr.hide()
