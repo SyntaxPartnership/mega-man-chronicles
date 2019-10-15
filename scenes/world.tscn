@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://scripts/world.gd" type="Script" id=1]
 [ext_resource path="res://assets/tilesets/test/testroom.tres" type="TileSet" id=2]
@@ -21,17 +21,20 @@
 [ext_resource path="res://scenes/objects/life_l.tscn" type="PackedScene" id=19]
 [ext_resource path="res://scenes/objects/wpn_s.tscn" type="PackedScene" id=20]
 [ext_resource path="res://scenes/objects/wpn_l.tscn" type="PackedScene" id=21]
-[ext_resource path="res://scenes/player/player.tscn" type="PackedScene" id=22]
-[ext_resource path="res://scripts/ready.gd" type="Script" id=23]
-[ext_resource path="res://scenes/hud.tscn" type="PackedScene" id=24]
-[ext_resource path="res://scenes/pause_menu.tscn" type="PackedScene" id=25]
-[ext_resource path="res://scenes/fade.tscn" type="PackedScene" id=26]
-[ext_resource path="res://assets/audio/se/Death.wav" type="AudioStream" id=27]
-[ext_resource path="res://assets/audio/se/Splash.wav" type="AudioStream" id=28]
-[ext_resource path="res://assets/audio/se/Beam In.wav" type="AudioStream" id=29]
-[ext_resource path="res://assets/audio/se/Weapon Menu.wav" type="AudioStream" id=30]
-[ext_resource path="res://assets/audio/se/BLING.wav" type="AudioStream" id=31]
-[ext_resource path="res://assets/audio/se/Hurt.wav" type="AudioStream" id=32]
+[ext_resource path="res://scenes/objects/1up.tscn" type="PackedScene" id=22]
+[ext_resource path="res://scenes/objects/e_tank.tscn" type="PackedScene" id=23]
+[ext_resource path="res://scenes/objects/m_tank.tscn" type="PackedScene" id=24]
+[ext_resource path="res://scenes/player/player.tscn" type="PackedScene" id=25]
+[ext_resource path="res://scripts/ready.gd" type="Script" id=26]
+[ext_resource path="res://scenes/hud.tscn" type="PackedScene" id=27]
+[ext_resource path="res://scenes/pause_menu.tscn" type="PackedScene" id=28]
+[ext_resource path="res://scenes/fade.tscn" type="PackedScene" id=29]
+[ext_resource path="res://assets/audio/se/Death.wav" type="AudioStream" id=30]
+[ext_resource path="res://assets/audio/se/Splash.wav" type="AudioStream" id=31]
+[ext_resource path="res://assets/audio/se/Beam In.wav" type="AudioStream" id=32]
+[ext_resource path="res://assets/audio/se/Weapon Menu.wav" type="AudioStream" id=33]
+[ext_resource path="res://assets/audio/se/BLING.wav" type="AudioStream" id=34]
+[ext_resource path="res://assets/audio/se/Hurt.wav" type="AudioStream" id=35]
 
 [sub_resource type="DynamicFontData" id=1]
 antialiased = false
@@ -171,7 +174,16 @@ position = Vector2( 2088, 1608 )
 [node name="wpn_l" parent="graphic" instance=ExtResource( 21 )]
 position = Vector2( 2264, 1608 )
 
-[node name="player" parent="." instance=ExtResource( 22 )]
+[node name="1up" parent="graphic" instance=ExtResource( 22 )]
+position = Vector2( 2152, 1496 )
+
+[node name="e_tank" parent="graphic" instance=ExtResource( 23 )]
+position = Vector2( 2152, 1576 )
+
+[node name="m_tank" parent="graphic" instance=ExtResource( 24 )]
+position = Vector2( 2200, 1576 )
+
+[node name="player" parent="." instance=ExtResource( 25 )]
 pause_mode = 1
 editor/display_folded = true
 position = Vector2( 64, 132 )
@@ -210,14 +222,14 @@ margin_bottom = 2.5
 custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "READY"
-script = ExtResource( 23 )
+script = ExtResource( 26 )
 
-[node name="hud" parent="hud" instance=ExtResource( 24 )]
+[node name="hud" parent="hud" instance=ExtResource( 27 )]
 
 [node name="pause" type="CanvasLayer" parent="."]
 editor/display_folded = true
 
-[node name="pause_menu" parent="pause" instance=ExtResource( 25 )]
+[node name="pause_menu" parent="pause" instance=ExtResource( 28 )]
 visible = false
 
 [node name="debug_stats" type="CanvasLayer" parent="."]
@@ -390,7 +402,7 @@ text = "Place menu options here."
 pause_mode = 2
 editor/display_folded = true
 
-[node name="fade" parent="fade" instance=ExtResource( 26 )]
+[node name="fade" parent="fade" instance=ExtResource( 29 )]
 position = Vector2( 128, 120 )
 
 [node name="audio" type="Control" parent="."]
@@ -399,22 +411,22 @@ margin_right = 40.0
 margin_bottom = 40.0
 
 [node name="death" type="AudioStreamPlayer" parent="audio"]
-stream = ExtResource( 27 )
-
-[node name="splash" type="AudioStreamPlayer" parent="audio"]
-stream = ExtResource( 28 )
-
-[node name="appear" type="AudioStreamPlayer" parent="audio"]
-stream = ExtResource( 29 )
-
-[node name="menu" type="AudioStreamPlayer" parent="audio"]
 stream = ExtResource( 30 )
 
-[node name="bling" type="AudioStreamPlayer" parent="audio"]
+[node name="splash" type="AudioStreamPlayer" parent="audio"]
 stream = ExtResource( 31 )
 
-[node name="hurt" type="AudioStreamPlayer" parent="audio"]
+[node name="appear" type="AudioStreamPlayer" parent="audio"]
 stream = ExtResource( 32 )
+
+[node name="menu" type="AudioStreamPlayer" parent="audio"]
+stream = ExtResource( 33 )
+
+[node name="bling" type="AudioStreamPlayer" parent="audio"]
+stream = ExtResource( 34 )
+
+[node name="hurt" type="AudioStreamPlayer" parent="audio"]
+stream = ExtResource( 35 )
 [connection signal="scrolling" from="." to="player" method="_on_world_scrolling"]
 [connection signal="teleport" from="player" to="." method="_on_teleport"]
 [connection signal="start" from="hud/ready" to="player" method="_on_ready_start"]

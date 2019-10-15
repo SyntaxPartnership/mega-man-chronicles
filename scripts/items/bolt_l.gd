@@ -27,9 +27,6 @@ func _ready():
 	material.set_shader_param('f_col2', global.yellow0)
 	material.set_shader_param('f_col3', global.white)
 	
-	#Set colors
-	world.palette_swap()
-	
 	#Set X/Y velocity and time at spawn time if dropped by an enemy.
 
 func _physics_process(delta):

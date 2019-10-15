@@ -10,12 +10,9 @@ var velocity = Vector2()
 var time = -1
 var f_delay = 0
 
-# warning-ignore:unused_class_variable
-var value = 20
+var new_plyr
 
 func _ready():
-	$anim.play("idle")
-	
 	#Set appropriate palette
 	#Get the colors to be replaced.
 	material.set_shader_param('t_col1', global.t_color1)
@@ -29,9 +26,33 @@ func _ready():
 	material.set_shader_param('f_col2', global.yellow0)
 	material.set_shader_param('f_col3', global.white)
 	
+	new_plyr = global.player
+	
+	if global.player == 0:
+		$sprite.set_frame(13)
+	
+	if global.player == 1:
+		$sprite.set_frame(14)
+		
+	if global.player == 2:
+		$sprite.set_frame(15)
+	
 	#Set X/Y velocity and time at spawn time if dropped by an enemy.
 
 func _physics_process(delta):
+	
+	#Set the appropriate sprite.
+	if global.player != new_plyr:
+		if global.player == 0:
+			$sprite.set_frame(13)
+	
+		if global.player == 1:
+			$sprite.set_frame(14)
+		
+		if global.player == 2:
+			$sprite.set_frame(15)
+		
+		new_plyr = global.player
 	
 	velocity.x = x_spd
 	velocity.y += GRAVITY * delta

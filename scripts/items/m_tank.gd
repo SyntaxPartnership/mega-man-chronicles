@@ -10,9 +10,6 @@ var velocity = Vector2()
 var time = -1
 var f_delay = 0
 
-# warning-ignore:unused_class_variable
-var value = 20
-
 func _ready():
 	$anim.play("idle")
 	
