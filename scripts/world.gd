@@ -961,6 +961,12 @@ func spawn_objects():
 			#Add item to the dictionary.
 			if !global.temp_items.has(i_load.id):
 				global.temp_items[i_load.id] = false
+	
+	#Delete items that have been collected.
+	var i_check = get_tree().get_nodes_in_group('items')
+	for ch in i_check:
+		if global.temp_items.get(ch.id):
+			ch.queue_free()
 
 func splash():
 	if !dead:

@@ -1,7 +1,6 @@
 extends KinematicBody2D
 
 signal teleport
-signal pickup
 
 #Use this to pull values from the World script.
 onready var world = get_parent()
@@ -94,8 +93,6 @@ var w_icon = 0
 var rush_coil = false
 var rush_jet = false
 var snap = Vector2()
-
-var dmg_button = false
 
 var key = ''
 
@@ -1205,7 +1202,9 @@ func damage():
 
 func _on_item_entered(body):
 	if body.is_in_group('items'):
+		#Delete once all item types are added.
 		print(body.type)
+		
 		if global.bolts < 999:
 			if body.type == 0 or body.type == 1:
 				$audio/bolt.play()
@@ -1218,6 +1217,13 @@ func _on_item_entered(body):
 			if body.type == 8:
 				$audio/oneup.play()
 				global.lives += 1
+				
+		#Set the entry to true if the item has been collected. This will prevent items from respawning when the stage resets.
+		#Check to see if the item has an ID.
+		if body.id != 0:
+			if global.temp_items.has(body.id):
+				global.temp_items.erase(body.id)
+				global.temp_items[body.id] = true
 		
 		body.pickup()
 			

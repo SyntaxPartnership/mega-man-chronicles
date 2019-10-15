@@ -234,6 +234,11 @@ Changes - Version 0.0.1 ():
 - Large Life Energy added.
 - Small Weapon Energy added.
 - Large Weapon Energy added.
+- E-Tank added.
+- M-Tank added.
+- 1Up added.
+- Added a dictionary that stores all items and flags if collected or not.
+- Redid the item scripts so all items share the same movement and timeout functions.
 
 
 Credits:
