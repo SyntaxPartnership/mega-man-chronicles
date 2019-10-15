@@ -1207,10 +1207,10 @@ func _on_item_entered(body):
 	if body.is_in_group('items'):
 		match body.name:
 			'bolt_s':
-				global.bolts += body.value
+				global.bolts += 2
 				$audio/bolt.play()
 				body.queue_free()
 			'bolt_l':
-				global.bolts += body.value
+				global.bolts += 20
 				$audio/bolt.play()
 				body.queue_free()

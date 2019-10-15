@@ -157,31 +157,31 @@ format = 1
 tile_data = PoolIntArray( 5177577, 0, 0, 5177579, 0, 0, 6226086, 0, 0, 6357154, 0, 0, 6488216, 0, 0, 6488219, 0, 0, 6488222, 0, 0, 9240716, 0, 0, 9633931, 0, 0, 10420364, 0, 0 )
 
 [node name="bolt_s" parent="graphic" instance=ExtResource( 16 )]
-position = Vector2( 2120, 1528 )
+position = Vector2( 2120, 1480 )
 
 [node name="bolt_l" parent="graphic" instance=ExtResource( 17 )]
-position = Vector2( 2232, 1528 )
+position = Vector2( 2232, 1480 )
 
 [node name="life_s" parent="graphic" instance=ExtResource( 18 )]
-position = Vector2( 2104, 1624 )
+position = Vector2( 2104, 1560 )
 
 [node name="life_l" parent="graphic" instance=ExtResource( 19 )]
-position = Vector2( 2248, 1624 )
+position = Vector2( 2248, 1608 )
 
 [node name="wpn_s" parent="graphic" instance=ExtResource( 20 )]
-position = Vector2( 2088, 1608 )
+position = Vector2( 2088, 1496 )
 
 [node name="wpn_l" parent="graphic" instance=ExtResource( 21 )]
-position = Vector2( 2264, 1608 )
+position = Vector2( 2264, 1495 )
 
 [node name="1up" parent="graphic" instance=ExtResource( 22 )]
-position = Vector2( 2152, 1496 )
+position = Vector2( 2152, 1472 )
 
 [node name="e_tank" parent="graphic" instance=ExtResource( 23 )]
-position = Vector2( 2152, 1576 )
+position = Vector2( 2152, 1528 )
 
 [node name="m_tank" parent="graphic" instance=ExtResource( 24 )]
-position = Vector2( 2200, 1576 )
+position = Vector2( 2200, 1528 )
 
 [node name="player" parent="." instance=ExtResource( 25 )]
 pause_mode = 1
@@ -430,6 +430,6 @@ stream = ExtResource( 35 )
 [connection signal="scrolling" from="." to="player" method="_on_world_scrolling"]
 [connection signal="teleport" from="player" to="." method="_on_teleport"]
 [connection signal="start" from="hud/ready" to="player" method="_on_ready_start"]
-[connection signal="fadein" from="fade/fade" to="." method="_on_fade_fadein"]
 [connection signal="fadein" from="fade/fade" to="hud/ready" method="_on_fade_fadein"]
+[connection signal="fadein" from="fade/fade" to="." method="_on_fade_fadein"]
 [connection signal="fadeout" from="fade/fade" to="." method="_on_fade_fadeout"]

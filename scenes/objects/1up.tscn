@@ -1,11 +1,11 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://shaders/player.tres" type="Material" id=1]
-[ext_resource path="res://scripts/items/1up.gd" type="Script" id=2]
+[ext_resource path="res://scripts/items/items.gd" type="Script" id=2]
 [ext_resource path="res://assets/sprites/objects/items.png" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 8, 8 )
+extents = Vector2( 7, 8 )
 
 [node name="1up" type="KinematicBody2D" groups=[
 "items",
@@ -20,6 +20,8 @@ use_parent_material = true
 texture = ExtResource( 3 )
 hframes = 16
 frame = 13
+
+[node name="anim" type="AnimationPlayer" parent="."]
 
 [node name="box" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -1 )
