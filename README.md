@@ -239,6 +239,7 @@ Changes - Version 0.0.1 ():
 - 1Up added.
 - Added a dictionary that stores all items and flags if collected or not.
 - Redid the item scripts so all items share the same movement and timeout functions.
+- Energy capsules and pellets now refill HP.
 
 
 Credits:

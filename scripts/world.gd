@@ -473,6 +473,19 @@ func _process(delta):
 		get_tree().paused = true
 	
 	#Refill the necessary energy.
+	if wpn_en != 0 or life_en != 0:
+		heal_delay += 1
+	
+	#Loop the counter
+	if heal_delay > 5:
+		heal_delay = 0
+	
+	if life_en > 0 and heal_delay == 1:
+		global.player_life[int($player.swap)] += 10
+		life_en -= 10
+	
+	if life_en == 0 and get_tree().paused:
+		get_tree().paused = false
 	
 	#Force the player to swap if one character dies.
 	if global.player_life[0] <= 0 and global.player_life[1] != 0 and !$player.swap or global.player_life[0] != 0 and global.player_life[1] <= 0 and $player.swap:
