@@ -25,6 +25,9 @@ var level_id = 0
 var cont_id = 0
 var boss = false
 
+var temp_items = {}
+var perm_items = {}
+
 #Stage Cleared Flags
 var intro_clear = false
 var boss1_clear = false

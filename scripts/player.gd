@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 signal teleport
+signal pickup
 
 #Use this to pull values from the World script.
 onready var world = get_parent()
@@ -1201,16 +1202,22 @@ func damage():
 			anim_state(HURT)
 			hurt_timer = 16
 
+
 func _on_item_entered(body):
-	
-	#Check to see if the body is an item.
 	if body.is_in_group('items'):
-		match body.name:
-			'bolt_s':
-				global.bolts += 2
+		print(body.type)
+		if global.bolts < 999:
+			if body.type == 0 or body.type == 1:
 				$audio/bolt.play()
-				body.queue_free()
-			'bolt_l':
-				global.bolts += 20
-				$audio/bolt.play()
-				body.queue_free()
+				if body.type == 0:
+					global.bolts += 2
+				if body.type == 1:
+					global.bolts += 20
+		
+		if global.lives < 9:
+			if body.type == 8:
+				$audio/oneup.play()
+				global.lives += 1
+		
+		body.pickup()
+			

@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://scripts/world.gd" type="Script" id=1]
 [ext_resource path="res://assets/tilesets/test/testroom.tres" type="TileSet" id=2]
@@ -14,27 +14,19 @@
 [ext_resource path="res://assets/tilesets/stage_graphics/testwily3/testwily3.tres" type="TileSet" id=12]
 [ext_resource path="res://assets/tilesets/stage_graphics/testcossack1/testcossack1.tres" type="TileSet" id=13]
 [ext_resource path="res://assets/tilesets/objects/objects.tres" type="TileSet" id=14]
-[ext_resource path="res://assets/tilesets/enemies/enemies.tres" type="TileSet" id=15]
-[ext_resource path="res://scenes/objects/bolt_s.tscn" type="PackedScene" id=16]
-[ext_resource path="res://scenes/objects/bolt_l.tscn" type="PackedScene" id=17]
-[ext_resource path="res://scenes/objects/life_s.tscn" type="PackedScene" id=18]
-[ext_resource path="res://scenes/objects/life_l.tscn" type="PackedScene" id=19]
-[ext_resource path="res://scenes/objects/wpn_s.tscn" type="PackedScene" id=20]
-[ext_resource path="res://scenes/objects/wpn_l.tscn" type="PackedScene" id=21]
-[ext_resource path="res://scenes/objects/1up.tscn" type="PackedScene" id=22]
-[ext_resource path="res://scenes/objects/e_tank.tscn" type="PackedScene" id=23]
-[ext_resource path="res://scenes/objects/m_tank.tscn" type="PackedScene" id=24]
-[ext_resource path="res://scenes/player/player.tscn" type="PackedScene" id=25]
-[ext_resource path="res://scripts/ready.gd" type="Script" id=26]
-[ext_resource path="res://scenes/hud.tscn" type="PackedScene" id=27]
-[ext_resource path="res://scenes/pause_menu.tscn" type="PackedScene" id=28]
-[ext_resource path="res://scenes/fade.tscn" type="PackedScene" id=29]
-[ext_resource path="res://assets/audio/se/Death.wav" type="AudioStream" id=30]
-[ext_resource path="res://assets/audio/se/Splash.wav" type="AudioStream" id=31]
-[ext_resource path="res://assets/audio/se/Beam In.wav" type="AudioStream" id=32]
-[ext_resource path="res://assets/audio/se/Weapon Menu.wav" type="AudioStream" id=33]
-[ext_resource path="res://assets/audio/se/BLING.wav" type="AudioStream" id=34]
-[ext_resource path="res://assets/audio/se/Hurt.wav" type="AudioStream" id=35]
+[ext_resource path="res://assets/tilesets/objects/items.tres" type="TileSet" id=15]
+[ext_resource path="res://assets/tilesets/enemies/enemies.tres" type="TileSet" id=16]
+[ext_resource path="res://scenes/player/player.tscn" type="PackedScene" id=17]
+[ext_resource path="res://scripts/ready.gd" type="Script" id=18]
+[ext_resource path="res://scenes/hud.tscn" type="PackedScene" id=19]
+[ext_resource path="res://scenes/pause_menu.tscn" type="PackedScene" id=20]
+[ext_resource path="res://scenes/fade.tscn" type="PackedScene" id=21]
+[ext_resource path="res://assets/audio/se/Death.wav" type="AudioStream" id=22]
+[ext_resource path="res://assets/audio/se/Splash.wav" type="AudioStream" id=23]
+[ext_resource path="res://assets/audio/se/Beam In.wav" type="AudioStream" id=24]
+[ext_resource path="res://assets/audio/se/Weapon Menu.wav" type="AudioStream" id=25]
+[ext_resource path="res://assets/audio/se/BLING.wav" type="AudioStream" id=26]
+[ext_resource path="res://assets/audio/se/Hurt.wav" type="AudioStream" id=27]
 
 [sub_resource type="DynamicFontData" id=1]
 antialiased = false
@@ -150,40 +142,19 @@ cell_size = Vector2( 16, 16 )
 format = 1
 tile_data = PoolIntArray( 459071, 0, 0, 459087, 0, 0, 5832838, 1, 0, 6291583, 0, 0, 6291599, 0, 0, 6815878, 1, 0, 15270111, 0, 0, 15270127, 0, 0 )
 
-[node name="enemy_map" type="TileMap" parent="graphic"]
+[node name="items" type="TileMap" parent="graphic"]
 tile_set = ExtResource( 15 )
+cell_size = Vector2( 16, 16 )
+format = 1
+tile_data = PoolIntArray( 6094982, 8, 0, 6094985, 8, 0, 6226051, 0, 0, 6226052, 0, 0, 6226059, 1, 0, 6226060, 1, 0, 6422662, 6, 0, 6422665, 7, 0, 6619267, 2, 0, 6619268, 3, 0, 6619275, 5, 0, 6619276, 4, 0 )
+
+[node name="enemy_map" type="TileMap" parent="graphic"]
+tile_set = ExtResource( 16 )
 cell_size = Vector2( 16, 16 )
 format = 1
 tile_data = PoolIntArray( 5177577, 0, 0, 5177579, 0, 0, 6226086, 0, 0, 6357154, 0, 0, 6488216, 0, 0, 6488219, 0, 0, 6488222, 0, 0, 9240716, 0, 0, 9633931, 0, 0, 10420364, 0, 0 )
 
-[node name="bolt_s" parent="graphic" instance=ExtResource( 16 )]
-position = Vector2( 2120, 1480 )
-
-[node name="bolt_l" parent="graphic" instance=ExtResource( 17 )]
-position = Vector2( 2232, 1480 )
-
-[node name="life_s" parent="graphic" instance=ExtResource( 18 )]
-position = Vector2( 2104, 1560 )
-
-[node name="life_l" parent="graphic" instance=ExtResource( 19 )]
-position = Vector2( 2248, 1608 )
-
-[node name="wpn_s" parent="graphic" instance=ExtResource( 20 )]
-position = Vector2( 2088, 1496 )
-
-[node name="wpn_l" parent="graphic" instance=ExtResource( 21 )]
-position = Vector2( 2264, 1495 )
-
-[node name="1up" parent="graphic" instance=ExtResource( 22 )]
-position = Vector2( 2152, 1472 )
-
-[node name="e_tank" parent="graphic" instance=ExtResource( 23 )]
-position = Vector2( 2152, 1528 )
-
-[node name="m_tank" parent="graphic" instance=ExtResource( 24 )]
-position = Vector2( 2200, 1528 )
-
-[node name="player" parent="." instance=ExtResource( 25 )]
+[node name="player" parent="." instance=ExtResource( 17 )]
 pause_mode = 1
 editor/display_folded = true
 position = Vector2( 64, 132 )
@@ -222,14 +193,14 @@ margin_bottom = 2.5
 custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "READY"
-script = ExtResource( 26 )
+script = ExtResource( 18 )
 
-[node name="hud" parent="hud" instance=ExtResource( 27 )]
+[node name="hud" parent="hud" instance=ExtResource( 19 )]
 
 [node name="pause" type="CanvasLayer" parent="."]
 editor/display_folded = true
 
-[node name="pause_menu" parent="pause" instance=ExtResource( 28 )]
+[node name="pause_menu" parent="pause" instance=ExtResource( 20 )]
 visible = false
 
 [node name="debug_stats" type="CanvasLayer" parent="."]
@@ -402,34 +373,33 @@ text = "Place menu options here."
 pause_mode = 2
 editor/display_folded = true
 
-[node name="fade" parent="fade" instance=ExtResource( 29 )]
+[node name="fade" parent="fade" instance=ExtResource( 21 )]
 position = Vector2( 128, 120 )
 
 [node name="audio" type="Control" parent="."]
-editor/display_folded = true
 margin_right = 40.0
 margin_bottom = 40.0
 
 [node name="death" type="AudioStreamPlayer" parent="audio"]
-stream = ExtResource( 30 )
+stream = ExtResource( 22 )
 
 [node name="splash" type="AudioStreamPlayer" parent="audio"]
-stream = ExtResource( 31 )
+stream = ExtResource( 23 )
 
 [node name="appear" type="AudioStreamPlayer" parent="audio"]
-stream = ExtResource( 32 )
+stream = ExtResource( 24 )
 
 [node name="menu" type="AudioStreamPlayer" parent="audio"]
-stream = ExtResource( 33 )
+stream = ExtResource( 25 )
 
 [node name="bling" type="AudioStreamPlayer" parent="audio"]
-stream = ExtResource( 34 )
+stream = ExtResource( 26 )
 
 [node name="hurt" type="AudioStreamPlayer" parent="audio"]
-stream = ExtResource( 35 )
+stream = ExtResource( 27 )
 [connection signal="scrolling" from="." to="player" method="_on_world_scrolling"]
 [connection signal="teleport" from="player" to="." method="_on_teleport"]
 [connection signal="start" from="hud/ready" to="player" method="_on_ready_start"]
-[connection signal="fadein" from="fade/fade" to="hud/ready" method="_on_fade_fadein"]
 [connection signal="fadein" from="fade/fade" to="." method="_on_fade_fadein"]
+[connection signal="fadein" from="fade/fade" to="hud/ready" method="_on_fade_fadein"]
 [connection signal="fadeout" from="fade/fade" to="." method="_on_fade_fadeout"]

@@ -1021,8 +1021,8 @@ custom_colors/font_color = Color( 0.988235, 0.972549, 0.988235, 1 )
 text = "000"
 
 [node name="lives_icon" type="Sprite" parent="." groups=[
-"plyr_icon",
 "item_icon",
+"plyr_icon",
 ]]
 material = SubResource( 18 )
 position = Vector2( 24, 216 )

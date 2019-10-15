@@ -4,6 +4,7 @@ signal scrolling
 signal close_gate
 
 onready var objects = $graphic/objects
+onready var items = $graphic/items
 onready var enemies = $graphic/enemy_map
 
 #Object constants
@@ -103,6 +104,7 @@ func _ready():
 	#Hide Object and Enemy Layers
 	objects.hide()
 	enemies.hide()
+	items.hide()
 	
 	#Spawn stage objects.
 	spawn_objects()
@@ -917,6 +919,48 @@ func spawn_objects():
 			var pos = objects.map_to_world(cell)
 			c.position = pos + (objects.cell_size / 2)
 			$graphic.add_child(c)
+	
+	var item_id = 1
+	
+	#Scan tilemap for items.
+	for i in items.get_used_cells():
+		var i_id = items.get_cellv(i)
+		var i_type = items.tile_set.tile_get_name(i_id)
+		#Get items and load into the level.
+		if i_type in ['bolt_s', 'bolt_l', 'life_s', 'life_l', 'wpn_s', 'wpn_l', 'e_tank', 'm_tank', '1up']:
+			var i_load = load('res://scenes/objects/'+i_type+'.tscn').instance()
+			var i_pos = items.map_to_world(i)
+			#Set item type numbers.
+			if i_type == 'bolt_s':
+				i_load.type = 0
+			if i_type == 'bolt_l':
+				i_load.type = 1
+			if i_type == 'life_s':
+				i_load.type = 2
+			if i_type == 'life_l':
+				i_load.type = 3
+			if i_type == 'wpn_s':
+				i_load.type = 4
+			if i_type == 'wpn_l':
+				i_load.type = 5
+			if i_type == 'e_tank':
+				i_load.type = 6
+			if i_type == 'm_tank':
+				i_load.type = 7
+			if i_type == '1up':
+				i_load.type = 8
+			
+			#Set item ID number.
+			i_load.id = item_id
+			item_id += 1
+			
+			#Spawn item
+			i_load.position = i_pos + (items.cell_size / 2)
+			$graphic.add_child(i_load)
+			
+			#Add item to the dictionary.
+			if !global.temp_items.has(i_load.id):
+				global.temp_items[i_load.id] = false
 
 func splash():
 	if !dead:

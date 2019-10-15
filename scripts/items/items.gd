@@ -9,7 +9,8 @@ var x_spd = 0
 var velocity = Vector2()
 var time = -1
 var f_delay = 0
-
+var id = 0
+var type = 0
 var new_plyr
 
 func _ready():
@@ -76,3 +77,6 @@ func sprite_swap():
 			$sprite.set_frame(15)
 		
 		new_plyr = global.player
+
+func pickup():
+	queue_free()
