@@ -230,6 +230,10 @@ Changes - Version 0.0.1 ():
 - Started item functions.
 - Small Bolt added.
 - Large Bolt added.
+- Small Life Energy added.
+- Large Life Energy added.
+- Small Weapon Energy added.
+- Large Weapon Energy added.
 
 
 Credits:
