@@ -30,6 +30,8 @@ var restart = 360
 var life_en = 0
 var wpn_en = 0
 var heal_delay = 0
+var id = 0
+var wpn_lvl
 var swapping = false
 var shots = 0
 var adaptors = 0
@@ -477,14 +479,18 @@ func _process(delta):
 		heal_delay += 1
 	
 	#Loop the counter
-	if heal_delay > 5:
+	if heal_delay > 1:
 		heal_delay = 0
 	
 	if life_en > 0 and heal_delay == 1:
+		$audio/meter.play()
 		global.player_life[int($player.swap)] += 10
 		life_en -= 10
 	
-	if life_en == 0 and get_tree().paused:
+	#Select the appropriate weapon meter to refill.
+	
+		
+	if life_en == 0 and wpn_en == 0 and get_tree().paused:
 		get_tree().paused = false
 	
 	#Force the player to swap if one character dies.

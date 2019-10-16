@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 onready var world = get_parent().get_parent()
 onready var player = world.get_child(2)
-onready var camera = world.get_child(2).get_child(8)
+onready var camera = world.get_child(2).get_child(9)
 
 const X_VEL = 60
 const Y_VEL = 30

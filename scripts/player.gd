@@ -5,7 +5,7 @@ signal teleport
 #Use this to pull values from the World script.
 onready var world = get_parent()
 onready var wpn_layer = world.get_child(3)
-onready var camera = self.get_child(8)
+onready var camera = self.get_child(9)
 #Use this to get TileMap data.
 onready var tiles = world.get_child(0).get_child(1)
 
@@ -93,6 +93,8 @@ var w_icon = 0
 var rush_coil = false
 var rush_jet = false
 var snap = Vector2()
+var max_en = 0
+var wpn_id
 
 var key = ''
 
@@ -1205,6 +1207,7 @@ func _on_item_entered(body):
 		#Delete once all item types are added.
 		print(body.type)
 		
+		#Bolts
 		if global.bolts < 999:
 			if body.type == 0 or body.type == 1:
 				$audio/bolt.play()
@@ -1213,10 +1216,11 @@ func _on_item_entered(body):
 				if body.type == 1:
 					global.bolts += 20
 		
+		#Energy Pellet/Capsule
 		if global.player_life[int(swap)] < 280:
 			if body.type == 2:
 				var diff = 280 - global.player_life[int(swap)]
-				var max_en = 20
+				max_en = 20
 				if diff < max_en:
 					world.life_en = max_en + (global.player_life[int(swap)] - 280)
 				else:
@@ -1224,13 +1228,51 @@ func _on_item_entered(body):
 			
 			if body.type == 3:
 				var diff = 280 - global.player_life[int(swap)]
-				var max_en = 80
+				max_en = 80
 				if diff < max_en:
 					world.life_en = max_en + (global.player_life[int(swap)] - 280)
 				else:
 					world.life_en = max_en
+		
+		#Weapon Pellete/Capsule
+		if global.player_weap[int(swap)] != 0:
+			if body.type == 4 or body.type == 5:
+				#Create a dict of all weapon values.
+				var wpn_name = {
+					1 : global.rp_coil[int(swap) + 1],
+					2 : global.rp_jet[int(swap) + 1],
+					3 : global.weapon1[int(swap) + 1],
+					4 : global.weapon2[int(swap) + 1],
+					5 : global.weapon3[int(swap) + 1],
+					6 : global.weapon4[int(swap) + 1],
+					7 : global.weapon5[int(swap) + 1],
+					8 : global.weapon6[int(swap) + 1],
+					9 : global.weapon7[int(swap) + 1],
+					10 : global.weapon8[int(swap) + 1],
+					11 : global.beat[int(swap) + 1],
+					12 : global.tango[int(swap) + 1],
+					13 : global.reggae[int(swap) + 1]
+					}
+				
+				if global.player_weap[int(swap)] > 0 and global.player_weap[int(swap)] < 11:
+					wpn_id = global.player_weap[int(swap)]
+				else:
+					wpn_id = global.player_weap[int(swap)] + global.player
+					
+				if body.type == 4:
+					max_en = 20
+				if body.type == 5:
+					max_en = 80
+				
+				if wpn_name.get(wpn_id) < 280:
+					var diff = 280 - wpn_name.get(wpn_id)
+					if diff < max_en:
+						world.wpn_en = max_en + (wpn_name.get(wpn_id) - 280)
+					else:
+						world.wpn_en = max_en
+				
+				print(world.wpn_en)
 			
-			print(world.life_en)
 		
 		if global.lives < 9:
 			if body.type == 8:
