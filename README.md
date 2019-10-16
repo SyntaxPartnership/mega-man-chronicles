@@ -244,6 +244,11 @@ Changes - Version 0.0.1 ():
 - Fixed the pause menu to update to the proper values.
 - Fixed an issue where the player could swap out when their iframes were playing.
 - Fixed an issue where the player could move while swapping.
+- Energy Balancer added.
+- Fixed an issue where multiple 1UPs would not swap their graphics when the player swapped to another character.
+- Fixed an issue where collecting weapon energy while at full energy would still force the player to pause like their energy was being refilled.
+- Fixed an issue where the selection would move to the items menu if there is fewer weapons than max.
+- M-Tanks added.
 
 
 Credits:

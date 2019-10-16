@@ -68,7 +68,7 @@ func _physics_process(delta):
 		queue_free()
 
 func sprite_swap():
-	if self.name == "1up":
+	if type == 8:
 		if global.player == 0:
 			$sprite.set_frame(13)
 		if global.player == 1:

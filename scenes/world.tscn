@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://scripts/world.gd" type="Script" id=1]
 [ext_resource path="res://assets/tilesets/test/testroom.tres" type="TileSet" id=2]
@@ -28,6 +28,7 @@
 [ext_resource path="res://assets/audio/se/BLING.wav" type="AudioStream" id=26]
 [ext_resource path="res://assets/audio/se/Hurt.wav" type="AudioStream" id=27]
 [ext_resource path="res://assets/audio/se/Meter.wav" type="AudioStream" id=28]
+[ext_resource path="res://assets/audio/se/Error.wav" type="AudioStream" id=29]
 
 [sub_resource type="DynamicFontData" id=1]
 antialiased = false
@@ -122,6 +123,7 @@ format = 1
 tile_data = PoolIntArray( 1311419, 68, 0, 11403524, 68, 0, 12189967, 0, 0, 12845327, 88, 0, 30933499, 68, 0 )
 
 [node name="graphic" type="Control" parent="."]
+editor/display_folded = true
 margin_right = 40.0
 margin_bottom = 40.0
 
@@ -401,6 +403,9 @@ stream = ExtResource( 27 )
 
 [node name="meter" type="AudioStreamPlayer" parent="audio"]
 stream = ExtResource( 28 )
+
+[node name="buzz" type="AudioStreamPlayer" parent="audio"]
+stream = ExtResource( 29 )
 [connection signal="scrolling" from="." to="player" method="_on_world_scrolling"]
 [connection signal="teleport" from="player" to="." method="_on_teleport"]
 [connection signal="start" from="hud/ready" to="player" method="_on_ready_start"]

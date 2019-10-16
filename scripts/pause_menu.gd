@@ -6,7 +6,13 @@ onready var player = get_parent().get_parent().get_child(2)
 
 var wpn_lvl = []
 
+# warning-ignore:unused_class_variable
 var kill_wpn
+
+var ignore_input = false
+var heal_delay = 0
+var heal_type = 0
+var heal_amt = 0
 
 var start = false
 
@@ -14,6 +20,7 @@ var new_plyr
 var new_wpn
 var new_menu = 0
 
+var press = false
 var menu = 0
 var m_pos = 0
 
@@ -69,16 +76,13 @@ func _ready():
 func _input(event):
 	if !get_tree().paused or !start:
 		return
+	
+	if ignore_input:
+		return
 	#Weapons menu.
 	#Set the weapon values.
 	if menu == 0:
 		#Set this section here to prevent issues transitioning between weapon selection and item selection.
-		if Input.is_action_just_pressed('down'):
-			$cursor.stop()
-			$cursor.play()
-			if global.player_weap[int(player.swap)] == down_a or global.player_weap[int(player.swap)] == down_b:
-				menu += 1
-		
 		if Input.is_action_just_pressed('up'):
 			$cursor.play()
 			#Left Side
@@ -94,9 +98,15 @@ func _input(event):
 			#Left Side
 			if global.player_weap[int(player.swap)] >= 0 and global.player_weap[int(player.swap)] < down_a:
 				global.player_weap[int(player.swap)] += 1
+				press = true
 			#Right Side
 			if global.player_weap[int(player.swap)] >= 6 and global.player_weap[int(player.swap)] < down_b:
 				global.player_weap[int(player.swap)] += 1
+				press = true
+		
+		if global.player_weap[int(player.swap)] == down_a or global.player_weap[int(player.swap)] == down_b:
+			if Input.is_action_just_pressed('down') and !press:
+				menu += 1
 		
 		if Input.is_action_just_pressed('up'):
 			#Skip unacquired weapons.
@@ -180,6 +190,7 @@ func _input(event):
 		#Items menu.
 		#Move through items.
 		if Input.is_action_just_pressed('up'):
+			print(global.player_weap[int(player.swap)])
 			$cursor.stop()
 			$cursor.play()
 			#There's no need to set the value to down_a or down_b as the player cannot proceed passed these values.
@@ -194,6 +205,7 @@ func _input(event):
 				$half_dmg/icon.show()
 			if !$spk_prtct/icon.visible:
 				$spk_prtct/icon.show()
+			wpn_menu()
 		
 		if Input.is_action_just_pressed('left'):
 			$cursor.stop()
@@ -207,9 +219,155 @@ func _input(event):
 			if m_pos < 4:
 				m_pos += 1
 		
+		if Input.is_action_just_pressed('jump') and m_pos == 0:
+			if global.etanks > 0 and global.player_life[int(player.swap)] < 280:
+				ignore_input = true
+				global.etanks -= 1
+				heal_type = 1
+			else:
+				world.get_child(9).get_child(7).play()
+		
+		if Input.is_action_just_pressed('jump') and m_pos == 1:
+			if global.mtanks > 0:
+				var levels = []
+				if global.player == 0:
+					levels = [
+						global.player_life[int(player.swap)],
+						global.rp_coil[int(player.swap) + 1],
+						global.rp_jet[int(player.swap) + 1],
+						global.weapon1[int(player.swap) + 1],
+						global.weapon2[int(player.swap) + 1],
+						global.weapon3[int(player.swap) + 1],
+						global.weapon4[int(player.swap) + 1],
+						global.weapon5[int(player.swap) + 1],
+						global.weapon6[int(player.swap) + 1],
+						global.weapon7[int(player.swap) + 1],
+						global.weapon8[int(player.swap) + 1],
+						global.beat[int(player.swap) + 1],
+						]
+				if global.player == 1:
+					levels = [
+						global.player_life[int(player.swap)],
+						global.rp_coil[int(player.swap) + 1],
+						global.rp_jet[int(player.swap) + 1],
+						global.weapon1[int(player.swap) + 1],
+						global.weapon2[int(player.swap) + 1],
+						global.weapon3[int(player.swap) + 1],
+						global.weapon4[int(player.swap) + 1],
+						global.weapon5[int(player.swap) + 1],
+						global.weapon6[int(player.swap) + 1],
+						global.weapon7[int(player.swap) + 1],
+						global.weapon8[int(player.swap) + 1],
+						global.tango[int(player.swap) + 1],
+						]
+				if global.player == 2:
+					levels = [
+						global.player_life[int(player.swap)],
+						global.rp_coil[int(player.swap) + 1],
+						global.rp_jet[int(player.swap) + 1],
+						global.weapon1[int(player.swap) + 1],
+						global.weapon2[int(player.swap) + 1],
+						global.weapon3[int(player.swap) + 1],
+						global.weapon4[int(player.swap) + 1],
+						global.weapon5[int(player.swap) + 1],
+						global.weapon6[int(player.swap) + 1],
+						global.weapon7[int(player.swap) + 1],
+						global.weapon8[int(player.swap) + 1],
+						global.reggae[int(player.swap) + 1],
+						]
+				
+				if levels.min() < 280:
+					heal_amt = ((levels.min() - 280) * -1) / 10
+					heal_type = 2
+				else:
+					var oneups = get_tree().get_nodes_in_group('enemies')
+					for e in oneups:
+						if e.get_child(4).is_on_screen():
+							e.hp = 0
+							e.dead = true
+							e.get_child(2).hide()
+							var extra = load('res://scenes/objects/1up.tscn').instance()
+							extra.type = 8
+							extra.position = e.position
+							world.get_child(1).add_child(extra)
+				
+				global.mtanks -= 1
 
 # warning-ignore:unused_argument
 func _process(delta):
+	
+	if Input.is_action_just_released("down"):
+		press = false
+	
+	#Begin the healing loop
+	if heal_type != 0:
+		heal_delay += 1
+		
+		if heal_delay > 1:
+			heal_delay = 0
+		
+		#Refill health only.
+		if heal_type == 1 and heal_delay == 1 and global.player_life[int(player.swap)] < 280:
+			world.get_child(9).get_child(6).play()
+			global.player_life[int(player.swap)] += 10
+		
+		#Refill all for the active player. Set caps for energy over a certain amount.
+		if heal_type == 2 and heal_delay == 1 and heal_amt > 0:
+			world.get_child(9).get_child(6).play()
+			
+			if global.player_life[int(player.swap)] < 280:
+				global.player_life[int(player.swap)] += 10
+			
+			if global.rp_coil[int(player.swap) + 1] < 280:
+				global.rp_coil[int(player.swap) + 1] += 10
+			
+			if global.rp_jet[int(player.swap) + 1] < 280:
+				global.rp_jet[int(player.swap) + 1] += 10
+			
+			if global.weapon1[int(player.swap) + 1] < 280:
+				global.weapon1[int(player.swap) + 1] += 10
+			
+			if global.weapon2[int(player.swap) + 1] < 280:
+				global.weapon2[int(player.swap) + 1] += 10
+			
+			if global.weapon3[int(player.swap) + 1] < 280:
+				global.weapon3[int(player.swap) + 1] += 10
+			
+			if global.weapon4[int(player.swap) + 1] < 280:
+				global.weapon4[int(player.swap) + 1] += 10
+			
+			if global.weapon5[int(player.swap) + 1] < 280:
+				global.weapon5[int(player.swap) + 1] += 10
+			
+			if global.weapon6[int(player.swap) + 1] < 280:
+				global.weapon6[int(player.swap) + 1] += 10
+			
+			if global.weapon7[int(player.swap) + 1] < 280:
+				global.weapon7[int(player.swap) + 1] += 10
+			
+			if global.weapon8[int(player.swap) + 1] < 280:
+				global.weapon8[int(player.swap) + 1] += 10
+			
+			if global.beat[int(player.swap) + 1] < 280:
+				global.beat[int(player.swap) + 1] += 10
+			
+			if global.tango[int(player.swap) + 1] < 280:
+				global.tango[int(player.swap) + 1] += 10
+			
+			if global.reggae[int(player.swap) + 1] < 280:
+				global.reggae[int(player.swap) + 1] += 10
+			
+			heal_amt -= 1
+		
+		if heal_type == 1 and global.player_life[int(player.swap)] == 280:
+			ignore_input = false
+			heal_delay = 0
+			heal_type = 0
+		
+		if heal_type == 2 and heal_amt == 0:
+			ignore_input = false
+			heal_delay = 0
+			heal_type = 0
 	
 	#Set the appropriate number of bolts., etanks, and mtanks
 	if int($bolts_amt.get_text()) != global.bolts:

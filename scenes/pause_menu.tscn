@@ -257,6 +257,7 @@ text = "-WEAPONS ENERGY-"
 [node name="weap_01" type="Control" parent="." groups=[
 "wpn_icons",
 ]]
+editor/display_folded = true
 material = SubResource( 1 )
 margin_left = -8.0
 margin_top = -8.0
@@ -296,6 +297,7 @@ texture_progress = ExtResource( 7 )
 [node name="weap_02" type="Control" parent="." groups=[
 "wpn_icons",
 ]]
+editor/display_folded = true
 material = SubResource( 3 )
 margin_left = -8.0
 margin_top = -8.0

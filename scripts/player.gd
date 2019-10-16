@@ -95,6 +95,8 @@ var rush_jet = false
 var snap = Vector2()
 var max_en = 0
 var wpn_id
+var wpn_lvl = []
+var get_lvl = []
 
 var key = ''
 
@@ -1236,42 +1238,90 @@ func _on_item_entered(body):
 					world.life_en = max_en
 		
 		#Weapon Pellete/Capsule
-		if global.player_weap[int(swap)] != 0:
-			if body.type == 4 or body.type == 5:
-				#Create an array of all weapon values.
-				var wpn_lvl = [
-					null,
-					global.rp_coil[int(swap) + 1],
-					global.rp_jet[int(swap) + 1],
-					global.weapon1[int(swap) + 1],
-					global.weapon2[int(swap) + 1],
-					global.weapon3[int(swap) + 1],
-					global.weapon4[int(swap) + 1],
-					global.weapon5[int(swap) + 1],
-					global.weapon6[int(swap) + 1],
-					global.weapon7[int(swap) + 1],
-					global.weapon8[int(swap) + 1],
-					global.beat[int(swap) + 1],
-					global.tango[int(swap) + 1],
-					global.reggae[int(swap) + 1]
-					]
-				
-				if global.player_weap[int(swap)] > 0 and global.player_weap[int(swap)] < 11:
-					wpn_id = global.player_weap[int(swap)]
+		if body.type == 4 or body.type == 5:
+			
+			if body.type == 4:
+				max_en = 20
+			else:
+				max_en = 80
+			
+			wpn_lvl = {
+				0 : [true, 280, 280], #Set higher than the max meter values so it doesn't get picked.
+				1 : global.rp_coil,
+				2 : global.rp_jet,
+				3 : global.weapon1,
+				4 : global.weapon2,
+				5 : global.weapon3,
+				6 : global.weapon4,
+				7 : global.weapon5,
+				8 : global.weapon6,
+				9 : global.weapon7,
+				10 : global.weapon8,
+				11 : global.beat,
+				12 : global.tango,
+				13 : global.reggae
+				}
+			
+			#Get the weapon's ID
+			if global.player_weap[int(swap)] == 0:
+				wpn_id = 0
+			elif global.player_weap[int(swap)] > 0 and global.player_weap[int(swap)] < 11:
+				wpn_id = global.player_weap[int(swap)]
+			else:
+				wpn_id = global.player_weap[int(swap)] + global.player
+			
+			#Refill energy if theh player has no energy balancer
+			if !global.perma_items['ebalancer'] and wpn_id != 0 and wpn_lvl[wpn_id][int(swap) + 1] < 280 or global.perma_items['ebalancer'] and wpn_id != 0 and wpn_lvl[wpn_id][int(swap) + 1] < 280:
+				#Set ID for the world script.
+				world.id = wpn_id
+				#Set the value of the energy recovery
+				var diff = 280 - wpn_lvl[wpn_id][int(swap) + 1]
+				if diff < max_en:
+					world.wpn_en = max_en + (wpn_lvl[wpn_id][int(swap) + 1] - 280)
 				else:
-					wpn_id = global.player_weap[int(swap)] + global.player
+					world.wpn_en = max_en
+			elif !global.perma_items['ebalancer'] and wpn_id == 0:
+				#Skip this function if the player doesn't have the energy balancer and no special weapon equipped.
+				pass
+			else:
+				#Clear the array so new info can be added
+				get_lvl.clear()
+				for g in range(wpn_lvl.size()):
+					get_lvl.append(wpn_lvl[g][int(swap) + 1])
+
+				var w_id
+
+				if global.player_weap[int(swap)] == 0:
+					w_id = 0
+				elif global.player_weap[int(swap)] > 0 and global.player_weap[int(swap)] < 11:
+					w_id = global.player_weap[int(swap)]
+				else:
+					w_id = global.player_weap[int(swap)] + global.player
+
+				#Get the weapon ID if the levels are below max.
+				if w_id == 0 and get_lvl.min() < 280 or w_id != 0 and wpn_lvl[w_id][int(swap) + 1] == 280 and get_lvl.min() < 280:
+					for l in range(get_lvl.size()):
+						if wpn_lvl[l][int(swap) + 1] == get_lvl.min():
+							wpn_id = l
+							
+							if global.player == 0 and wpn_id > 11:
+								wpn_id = 11
+							if global.player == 1 and wpn_id > 12:
+								wpn_id = 12
 					
-				if body.type == 4:
-					max_en = 20
-				if body.type == 5:
-					max_en = 80
-				
-				if wpn_lvl[wpn_id] < 280:
-					var diff = 280 - wpn_lvl[wpn_id]
+					#Set the weapon's ID in the world script.
+					world.id = wpn_id
+					#Set the value of the energy recovery
+					var diff = 280 - wpn_lvl[wpn_id][int(swap) + 1]
 					if diff < max_en:
-						world.wpn_en = max_en + (wpn_lvl[wpn_id] - 280)
+						world.wpn_en = max_en + (wpn_lvl[wpn_id][int(swap) + 1] - 280)
 					else:
 						world.wpn_en = max_en
+				else:
+					max_en = 0
+			
+			print(wpn_id)
+			
 		#E-Tanks
 		if global.etanks < 4:
 			if body.type == 6:

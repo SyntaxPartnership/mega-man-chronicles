@@ -485,38 +485,19 @@ func _process(delta):
 	if heal_delay > 1:
 		heal_delay = 0
 	
+	#Refill life
 	if life_en > 0 and heal_delay == 1:
 		$audio/meter.play()
 		global.player_life[int($player.swap)] += 10
 		life_en -= 10
 	
-	#Select the appropriate weapon meter to refill.
+	#Refill weapons
 	if wpn_en > 0 and heal_delay == 1:
-		var wpn_lvl = {
-			1 : global.rp_coil,
-			2 : global.rp_jet,
-			3 : global.weapon1,
-			4 : global.weapon2,
-			5 : global.weapon3,
-			6 : global.weapon4,
-			7 : global.weapon5,
-			8 : global.weapon6,
-			9 : global.weapon7,
-			10 : global.weapon8,
-			11 : global.beat,
-			12 : global.tango,
-			13 : global.reggae
-			}
-				
-		if global.player_weap[int($player.swap)] > 0 and global.player_weap[int($player.swap)] < 11:
-			id = global.player_weap[int($player.swap)]
-		else:
-			id = global.player_weap[int($player.swap)] + global.player
-		
 		$audio/meter.play()
-		wpn_lvl[id][int($player.swap) + 1] += 10
+		$player.wpn_lvl[id][int($player.swap) + 1] += 10
 		wpn_en -= 10
-		
+	
+	#Allow the player to move again.
 	if life_en == 0 and wpn_en == 0 and get_tree().paused and !p_menu:
 		get_tree().paused = false
 	
