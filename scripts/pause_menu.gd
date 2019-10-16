@@ -211,7 +211,7 @@ func _input(event):
 # warning-ignore:unused_argument
 func _process(delta):
 	
-	#Set the appropriate number of bolts.
+	#Set the appropriate number of bolts., etanks, and mtanks
 	if int($bolts_amt.get_text()) != global.bolts:
 		if global.bolts < 10:
 			$bolts_amt.set_text('00'+str(global.bolts))
@@ -219,6 +219,52 @@ func _process(delta):
 			$bolts_amt.set_text('0'+str(global.bolts))
 		else:
 			$bolts_amt.set_text(str(global.bolts))
+	
+	if int($e_tanks/amt.get_text()) != global.etanks:
+		$e_tanks/amt.set_text('0'+str(global.etanks))
+	
+	if int($m_tanks/amt.get_text()) != global.mtanks:
+		$m_tanks/amt.set_text('0'+str(global.mtanks))
+	
+	#Update meter levels.
+	#Life Meters.
+	if $weap_01/meter.value != global.player_life[int(player.swap)]:
+		$weap_01/meter.value = global.player_life[int(player.swap)]
+		$plyr_1/meter.value = global.player_life[0]
+		$plyr_2/meter.value = global.player_life[1]
+	
+	#Weapon Meters
+	if $weap_02/meter.value != global.rp_coil[int(player.swap) + 1]:
+		$weap_02/meter.value = global.rp_coil[int(player.swap) + 1]
+	if $weap_03/meter.value != global.rp_jet[int(player.swap) + 1]:
+		$weap_03/meter.value = global.rp_jet[int(player.swap) + 1]
+	if $weap_04/meter.value != global.weapon1[int(player.swap) + 1]:
+		$weap_04/meter.value = global.weapon1[int(player.swap) + 1]
+	if $weap_05/meter.value != global.weapon2[int(player.swap) + 1]:
+		$weap_05/meter.value = global.weapon2[int(player.swap) + 1]
+	if $weap_06/meter.value != global.weapon3[int(player.swap) + 1]:
+		$weap_06/meter.value = global.weapon3[int(player.swap) + 1]
+	if $weap_07/meter.value != global.weapon4[int(player.swap) + 1]:
+		$weap_07/meter.value = global.weapon4[int(player.swap) + 1]
+	if $weap_08/meter.value != global.weapon5[int(player.swap) + 1]:
+		$weap_08/meter.value = global.weapon5[int(player.swap) + 1]
+	if $weap_09/meter.value != global.weapon6[int(player.swap) + 1]:
+		$weap_09/meter.value = global.weapon6[int(player.swap) + 1]
+	if $weap_10/meter.value != global.weapon7[int(player.swap) + 1]:
+		$weap_10/meter.value = global.weapon7[int(player.swap) + 1]
+	if $weap_11/meter.value != global.weapon8[int(player.swap) + 1]:
+		$weap_11/meter.value = global.weapon8[int(player.swap) + 1]
+	
+	#Extra Adaptors
+	if global.player == 0:
+		if $weap_12/meter.value != global.beat[int(player.swap) + 1]:
+			$weap_12/meter.value = global.beat[int(player.swap) + 1]
+	if global.player == 1:
+		if $weap_12/meter.value != global.tango[int(player.swap) + 1]:
+			$weap_12/meter.value = global.tango[int(player.swap) + 1]
+	if global.player == 2:
+		if $weap_12/meter.value != global.reggae[int(player.swap) + 1]:
+			$weap_12/meter.value = global.reggae[int(player.swap) + 1]
 	
 	if new_wpn != global.player_weap[int(player.swap)]:
 		new_wpn = global.player_weap[int(player.swap)]
@@ -344,6 +390,20 @@ func hide_icons():
 		$weap_12.hide()
 	if global.player == 2 and !global.reggae[0]:
 		$weap_12.hide()
+	
+	if !global.perma_items['ebalancer']:
+		$item_01.hide()
+	
+	#Hide additional icons until new items are made.
+	$item_02.hide()
+	$item_03.hide()
+	$item_04.hide()
+	$item_05.hide()
+	$item_06.hide()
+	$item_07.hide()
+	$item_08.hide()
+	$item_09.hide()
+	$item_10.hide()
 
 func set_names():
 	#Set unique text and icons for the menu.

@@ -28,7 +28,7 @@ func _physics_process(delta):
 		$solid_bottom/box.set_disabled(true)
 
 func _on_act_top_body_entered(body):
-	if !$act_top/box.is_disabled():
+	if !$act_top/box.is_disabled() and !world.swapping:
 		world.kill_enemies()
 		$open.play()
 		#Stop player animation
@@ -43,7 +43,7 @@ func _on_act_top_body_entered(body):
 		$anim.play('opening')
 
 func _on_act_bottom_body_entered(body):
-	if !$act_bottom/box.is_disabled():
+	if !$act_bottom/box.is_disabled() and !world.swapping:
 		world.kill_enemies()
 		$open.play()
 		#Stop player animation

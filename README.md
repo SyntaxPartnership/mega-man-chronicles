@@ -239,7 +239,11 @@ Changes - Version 0.0.1 ():
 - 1Up added.
 - Added a dictionary that stores all items and flags if collected or not.
 - Redid the item scripts so all items share the same movement and timeout functions.
-- Energy capsules and pellets now refill HP.
+- Energy capsules and pellets now refill life energy.
+- Weapon capsules and pellets now refill weapon energy.
+- Fixed the pause menu to update to the proper values.
+- Fixed an issue where the player could swap out when their iframes were playing.
+- Fixed an issue where the player could move while swapping.
 
 
 Credits:

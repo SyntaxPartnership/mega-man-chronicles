@@ -10,6 +10,8 @@ var player_life = [280, 280]
 var player_weap = [0, 0]
 var lives = 2
 var bolts = 0
+var etanks = 0
+var mtanks = 0
 
 #Global Level/Option Flags
 var icey = false
@@ -26,6 +28,10 @@ var cont_id = 0
 var boss = false
 
 var temp_items = {}
+#Update list with permanent items.
+var perma_items = {
+	'ebalancer' : false
+	}
 
 #Stage Cleared Flags
 var intro_clear = false

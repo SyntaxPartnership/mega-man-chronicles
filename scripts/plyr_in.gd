@@ -34,5 +34,6 @@ func _on_anim_finished(anim_name):
 		world.swapping = false
 		get_tree().paused = false
 		player.anim_state(player.IDLE)
+		player.can_move = true
 		player.show()
 		queue_free()

@@ -1204,8 +1204,6 @@ func damage():
 
 func _on_item_entered(body):
 	if body.is_in_group('items'):
-		#Delete once all item types are added.
-		print(body.type)
 		
 		#Bolts
 		if global.bolts < 999:
@@ -1215,6 +1213,9 @@ func _on_item_entered(body):
 					global.bolts += 2
 				if body.type == 1:
 					global.bolts += 20
+			#Keep the bolts counter lower than 1000
+			if global.bolts > 999:
+				global.bolts = 999
 		
 		#Energy Pellet/Capsule
 		if global.player_life[int(swap)] < 280:
@@ -1237,22 +1238,23 @@ func _on_item_entered(body):
 		#Weapon Pellete/Capsule
 		if global.player_weap[int(swap)] != 0:
 			if body.type == 4 or body.type == 5:
-				#Create a dict of all weapon values.
-				var wpn_name = {
-					1 : global.rp_coil[int(swap) + 1],
-					2 : global.rp_jet[int(swap) + 1],
-					3 : global.weapon1[int(swap) + 1],
-					4 : global.weapon2[int(swap) + 1],
-					5 : global.weapon3[int(swap) + 1],
-					6 : global.weapon4[int(swap) + 1],
-					7 : global.weapon5[int(swap) + 1],
-					8 : global.weapon6[int(swap) + 1],
-					9 : global.weapon7[int(swap) + 1],
-					10 : global.weapon8[int(swap) + 1],
-					11 : global.beat[int(swap) + 1],
-					12 : global.tango[int(swap) + 1],
-					13 : global.reggae[int(swap) + 1]
-					}
+				#Create an array of all weapon values.
+				var wpn_lvl = [
+					null,
+					global.rp_coil[int(swap) + 1],
+					global.rp_jet[int(swap) + 1],
+					global.weapon1[int(swap) + 1],
+					global.weapon2[int(swap) + 1],
+					global.weapon3[int(swap) + 1],
+					global.weapon4[int(swap) + 1],
+					global.weapon5[int(swap) + 1],
+					global.weapon6[int(swap) + 1],
+					global.weapon7[int(swap) + 1],
+					global.weapon8[int(swap) + 1],
+					global.beat[int(swap) + 1],
+					global.tango[int(swap) + 1],
+					global.reggae[int(swap) + 1]
+					]
 				
 				if global.player_weap[int(swap)] > 0 and global.player_weap[int(swap)] < 11:
 					wpn_id = global.player_weap[int(swap)]
@@ -1264,16 +1266,24 @@ func _on_item_entered(body):
 				if body.type == 5:
 					max_en = 80
 				
-				if wpn_name.get(wpn_id) < 280:
-					var diff = 280 - wpn_name.get(wpn_id)
+				if wpn_lvl[wpn_id] < 280:
+					var diff = 280 - wpn_lvl[wpn_id]
 					if diff < max_en:
-						world.wpn_en = max_en + (wpn_name.get(wpn_id) - 280)
+						world.wpn_en = max_en + (wpn_lvl[wpn_id] - 280)
 					else:
 						world.wpn_en = max_en
-				
-				print(world.wpn_en)
-			
+		#E-Tanks
+		if global.etanks < 4:
+			if body.type == 6:
+				$audio/oneup.play()
+				global.etanks += 1
 		
+		if global.mtanks < 1:
+			if body.type == 7:
+				$audio/oneup.play()
+				global.mtanks += 1
+			
+		#Extra Lives
 		if global.lives < 9:
 			if body.type == 8:
 				$audio/oneup.play()
