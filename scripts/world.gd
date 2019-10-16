@@ -31,7 +31,6 @@ var life_en = 0
 var wpn_en = 0
 var heal_delay = 0
 var id = 0
-var wpn_lvl
 var swapping = false
 var shots = 0
 var adaptors = 0
@@ -488,7 +487,37 @@ func _process(delta):
 		life_en -= 10
 	
 	#Select the appropriate weapon meter to refill.
-	
+#	if wpn_en > 0 and heal_delay == 1:
+#
+#		var wpn_name = {
+#					1 : global.rp_coil[int($player.swap) + 1],
+#					2 : global.rp_jet[int($player.swap) + 1],
+#					3 : global.weapon1[int($player.swap) + 1],
+#					4 : global.weapon2[int($player.swap) + 1],
+#					5 : global.weapon3[int($player.swap) + 1],
+#					6 : global.weapon4[int($player.swap) + 1],
+#					7 : global.weapon5[int($player.swap) + 1],
+#					8 : global.weapon6[int($player.swap) + 1],
+#					9 : global.weapon7[int($player.swap) + 1],
+#					10 : global.weapon8[int($player.swap) + 1],
+#					11 : global.beat[int($player.swap) + 1],
+#					12 : global.tango[int($player.swap) + 1],
+#					13 : global.reggae[int($player.swap) + 1]
+#					}
+#
+#		if global.player_weap[int($player.swap)] > 0 and global.player_weap[int($player.swap)] < 11:
+#			id = global.player_weap[int($player.swap)]
+#		else:
+#			id = global.player_weap[int($player.swap)] + global.player
+#
+#		var reserve = wpn_name.get(id)
+#		var wpn_lvl = int(wpn_name.get(id))
+#		wpn_lvl += 10
+#		wpn_name.erase(id)
+#		print(wpn_name)
+#		wpn_name[id] = (reserve - reserve) + wpn_lvl
+#		print(wpn_name)
+#		wpn_en -= 10
 		
 	if life_en == 0 and wpn_en == 0 and get_tree().paused:
 		get_tree().paused = false
