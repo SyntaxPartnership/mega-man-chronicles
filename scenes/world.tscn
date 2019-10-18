@@ -17,10 +17,10 @@
 [ext_resource path="res://assets/tilesets/objects/items.tres" type="TileSet" id=15]
 [ext_resource path="res://assets/tilesets/enemies/enemies.tres" type="TileSet" id=16]
 [ext_resource path="res://scenes/player/player.tscn" type="PackedScene" id=17]
-[ext_resource path="res://scripts/ready.gd" type="Script" id=18]
+[ext_resource path="res://scripts/effects/ready.gd" type="Script" id=18]
 [ext_resource path="res://scenes/hud.tscn" type="PackedScene" id=19]
 [ext_resource path="res://scenes/pause_menu.tscn" type="PackedScene" id=20]
-[ext_resource path="res://scenes/fade.tscn" type="PackedScene" id=21]
+[ext_resource path="res://scenes/effects/fade.tscn" type="PackedScene" id=21]
 [ext_resource path="res://assets/audio/se/Death.wav" type="AudioStream" id=22]
 [ext_resource path="res://assets/audio/se/Splash.wav" type="AudioStream" id=23]
 [ext_resource path="res://assets/audio/se/Beam In.wav" type="AudioStream" id=24]
@@ -45,7 +45,6 @@ pause_mode = 2
 script = ExtResource( 1 )
 
 [node name="coll_mask" type="Control" parent="."]
-editor/display_folded = true
 margin_right = 40.0
 margin_bottom = 40.0
 
@@ -120,7 +119,7 @@ position = Vector2( 4, 0 )
 tile_set = ExtResource( 11 )
 cell_size = Vector2( 8, 8 )
 format = 1
-tile_data = PoolIntArray( 1311419, 68, 0, 11403524, 68, 0, 12189967, 0, 0, 12845327, 88, 0, 30933499, 68, 0 )
+tile_data = PoolIntArray( 1311419, 68, 0, 5636293, 6, 0, 11403524, 68, 0, 12189967, 0, 0, 12845327, 88, 0, 30933499, 68, 0 )
 
 [node name="graphic" type="Control" parent="."]
 editor/display_folded = true
@@ -409,6 +408,6 @@ stream = ExtResource( 29 )
 [connection signal="scrolling" from="." to="player" method="_on_world_scrolling"]
 [connection signal="teleport" from="player" to="." method="_on_teleport"]
 [connection signal="start" from="hud/ready" to="player" method="_on_ready_start"]
-[connection signal="fadein" from="fade/fade" to="." method="_on_fade_fadein"]
 [connection signal="fadein" from="fade/fade" to="hud/ready" method="_on_fade_fadein"]
+[connection signal="fadein" from="fade/fade" to="." method="_on_fade_fadein"]
 [connection signal="fadeout" from="fade/fade" to="." method="_on_fade_fadeout"]
