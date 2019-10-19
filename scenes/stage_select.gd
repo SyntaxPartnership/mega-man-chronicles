@@ -12,10 +12,14 @@ var pressed = false
 var begin_fade = true
 
 var reverse = false
+var bar_spd = 200
 var tile_pos_a
 var tile_pos_b
 
 var final = 24
+var rock_leave = false
+var blues_leave = false
+var bass_leave = false
 
 var lvl_ids = {
 	"(0, 0)" : 0,
@@ -126,7 +130,10 @@ func _input(event):
 			char_ids[1] = c_menu
 			global.level_id = lvl_ids.get(str(select))
 			global.player_id[0] = char_ids[0]
-			global.player_id[1] = char_ids[1]
+			if char_ids[1] != 3:
+				global.player_id[1] = char_ids[1]
+			else:
+				global.player_id[1] = 99
 			pressed = true
 			menu = 8
 		
@@ -272,26 +279,76 @@ func _process(delta):
 			final -= 1
 		
 		if final == 0:
-			$char_menu/chars/cursor1.hide()
-			$char_menu/chars/cursor2.hide()
+			$char_menu/chars.hide()
+			$char_menu/leave.show()
+			if char_ids == [0, 1] or char_ids == [1, 0]:
+				$other_anim.play("leave0")
+				$char_menu/leave/bass_leave.hide()
+			if char_ids == [0, 2] or char_ids == [2, 0]:
+				$other_anim.play("leave1")
+				$char_menu/leave/blues_leave.hide()
+			if char_ids == [1, 2] or char_ids == [2, 1]:
+				$other_anim.play("leave2")
+				$char_menu/leave/rock_leave.hide()
+			if char_ids == [0, 3]:
+				$other_anim.play("leave3")
+				$char_menu/leave/blues_leave.hide()
+				$char_menu/leave/bass_leave.hide()
+			if char_ids == [1, 3]:
+				$other_anim.play("leave4")
+				$char_menu/leave/rock_leave.hide()
+				$char_menu/leave/bass_leave.hide()
+			if char_ids == [2, 3]:
+				$other_anim.play("leave5")
+				$char_menu/leave/rock_leave.hide()
+				$char_menu/leave/blues_leave.hide()
 			$char_menu/chars/info.hide()
 			$char_menu/chars/top_text2.hide()
 			$teleport.play()
+	
+	if menu == 9:
+		$fade.state = 2
+		$fade.end = true
+		menu = 10
+	
+	if menu == 9 or 10:
+		if rock_leave:
+			$char_menu/leave/rock_leave.position.y -= 8
+		if blues_leave:
+			$char_menu/leave/blues_leave.position.y -= 8
+		if bass_leave:
+			$char_menu/leave/bass_leave.position.y -= 8
+		
 
 func _physics_process(delta):
 	if menu == 4:
+		
 		tile_pos_a = $tiles.world_to_map($char_menu/char_sel_top.position)
 		tile_pos_b = $tiles.world_to_map($char_menu/char_sel_bot.position)
 		
-		if reverse:
-			if floor($char_menu/char_sel_top.position.y) == floor($tiles.map_to_world(tile_pos_a).y) + $tiles.cell_size.y / 2:
-				for i in range(0, 32):
-					$tiles.set_cellv(Vector2(i, tile_pos_a.y), 48)
+		if !reverse:
+			if $char_menu/char_sel_top.position.y < 116:
+				$char_menu/char_sel_top.position.y += bar_spd * delta
+				$char_menu/char_sel_bot.position.y += -bar_spd * delta
+			
+			if floor($char_menu/char_sel_top.position.y) == 116:
+				reverse = true
+		else:
+			if $char_menu/char_sel_top.position.y > 84:
+				$char_menu/char_sel_top.position.y += -bar_spd * delta
+				$char_menu/char_sel_bot.position.y += bar_spd * delta
+			
+			for i in range(10, 15):
+				if tile_pos_a.y == i:
+					for i in range(0, 32):
+						$tiles.set_cellv(Vector2(i, tile_pos_a.y), 48)
+						$tiles.set_cellv(Vector2(i, tile_pos_b.y), 48)
+			
+			if $char_menu/char_sel_top.position.y <= 84:
+				menu = 5
+				$char_anim.play("appear")
+				$char_menu/chars.show()
 				
-			if floor($char_menu/char_sel_bot.position.y) == floor($tiles.map_to_world(tile_pos_b).y) + $tiles.cell_size.y / 2:
-				for n in range(0, 32):
-					$tiles.set_cellv(Vector2(n, tile_pos_b.y), 48)
-
 func _on_fadein():
 	menu = 1
 
@@ -299,6 +356,9 @@ func _on_fadeout():
 	if $fade.state == 1:
 # warning-ignore:return_value_discarded
 		get_tree().reload_current_scene()
+	
+	if $fade.state == 2:
+		get_tree().change_scene("res://scenes/world.tscn")
 
 func _on_tween_all_completed():
 	#Hide original menu assets so the next can come on screen.
@@ -314,12 +374,16 @@ func _on_anim_finished(anim_name):
 		$char_anim.play("reverse")
 		reverse = true
 	
-	if anim_name == "reverse":
-		menu = 5
-		$char_anim.play("appear")
-		$char_menu/chars.show()
-	
 	if anim_name == "appear" and menu == 5:
 		menu = 6
 		$char_menu/chars/cursor1.show()
 		sel_flash = 0
+
+func _on_other_anim_finished(anim_name):
+	if anim_name == "leave0" or "leave1" or "leave3":
+		rock_leave = true
+	if anim_name == "leave0" or "leave3" or "leave4":
+		blues_leave = true
+	if anim_name == "leave1" or "leave2" or "leave5":
+		bass_leave = true
+	menu = 9

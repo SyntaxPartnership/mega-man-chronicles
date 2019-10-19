@@ -249,6 +249,7 @@ Changes - Version 0.0.1 ():
 - Fixed an issue where collecting weapon energy while at full energy would still force the player to pause like their energy was being refilled.
 - Fixed an issue where the selection would move to the items menu if there is fewer weapons than max.
 - M-Tanks added.
+- Stage/Character select added.
 
 
 Credits:
