@@ -134,6 +134,7 @@ func _input(event):
 				global.player_id[1] = char_ids[1]
 			else:
 				global.player_id[1] = 99
+				global.player_life[1] = 0
 			pressed = true
 			menu = 8
 		

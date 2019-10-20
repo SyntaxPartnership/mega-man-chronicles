@@ -39,6 +39,9 @@ var desel_color = [global.grey3, global.grey2, global.grey1, global.grey0]
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
+	if global.player_id[1] == 99:
+		$plyr_2.hide()
+	
 	color_set = get_tree().get_nodes_in_group('wpn_icons')
 	get_meters = get_tree().get_nodes_in_group('meters')
 	get_plyr = get_tree().get_nodes_in_group('plyr_icon')

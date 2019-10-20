@@ -2,11 +2,16 @@ extends Node2D
 
 var allow_ctrl = false
 
+var text_a = "       ----WARNING!----\n\n\n\n\nThis is a test demo of a fan\ngame currently in production.\n\n\nAnything found within is\nsubject to change and may not\nbe included in the final\nrelease.\n\n\nMega Man™ and all related\ncharacters are © Capcom\nCo., LTD.\n\n\nThis game was developed as\na free, non profit project."
+var text_b = "\n\n\n\n\n\n\n   Dedicated to my wife and\n   children.\n\n\n   You guys are a constant\n   source of inspiration to\n   me.\n\n\n   I love you all.\n\n\n                    -Dad."
+
 const INPUT_ACTIONS = ['up', 'down', 'left', 'right', 'jump', 'fire', 'dash', 'prev', 'next', 'select', 'start']
 const CONFIG_FILE = 'user://options.cfg'
 
+var txt_line = 0
 
 func _ready():
+	$text.set_text(text_a)
 #	load_config()
 	pass
 
@@ -64,9 +69,21 @@ func _on_timer_timeout():
 #Include this function to allow the player to have control.
 func _on_fade_fadein():
 	allow_ctrl = true
-	$timer.start(5)
+	$timer.start(10)
+	$txt_timer.start(5)
 
 #Fade out and move to the next scene.
 func _on_fade_fadeout():
 # warning-ignore:return_value_discarded
 	get_tree().change_scene("res://scenes/title.tscn")
+
+func _on_txt_timeout():
+	$txt_fade.interpolate_property($text, 'modulate', Color(1.0, 1.0, 1.0, 1.0), Color(1.0, 1.0, 1.0, 0.0), 0.125, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	$txt_fade.start()
+
+func _on_txt_fade_completed(object, key):
+	if txt_line == 0:
+		$text.set_text(text_b)
+		$txt_fade.interpolate_property($text, 'modulate', Color(1.0, 1.0, 1.0, 0.0), Color(1.0, 1.0, 1.0, 1.0), 0.125, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+		$txt_fade.start()
+		txt_line += 1

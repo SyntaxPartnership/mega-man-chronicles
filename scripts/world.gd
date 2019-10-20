@@ -103,6 +103,7 @@ var spl_trigger = false
 var bbl_count = 0
 
 func _ready():
+	print(global.player_life)
 	res = get_viewport_rect().size
 	
 	#Hide Object and Enemy Layers
@@ -731,13 +732,15 @@ func _on_fade_fadeout():
 	if $fade/fade.state == 4:
 		if global.lives > 0:
 			global.player_life[0] = 280
-			global.player_life[1] = 280
+			if global.player_id[1] != 99:
+				global.player_life[1] = 280
 			global.player_weap[0] = 0
 			global.player_weap[1] = 0
 			global.lives -= 1
 			get_tree().reload_current_scene()
 		else:
-			get_tree().quit()
+			global.game_over = true
+			get_tree().change_scene("res://scenes/menu.tscn")
 	
 	if $fade/fade.state == 6:
 		$pause/pause_menu.show()
