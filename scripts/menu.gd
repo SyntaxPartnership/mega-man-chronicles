@@ -45,6 +45,9 @@ func _ready():
 	else:
 		$menu_txt.set_text(menu_txt)
 		max_pos = 3
+		
+	#Reset lives
+	global.lives = 2
 	
 	#Reset player energy levels
 	for i in range(en_lvls.size()):
