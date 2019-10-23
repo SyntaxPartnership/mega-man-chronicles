@@ -420,7 +420,6 @@ shape = SubResource( 3 )
 disabled = true
 
 [node name="sprite" type="Sprite" parent="."]
-editor/display_folded = true
 material = SubResource( 4 )
 texture = ExtResource( 3 )
 offset = Vector2( 0, -241 )
