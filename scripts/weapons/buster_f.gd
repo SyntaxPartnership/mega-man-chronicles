@@ -57,7 +57,7 @@ func _physics_process(delta):
 		velocity = move_and_slide(velocity, Vector2(0, -1))
 
 func _on_screen_exited():
-	world.shots -= 1
+	world.shots -= 2
 	queue_free()
 
 func _on_anim_finished(anim_name):

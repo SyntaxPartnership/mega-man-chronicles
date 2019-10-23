@@ -66,7 +66,7 @@ var slide_tap_dir
 var slide_top = false
 var wall = false
 var slide = false
-var shot_rapid = 0
+var rapid = 0
 var shot_delay = 0
 var bass_dir = ''
 var swap = false
@@ -170,13 +170,22 @@ var s_frame = {
 #4 = Center of player.
 
 var wpn_data = {
-	'0-0-0-31' : [1, 3, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_a.tscn'), 0, 0],		#Mega Man - Level 0 Shot
-	'0-0-32-95' : [3, 3, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_c.tscn'), 0, 0],	#Mega Man - Level 1 Shot
-	'0-0-96-99' : [3, 3, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_e.tscn'), 0, 0],	#Mega Man - Level 2 Shot
-	'1-0-0-31' : [1, 2, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_a.tscn'), 0, 0],		#Proto Man - Level 0 Shot
-	'1-0-32-95' : [2, 2, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_d.tscn'), 0, 0],	#Proto Man - Level 1 Shot
-	'1-0-96-99' : [2, 2, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_f.tscn'), 0, 0],	#Proto Man - Level 2 Shot
-	'2-0-0-31' : [1, 3, 0, 0, BASSSHOT, '', load('res://scenes/player/weapons/buster_b.tscn'), 0, 0]	#Bass - Normal Shot
+	#Mega Man - Level 0 Shot
+	'0-0-0-31' : [1, 3, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_a.tscn'), 0, 0],
+	#Mega Man - Level 1 Shot
+	'0-0-32-95' : [3, 3, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_c.tscn'), 0, 0],
+	#Mega Man - Level 2 Shot
+	'0-0-96-99' : [3, 3, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_e.tscn'), 0, 0],
+	#Proto Man - Level 0 Shot
+	'1-0-0-31' : [1, 2, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_a.tscn'), 0, 0],
+	#Proto Man - Level 1 Shot
+	'1-0-32-95' : [2, 2, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_d.tscn'), 0, 0],
+	#Proto Man - Level 2 Shot
+	'1-0-96-99' : [2, 2, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_f.tscn'), 0, 0],
+	#Bass - Normal Shot
+	'2-0-0-31' : [1, 3, 0, 0, BASSSHOT, '', load('res://scenes/player/weapons/buster_b.tscn'), 0, 0],
+	#Mega Man - Rush Coil
+	'0-1-0-31' : [1, 3, 1, 0, SHOOT, load('res://scenes/player/weapons/rush_coil.tscn'), load('res://scenes/player/weapons/buster_a.tscn'), 1, 0]
 	}
 
 #Player States
@@ -449,6 +458,17 @@ func _physics_process(delta):
 				chrg_lvl = charge
 				weapons()
 				charge = 0
+				rapid = 0
+			
+			#Rapid fire
+			if fire and global.player == 2 and global.player_weap[int(swap)] == 0:
+				rapid += 1
+			
+			if rapid == 1:
+				weapons()
+			
+			if rapid > 3:
+				rapid = 0
 
 			#Code to revert back to normal sprites.
 			if shot_delay > 0:
@@ -1076,8 +1096,6 @@ func _on_slide_wall_body_exited(body):
 
 func weapons():
 	#Set timer for the shooting/throwing sprites.
-	shot_delay = 20
-	
 	if !slide:
 		if chrg_lvl == 0:
 			#Fire normal shots.
@@ -1085,18 +1103,46 @@ func weapons():
 			
 			if wpn_data.has(wkey):
 				
+				var get_adptr = get_tree().get_nodes_in_group('adaptors')
+				var get_wpn = get_tree().get_nodes_in_group('weapons')
+				world.adaptors = get_adptr.size()
+				world.shots = get_wpn.size()
+				
+				print(world.adaptors,', ',wpn_data.get(wkey)[2])
+				
+				#If world.adaptors = adaptor value, fire shots.
+				if  world.adaptors == wpn_data.get(wkey)[2]:
+					if world.shots < wpn_data.get(wkey)[1]:
+						shot_delay = 20
+						shot_state(wpn_data.get(wkey)[4])
+						var weapon = wpn_data.get(wkey)[6].instance()
+						#Set spawn position
+						if wpn_data.get(wkey)[8] == 0:
+							weapon.position = $sprite/shoot_pos.global_position
+							
+						effect.add_child(weapon)
+						world.shots += wpn_data.get(wkey)[0]
+					
 				#Check and see if any adaptors need spawning.
-				if wpn_data.get(wkey)[3] < world.adaptors:
+				if world.adaptors < wpn_data.get(wkey)[2]:
 					var adaptor = wpn_data.get(wkey)[5].instance()
 					
-				
-				shot_state(wpn_data.get(wkey)[4])
-				var weap = wpn_data.get(wkey)[6].instance()
-				
-				if wpn_data.get(wkey)[8] == 0: #Fires from shoot_pos
-					weap.position = $sprite/shoot_pos.global_position
-					
-				effect.add_child(weap)
+					#set spawn position
+					if wpn_data.get(wkey)[7] == 1:
+						if !$sprite.flip_h:
+							adaptor.position.x = position.x + 32
+						else:
+							adaptor.position.x = position.x - 32
+						adaptor.position.y = camera.limit_top - 16
+						
+					effect.add_child(adaptor)
+					world.adaptors += 1
+#				var weap = wpn_data.get(wkey)[6].instance()
+#
+#				if wpn_data.get(wkey)[8] == 0: #Fires from shoot_pos
+#					weap.position = $sprite/shoot_pos.global_position
+#
+#				effect.add_child(weap)
 			
 		elif chrg_lvl > 0:
 			chrg_lvl = 0
