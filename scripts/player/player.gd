@@ -155,15 +155,16 @@ var s_frame = {
 	
 #Weapon Data Table. This will show which weapon will be called and how.
 #Key = Player ID + Weapon ID + Min Charge Level + Max Charge Level
-#[0] = Shots per shot.
-#[1] = Max shots on screen
-#[2] = Max adaptors needed before can shoot
-#[3] = Energy required to fire, if any, multiplied by 10
-#[4] = Shot Sprite Style
-#[5] = Adaptor Node to instance
-#[6] = Weapon Node to instance
-#[7] = Position that adaptor originates
-#[8] = Position that shot originates
+#[0] = Energy meter to reference
+#[1] = Shots per shot.
+#[2] = Max shots on screen
+#[3] = Max adaptors needed before can shoot
+#[4] = Energy required to fire, if any, multiplied by 10
+#[5] = Shot Sprite Style
+#[6] = Adaptor Node to instance
+#[7] = Weapon Node to instance
+#[8] = Position that adaptor originates
+#[9] = Position that shot originates
 
 #[7] Keys:
 #0 = shoot_pos position.
@@ -267,7 +268,7 @@ func _input(event):
 	if can_move:
 		x_dir = int(Input.is_action_pressed("right")) - int(Input.is_action_pressed("left"))
 		y_dir = int(Input.is_action_pressed("down")) - int(Input.is_action_pressed("up"))
-	
+
 		#Set player direction and shot positions.
 		if act_st == STANDING:
 			if x_dir < 0 and !rush_jet:
@@ -455,7 +456,7 @@ func _physics_process(delta):
 					#Prevent the player from running while riding Rush
 					if anim_st == RUN and rush_jet:
 						anim_state(IDLE)
-					if anim_st == IDLE or anim_st == LILSTEP:
+					if anim_st == IDLE or anim_st == LILSTEP or shot_st == THROW or shot_st == BASSSHOT:
 						if ice:
 							if x_dir == 0 and x_speed > 0:
 								x_speed -= 1
