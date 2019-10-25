@@ -129,8 +129,6 @@ func _physics_process(delta):
 			$anim.play("appear")
 			$sprite.show()
 			$box.set_disabled(true)
-	
-	print(attack,', ',sleep,', ',time)
 		
 func _on_screen_exited():
 	if leave:

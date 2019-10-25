@@ -90,6 +90,6 @@ func _on_plyr_entered(body):
 		global.rp_coil[int(player.swap)+1] -= 20
 
 func _on_screen_exited():
-	#If Rush is no on screen, kill him.
+	#If Rush is not on screen, kill him.
 	world.adaptors = 0
 	queue_free()

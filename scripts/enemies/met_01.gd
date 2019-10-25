@@ -118,7 +118,7 @@ func _on_anim_finished(anim_name):
 		reset = RESET_MAX
 
 func _on_hit_box_body_entered(body):
-	if body.is_in_group("weapons"):
+	if body.is_in_group("weapons") or body.is_in_group("adaptor_dmg"):
 		if !dead:
 			if immune and !body.reflect:
 				body.reflect = true

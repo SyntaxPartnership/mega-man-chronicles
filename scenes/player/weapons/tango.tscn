@@ -176,7 +176,8 @@ tracks/0/keys = {
 }
 
 [node name="tango" type="KinematicBody2D" groups=[
-"weapons",
+"adaptor_dmg",
+"adaptors",
 ]]
 collision_layer = 70
 collision_mask = 32

@@ -109,6 +109,9 @@ func _physics_process(delta):
 	#When the player jumps onto Rush, engage the flying functions.
 	if !play and player.rush_jet:
 		time_start = false
+		time = 240
+		f_delay = 0
+		$sprite.show()
 		if $sprite.flip_h:
 			player.shot_dir = 0
 		else:
@@ -134,7 +137,7 @@ func _on_anim_finished(anim_name):
 		$standbox/box.set_disabled(false)
 		time_start = true
 
-
 func _on_screen_exited():
+	print('ONOEZ')
 	queue_free()
 	world.adaptors = 0

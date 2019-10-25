@@ -222,8 +222,7 @@ func _input(event):
 			if $player.act_st != 13 and !$player.slide:
 				if global.player_life[int(!$player.swap)] != 0:
 					kill_weapons()
-					$player/audio/charge_start.stop()
-					$player/audio/charge_loop.stop()
+					$player/audio/charge.stop()
 					$player.shot_delay = 0
 					$player.c_flash = 0
 					$player.charge = 0

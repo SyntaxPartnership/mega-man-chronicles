@@ -118,9 +118,7 @@ anims/beam = SubResource( 5 )
 anims/idle = SubResource( 6 )
 anims/used = SubResource( 7 )
 
-[node name="on_screen" type="VisibilityNotifier2D" parent="." groups=[
-"weapons",
-]]
+[node name="on_screen" type="VisibilityNotifier2D" parent="."]
 [connection signal="body_entered" from="jump_box" to="." method="_on_plyr_entered"]
 [connection signal="animation_finished" from="anim" to="." method="_on_anim_finished"]
 [connection signal="screen_exited" from="on_screen" to="." method="_on_screen_exited"]
