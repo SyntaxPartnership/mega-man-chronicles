@@ -10,6 +10,7 @@ onready var camera = self.get_child(9)
 onready var tiles = world.get_child(0).get_child(1)
 
 #Set special effect animations to object layer.
+onready var graphic = world.get_child(1)
 onready var effect = world.get_child(3)
 
 #Player velocity constants
@@ -241,6 +242,8 @@ func _ready():
 		$audio/whistle.play()
 
 func _input(event):
+	
+
 	#Set input directions.
 	x_dir = int(Input.is_action_pressed("right")) - int(Input.is_action_pressed("left"))
 	y_dir = int(Input.is_action_pressed("down")) - int(Input.is_action_pressed("up"))
@@ -277,15 +280,18 @@ func _input(event):
 			shot_dir = 0
 		elif ladder_dir == 1:
 			shot_dir = 1
-	
+			
 	if Input.is_action_just_pressed("fire"):
 		fire = true
-		weapons()
+		if can_move:
+			weapons()
 	
 	if Input.is_action_just_released("fire"):
 		fire = false
 
 func _physics_process(delta):
+	
+	print(bass_dir,', ',x_dir,'. ',y_dir)
 	
 	#Make the inputs easier to handle.
 	left_tap = Input.is_action_just_pressed("left")
@@ -320,6 +326,7 @@ func _physics_process(delta):
 			anim_state(IDLE)
 			can_move = true
 	else:
+		
 		if hurt_timer == 0:
 
 			#Make the character blink after taking damage.
@@ -454,6 +461,24 @@ func _physics_process(delta):
 			if fire and charge < 99:
 				charge += 1
 			
+			#Start charge sound loop. Change attributes of more than one charging weapon is made.
+			if global.player != 2 and global.player_weap[int(swap)] == 0:
+				var c_pal_chnge = [0, 2, 4, 6]
+				
+				if charge == 32:
+					$audio/charge.play()
+				
+				if charge > 32:
+					c_flash += 1
+				
+				if charge < 96 and c_flash > 3:
+					c_flash = 0
+				if charge >= 96 and c_flash > 7:
+					c_flash = 0
+				
+				if charge > 32 and c_pal_chnge.has(c_flash):
+					world.palette_swap()
+			
 			if !fire and charge > 0:
 				chrg_lvl = charge
 				weapons()
@@ -465,9 +490,12 @@ func _physics_process(delta):
 				rapid += 1
 			
 			if rapid == 1:
+				#This will set Bass to his shooting sprites when shooting his default weapon
+				shot_delay = 20
+				shot_state(BASSSHOT)
 				weapons()
 			
-			if rapid > 3:
+			if rapid > 4:
 				rapid = 0
 
 			#Code to revert back to normal sprites.
@@ -1030,17 +1058,6 @@ func change_char():
 	else:
 		$slide_wall.position.y = 0
 
-#	if global.player == 2 and shot_st == BASSSHOT:
-#		if global.player_weap[int(swap)] == 0:
-#			if x_dir == 0 and y_dir == -1:
-#				bass_dir = '-up'
-#			elif x_dir != 0 and y_dir == -1:
-#				bass_dir = '-d-up'
-#			elif x_dir != 0 and y_dir == 1 or x_dir == 0 and y_dir == 1:
-#				bass_dir = '-d-down'
-#			elif x_dir != 0 and y_dir == 0 or x_dir == 0 and y_dir == 0:
-#				bass_dir = ''
-
 	if global.player == 0:
 		player = 'mega'
 	elif global.player == 1:
@@ -1097,7 +1114,7 @@ func _on_slide_wall_body_exited(body):
 func weapons():
 	#Set timer for the shooting/throwing sprites.
 	if !slide:
-		if chrg_lvl == 0:
+		if chrg_lvl == 0 and global.player != 2 or global.player == 2 and rapid == 1 and global.player_weap[int(swap)] == 0 or global.player == 2 and chrg_lvl == 0 and global.player_weap[int(swap)] != 0:
 			#Fire normal shots.
 			var wkey = str(global.player)+'-'+str(global.player_weap[int(swap)])+'-'+str(0)+'-'+str(31)
 			
@@ -1107,8 +1124,6 @@ func weapons():
 				var get_wpn = get_tree().get_nodes_in_group('weapons')
 				world.adaptors = get_adptr.size()
 				world.shots = get_wpn.size()
-				
-				print(world.adaptors,', ',wpn_data.get(wkey)[2])
 				
 				#If world.adaptors = adaptor value, fire shots.
 				if  world.adaptors == wpn_data.get(wkey)[2]:
@@ -1120,7 +1135,7 @@ func weapons():
 						if wpn_data.get(wkey)[8] == 0:
 							weapon.position = $sprite/shoot_pos.global_position
 							
-						effect.add_child(weapon)
+						graphic.add_child(weapon)
 						world.shots += wpn_data.get(wkey)[0]
 					
 				#Check and see if any adaptors need spawning.
@@ -1135,17 +1150,13 @@ func weapons():
 							adaptor.position.x = position.x - 32
 						adaptor.position.y = camera.limit_top - 16
 						
-					effect.add_child(adaptor)
+					graphic.add_child(adaptor)
 					world.adaptors += 1
-#				var weap = wpn_data.get(wkey)[6].instance()
-#
-#				if wpn_data.get(wkey)[8] == 0: #Fires from shoot_pos
-#					weap.position = $sprite/shoot_pos.global_position
-#
-#				effect.add_child(weap)
 			
 		elif chrg_lvl > 0:
+			c_flash = 0
 			chrg_lvl = 0
+			world.palette_swap()
 	
 #	#NOTE: Edit this section as weapons become usable.
 #	if global.player_weap[int(swap)] == 0:
