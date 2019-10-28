@@ -11,6 +11,8 @@ const CONFIG_FILE = 'user://options.cfg'
 var txt_line = 0
 
 func _ready():
+	global._screen_resized()
+	
 	$text.set_text(text_a)
 #	load_config()
 	pass

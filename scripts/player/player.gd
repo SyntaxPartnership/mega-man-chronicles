@@ -262,46 +262,7 @@ func _ready():
 
 # warning-ignore:unused_argument
 func _input(event):
-	
 
-	#Set input directions.
-	if can_move:
-		x_dir = int(Input.is_action_pressed("right")) - int(Input.is_action_pressed("left"))
-		y_dir = int(Input.is_action_pressed("down")) - int(Input.is_action_pressed("up"))
-
-		#Set player direction and shot positions.
-		if act_st == STANDING:
-			if x_dir < 0 and !rush_jet:
-				shot_dir = 0
-				$sprite.flip_h = true
-				$slide_wall.position.x = -7
-			elif x_dir > 0 and !rush_jet:
-				shot_dir = 1
-				$sprite.flip_h = false
-				$slide_wall.position.x = 7
-			
-			if global.player == 2:
-				if x_dir == 0 and y_dir == -1:
-					bass_dir = '-up'
-				elif x_dir != 0 and y_dir == -1:
-					bass_dir = '-d-up'
-				elif x_dir != 0 and y_dir == 1 or x_dir == 0 and y_dir == 1:
-					bass_dir = '-d-down'
-				elif x_dir != 0 and y_dir == 0 or x_dir == 0 and y_dir == 0:
-					bass_dir = ''
-			
-			shot_pos()
-		
-		if act_st == CLIMBING:
-			#Change the direction based on if the player is shooting or not.
-			if x_dir != 0:
-				ladder_dir = x_dir
-			
-			if ladder_dir == -1:
-				shot_dir = 0
-			elif ladder_dir == 1:
-				shot_dir = 1
-			
 	if Input.is_action_just_pressed("fire"):
 		fire = true
 		if can_move:
@@ -340,11 +301,11 @@ func _physics_process(delta):
 			anim_state(APPEAR)
 			$audio/appear.play()
 			start_stage = false
-
-		if !start_stage and !$anim.is_playing() and anim_st == APPEAR:
-			anim_state(IDLE)
-			can_move = true
+			
 	else:
+		
+		x_dir = int(Input.is_action_pressed("right")) - int(Input.is_action_pressed("left"))
+		y_dir = int(Input.is_action_pressed("down")) - int(Input.is_action_pressed("up"))
 		
 		if hurt_timer == 0:
 
@@ -423,361 +384,10 @@ func _physics_process(delta):
 
 			#The player's actions are divided into 3 main sections. Standing, Climbing and Sliding.
 			if act_st == STANDING:
-				
-				#Set velocity.x to 0 if not standing on ice.
-				if !ice:
-					x_speed = 0
-				
-				#Transition to the little step.
-				if x_dir != 0 and shot_st != THROW and shot_st != BASSSHOT and anim_st == IDLE and is_on_floor() and !rush_jet:
-					anim_state(LILSTEP)
-					if !ice:
-						x_speed = (x_dir * RUN_SPEED) / x_spd_mod
-				
-				#Transition to the running animation.
-				if play_anim == 'lilstep' and !$anim.is_playing() and x_dir != 0:
-					anim_state(RUN)
-				
-				#Set X Velocity.
-				if !slide:
-					if anim_st == RUN and !rush_jet:
-						if shot_st != THROW and shot_st != BASSSHOT:
-							if !ice:
-								x_speed = (x_dir * RUN_SPEED) / x_spd_mod
-							else:
-								if x_dir == -1 and x_speed > -RUN_SPEED:
-									x_speed -= 1
-									if x_dir == -1 and x_speed > 0:
-										x_speed -= 1
-								elif x_dir == 1 and x_speed < RUN_SPEED:
-									x_speed += 1
-									if x_dir == 1 and x_speed < 0:
-										x_speed += 1
-					#Prevent the player from running while riding Rush
-					if anim_st == RUN and rush_jet:
-						anim_state(IDLE)
-					if anim_st == IDLE or anim_st == LILSTEP or shot_st == THROW or shot_st == BASSSHOT:
-						if ice:
-							if x_dir == 0 and x_speed > 0:
-								x_speed -= 1
-							elif x_dir == 0 and x_speed < 0:
-								x_speed += 1
-					if anim_st == JUMP:
-						x_speed = (x_dir * RUN_SPEED) / x_spd_mod
-				else:
-					if is_on_floor():
-						if $sprite.flip_h == true:
-							x_speed = (-RUN_SPEED * 2) / x_spd_mod
-						else:
-							x_speed = (RUN_SPEED * 2) / x_spd_mod
-					elif !is_on_floor():
-						x_speed = ((x_dir * RUN_SPEED) * 2) / x_spd_mod
-						
-				#Transition back to idle if no longer running.
-				if x_dir == 0 and anim_st == RUN and is_on_floor():
-					anim_state(LILSTEP)
-				if play_anim == 'lilstep' and !$anim.is_playing() and x_dir == 0:
-					anim_state(IDLE)
-				
-				#Reset the jumps counter. Cancel sliding.
-				if !jump and is_on_floor() and jumps == 0 and !slide:
-					jumps = 1
-					slide = false
-					slide_timer = 0
-					x_speed = (x_dir * RUN_SPEED) / x_spd_mod
-					$standbox.set_disabled(false)
-					$slidebox.set_disabled(true)
-					
-				#When the slide timer reaches 0. Cancel slide.
-				if slide_timer == 0 and slide and is_on_floor() and !slide_top:
-					slide_timer = 0
-					if anim_st == JUMP:
-						$audio/land.play() #Move to world.gd
-					if x_dir == 0:
-						anim_state(IDLE)
-					else:
-						anim_state(RUN)
-					if ice:
-						if $sprite.flip_h == true:
-							x_speed = -RUN_SPEED
-						else:
-							x_speed = RUN_SPEED
-					$standbox.set_disabled(false)
-					$slidebox.set_disabled(true)
-					slide = false
-				
-				#When the player touches a wall. cancel sliding.
-				if slide and is_on_wall() and !slide_top:
-					anim_state(IDLE)
-					slide_timer = 0
-					$standbox.set_disabled(false)
-					$slidebox.set_disabled(true)
-					slide = false
-				
-				#When the player is no longer on the floor, cancel slide.
-				if slide and !is_on_floor() and jumps > 0:
-					slide_timer = 0
-					anim_state(JUMP)
-					jumps = 0
-					$standbox.set_disabled(false)
-					$slidebox.set_disabled(true)
-					slide = false
-				
-				if global.player == 1 and slide and !is_on_floor():
-					slide_timer = 0
-					jumps = 0
-					$standbox.set_disabled(false)
-					$slidebox.set_disabled(true)
-					slide = false
-				
-				#When the opposite direction is pressed on the ground, cancel slide.
-				if slide:
-					if !slide_top and $sprite.flip_h == true and x_dir == 1 or !slide_top and $sprite.flip_h == false and x_dir == -1:
-						anim_state(IDLE)
-						slide_timer = 0
-						$standbox.set_disabled(false)
-						$slidebox.set_disabled(true)
-						slide = false
-				
-				#Failsafe in case the player gets stuck on the floor.
-				if is_on_floor() and !slide and slide_timer <= 0 and anim_st == 6 and !slide_top:
-					if x_dir == 0:
-						anim_state(IDLE)
-					else:
-						anim_state(RUN)
-
-				#Change the player's animation based on if they're on the floor or not.
-				if !is_on_floor() and anim_st != JUMP and !force_idle:
-					anim_state(JUMP)
-					jumps = 0
-				elif is_on_floor() and anim_st == JUMP and !slide:
-					rush_coil = false
-					if x_dir == 0:
-						anim_state(IDLE)
-					else:
-						anim_state(RUN)
-					$audio/land.play()
-
-				#Make the player jump.
-				if global.player == 0 and y_dir != 1 and jump_tap and is_on_floor() and jumps > 0 and !slide_top:
-					anim_state(JUMP)
-					jumps -= 1
-					velocity.y = JUMP_SPEED
-					slide = false
-				elif global.player != 0 and jump_tap and is_on_floor() and jumps > 0:
-					if slide_timer > 0:
-						if global.player != 2:
-							slide_timer = 0
-							slide = false
-						else:
-							slide_timer = 0
-					jumps -= 1
-					velocity.y = JUMP_SPEED
-				
-				#Set gravity modifier
-				if overlap == 6 or overlap == 7 or overlap == 12 or overlap == 13 or global.low_grav:
-					grav_mod = 3
-				else:
-					grav_mod = 1
-				
-				#Set velocity.y to 0 when releasing the jump button before reaching the peak of a jump.;
-				if !jump and velocity.y < 0 and !rush_coil:
-					velocity.y = 0
-				
-				#This is a small fix to prevent the jumping sprite from appearing during some animations.
-				if force_idle and is_on_floor():
-					force_idle = false
-				
-				if slide:
-					if global.player == 0:
-						$slide_top/area.set_disabled(false)
-					else:
-						$slide_top/area.set_disabled(true)
-				else:
-					$slide_top/area.set_disabled(true)
-					
-				#Begin sliding functions.
-				if global.player == 0:
-					if y_dir == 1 and jump_tap and is_on_floor() and !wall and !slide:
-						anim_state(SLIDE)
-						#Add slide smoke.
-						var smoke = SLIDE_SMOKE.instance()
-						var smk_sprite = smoke.get_child(0)
-						smk_sprite.flip_h = $sprite.flip_h
-						smoke.position = position + Vector2(0, 7)
-						effect.add_child(smoke)
-						slide_timer = 15
-						slide = true
-						$standbox.set_disabled(true)
-						$slidebox.set_disabled(false)
-				else:
-					if dash_tap and is_on_floor() and !wall and !slide and !fire:
-						anim_state(SLIDE)
-						var smoke = SLIDE_SMOKE.instance()
-						var smk_sprite = smoke.get_child(0)
-						smk_sprite.flip_h = $sprite.flip_h
-						smoke.position = position + Vector2(0, 7)
-						effect.add_child(smoke)
-						slide_timer = 15
-						slide = true
-						shot_state(NORMAL)
-						bass_dir = ''
-					
-					if is_on_floor() and y_dir == 0 and !wall:
-						if slide_act == 0:
-							if left_tap or right_tap:
-								if global.player == 1:
-									slide_delay = 16
-									slide_tap_dir = x_dir
-									slide_act += 1
-								elif global.player == 2 and !fire:
-									slide_delay = 16
-									slide_tap_dir = x_dir
-									slide_act += 1
-						
-						if slide_act == 1:
-							if !left_tap and !right_tap:
-								slide_act += 1
-								
-						if slide_act == 2:
-							if left_tap and slide_tap_dir == -1 or right_tap and slide_tap_dir == 1 and !slide:
-								if global.player == 1:
-									slide = true
-									slide_timer = 15
-									anim_state(SLIDE)
-									var smoke = SLIDE_SMOKE.instance()
-									var smk_sprite = smoke.get_child(0)
-									smk_sprite.flip_h = $sprite.flip_h
-									smoke.position = position + Vector2(0, 7)
-									effect.add_child(smoke)
-									slide_delay = 0
-									slide_act = 0
-									slide_tap_dir = 0
-									shot_state(NORMAL)
-									bass_dir = ''
-								elif global.player == 2 and !fire:
-									slide = true
-									slide_timer = 15
-									anim_state(SLIDE)
-									var smoke = SLIDE_SMOKE.instance()
-									var smk_sprite = smoke.get_child(0)
-									smk_sprite.flip_h = $sprite.flip_h
-									smoke.position = position + Vector2(0, 7)
-									effect.add_child(smoke)
-									slide_delay = 0
-									slide_act = 0
-									slide_tap_dir = 0
-									shot_state(NORMAL)
-									bass_dir = ''
-							elif left_tap and slide_tap_dir == 1 or right_tap and slide_tap_dir == -1:
-								slide_delay = 0
-								slide_act = 0
-								slide_tap_dir = 0
-						
-						if slide_delay > 0:
-							slide_delay -= 1
-						
-						if slide_delay == 0:
-							slide_act = 0
-							slide_tap_dir = 0
-				
-				if slide_timer > 0:
-					slide_timer -= 1
-				
-				#Begin climbing functions.
-				#When the player presses up while overlapping a ladder.
-				if overlap == 3 or overlap == 4 or overlap == 12 or overlap == 13:
-					if y_dir == -1:
-						#Lock the direction the sprite was facing.
-						if $sprite.flip_h == true:
-							ladder_dir = -1
-						else:
-							ladder_dir = 1
-						$sprite.flip_h = false
-						anim_state(CLIMB)
-						x_speed = 0
-						position.x = ladder_set
-						velocity = Vector2(0, 0)
-						jumps = 1
-						slide = false
-						slide_timer = 0
-						force_idle = true
-						act_state(CLIMBING)
-				
-				#If the player presses down while on a ladder.
-				if stand_on == 3 or stand_on == 12:
-					if y_dir == 1 and is_on_floor() and !slide and !fire:
-						shot_state(NORMAL)
-						if $sprite.flip_h == true:
-							ladder_dir = -1
-						else:
-							ladder_dir = 1
-						$sprite.flip_h = false
-						anim_state(CLIMB)
-						x_speed = 0
-						position.x = ladder_set
-						position.y += 6
-						ladder_top = (tile_pos.y * 16) + 9
-						velocity = Vector2(0, 0)
-						jumps = 1
-						slide = false
-						slide_timer = 0
-						force_idle = true
-						act_state(CLIMBING)
+				standing()
 
 			elif act_st == CLIMBING:
-				
-				if $standbox.is_disabled():
-					$standbox.set_disabled(false)
-					$slidebox.set_disabled(true)
-
-				if shot_st == NORMAL or shot_st != NORMAL and ladder_dir == 1:
-					$sprite.flip_h = false
-				elif shot_st != NORMAL and ladder_dir == -1:
-					$sprite.flip_h = true
-
-				#Set the appropriate animation.
-				if lad_top_overlap != -1 and lad_top_overlap != 6 and lad_top_overlap != 7:
-					if anim_st != CLIMB:
-						anim_state(CLIMB)
-				elif lad_top_overlap == -1 or lad_top_overlap == 6 or lad_top_overlap == 7:
-					if anim_st != CLIMBTOP:
-						anim_state(CLIMBTOP)
-						if ladder_top == 0:
-							ladder_top = (tile_pos.y * 16) - 7
-
-				#Move the player.
-				if y_dir != 0 and shot_st == NORMAL:
-					$anim.play()
-					velocity.y = (y_dir * RUN_SPEED) * 0.9
-				else:
-					$anim.stop(false)
-					velocity.y = 0
-
-				#End ladder functions.
-				#When the player reaches the top of a ladder.
-				if y_dir == -1 and floor(position.y) <= ladder_top:
-					position.y -= 6
-					velocity.y = 300
-					kill_ladder()
-					anim_state(IDLE)
-
-				#When the player reaches the bottom of a ladder.
-				if y_dir == 1 and lad_top_overlap == -1 and stand_on == -1:
-					kill_ladder()
-					anim_state(JUMP)
-
-				#When the player touches the floor while climbing.
-				if y_dir == 1 and is_on_floor():
-					if overlap == 3 or overlap == 4 or overlap == 6 or overlap == 7:
-						velocity.y = 300
-						kill_ladder()
-						anim_state(IDLE)
-
-				#When the player presses jump.
-				if jump_tap:
-					kill_ladder()
-					anim_state(JUMP)
+				climbing()
 				
 		else:
 			#Kick the player back to the Standing action state unless they are trapped under a low ceiling.
@@ -1077,38 +687,40 @@ func weapons():
 				graphic.add_child(weapon)
 				world.shots = wpn_data.get(wkey)[2]
 				cooldown = true
-				$audio/charge.stop()
-				c_flash = 0
-				world.palette_swap()
 		
 		elif chrg_lvl >= 96:
 			
-			if chrg_lvl >= 96 or chrg_lvl < 100:
-				var wkey = str(global.player)+'-'+str(global.player_weap[int(swap)])+'-'+str(96)+'-'+str(99)
-				if wpn_data.has(wkey):
-					shot_delay = 20
-					shot_state(wpn_data.get(wkey)[5])
-					var weapon = wpn_data.get(wkey)[7].instance()
-					#Set spawn position
-					if wpn_data.get(wkey)[9] == 0:
-						weapon.position = $sprite/shoot_pos.global_position
-						
-					graphic.add_child(weapon)
-					world.shots = wpn_data.get(wkey)[2]
-					cooldown = true
-					$audio/charge.stop()
-					c_flash = 0
-					world.palette_swap()
-		
-		chrg_lvl = 0
+			var wkey = str(global.player)+'-'+str(global.player_weap[int(swap)])+'-'+str(96)+'-'+str(99)
+			if wpn_data.has(wkey):
+				shot_delay = 20
+				shot_state(wpn_data.get(wkey)[5])
+				var weapon = wpn_data.get(wkey)[7].instance()
+				#Set spawn position
+				if wpn_data.get(wkey)[9] == 0:
+					weapon.position = $sprite/shoot_pos.global_position
+					
+				graphic.add_child(weapon)
+				world.shots = wpn_data.get(wkey)[2]
+				cooldown = true
+					
+	chrg_lvl = 0
+	c_flash = 0
+	$audio/charge.stop()
+	world.palette_swap()
 
-func _on_anim_animation_finished(anim_name):
-	if anim_name == 'appear1':
+func _on_anim_finished(anim_name):
+	if anim_name == 'appear1' or anim_name == 'appear2':
 		if lock_ctrl:
 			emit_signal('teleport')
 		elif !lock_ctrl:
 			anim_state(IDLE)
 			can_move = true
+	
+	if anim_name == 'lilstep':
+		if x_dir == 0:
+			anim_state(IDLE)
+		else:
+			anim_state(RUN)
 			
 func shot_pos():
 	
@@ -1274,6 +886,390 @@ func _on_item_entered(body):
 				global.temp_items[body.id] = true
 		
 		body.pickup()
+
+func standing():
+	if x_dir < 0 and !rush_jet:
+		shot_dir = 0
+		$sprite.flip_h = true
+		$slide_wall.position.x = -7
+	elif x_dir > 0 and !rush_jet:
+		shot_dir = 1
+		$sprite.flip_h = false
+		$slide_wall.position.x = 7
+	
+	if global.player == 2:
+		if x_dir == 0 and y_dir == -1:
+			bass_dir = '-up'
+		elif x_dir != 0 and y_dir == -1:
+			bass_dir = '-d-up'
+		elif x_dir != 0 and y_dir == 1 or x_dir == 0 and y_dir == 1:
+			bass_dir = '-d-down'
+		elif x_dir != 0 and y_dir == 0 or x_dir == 0 and y_dir == 0:
+			bass_dir = ''
+	
+	shot_pos()
+	
+	#Set velocity.x to 0 if not standing on ice.
+	if !ice:
+		x_speed = 0
+	
+	#Transition to the little step.
+	if x_dir != 0 and shot_st != THROW and shot_st != BASSSHOT and anim_st == IDLE and is_on_floor() and !rush_jet:
+		anim_state(LILSTEP)
+		if !ice:
+			x_speed = (x_dir * RUN_SPEED) / x_spd_mod
+	
+	#Set X Velocity.
+	if !slide:
+		if anim_st == RUN and !rush_jet:
+			if shot_st != THROW and shot_st != BASSSHOT:
+				if !ice:
+					x_speed = (x_dir * RUN_SPEED) / x_spd_mod
+				else:
+					if x_dir == -1 and x_speed > -RUN_SPEED:
+						x_speed -= 1
+						if x_dir == -1 and x_speed > 0:
+							x_speed -= 1
+					elif x_dir == 1 and x_speed < RUN_SPEED:
+						x_speed += 1
+						if x_dir == 1 and x_speed < 0:
+							x_speed += 1
+		#Prevent the player from running while riding Rush
+		if anim_st == RUN and rush_jet:
+			anim_state(IDLE)
+		if anim_st == IDLE or anim_st == LILSTEP or shot_st == THROW or shot_st == BASSSHOT:
+			if ice:
+				if x_dir == 0 and x_speed > 0:
+					x_speed -= 1
+				elif x_dir == 0 and x_speed < 0:
+					x_speed += 1
+		if anim_st == JUMP:
+			x_speed = (x_dir * RUN_SPEED) / x_spd_mod
+	else:
+		if is_on_floor():
+			if $sprite.flip_h == true:
+				x_speed = (-RUN_SPEED * 2) / x_spd_mod
+			else:
+				x_speed = (RUN_SPEED * 2) / x_spd_mod
+		elif !is_on_floor():
+			x_speed = ((x_dir * RUN_SPEED) * 2) / x_spd_mod
+			
+	#Transition back to idle if no longer running.
+	if x_dir == 0 and anim_st == RUN and is_on_floor():
+		anim_state(LILSTEP)
+	
+	#Reset the jumps counter. Cancel sliding.
+	if !jump and is_on_floor() and jumps == 0 and !slide:
+		jumps = 1
+		slide = false
+		slide_timer = 0
+		x_speed = (x_dir * RUN_SPEED) / x_spd_mod
+		$standbox.set_disabled(false)
+		$slidebox.set_disabled(true)
+		
+	#When the slide timer reaches 0. Cancel slide.
+	if slide_timer == 0 and slide and is_on_floor() and !slide_top:
+		slide_timer = 0
+		if anim_st == JUMP:
+			$audio/land.play() #Move to world.gd
+		if x_dir == 0:
+			anim_state(IDLE)
+		else:
+			anim_state(RUN)
+		if ice:
+			if $sprite.flip_h == true:
+				x_speed = -RUN_SPEED
+			else:
+				x_speed = RUN_SPEED
+		$standbox.set_disabled(false)
+		$slidebox.set_disabled(true)
+		slide = false
+	
+	#When the player touches a wall. cancel sliding.
+	if slide and is_on_wall() and !slide_top:
+		anim_state(IDLE)
+		slide_timer = 0
+		$standbox.set_disabled(false)
+		$slidebox.set_disabled(true)
+		slide = false
+	
+	#When the player is no longer on the floor, cancel slide.
+	if slide and !is_on_floor() and jumps > 0:
+		slide_timer = 0
+		anim_state(JUMP)
+		jumps = 0
+		$standbox.set_disabled(false)
+		$slidebox.set_disabled(true)
+		slide = false
+	
+	if global.player == 1 and slide and !is_on_floor():
+		slide_timer = 0
+		jumps = 0
+		$standbox.set_disabled(false)
+		$slidebox.set_disabled(true)
+		slide = false
+	
+	#When the opposite direction is pressed on the ground, cancel slide.
+	if slide:
+		if !slide_top and $sprite.flip_h == true and x_dir == 1 or !slide_top and $sprite.flip_h == false and x_dir == -1:
+			anim_state(IDLE)
+			slide_timer = 0
+			$standbox.set_disabled(false)
+			$slidebox.set_disabled(true)
+			slide = false
+	
+	#Failsafe in case the player gets stuck on the floor.
+	if is_on_floor() and !slide and slide_timer <= 0 and anim_st == 6 and !slide_top:
+		if x_dir == 0:
+			anim_state(IDLE)
+		else:
+			anim_state(RUN)
+
+	#Change the player's animation based on if they're on the floor or not.
+	if !is_on_floor() and anim_st != JUMP and !force_idle:
+		anim_state(JUMP)
+		jumps = 0
+	elif is_on_floor() and anim_st == JUMP and !slide:
+		rush_coil = false
+		if x_dir == 0:
+			anim_state(IDLE)
+		else:
+			anim_state(RUN)
+		$audio/land.play()
+
+	#Make the player jump.
+	if global.player == 0 and y_dir != 1 and jump_tap and is_on_floor() and jumps > 0 and !slide_top:
+		anim_state(JUMP)
+		jumps -= 1
+		velocity.y = JUMP_SPEED
+		slide = false
+	elif global.player != 0 and jump_tap and is_on_floor() and jumps > 0:
+		if slide_timer > 0:
+			if global.player != 2:
+				slide_timer = 0
+				slide = false
+			else:
+				slide_timer = 0
+		jumps -= 1
+		velocity.y = JUMP_SPEED
+	
+	#Set gravity modifier
+	if overlap == 6 or overlap == 7 or overlap == 12 or overlap == 13 or global.low_grav:
+		grav_mod = 3
+	else:
+		grav_mod = 1
+	
+	#Set velocity.y to 0 when releasing the jump button before reaching the peak of a jump.;
+	if !jump and velocity.y < 0 and !rush_coil:
+		velocity.y = 0
+	
+	#This is a small fix to prevent the jumping sprite from appearing during some animations.
+	if force_idle and is_on_floor():
+		force_idle = false
+	
+	if slide:
+		if global.player == 0:
+			$slide_top/area.set_disabled(false)
+		else:
+			$slide_top/area.set_disabled(true)
+	else:
+		$slide_top/area.set_disabled(true)
+		
+	#Begin sliding functions.
+	if global.player == 0:
+		if y_dir == 1 and jump_tap and is_on_floor() and !wall and !slide:
+			anim_state(SLIDE)
+			#Add slide smoke.
+			var smoke = SLIDE_SMOKE.instance()
+			var smk_sprite = smoke.get_child(0)
+			smk_sprite.flip_h = $sprite.flip_h
+			smoke.position = position + Vector2(0, 7)
+			effect.add_child(smoke)
+			slide_timer = 15
+			slide = true
+			$standbox.set_disabled(true)
+			$slidebox.set_disabled(false)
+	else:
+		if dash_tap and is_on_floor() and !wall and !slide and !fire:
+			anim_state(SLIDE)
+			var smoke = SLIDE_SMOKE.instance()
+			var smk_sprite = smoke.get_child(0)
+			smk_sprite.flip_h = $sprite.flip_h
+			smoke.position = position + Vector2(0, 7)
+			effect.add_child(smoke)
+			slide_timer = 15
+			slide = true
+			shot_state(NORMAL)
+			bass_dir = ''
+		
+		if is_on_floor() and y_dir == 0 and !wall:
+			if slide_act == 0:
+				if left_tap or right_tap:
+					if global.player == 1:
+						slide_delay = 16
+						slide_tap_dir = x_dir
+						slide_act += 1
+					elif global.player == 2 and !fire:
+						slide_delay = 16
+						slide_tap_dir = x_dir
+						slide_act += 1
+			
+			if slide_act == 1:
+				if !left_tap and !right_tap:
+					slide_act += 1
+					
+			if slide_act == 2:
+				if left_tap and slide_tap_dir == -1 or right_tap and slide_tap_dir == 1 and !slide:
+					if global.player == 1:
+						slide = true
+						slide_timer = 15
+						anim_state(SLIDE)
+						var smoke = SLIDE_SMOKE.instance()
+						var smk_sprite = smoke.get_child(0)
+						smk_sprite.flip_h = $sprite.flip_h
+						smoke.position = position + Vector2(0, 7)
+						effect.add_child(smoke)
+						slide_delay = 0
+						slide_act = 0
+						slide_tap_dir = 0
+						shot_state(NORMAL)
+						bass_dir = ''
+					elif global.player == 2 and !fire:
+						slide = true
+						slide_timer = 15
+						anim_state(SLIDE)
+						var smoke = SLIDE_SMOKE.instance()
+						var smk_sprite = smoke.get_child(0)
+						smk_sprite.flip_h = $sprite.flip_h
+						smoke.position = position + Vector2(0, 7)
+						effect.add_child(smoke)
+						slide_delay = 0
+						slide_act = 0
+						slide_tap_dir = 0
+						shot_state(NORMAL)
+						bass_dir = ''
+				elif left_tap and slide_tap_dir == 1 or right_tap and slide_tap_dir == -1:
+					slide_delay = 0
+					slide_act = 0
+					slide_tap_dir = 0
+			
+			if slide_delay > 0:
+				slide_delay -= 1
+			
+			if slide_delay == 0:
+				slide_act = 0
+				slide_tap_dir = 0
+	
+	if slide_timer > 0:
+		slide_timer -= 1
+	
+	#Begin climbing functions.
+	#When the player presses up while overlapping a ladder.
+	if overlap == 3 or overlap == 4 or overlap == 12 or overlap == 13:
+		if y_dir == -1:
+			#Lock the direction the sprite was facing.
+			if $sprite.flip_h == true:
+				ladder_dir = -1
+			else:
+				ladder_dir = 1
+			$sprite.flip_h = false
+			anim_state(CLIMB)
+			x_speed = 0
+			position.x = ladder_set
+			velocity = Vector2(0, 0)
+			jumps = 1
+			slide = false
+			slide_timer = 0
+			force_idle = true
+			act_state(CLIMBING)
+	
+	#If the player presses down while on a ladder.
+	if stand_on == 3 or stand_on == 12:
+		if y_dir == 1 and is_on_floor() and !slide and !fire:
+			shot_state(NORMAL)
+			if $sprite.flip_h == true:
+				ladder_dir = -1
+			else:
+				ladder_dir = 1
+			$sprite.flip_h = false
+			anim_state(CLIMB)
+			x_speed = 0
+			position.x = ladder_set
+			position.y += 6
+			ladder_top = (tile_pos.y * 16) + 9
+			velocity = Vector2(0, 0)
+			jumps = 1
+			slide = false
+			slide_timer = 0
+			force_idle = true
+			act_state(CLIMBING)
+
+func climbing():
+	#Change the direction based on if the player is shooting or not.
+	if x_dir != 0:
+		ladder_dir = x_dir
+	
+	if ladder_dir == -1:
+		shot_dir = 0
+	elif ladder_dir == 1:
+		shot_dir = 1
+	
+	shot_pos()
+	
+	if $standbox.is_disabled():
+		$standbox.set_disabled(false)
+		$slidebox.set_disabled(true)
+
+	if shot_st == NORMAL or shot_st != NORMAL and ladder_dir == 1:
+		$sprite.flip_h = false
+	elif shot_st != NORMAL and ladder_dir == -1:
+		$sprite.flip_h = true
+
+	#Set the appropriate animation.
+	if lad_top_overlap != -1 and lad_top_overlap != 6 and lad_top_overlap != 7:
+		if anim_st != CLIMB:
+			anim_state(CLIMB)
+	elif lad_top_overlap == -1 or lad_top_overlap == 6 or lad_top_overlap == 7:
+		if anim_st != CLIMBTOP:
+			anim_state(CLIMBTOP)
+			if ladder_top == 0:
+				ladder_top = (tile_pos.y * 16) - 7
+
+	#Move the player.
+	if y_dir != 0 and shot_st == NORMAL:
+		$anim.play()
+		velocity.y = (y_dir * RUN_SPEED) * 0.9
+	else:
+		$anim.stop(false)
+		velocity.y = 0
+
+	#End ladder functions.
+	#When the player reaches the top of a ladder.
+	if y_dir == -1 and floor(position.y) <= ladder_top:
+		position.y -= 6
+		velocity.y = 300
+		kill_ladder()
+		anim_state(IDLE)
+
+	#When the player reaches the bottom of a ladder.
+	if y_dir == 1 and lad_top_overlap == -1 and stand_on == -1:
+		kill_ladder()
+		anim_state(JUMP)
+
+	#When the player touches the floor while climbing.
+	if y_dir == 1 and is_on_floor():
+		if overlap == 3 or overlap == 4 or overlap == 6 or overlap == 7:
+			velocity.y = 300
+			kill_ladder()
+			anim_state(IDLE)
+
+	#When the player presses jump.
+	if jump_tap:
+		kill_ladder()
+		anim_state(JUMP)
+
+func tboost():
+	pass
 			
 func kill_slide():
 	pass
