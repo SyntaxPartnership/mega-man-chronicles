@@ -120,6 +120,9 @@ func _physics_process(delta):
 		$anim.play("flying")
 		play = true
 		flying = true
+	
+	if global_position.y > camera.limit_bottom + 16:
+		_on_screen_exited()
 
 func _on_anim_finished(anim_name):
 	if anim_name == "appear":
@@ -138,6 +141,5 @@ func _on_anim_finished(anim_name):
 		time_start = true
 
 func _on_screen_exited():
-	print('ONOEZ')
 	queue_free()
 	world.adaptors = 0

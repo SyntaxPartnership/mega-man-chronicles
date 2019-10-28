@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 onready var world = get_parent().get_parent()
 onready var player = world.get_child(2)
+onready var camera = world.get_child(2).get_child(9)
 
 const BEAM_SPD = 400
 const MAX_X = 100
@@ -129,6 +130,9 @@ func _physics_process(delta):
 			$anim.play("appear")
 			$sprite.show()
 			$box.set_disabled(true)
+	
+	if global_position.y > camera.limit_bottom + 16:
+		_on_screen_exited()
 		
 func _on_screen_exited():
 	if leave:

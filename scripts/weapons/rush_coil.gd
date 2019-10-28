@@ -18,6 +18,7 @@ func _ready():
 	$anim.play("beam")
 
 func _physics_process(delta):
+	
 	#Check to see if Rush has room to land.
 	if position.y > player.position.y - 32 and $block_det.get_overlapping_bodies() == []:
 		if !leave:
@@ -65,6 +66,10 @@ func _physics_process(delta):
 		$sprite.show()
 		f_delay = 0
 		$anim.play("appear")
+	
+	#If Rush falls below the screen, kill him.
+	if global_position.y > camera.limit_bottom + 16:
+		_on_screen_exited()
 	
 func _on_anim_finished(anim_name):
 	if anim_name == "appear":

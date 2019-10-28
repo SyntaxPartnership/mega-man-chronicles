@@ -18,7 +18,8 @@ _global_script_class_icons={
 config/name="Mega Man Chronicles"
 run/main_scene="res://scenes/disclaimer.tscn"
 boot_splash/image="res://assets/replace/XReGEGC_aN6JWX6LZEhYd-7LNdab-LP4.png"
-boot_splash/bg_color=Color( 0, 0, 0, 1 )
+boot_splash/fullsize=false
+boot_splash/bg_color=Color( 0, 0, 0, 0 )
 config/icon="res://icon.png"
 
 [autoload]
@@ -33,9 +34,8 @@ settings/fps/force_fps=60
 
 window/size/width=256
 window/size/height=240
-window/size/fullscreen=true
-window/size/test_width=256
-window/size/test_height=240
+window/size/test_width=512
+window/size/test_height=480
 window/dpi/allow_hidpi=true
 window/stretch/mode="viewport"
 
