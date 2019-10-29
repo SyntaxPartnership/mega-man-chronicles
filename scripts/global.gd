@@ -14,9 +14,11 @@ var etanks = 0
 var mtanks = 0
 var game_over = false
 
-#Global Level/Option Flags
+#Global Level Flags
 var icey = false
 var low_grav = false
+
+#Option Flags
 var sound = 100
 var music = 100
 var res = 3
@@ -31,7 +33,7 @@ var boss = false
 var temp_items = {}
 #Update list with permanent items.
 var perma_items = {
-	'ebalancer' : true
+	'ebalancer' : false
 	}
 
 #Stage Cleared Flags

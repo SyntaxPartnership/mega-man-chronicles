@@ -40,9 +40,9 @@ func _ready():
 	
 	hp = DEFAULT_HP
 	
-	dist = floor(abs(player.global_position.x) - abs(global_position.x))
+	dist = global_position.distance_to(player.global_position)
 	
-	if dist < 0:
+	if global_position.x > player.global_position.x:
 		$sprite.flip_h = true
 	else:
 		$sprite.flip_h = false
@@ -58,7 +58,7 @@ func _physics_process(delta):
 		reset -= 1
 	
 	if reset == 60:
-		if dist < 0:
+		if global_position.x > player.global_position.x:
 			$sprite.flip_h = true
 		else:
 			$sprite.flip_h = false

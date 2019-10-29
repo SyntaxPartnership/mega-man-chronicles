@@ -87,4 +87,6 @@ func _on_menu_fade_tween_completed(object, key):
 			$menu.set_text('\n\nPRESS START')
 		elif menu == 1:
 			$menu.set_text('NEW GAME\n\nLOAD GAME\n\nOPTIONS\n\nEXTRA MODES')
+		elif menu == 2:
+			$menu.set_text('EASY\n\nNORMAL\n\n?????\n\n?????\n\n?????')
 		fade_out = false

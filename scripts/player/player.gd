@@ -304,8 +304,12 @@ func _physics_process(delta):
 			
 	else:
 		
-		x_dir = int(Input.is_action_pressed("right")) - int(Input.is_action_pressed("left"))
-		y_dir = int(Input.is_action_pressed("down")) - int(Input.is_action_pressed("up"))
+		if !lock_ctrl:
+			x_dir = int(Input.is_action_pressed("right")) - int(Input.is_action_pressed("left"))
+			y_dir = int(Input.is_action_pressed("down")) - int(Input.is_action_pressed("up"))
+		else:
+			x_dir = 0
+			y_dir = 0
 		
 		if hurt_timer == 0:
 

@@ -83,17 +83,12 @@ var room_data = {
 var boss_rooms = {#Insert boss room coordinates here.
 				}
 
+# warning-ignore:unused_class_variable
 var got_items = {
 				}
 
 #Color Variables.
 var palette = [Color('#000000'), Color('#000000'), Color('#000000')]
-
-#Weapon Swapping variables.
-var left = false
-var right = false
-var last_dir = 0
-var last_weap = 0
 
 var tele_timer = 60
 var tele_dest
@@ -103,7 +98,6 @@ var spl_trigger = false
 var bbl_count = 0
 
 func _ready():
-	print(global.player_life)
 	res = get_viewport_rect().size
 	
 	#Hide Object and Enemy Layers
@@ -137,6 +131,7 @@ func _ready():
 	$player/camera.limit_left = (player_room.x*256)
 	$player/camera.limit_right = (player_room.x*256)+256
 
+# warning-ignore:unused_argument
 func _input(event):
 	#Weapon Swapping.
 	if $player.can_move:
@@ -501,6 +496,19 @@ func _process(delta):
 	if life_en == 0 and wpn_en == 0 and get_tree().paused and !p_menu:
 		get_tree().paused = false
 	
+	#Check to see if the player's weapons or adaptors have gone beyond the screen.
+	var get_weaps = get_tree().get_nodes_in_group("weapons")
+	var get_adaps = get_tree().get_nodes_in_group("adaptors")
+	
+	if get_weaps.size() > 0 or get_adaps.size() > 0:
+		for w in get_weaps:
+			if w.global_position.y < $player/camera.limit_top - 16 or w.global_position.y > $player/camera.limit_bottom + 16 or w.global_position.x < $player/camera.get_camera_screen_center().x - 144 or w.global_position.x > $player/camera.get_camera_screen_center().x + 144:
+				w._on_screen_exited()
+		
+		for a in get_adaps:
+			if a.global_position.y < $player/camera.limit_top - 16 or a.global_position.y > $player/camera.limit_bottom + 16 or a.global_position.x < $player/camera.get_camera_screen_center().x - 144 or a.global_position.x > $player/camera.get_camera_screen_center().x + 144:
+				a._on_screen_exited()
+	
 	#Force the player to swap if one character dies.
 	if global.player_life[0] <= 0 and global.player_life[1] != 0 and !$player.swap or global.player_life[0] != 0 and global.player_life[1] <= 0 and $player.swap:
 		if !hurt_swap:
@@ -689,8 +697,8 @@ func _process(delta):
 		
 		$debug_stats/debug/fps.set_text(str(Engine.get_frames_per_second()))#Display frames per second.
 	
-	if shots < 0:
-		shots = 0
+#	if shots < 0:
+#		shots = 0
 
 #These functions handle the states of the fade in node.
 func _on_fade_fadein():
@@ -736,9 +744,11 @@ func _on_fade_fadeout():
 			global.player_weap[0] = 0
 			global.player_weap[1] = 0
 			global.lives -= 1
+# warning-ignore:return_value_discarded
 			get_tree().reload_current_scene()
 		else:
 			global.game_over = true
+# warning-ignore:return_value_discarded
 			get_tree().change_scene("res://scenes/menu.tscn")
 	
 	if $fade/fade.state == 6:

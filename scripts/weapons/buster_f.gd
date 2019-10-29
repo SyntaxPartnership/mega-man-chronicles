@@ -58,6 +58,7 @@ func _physics_process(delta):
 
 func _on_screen_exited():
 	world.shots -= 2
+	player.cooldown = false
 	queue_free()
 
 func _on_anim_finished(anim_name):
