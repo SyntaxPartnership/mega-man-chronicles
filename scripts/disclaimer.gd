@@ -27,17 +27,40 @@ func load_config():
 			# There could be multiple actions in the list, but we save the first one by default
 			var scancode = OS.get_scancode_string(action_list[0].scancode)
 			var pad_button = Input.get_joy_button_string(action_list[1].button_index)
-			var pad_stick
+			config.set_value("k_input", action_name, scancode) #Keyboard keys
+			config.set_value("g_input", action_name, pad_button) #Gamepad buttons
 			if action_list.size() > 2:
-				pad_stick = Input.get_joy_axis_string(action_list[2].axis)
-				config.set_value("input", action_name, str(scancode,',',pad_button,',',pad_stick))
-			else:
-				config.set_value("input", action_name, str(scancode,',',pad_button))
+				var pad_stick = Input.get_joy_axis_string(action_list[2].axis)
+				config.set_value("stick", action_name, pad_stick) #Left stick
+		#Save default options.
+		config.set_value("options", "res", global.res)
+		config.set_value("options", "f_screen", global.f_screen)
+		config.set_value("options", "quick_swap", global.quick_swap)
+		#Save config
 		config.save(CONFIG_FILE)
 	else: #Successful load. Set values.
-		for action_name in config.get_section_keys("input"):
-			var test_array = action_name.split(',')
-			print(test_array)
+		#Load keyboard values
+		for action_name in config.get_section_keys("k_input"):
+			# Get the key scancode corresponding to the saved human-readable string
+			var scancode = OS.find_scancode_from_string(config.get_value("k_input", action_name))
+			# Create a new event object based on the saved scancode
+			var event = InputEventKey.new()
+			event.scancode = scancode
+			# Replace old action (key) events by the new one
+			for old_event in InputMap.get_action_list(action_name):
+				if old_event is InputEventKey:
+					InputMap.action_erase_event(action_name, old_event)
+			InputMap.action_add_event(action_name, event)
+		#Load gamepad buttons
+		for button_name in config.get_section_keys("g_input"):
+			var button = config.get_value("g_input", button_name)
+			var event = InputEventJoypadButton.new()
+			event.set_button_index(Input.get_joy_button_index_from_string(button))
+			for old_event in InputMap.get_action_list(button_name):
+				if old_event is InputEventJoypadButton:
+					InputMap.action_erase_event(button_name, old_event)
+			InputMap.action_add_event(button_name, event)
+			
 
 # warning-ignore:unused_argument
 func _process(delta):
