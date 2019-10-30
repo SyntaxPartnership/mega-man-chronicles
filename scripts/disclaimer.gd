@@ -60,6 +60,21 @@ func load_config():
 				if old_event is InputEventJoypadButton:
 					InputMap.action_erase_event(button_name, old_event)
 			InputMap.action_add_event(button_name, event)
+		#Load left stick
+		for stick_name in config.get_section_keys("stick"):
+			var stick = config.get_value("stick", stick_name)
+			var event = InputEventJoypadMotion.new()
+			event.set_axis(Input.get_joy_axis_index_from_string(stick))
+			for old_event in InputMap.get_action_list(stick_name):
+				if old_event is InputEventJoypadButton:
+					InputMap.action_erase_event(stick_name, old_event)
+			InputMap.action_add_event(stick_name, event)
+		
+		global.res			= config.get_value("options", "res")
+		global.f_screen		= config.get_value("options", "f_screen")
+		global.quick_swap	= config.get_value("options", "quick_swap")
+		
+		global.resize()
 			
 
 # warning-ignore:unused_argument

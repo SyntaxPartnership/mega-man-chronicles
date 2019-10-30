@@ -156,8 +156,8 @@ var white = Color('#fcf8fc')
 # don't forget to use stretch mode 'viewport' and aspect 'ignore'
 onready var viewport = get_viewport()
 
-func _ready():
-    get_tree().connect("screen_resized", self, "_screen_resized")
+func resize():
+	get_tree().connect("screen_resized", self, "_screen_resized")
 
 func _input(event):
 	#Quick way to close the game.
@@ -165,7 +165,16 @@ func _input(event):
 		get_tree().quit()
 
 func _screen_resized():
-	var window_size = OS.get_window_size()
+	var window_size
+	
+	if !f_screen:
+		OS.set_window_size(Vector2(256 * res, 240 * res))
+		window_size = OS.get_window_size()
+		OS.window_fullscreen = false
+	else:
+		OS.set_window_size(Vector2(256, 240))
+		window_size = OS.get_window_size()
+		OS.window_fullscreen = true
 
 	# see how big the window is compared to the viewport size
 	# floor it so we only get round numbers (0, 1, 2, 3 ...)
@@ -181,3 +190,9 @@ func _screen_resized():
 
 	# attach the viewport to the rect we calculated
 	viewport.set_attach_to_screen_rect(Rect2(diffhalf, viewport.size * scale))
+	
+	#Set window position
+	var screen_size = OS.get_screen_size(0)
+	var win_size = OS.get_window_size()
+	
+	OS.set_window_position(screen_size*0.5 - window_size*0.5)

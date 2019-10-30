@@ -34,6 +34,7 @@ settings/fps/force_fps=60
 
 window/size/width=256
 window/size/height=240
+window/size/resizable=false
 window/size/test_width=256
 window/size/test_height=240
 window/dpi/allow_hidpi=true
