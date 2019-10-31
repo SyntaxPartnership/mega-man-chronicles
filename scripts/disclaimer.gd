@@ -29,9 +29,6 @@ func load_config():
 			var pad_button = Input.get_joy_button_string(action_list[1].button_index)
 			config.set_value("k_input", action_name, scancode) #Keyboard keys
 			config.set_value("g_input", action_name, pad_button) #Gamepad buttons
-			if action_list.size() > 2:
-				var pad_stick = Input.get_joy_axis_string(action_list[2].axis)
-				config.set_value("stick", action_name, pad_stick) #Left stick
 		#Save default options.
 		config.set_value("options", "res", global.res)
 		config.set_value("options", "f_screen", global.f_screen)
@@ -60,15 +57,6 @@ func load_config():
 				if old_event is InputEventJoypadButton:
 					InputMap.action_erase_event(button_name, old_event)
 			InputMap.action_add_event(button_name, event)
-		#Load left stick
-		for stick_name in config.get_section_keys("stick"):
-			var stick = config.get_value("stick", stick_name)
-			var event = InputEventJoypadMotion.new()
-			event.set_axis(Input.get_joy_axis_index_from_string(stick))
-			for old_event in InputMap.get_action_list(stick_name):
-				if old_event is InputEventJoypadButton:
-					InputMap.action_erase_event(stick_name, old_event)
-			InputMap.action_add_event(stick_name, event)
 		
 		global.res			= config.get_value("options", "res")
 		global.f_screen		= config.get_value("options", "f_screen")

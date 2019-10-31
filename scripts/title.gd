@@ -16,7 +16,7 @@ func _input(event):
 		
 		if Input.is_action_just_pressed('start') or Input.is_action_just_pressed('jump'):
 			if menu == 1:
-				if menu_pos == 0:
+				if menu_pos == 0 or menu_pos == 2:
 					$sounds/select.play()
 					menu += 1
 					$fade.state = 1
