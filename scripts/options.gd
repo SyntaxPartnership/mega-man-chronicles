@@ -273,34 +273,38 @@ func _input(event):
 			if menu_a_pos == 1:
 				pass
 			
-			#Resolution Menu
-			if menu_a_pos == 4:
-				if menu_b_pos == 0:
-					if !global.f_screen:
-						if x_dir == -1 and global.res > 1:
-							global.res -= 1
-							$opt_text/opt01.set_text('X'+str(global.res))
-							global._screen_resized()
-						if x_dir == 1 and global.res < 4:
-							global.res += 1
-							$opt_text/opt01.set_text('X'+str(global.res))
-							global._screen_resized()
-				
-				if menu_b_pos == 1:
-					if x_dir != 0:
-						if global.f_screen:
-							global.f_screen = false
-							$opt_text/opt03.set_text('NO')
-							global.res = save_res
-							$opt_text/opt01.set_text('X'+str(global.res))
-							global._screen_resized()
-						else:
-							save_res = global.res
-							global.res = 1
-							global.f_screen = true
-							$opt_text/opt01.set_text('X'+str(global.res))
-							$opt_text/opt03.set_text('YES')
-							global._screen_resized()
+		#Resolution Menu
+		if menu_a_pos == 4:
+			if menu_b_pos == 0:
+				if !global.f_screen and !pressed:
+					if x_dir == -1 and global.res > 1:
+						pressed = true
+						global.res -= 1
+						$opt_text/opt01.set_text('X'+str(global.res))
+						global._screen_resized()
+					if x_dir == 1 and global.res < 4:
+						pressed = true
+						global.res += 1
+						$opt_text/opt01.set_text('X'+str(global.res))
+						global._screen_resized()
+			
+			if menu_b_pos == 1:
+				if x_dir != 0 and !pressed:
+					pressed = true
+					if global.f_screen:
+						global.f_screen = false
+						$opt_text/opt03.set_text('NO')
+						global.res = save_res
+						$opt_text/opt01.set_text('X'+str(global.res))
+						global._screen_resized()
+					else:
+						save_res = global.res
+						global.res = 1
+						global.f_screen = true
+						$opt_text/opt01.set_text('X'+str(global.res))
+						$opt_text/opt03.set_text('YES')
+						global._screen_resized()
+					print(global.f_screen)
 			
 			#Return to the previous menu.
 			if Input.is_action_just_pressed("fire"):
