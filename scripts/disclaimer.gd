@@ -12,6 +12,7 @@ var txt_line = 0
 
 func _ready():
 	global._screen_resized()
+	global.ready()
 	
 	$text.set_text(text_a)
 	load_config()

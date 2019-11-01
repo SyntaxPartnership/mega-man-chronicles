@@ -19,6 +19,7 @@ var icey = false
 var low_grav = false
 
 #Option Flags
+var gamepad = false
 var sound = 100
 var music = 100
 var res = 3
@@ -156,6 +157,14 @@ var white = Color('#fcf8fc')
 # don't forget to use stretch mode 'viewport' and aspect 'ignore'
 onready var viewport = get_viewport()
 
+func ready():
+	get_tree().connect("joy_connection_changed", self, "on_gamepad_connected")
+	
+	var get_pads = Input.get_connected_joypads()
+	print(get_pads)
+	if get_pads == []:
+		gamepad = false
+
 func resize():
 	get_tree().connect("screen_resized", self, "_screen_resized")
 
@@ -196,3 +205,9 @@ func _screen_resized():
 	var win_size = OS.get_window_size()
 	
 	OS.set_window_position(screen_size*0.5 - window_size*0.5)
+
+func on_gamepad_connected(device_id, connected):
+	if connected:
+		gamepad = true
+	else:
+		gamepad = false
