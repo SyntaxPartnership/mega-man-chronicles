@@ -223,6 +223,42 @@ func _input(event):
 								$opt_text/opt05.set_text('['+REPLACE.get(scancode)+']')
 							else:
 								$opt_text/opt05.set_text('['+scancode+']')
+						5:
+							$opt_text/opt06.show()
+							if REPLACE.has(scancode):
+								$opt_text/opt06.set_text('['+REPLACE.get(scancode)+']')
+							else:
+								$opt_text/opt06.set_text('['+scancode+']')
+						6:
+							$opt_text/opt07.show()
+							if REPLACE.has(scancode):
+								$opt_text/opt07.set_text('['+REPLACE.get(scancode)+']')
+							else:
+								$opt_text/opt07.set_text('['+scancode+']')
+						7:
+							$opt_text/opt08.show()
+							if REPLACE.has(scancode):
+								$opt_text/opt08.set_text('['+REPLACE.get(scancode)+']')
+							else:
+								$opt_text/opt08.set_text('['+scancode+']')
+						8:
+							$opt_text/opt09.show()
+							if REPLACE.has(scancode):
+								$opt_text/opt09.set_text('['+REPLACE.get(scancode)+']')
+							else:
+								$opt_text/opt09.set_text('['+scancode+']')
+						9:
+							$opt_text/opt10.show()
+							if REPLACE.has(scancode):
+								$opt_text/opt10.set_text('['+REPLACE.get(scancode)+']')
+							else:
+								$opt_text/opt10.set_text('['+scancode+']')
+						10:
+							$opt_text/opt11.show()
+							if REPLACE.has(scancode):
+								$opt_text/opt11.set_text('['+REPLACE.get(scancode)+']')
+							else:
+								$opt_text/opt11.set_text('['+scancode+']')
 								
 					for old_event in InputMap.get_action_list(action):
 						InputMap.action_erase_event(action, old_event)
