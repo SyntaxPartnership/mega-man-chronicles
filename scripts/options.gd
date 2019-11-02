@@ -55,7 +55,7 @@ const REPLACE = {
 
 var menus = {
 	"option_0" : 'UP\n\nDOWN\n\nLEFT\n\nRIGHT\n\nJUMP\n\nFIRE\n\nDASH\n\nPREV\n\nNEXT\n\nSELECT\n\nSTART',
-	"option_1" : 'JUMP\n\nFIRE\n\nDASH\n\nPREV\n\nNEXT\n\nSELECT\n\nSTART',
+	"option_1" : 'D-PAD/ANALOG\n\nJUMP\n\nFIRE\n\nDASH\n\nPREV\n\nNEXT\n\nSELECT\n\nSTART',
 	"option_2" : 'USE RIGHT ANALOG/ NUMPAD TO SWAP WEAPONS QUICKLY?',
 	"option_3" : 'MUSIC\n\nEFFECTS',
 	"option_4" : 'SCALE\n\n\n\nFULLSCREEN',
@@ -107,12 +107,6 @@ func _input(event):
 			if y_dir == 1 and menu_a_pos < 6:
 				menu_a_pos += 1
 			
-			if menu_a_pos == 1 and !global.gamepad:
-				if y_dir == -1:
-					menu_a_pos -= 1
-				if y_dir == 1:
-					menu_a_pos += 1
-			
 			$info.set_text(info.get("info_"+str(menu_a_pos)))
 
 			if Input.is_action_just_pressed("jump"):
@@ -155,7 +149,7 @@ func _input(event):
 							b.show()
 						set_text()
 					1:
-						menu_b_max = 6
+						menu_b_max = 7
 						set_text()
 					4:
 						menu_b_max = 1
@@ -184,8 +178,9 @@ func _input(event):
 		#Keyboard menu
 		if menu_a_pos == 0 and menu == 2:
 			if Input.is_action_just_pressed("jump") and !pressed and !setting:
-				pressed = true
-				setting = true
+				if event is InputEventKey:
+					pressed = true
+					setting = true
 			
 			if event is InputEventKey:
 				if !pressed and setting:
@@ -268,6 +263,12 @@ func _input(event):
 					setting = false
 					f_delay = 0
 					save_to_config("k_input", action, scancode)
+		
+		if menu_a_pos == 1 and menu == 2:
+			if Input.is_action_just_pressed("jump") and !pressed and !setting:
+				if event is InputEventJoypadButton:
+					pressed = true
+					setting = true
 			
 			#Gamepad menu
 			if menu_a_pos == 1:

@@ -70,6 +70,7 @@ custom_fonts/font = ExtResource( 4 )
 text = "Information"
 
 [node name="opt_text" type="Label" parent="."]
+editor/display_folded = true
 modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.5
 anchor_right = 0.5
