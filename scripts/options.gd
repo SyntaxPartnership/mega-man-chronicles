@@ -306,12 +306,12 @@ func _input(event):
 						global._screen_resized()
 					print(global.f_screen)
 			
-			#Return to the previous menu.
-			if Input.is_action_just_pressed("fire"):
-				menu = 3
-				$cursor2.hide()
-				$txt_fade.interpolate_property($opt_text, 'modulate', Color(1.0, 1.0, 1.0, 1.0), Color(1.0, 1.0, 1.0, 0.0), 0.125, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-				$txt_fade.start()
+		#Return to the previous menu.
+		if Input.is_action_just_pressed("fire") and menu == 2:
+			menu = 3
+			$cursor2.hide()
+			$txt_fade.interpolate_property($opt_text, 'modulate', Color(1.0, 1.0, 1.0, 1.0), Color(1.0, 1.0, 1.0, 0.0), 0.125, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+			$txt_fade.start()
 		
 		if y_dir != 0 or x_dir != 0 and !setting:
 			pressed = true
