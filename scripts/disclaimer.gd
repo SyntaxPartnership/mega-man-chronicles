@@ -28,7 +28,8 @@ func load_config():
 			var scancode = OS.get_scancode_string(action_list[0].scancode)
 			var pad_button = Input.get_joy_button_string(action_list[1].button_index)
 			config.set_value("k_input", action_name, scancode) #Keyboard keys
-			config.set_value("g_input", action_name, pad_button) #Gamepad buttons
+			if action_name != INPUT_ACTIONS[0] and action_name != INPUT_ACTIONS[1] and action_name != INPUT_ACTIONS[2] and action_name != INPUT_ACTIONS[3]:
+				config.set_value("g_input", action_name, pad_button) #Gamepad buttons
 		#Save default options.
 		config.set_value("options", "res", global.res)
 		config.set_value("options", "f_screen", global.f_screen)
@@ -36,6 +37,7 @@ func load_config():
 		#Save config
 		config.save(CONFIG_FILE)
 	else: #Successful load. Set values.
+		global.erase_dirs()
 		#Load keyboard values
 		for action_name in config.get_section_keys("k_input"):
 			# Get the key scancode corresponding to the saved human-readable string
@@ -63,11 +65,11 @@ func load_config():
 		global.quick_swap	= config.get_value("options", "quick_swap")
 		
 		global.resize()
-			
+		global.set_dirs()
 
 # warning-ignore:unused_argument
 func _process(delta):
-	#Include this to allow skipping of filler screens and legal mumbo jumbo.
+		#Include this to allow skipping of filler screens and legal mumbo jumbo.
 	if allow_ctrl:
 		if Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("start"):
 			allow_ctrl = false

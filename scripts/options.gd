@@ -51,11 +51,17 @@ const REPLACE = {
 	"Right"			: "RIGHT",
 	"Semicolon"		: ";",
 	"Apostrophe"	: "'",
+	"Face Button Top"		: "Y",
+	"Face Button Bottom"	: "A",
+	"Face Button Left"		: "X",
+	"Face Button Right"		: "B",
+	"Select"				: "SELECT",
+	"Start"					: "START"
 	}
 
 var menus = {
 	"option_0" : 'UP\n\nDOWN\n\nLEFT\n\nRIGHT\n\nJUMP\n\nFIRE\n\nDASH\n\nPREV\n\nNEXT\n\nSELECT\n\nSTART',
-	"option_1" : 'D-PAD/ANALOG\n\nJUMP\n\nFIRE\n\nDASH\n\nPREV\n\nNEXT\n\nSELECT\n\nSTART',
+	"option_1" : 'JUMP\n\nFIRE\n\nDASH\n\nPREV\n\nNEXT\n\nSELECT\n\nSTART',
 	"option_2" : 'USE RIGHT ANALOG/ NUMPAD TO SWAP WEAPONS QUICKLY?',
 	"option_3" : 'MUSIC\n\nEFFECTS',
 	"option_4" : 'SCALE\n\n\n\nFULLSCREEN',
@@ -149,7 +155,35 @@ func _input(event):
 							b.show()
 						set_text()
 					1:
-						menu_b_max = 7
+						menu_b_max = 6
+						var id = 1
+						for actions in INPUT_ACTIONS:
+							var act_list = InputMap.get_action_list(actions)
+							if actions != INPUT_ACTIONS[0] and actions != INPUT_ACTIONS[1] and actions != INPUT_ACTIONS[2] and actions != INPUT_ACTIONS[3]:
+								var button = Input.get_joy_button_string(act_list[1].button_index)
+								if REPLACE.has(button):
+									button = REPLACE.get(button)
+#							if REPLACE.has(scancode):
+#								scancode = REPLACE.get(scancode)
+								match id:
+									5:
+										$opt_text/opt01.set_text('('+button+')')
+									6:
+										$opt_text/opt02.set_text('('+button+')')
+									7:
+										$opt_text/opt03.set_text('('+button+')')
+									8:
+										$opt_text/opt04.set_text('('+button+')')
+									9:
+										$opt_text/opt05.set_text('('+button+')')
+									10:
+										$opt_text/opt06.set_text('('+button+')')
+									11:
+										$opt_text/opt07.set_text('('+button+')')
+							id += 1
+						for b in get_tree().get_nodes_in_group("button"):
+							if b.name != 'opt08' and b.name != 'opt09' and b.name != 'opt10' and b.name != 'opt11':
+								b.show()
 						set_text()
 					4:
 						menu_b_max = 1
@@ -305,7 +339,6 @@ func _input(event):
 						$opt_text/opt01.set_text('X'+str(global.res))
 						$opt_text/opt03.set_text('YES')
 						global._screen_resized()
-					print(global.f_screen)
 			
 		#Return to the previous menu.
 		if Input.is_action_just_pressed("fire") and menu == 2:

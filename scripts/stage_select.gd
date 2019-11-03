@@ -367,13 +367,9 @@ func _on_tween_all_completed():
 	$misc.hide()
 	$tiles.clear()
 	$fake_fade.hide()
-	$char_anim.play("move")
 	menu = 4
 
 func _on_anim_finished(anim_name):
-	if anim_name == "move":
-		$char_anim.play("reverse")
-		reverse = true
 	
 	if anim_name == "appear" and menu == 5:
 		menu = 6
