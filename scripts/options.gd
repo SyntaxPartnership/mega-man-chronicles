@@ -305,8 +305,63 @@ func _input(event):
 					setting = true
 			
 			#Gamepad menu
-			if menu_a_pos == 1:
-				pass
+			if event is InputEventJoypadButton:
+				if !pressed and setting:
+					var button = Input.get_joy_button_index_from_string(event.button_index)
+					var action = INPUT_ACTIONS[menu_b_pos] + 4
+				
+					match menu_b_pos:
+						4:
+							$opt_text/opt05.show()
+							if REPLACE.has(button):
+								$opt_text/opt05.set_text('('+REPLACE.get(button)+')')
+							else:
+								$opt_text/opt05.set_text('('+button+')')
+						5:
+							$opt_text/opt06.show()
+							if REPLACE.has(button):
+								$opt_text/opt06.set_text('('+REPLACE.get(button)+')')
+							else:
+								$opt_text/opt06.set_text('('+button+')')
+						6:
+							$opt_text/opt07.show()
+							if REPLACE.has(button):
+								$opt_text/opt07.set_text('('+REPLACE.get(button)+')')
+							else:
+								$opt_text/opt07.set_text('('+button+')')
+						7:
+							$opt_text/opt08.show()
+							if REPLACE.has(button):
+								$opt_text/opt08.set_text('('+REPLACE.get(button)+')')
+							else:
+								$opt_text/opt08.set_text('('+button+')')
+						8:
+							$opt_text/opt09.show()
+							if REPLACE.has(button):
+								$opt_text/opt09.set_text('('+REPLACE.get(button)+')')
+							else:
+								$opt_text/opt09.set_text('('+button+')')
+						9:
+							$opt_text/opt10.show()
+							if REPLACE.has(button):
+								$opt_text/opt10.set_text('('+REPLACE.get(button)+')')
+							else:
+								$opt_text/opt10.set_text('('+button+')')
+						10:
+							$opt_text/opt11.show()
+							if REPLACE.has(button):
+								$opt_text/opt11.set_text('('+REPLACE.get(button)+')')
+							else:
+								$opt_text/opt11.set_text('('+button+')')
+					
+					for old_event in InputMap.get_action_list(action):
+						InputMap.action_erase_event(action, old_event)
+						# Add the new key binding
+						InputMap.action_add_event(action, event)
+					pressed = true
+					setting = false
+					f_delay = 0
+					save_to_config("g_input", action, button)
 			
 		#Resolution Menu
 		if menu_a_pos == 4:
@@ -360,6 +415,7 @@ func _input(event):
 	else:
 		$cursor2.position.y = cur_b_pos.y + (menu_b_pos * 32)
 
+# warning-ignore:unused_argument
 func _process(delta):
 	
 	if setting:
@@ -433,8 +489,10 @@ func _on_fade_fadein():
 
 func _on_fade_fadeout():
 	if $fade.state == 1:
+# warning-ignore:return_value_discarded
 		get_tree().change_scene("res://scenes/title.tscn")
 
+# warning-ignore:unused_argument
 func _on_txt_fade_completed(object, key):
 	if object.name == "opt_text":
 		if menu == 1:
@@ -453,7 +511,6 @@ func set_text():
 	$txt_fade.interpolate_property($opt_text, 'modulate', Color(1.0, 1.0, 1.0, 0.0), Color(1.0, 1.0, 1.0, 1.0), 0.125, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	$txt_fade.start()
 	menu = 1
-
 
 func save_to_config(section, key, value):
 	var config = ConfigFile.new()
