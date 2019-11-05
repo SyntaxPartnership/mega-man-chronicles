@@ -43,6 +43,7 @@ pause_mode = 2
 script = ExtResource( 1 )
 
 [node name="coll_mask" type="Control" parent="."]
+editor/display_folded = true
 margin_right = 40.0
 margin_bottom = 40.0
 
@@ -134,7 +135,7 @@ format = 1
 tile_set = ExtResource( 14 )
 cell_size = Vector2( 16, 16 )
 format = 1
-tile_data = PoolIntArray( 786433, 0, 0, 786435, 0, 0, 786444, 0, 0, 786446, 0, 0 )
+tile_data = PoolIntArray( 786457, 1, 0 )
 
 [node name="player" parent="." instance=ExtResource( 15 )]
 pause_mode = 1

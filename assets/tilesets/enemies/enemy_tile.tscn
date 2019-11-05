@@ -9,3 +9,9 @@ position = Vector2( 8, 8 )
 texture = ExtResource( 1 )
 vframes = 20
 hframes = 20
+
+[node name="ravemet" type="Sprite" parent="."]
+position = Vector2( 28, 8 )
+texture = ExtResource( 1 )
+vframes = 20
+hframes = 20

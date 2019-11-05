@@ -32,8 +32,13 @@ const RESET_MAX = 120
 var state = 0
 var immune = true
 var shoot = false
-var shot_delay = 120
+var shot_delay = 15
 var reset = 0
+
+var repeat = 0
+var target = Vector2()
+var bull_vel = 0
+var fire = false
 
 func _ready():
 	start_pos = Vector2(global_position.x, global_position.y)
@@ -47,12 +52,11 @@ func _ready():
 	else:
 		$sprite.flip_h = false
 	
-	$anim.play("idle1")
+	$anim.play("idle")
 
-# warning-ignore:unused_argument
-func _physics_process(delta):	
-	#Calculate the X distance between the player and Met.
-	dist = floor(abs(player.global_position.x) - abs(global_position.x))
+func _physics_process(delta):
+	#get the distance to the player.
+	dist = floor(global_position.distance_to(player.global_position))
 	
 	#Let the reset timer expire and charge direction to face the player.
 	if state == 0 and reset > 0:
@@ -65,11 +69,11 @@ func _physics_process(delta):
 			$sprite.flip_h = false
 			
 	#If the player is within range, trigger animation.
-	if dist >= -64 and dist <= 64 and state == 0 and reset == 0:
+	if dist <= 96 and state == 0 and reset == 0:
 		state = 1
 		$anim.play("open")
 		immune = false
-		
+	
 	#If the met has shot, start timer.
 	if shoot and shot_delay > 0:
 		shot_delay -= 1
@@ -78,8 +82,8 @@ func _physics_process(delta):
 	if shoot and shot_delay == 0:
 		state = 2
 		shoot = false
-		shot_delay = RESET_MAX
-		$anim.play("close")
+		shot_delay = 15
+		$anim.play_backwards("open")
 	
 	if flash and f_delay > 0:
 		f_delay -= 1
@@ -95,6 +99,7 @@ func _physics_process(delta):
 	if hp <= 0 and !dead:
 		#Calculate item drops here.
 		$sprite.hide()
+		$anim.play("idle")
 		dead = true
 		flash = false
 		f_delay = 0
@@ -104,19 +109,50 @@ func _physics_process(delta):
 		var boom = load("res://scenes/effects/s_explode.tscn").instance()
 		boom.global_position = global_position
 		world.get_child(3).add_child(boom)
+	
+	#Play the throwing sound for the projectile.
+	if $anim.is_playing() and $sprite.frame == 6:
+		$throw.play()
+		if repeat == 0 and !fire:
+			bull_vel = global_position.distance_to(Vector2(player.global_position.x - 16, player.global_position.y))*0.5
+		if repeat == 1 and !fire:
+			bull_vel = global_position.distance_to(Vector2(player.global_position.x + 16, player.global_position.y))*0.5
+		if repeat == 2 and !fire:
+			bull_vel = global_position.distance_to(Vector2(player.global_position.x, player.global_position.y))*0.5
+		var stick = load("res://scenes/enemies/rave_bullet.tscn").instance()
+		stick.get_child(1).flip_h = $sprite.flip_h
+		stick.x_spd = bull_vel
+		stick.global_position = global_position
+		world.get_child(1).add_child(stick)
+		fire = true
 
 func _on_anim_finished(anim_name):
-	#Shoot when open.
 	if anim_name == "open":
-		$anim.play("idle2")
-		shoot = true
+		if !dead:
+			if state == 1:
+				$anim.play("throw")
+			if state == 2:
+				$anim.play("idle")
+				immune = true
+				reset = RESET_MAX
+				state = 0
+				repeat = 0
+		else:
+			$anim.play("idle")
+			immune = true
+			reset = RESET_MAX
+			state = 0
+			repeat = 0
 	
-	#Reset the Met
-	if anim_name == "close":
-		$anim.play("idle1")
-		immune = true
-		state = 0
-		reset = RESET_MAX
+	if anim_name == 'throw':
+		if !dead:
+			if repeat < 2:
+				$anim.play("throw")
+				repeat += 1
+			else:
+				shoot = true
+				$anim.play("idle2")
+		fire = false
 
 func _on_hit_box_body_entered(body):
 	if body.is_in_group("weapons") or body.is_in_group("adaptor_dmg"):
@@ -130,9 +166,7 @@ func _on_hit_box_body_entered(body):
 				else:
 					body._on_screen_exited()
 				hp -= body.damage
-				$audio/hit.stop()
-				$audio/hit.play()
-				$sprite.hide()
+				$hit.play()
 				flash = true
 				f_delay = 2
 	
