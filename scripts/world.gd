@@ -60,24 +60,27 @@ var enemy_count = 0
 #scrolling section of the code, as it will only change the screen transitions.
 
 var room_data = {
-				#Cossack Test Area
-				"(8, 6)": [1, 1, 0, 1, 1, 1],
-				"(9, 6)": [0, 0, 1, 0, 6, 1],
-				"(14, 6)": [1, 0, 0, 0, 6, -1],
-				"(14, 5)": [1, 1, 0, 0, 1, -1],
-				"(14, 4)": [0, 1, 0, 0, 6, 1],
-				"(15, 4)": [0, 0, 0, 0, 0, 1],
-				"(19, 4)": [1, 0, 0, 0, 6, -1],
-				"(19, 3)": [1, 1, 0, 0, 1, -1],
-				"(19, 1)": [1, 1, 0, 0, 1, -1],
-				"(19, 0)": [0, 1, 0, 1, 1, -1],
-				#Wily Test Area
-				"(8, 7)": [0, 1, 0, 0, 1, 1],
-				"(8, 10)": [0, 0, 0, 0, 5, 1],
-				"(11, 10)": [0, 0, 0, 0, 0, -1],
-				"(12, 10)": [0, 1, 0, 0, 5, -1],
-				"(12, 11)": [0, 1, 0, 0, 1, 1],
-				"(12, 15)": [0, 0, 0, 1, 2, 1]
+				#Glow Man
+				"(0, 0)": [0, 0, 0, 1, 3, 1],
+				"(3, 0)": [0, 1, 0, 0, 1, 1],
+				
+				
+#				"(9, 6)": [0, 0, 1, 0, 6, 1],
+#				"(14, 6)": [1, 0, 0, 0, 6, -1],
+#				"(14, 5)": [1, 1, 0, 0, 1, -1],
+#				"(14, 4)": [0, 1, 0, 0, 6, 1],
+#				"(15, 4)": [0, 0, 0, 0, 0, 1],
+#				"(19, 4)": [1, 0, 0, 0, 6, -1],
+#				"(19, 3)": [1, 1, 0, 0, 1, -1],
+#				"(19, 1)": [1, 1, 0, 0, 1, -1],
+#				"(19, 0)": [0, 1, 0, 1, 1, -1],
+#				#Wily Test Area
+#				"(8, 7)": [0, 1, 0, 0, 1, 1],
+#				"(8, 10)": [0, 0, 0, 0, 5, 1],
+#				"(11, 10)": [0, 0, 0, 0, 0, -1],
+#				"(12, 10)": [0, 1, 0, 0, 5, -1],
+#				"(12, 11)": [0, 1, 0, 0, 1, 1],
+#				"(12, 15)": [0, 0, 0, 1, 2, 1]
 				}
 
 var boss_rooms = {#Insert boss room coordinates here.
@@ -130,6 +133,8 @@ func _ready():
 	$player/camera.limit_bottom = (player_room.y*240)+240
 	$player/camera.limit_left = (player_room.x*256)
 	$player/camera.limit_right = (player_room.x*256)+256
+	
+	_rooms()
 
 # warning-ignore:unused_argument
 func _input(event):
@@ -306,7 +311,7 @@ func _camera():
 		emit_signal("scrolling")
 	
 	#Scroll left (Edge of screen)
-	if pos.x < $player/camera.limit_left + 8 and cam_allow[2] == 1 and !scroll:
+	if pos.x < $player/camera.limit_left + 4 and cam_allow[2] == 1 and !scroll:
 		kill_enemies()
 		$player/camera.limit_left = center.x - (res.x / 2)
 		$player/camera.limit_right = center.x + (res.x / 2)
@@ -318,7 +323,7 @@ func _camera():
 		emit_signal("scrolling")
 	
 	#Scroll right (Edge of screen)
-	if pos.x > $player/camera.limit_right - 8 and cam_allow[3] == 1 and !scroll:
+	if pos.x > $player/camera.limit_right - 4 and cam_allow[3] == 1 and !scroll:
 		kill_enemies()
 		$player/camera.limit_left = center.x - (res.x / 2)
 		$player/camera.limit_right = center.x + (res.x / 2)

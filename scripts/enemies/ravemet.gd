@@ -36,7 +36,6 @@ var shot_delay = 15
 var reset = 0
 
 var repeat = 0
-var target = Vector2()
 var bull_vel = 0
 var fire = false
 
@@ -54,6 +53,7 @@ func _ready():
 	
 	$anim.play("idle")
 
+# warning-ignore:unused_argument
 func _physics_process(delta):
 	#get the distance to the player.
 	dist = floor(global_position.distance_to(player.global_position))
@@ -102,6 +102,9 @@ func _physics_process(delta):
 		$anim.play("idle")
 		dead = true
 		flash = false
+		state = 0
+		immune = true
+		fire = false
 		f_delay = 0
 		reset = 0
 		emit_signal("dead")
@@ -112,24 +115,26 @@ func _physics_process(delta):
 	
 	#Play the throwing sound for the projectile.
 	if $anim.is_playing() and $sprite.frame == 6:
-		$throw.play()
-		if repeat == 0 and !fire:
-			bull_vel = global_position.distance_to(Vector2(player.global_position.x - 16, player.global_position.y))*0.5
-		if repeat == 1 and !fire:
-			bull_vel = global_position.distance_to(Vector2(player.global_position.x + 16, player.global_position.y))*0.5
-		if repeat == 2 and !fire:
-			bull_vel = global_position.distance_to(Vector2(player.global_position.x, player.global_position.y))*0.5
-		var stick = load("res://scenes/enemies/rave_bullet.tscn").instance()
-		stick.get_child(1).flip_h = $sprite.flip_h
-		stick.x_spd = bull_vel
-		stick.global_position = global_position
-		world.get_child(1).add_child(stick)
-		fire = true
+		if repeat == 0:
+			bull_vel = global_position.distance_to(Vector2(player.global_position.x - 16, player.global_position.y))*1.25
+		if repeat == 1:
+			bull_vel = global_position.distance_to(Vector2(player.global_position.x + 16, player.global_position.y))*1.25
+		if repeat == 2:
+			bull_vel = global_position.distance_to(Vector2(player.global_position.x, player.global_position.y))*1.25
+		if !fire:
+			$throw.play()
+			var stick = load("res://scenes/enemies/rave_bullet.tscn").instance()
+			stick.get_child(2).flip_h = $sprite.flip_h
+			stick.x_spd = bull_vel
+			stick.global_position = global_position
+			world.get_child(1).add_child(stick)
+			fire = true
 
 func _on_anim_finished(anim_name):
 	if anim_name == "open":
 		if !dead:
 			if state == 1:
+				repeat = 0
 				$anim.play("throw")
 			if state == 2:
 				$anim.play("idle")
@@ -182,3 +187,4 @@ func _on_screen_exited():
 		dead = false
 		$sprite.show()
 		hp = DEFAULT_HP
+		reset = RESET_MAX
