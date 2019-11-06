@@ -97,14 +97,13 @@ func _physics_process(delta):
 		player.damage()
 	
 	if hp <= 0 and !dead:
-		#Calculate item drops here.
+		item_drop()
 		$sprite.hide()
 		$anim.play("idle")
 		dead = true
 		flash = false
 		state = 0
 		immune = true
-		fire = false
 		f_delay = 0
 		reset = 0
 		emit_signal("dead")
@@ -144,6 +143,7 @@ func _on_anim_finished(anim_name):
 				repeat = 0
 		else:
 			$anim.play("idle")
+			fire = false
 			immune = true
 			reset = RESET_MAX
 			state = 0
@@ -188,3 +188,50 @@ func _on_screen_exited():
 		$sprite.show()
 		hp = DEFAULT_HP
 		reset = RESET_MAX
+
+func item_drop():
+	#Move this to world script.
+	var item = ''
+	var type = 0
+	var item_table = {
+		0 : null,
+		1 : "bolt_l",
+		2 : "bolt_s",
+		3 : "life_l",
+		4 : "life_s",
+		5 : "wpn_l",
+		6 : "wpn_s",
+		7 : "1up"
+		}
+	
+	var rate = floor(rand_range(1, 128))
+	
+	#Drop rates are based on MM1/2 values
+	if rate == 1:
+		item = item_table.get(7)
+		type = 8
+	if rate >= 2 and rate <= 6:
+		item = item_table.get(5)
+		type = 5
+	if rate >= 7 and rate <= 11:
+		item = item_table.get(3)
+		type = 3
+	if rate >= 12 and rate <= 16:
+		item = item_table.get(1)
+		type = 1
+	if rate >= 17 and rate <= 42:
+		item = item_table.get(6)
+		type = 4
+	if rate >= 43 and rate <= 58:
+		item = item_table.get(4)
+		type = 2
+	if rate >= 59 and rate <= 74:
+		item = item_table.get(2)
+		type = 0
+	
+	if item != '':
+		var spawn = load("res://scenes/objects/"+item+".tscn").instance()
+		spawn.global_position = global_position
+		spawn.type = type
+		spawn.velocity.y = spawn.JUMP_SPEED
+		world.get_child(1).add_child(spawn)

@@ -204,37 +204,37 @@ func erase_dirs():
 func set_dirs():
 
 		var d_up = InputEventJoypadButton.new()
-		d_up.set_button_index(Input.get_joy_button_index_from_string('DPAD Up'))
+		d_up.set_button_index(12)
 		InputMap.action_add_event('up', d_up)
 		
 		var d_down = InputEventJoypadButton.new()
-		d_down.set_button_index(Input.get_joy_button_index_from_string('DPAD Down'))
+		d_down.set_button_index(13)
 		InputMap.action_add_event('down', d_down)
 		
 		var d_left = InputEventJoypadButton.new()
-		d_left.set_button_index(Input.get_joy_button_index_from_string('DPAD Left'))
+		d_left.set_button_index(14)
 		InputMap.action_add_event('left', d_left)
 		
 		var d_right = InputEventJoypadButton.new()
-		d_right.set_button_index(Input.get_joy_button_index_from_string('DPAD Up'))
+		d_right.set_button_index(15)
 		InputMap.action_add_event('right', d_right)
 	
-		var a_up = InputEventJoypadMotion.new()
-		a_up.set_axis(Input.get_joy_axis_index_from_string('Left Stick Y'))
-		a_up.set_axis_value(-1.0)
-		InputMap.action_add_event('up', a_up)
-
-		var a_down = InputEventJoypadMotion.new()
-		a_down.set_axis(Input.get_joy_axis_index_from_string('Left Stick Y'))
-		a_down.set_axis_value(1.0)
-		InputMap.action_add_event('down', a_down)
-
-		var a_left = InputEventJoypadMotion.new()
-		a_left.set_axis(Input.get_joy_axis_index_from_string('Left Stick X'))
-		a_left.set_axis_value(-1.0)
-		InputMap.action_add_event('left', a_left)
-
-		var a_right = InputEventJoypadMotion.new()
-		a_right.set_axis(Input.get_joy_axis_index_from_string('Left Stick X'))
-		a_right.set_axis_value(1.0)
-		InputMap.action_add_event('right', a_right)
+#		var a_up = InputEventJoypadMotion.new()
+#		a_up.set_axis(Input.get_joy_axis_index_from_string('Left Stick Y'))
+#		a_up.set_axis_value(-1.0)
+#		InputMap.action_add_event('up', a_up)
+#
+#		var a_down = InputEventJoypadMotion.new()
+#		a_down.set_axis(Input.get_joy_axis_index_from_string('Left Stick Y'))
+#		a_down.set_axis_value(1.0)
+#		InputMap.action_add_event('down', a_down)
+#
+#		var a_left = InputEventJoypadMotion.new()
+#		a_left.set_axis(Input.get_joy_axis_index_from_string('Left Stick X'))
+#		a_left.set_axis_value(-1.0)
+#		InputMap.action_add_event('left', a_left)
+#
+#		var a_right = InputEventJoypadMotion.new()
+#		a_right.set_axis(Input.get_joy_axis_index_from_string('Left Stick X'))
+#		a_right.set_axis_value(1.0)
+#		InputMap.action_add_event('right', a_right)

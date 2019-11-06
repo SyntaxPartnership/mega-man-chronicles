@@ -307,8 +307,8 @@ func _input(event):
 			#Gamepad menu
 			if event is InputEventJoypadButton:
 				if !pressed and setting:
-					var button = Input.get_joy_button_index_from_string(event.button_index)
-					var action = INPUT_ACTIONS[menu_b_pos] + 4
+					var button = Input.get_joy_button_string(event.button_index)
+					var action = INPUT_ACTIONS[menu_b_pos + 4]
 				
 					match menu_b_pos:
 						4:

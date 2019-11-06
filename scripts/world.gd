@@ -1092,3 +1092,4 @@ func swap():
 		global.player = global.player_id[int($player.swap)]
 		$player.change_char()
 		palette_swap()
+

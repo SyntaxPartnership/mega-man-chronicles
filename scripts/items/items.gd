@@ -16,6 +16,7 @@ var new_plyr
 func _ready():
 	#If a 1UP, set the appropriate sprite.
 	sprite_swap()
+	world.palette_swap()
 	
 	if $anim.has_animation("idle"):
 		$anim.play("idle")
