@@ -233,5 +233,6 @@ func item_drop():
 		var spawn = load("res://scenes/objects/"+item+".tscn").instance()
 		spawn.global_position = global_position
 		spawn.type = type
+		spawn.time = 420
 		spawn.velocity.y = spawn.JUMP_SPEED
 		world.get_child(1).add_child(spawn)
