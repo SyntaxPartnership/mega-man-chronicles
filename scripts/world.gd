@@ -36,6 +36,9 @@ var swapping = false
 var shots = 0
 var adaptors = 0
 
+#Item Drops
+var item = []
+
 #Camera values
 var res = Vector2()
 var center = Vector2()
@@ -1093,3 +1096,36 @@ func swap():
 		$player.change_char()
 		palette_swap()
 
+func item_drop():
+	#Calculate drop rate and set item to spawn. (Instancing is done via the enemy's script.)
+	item = []
+	var item_table = {
+		0 : ["", null],
+		1 : ["bolt_l", 1],
+		2 : ["bolt_s", 0],
+		3 : ["life_l", 3],
+		4 : ["life_s", 2],
+		5 : ["wpn_l", 5],
+		6 : ["wpn_s", 4],
+		7 : ["1up", 8]
+		}
+	
+	var rate = floor(rand_range(1, 128))
+	
+	#Drop rates are based on MM1/2 values
+	if rate == 1:
+		item = item_table.get(7)
+	if rate >= 2 and rate <= 6:
+		item = item_table.get(5)
+	if rate >= 7 and rate <= 11:
+		item = item_table.get(3)
+	if rate >= 12 and rate <= 16:
+		item = item_table.get(1)
+	if rate >= 17 and rate <= 42:
+		item = item_table.get(6)
+	if rate >= 43 and rate <= 58:
+		item = item_table.get(4)
+	if rate >= 59 and rate <= 74:
+		item = item_table.get(2)
+	if rate >= 75:
+		item = item_table.get(0)

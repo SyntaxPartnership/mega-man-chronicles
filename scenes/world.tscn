@@ -130,6 +130,7 @@ tile_data = PoolIntArray( 458799, 0, 0 )
 tile_set = ExtResource( 13 )
 cell_size = Vector2( 16, 16 )
 format = 1
+tile_data = PoolIntArray( 196670, 6, 0 )
 
 [node name="enemy_map" type="TileMap" parent="graphic"]
 tile_set = ExtResource( 14 )
@@ -139,7 +140,6 @@ tile_data = PoolIntArray( 655390, 1, 0, 655395, 1, 0, 720916, 1, 0, 720920, 1, 0
 
 [node name="player" parent="." instance=ExtResource( 15 )]
 pause_mode = 1
-editor/display_folded = true
 position = Vector2( 64, 132 )
 
 [node name="camera" type="Camera2D" parent="player"]
@@ -148,6 +148,7 @@ limit_left = 0
 limit_top = 0
 limit_right = 512
 limit_bottom = 240
+smoothing_speed = 10.0
 drag_margin_left = 0.0
 drag_margin_top = 0.0
 drag_margin_right = 0.0
