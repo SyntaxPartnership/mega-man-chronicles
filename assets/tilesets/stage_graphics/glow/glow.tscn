@@ -1,0 +1,53 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assets/tilesets/stage_graphics/glow/glow.png" type="Texture" id=1]
+
+[node name="glow" type="Node2D"]
+
+[node name="back01" type="Sprite" parent="."]
+position = Vector2( 8, 8 )
+texture = ExtResource( 1 )
+vframes = 8
+hframes = 32
+
+[node name="back02" type="Sprite" parent="."]
+position = Vector2( 24, 8 )
+texture = ExtResource( 1 )
+vframes = 8
+hframes = 32
+frame = 1
+
+[node name="back03" type="Sprite" parent="."]
+position = Vector2( 40, 8 )
+texture = ExtResource( 1 )
+vframes = 8
+hframes = 32
+frame = 2
+
+[node name="back04" type="Sprite" parent="."]
+position = Vector2( 48, 8 )
+texture = ExtResource( 1 )
+vframes = 8
+hframes = 32
+frame = 3
+
+[node name="back05" type="Sprite" parent="."]
+position = Vector2( 64, 8 )
+texture = ExtResource( 1 )
+vframes = 8
+hframes = 32
+frame = 4
+
+[node name="back06" type="Sprite" parent="."]
+position = Vector2( 80, 8 )
+texture = ExtResource( 1 )
+vframes = 8
+hframes = 32
+frame = 32
+
+[node name="back07" type="Sprite" parent="."]
+position = Vector2( 96, 8 )
+texture = ExtResource( 1 )
+vframes = 8
+hframes = 32
+frame = 32
