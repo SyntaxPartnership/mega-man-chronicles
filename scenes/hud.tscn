@@ -49,6 +49,7 @@ texture_progress = ExtResource( 3 )
 fill_mode = 3
 
 [node name="weap" type="TextureProgress" parent="."]
+visible = false
 material = SubResource( 2 )
 margin_left = 32.0
 margin_top = 16.0
@@ -61,6 +62,7 @@ texture_progress = ExtResource( 4 )
 fill_mode = 3
 
 [node name="boss" type="TextureProgress" parent="."]
+visible = false
 margin_left = 48.0
 margin_top = 16.0
 margin_right = 8.0

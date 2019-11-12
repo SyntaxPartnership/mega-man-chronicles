@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://scripts/world.gd" type="Script" id=1]
 [ext_resource path="res://assets/tilesets/test/testroom.tres" type="TileSet" id=2]
@@ -11,22 +11,23 @@
 [ext_resource path="res://assets/tilesets/collision/fst_conv_r.tres" type="TileSet" id=9]
 [ext_resource path="res://assets/tilesets/collision/fst_conv_l.tres" type="TileSet" id=10]
 [ext_resource path="res://assets/tilesets/spawn_pts/spawn_pts.tres" type="TileSet" id=11]
-[ext_resource path="res://assets/tilesets/objects/objects.tres" type="TileSet" id=12]
-[ext_resource path="res://assets/tilesets/objects/items.tres" type="TileSet" id=13]
-[ext_resource path="res://assets/tilesets/enemies/enemies.tres" type="TileSet" id=14]
-[ext_resource path="res://scenes/player/player.tscn" type="PackedScene" id=15]
-[ext_resource path="res://scripts/effects/ready.gd" type="Script" id=16]
-[ext_resource path="res://scenes/hud.tscn" type="PackedScene" id=17]
-[ext_resource path="res://scenes/pause_menu.tscn" type="PackedScene" id=18]
-[ext_resource path="res://scenes/effects/fade.tscn" type="PackedScene" id=19]
-[ext_resource path="res://assets/audio/se/Death.wav" type="AudioStream" id=20]
-[ext_resource path="res://assets/audio/se/Splash.wav" type="AudioStream" id=21]
-[ext_resource path="res://assets/audio/se/Beam In.wav" type="AudioStream" id=22]
-[ext_resource path="res://assets/audio/se/Weapon Menu.wav" type="AudioStream" id=23]
-[ext_resource path="res://assets/audio/se/BLING.wav" type="AudioStream" id=24]
-[ext_resource path="res://assets/audio/se/Hurt.wav" type="AudioStream" id=25]
-[ext_resource path="res://assets/audio/se/Meter.wav" type="AudioStream" id=26]
-[ext_resource path="res://assets/audio/se/Error.wav" type="AudioStream" id=27]
+[ext_resource path="res://assets/tilesets/stage_graphics/glow/glow.tres" type="TileSet" id=12]
+[ext_resource path="res://assets/tilesets/objects/objects.tres" type="TileSet" id=13]
+[ext_resource path="res://assets/tilesets/objects/items.tres" type="TileSet" id=14]
+[ext_resource path="res://assets/tilesets/enemies/enemies.tres" type="TileSet" id=15]
+[ext_resource path="res://scenes/player/player.tscn" type="PackedScene" id=16]
+[ext_resource path="res://scripts/effects/ready.gd" type="Script" id=17]
+[ext_resource path="res://scenes/hud.tscn" type="PackedScene" id=18]
+[ext_resource path="res://scenes/pause_menu.tscn" type="PackedScene" id=19]
+[ext_resource path="res://scenes/effects/fade.tscn" type="PackedScene" id=20]
+[ext_resource path="res://assets/audio/se/Death.wav" type="AudioStream" id=21]
+[ext_resource path="res://assets/audio/se/Splash.wav" type="AudioStream" id=22]
+[ext_resource path="res://assets/audio/se/Beam In.wav" type="AudioStream" id=23]
+[ext_resource path="res://assets/audio/se/Weapon Menu.wav" type="AudioStream" id=24]
+[ext_resource path="res://assets/audio/se/BLING.wav" type="AudioStream" id=25]
+[ext_resource path="res://assets/audio/se/Hurt.wav" type="AudioStream" id=26]
+[ext_resource path="res://assets/audio/se/Meter.wav" type="AudioStream" id=27]
+[ext_resource path="res://assets/audio/se/Error.wav" type="AudioStream" id=28]
 
 [sub_resource type="DynamicFontData" id=1]
 antialiased = false
@@ -47,6 +48,7 @@ margin_right = 40.0
 margin_bottom = 40.0
 
 [node name="background" type="TileMap" parent="coll_mask"]
+visible = false
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 256, 240 )
 format = 1
@@ -120,29 +122,36 @@ tile_data = PoolIntArray( 1572879, 0, 0 )
 margin_right = 40.0
 margin_bottom = 40.0
 
-[node name="objects" type="TileMap" parent="graphic"]
+[node name="glow" type="TileMap" parent="graphic"]
 tile_set = ExtResource( 12 )
+cell_size = Vector2( 16, 16 )
+format = 1
+tile_data = PoolIntArray( 65549, 0, 0, 65550, 1, 0, 65551, 2, 0, 65552, 3, 0, 131085, 4, 0, 131086, 5, 0, 131087, 6, 0, 131088, 7, 0, 196621, 4, 0, 196622, 5, 0, 196623, 6, 0, 196624, 7, 0, 262157, 4, 0, 262158, 8, 0, 262159, 9, 0, 262160, 7, 0, 327693, 4, 0, 327694, 10, 0, 327695, 11, 0, 327696, 7, 0, 393216, 28, 0, 393217, 29, 0, 393218, 30, 0, 393219, 31, 0, 393220, 28, 0, 393221, 29, 0, 393222, 30, 0, 393223, 31, 0, 393224, 28, 0, 393225, 29, 0, 393226, 30, 0, 393227, 31, 0, 393228, 28, 0, 393229, 4, 0, 393230, 12, 0, 393231, 13, 0, 393232, 7, 0, 393233, 21, 0, 393234, 30, 0, 393235, 31, 0, 393236, 28, 0, 393237, 29, 0, 393238, 30, 0, 393239, 31, 0, 393240, 28, 0, 393241, 29, 0, 393242, 30, 0, 393243, 31, 0, 393244, 28, 0, 393245, 16, 0, 393246, 17, 0, 393247, 31, 0, 393248, 28, 0, 393249, 29, 0, 393250, 30, 0, 393251, 31, 0, 393252, 28, 0, 393253, 29, 0, 393254, 30, 0, 393255, 31, 0, 393256, 28, 0, 393257, 29, 0, 393258, 30, 0, 393259, 31, 0, 393260, 28, 0, 458752, 32, 0, 458753, 33, 0, 458754, 34, 0, 458755, 35, 0, 458756, 32, 0, 458757, 33, 0, 458758, 34, 0, 458759, 35, 0, 458760, 32, 0, 458761, 33, 0, 458762, 34, 0, 458763, 16, 0, 458764, 17, 0, 458765, 4, 0, 458766, 14, 0, 458767, 15, 0, 458768, 7, 0, 458769, 23, 0, 458770, 34, 0, 458771, 35, 0, 458772, 16, 0, 458773, 17, 0, 458774, 34, 0, 458775, 35, 0, 458776, 25, 0, 458777, 33, 0, 458778, 34, 0, 458779, 35, 0, 458780, 32, 0, 458781, 18, 0, 458782, 19, 0, 458783, 35, 0, 458784, 32, 0, 458785, 33, 0, 458786, 34, 0, 458787, 35, 0, 458788, 32, 0, 458789, 33, 0, 458790, 34, 0, 458791, 35, 0, 458792, 32, 0, 458793, 33, 0, 458794, 34, 0, 458795, 35, 0, 458796, 32, 0, 458797, 33, 0, 458798, 34, 0, 524298, 20, 0, 524299, 18, 0, 524300, 25, 0, 524301, 4, 0, 524302, 8, 0, 524303, 9, 0, 524304, 7, 0, 524305, 23, 0, 524307, 25, 0, 524308, 18, 0, 524309, 16, 0, 524310, 17, 0, 524312, 26, 0, 524317, 18, 0, 524318, 19, 0, 589831, 20, 0, 589832, 21, 0, 589833, 25, 0, 589834, 22, 0, 589835, 18, 0, 589836, 26, 0, 589837, 4, 0, 589838, 10, 0, 589839, 11, 0, 589840, 7, 0, 589841, 23, 0, 589842, 20, 0, 589843, 26, 0, 589844, 18, 0, 589845, 18, 0, 589846, 19, 0, 589848, 27, 0, 589850, 21, 0, 589852, 20, 0, 589853, 18, 0, 589854, 19, 0, 655363, 20, 0, 655364, 25, 0, 655365, 24, 0, 655366, 20, 0, 655367, 22, 0, 655368, 23, 0, 655369, 26, 0, 655370, 22, 0, 655371, 18, 0, 655372, 27, 0, 655373, 4, 0, 655374, 12, 0, 655375, 13, 0, 655376, 7, 0, 655377, 23, 0, 655378, 22, 0, 655379, 27, 0, 655380, 18, 0, 655381, 18, 0, 655382, 19, 0, 655383, 20, 0, 655384, 26, 0, 655385, 24, 0, 655386, 23, 0, 655387, 21, 0, 655388, 22, 0, 655389, 18, 0, 655390, 19, 0 )
+
+[node name="objects" type="TileMap" parent="graphic"]
+tile_set = ExtResource( 13 )
 cell_size = Vector2( 16, 16 )
 format = 1
 tile_data = PoolIntArray( 458799, 0, 0 )
 
 [node name="items" type="TileMap" parent="graphic"]
-tile_set = ExtResource( 13 )
+tile_set = ExtResource( 14 )
 cell_size = Vector2( 16, 16 )
 format = 1
 tile_data = PoolIntArray( 196670, 6, 0 )
 
 [node name="enemy_map" type="TileMap" parent="graphic"]
-tile_set = ExtResource( 14 )
+tile_set = ExtResource( 15 )
 cell_size = Vector2( 16, 16 )
 format = 1
 tile_data = PoolIntArray( 655390, 1, 0, 655395, 1, 0, 720916, 1, 0, 720920, 1, 0, 786448, 1, 0 )
 
-[node name="player" parent="." instance=ExtResource( 15 )]
+[node name="player" parent="." instance=ExtResource( 16 )]
 pause_mode = 1
 position = Vector2( 64, 132 )
 
 [node name="camera" type="Camera2D" parent="player"]
+visible = false
 current = true
 limit_left = 0
 limit_top = 0
@@ -177,14 +186,14 @@ margin_bottom = 2.5
 custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "READY"
-script = ExtResource( 16 )
+script = ExtResource( 17 )
 
-[node name="hud" parent="hud" instance=ExtResource( 17 )]
+[node name="hud" parent="hud" instance=ExtResource( 18 )]
 
 [node name="pause" type="CanvasLayer" parent="."]
 editor/display_folded = true
 
-[node name="pause_menu" parent="pause" instance=ExtResource( 18 )]
+[node name="pause_menu" parent="pause" instance=ExtResource( 19 )]
 visible = false
 
 [node name="debug_stats" type="CanvasLayer" parent="."]
@@ -356,8 +365,7 @@ text = "Place menu options here."
 [node name="fade" type="CanvasLayer" parent="."]
 pause_mode = 2
 
-[node name="fade" parent="fade" instance=ExtResource( 19 )]
-visible = false
+[node name="fade" parent="fade" instance=ExtResource( 20 )]
 position = Vector2( 128, 120 )
 
 [node name="audio" type="Control" parent="."]
@@ -366,28 +374,28 @@ margin_right = 40.0
 margin_bottom = 40.0
 
 [node name="death" type="AudioStreamPlayer" parent="audio"]
-stream = ExtResource( 20 )
-
-[node name="splash" type="AudioStreamPlayer" parent="audio"]
 stream = ExtResource( 21 )
 
-[node name="appear" type="AudioStreamPlayer" parent="audio"]
+[node name="splash" type="AudioStreamPlayer" parent="audio"]
 stream = ExtResource( 22 )
 
-[node name="menu" type="AudioStreamPlayer" parent="audio"]
+[node name="appear" type="AudioStreamPlayer" parent="audio"]
 stream = ExtResource( 23 )
 
-[node name="bling" type="AudioStreamPlayer" parent="audio"]
+[node name="menu" type="AudioStreamPlayer" parent="audio"]
 stream = ExtResource( 24 )
 
-[node name="hurt" type="AudioStreamPlayer" parent="audio"]
+[node name="bling" type="AudioStreamPlayer" parent="audio"]
 stream = ExtResource( 25 )
 
-[node name="meter" type="AudioStreamPlayer" parent="audio"]
+[node name="hurt" type="AudioStreamPlayer" parent="audio"]
 stream = ExtResource( 26 )
 
-[node name="buzz" type="AudioStreamPlayer" parent="audio"]
+[node name="meter" type="AudioStreamPlayer" parent="audio"]
 stream = ExtResource( 27 )
+
+[node name="buzz" type="AudioStreamPlayer" parent="audio"]
+stream = ExtResource( 28 )
 [connection signal="scrolling" from="." to="player" method="_on_world_scrolling"]
 [connection signal="teleport" from="player" to="." method="_on_teleport"]
 [connection signal="start" from="hud/ready" to="player" method="_on_ready_start"]
