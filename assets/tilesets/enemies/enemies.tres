@@ -23,3 +23,13 @@
 1/navigation_offset = Vector2( 8, 8 )
 1/shapes = [  ]
 1/z_index = 0
+2/name = "bouncer"
+2/texture = ExtResource( 1 )
+2/tex_offset = Vector2( 0, 0 )
+2/modulate = Color( 1, 1, 1, 1 )
+2/region = Rect2( 16, 0, 16, 16 )
+2/tile_mode = 0
+2/occluder_offset = Vector2( 8, 8 )
+2/navigation_offset = Vector2( 8, 8 )
+2/shapes = [  ]
+2/z_index = 0

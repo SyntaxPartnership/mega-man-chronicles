@@ -15,3 +15,10 @@ position = Vector2( 28, 8 )
 texture = ExtResource( 1 )
 vframes = 20
 hframes = 20
+
+[node name="bouncer" type="Sprite" parent="."]
+position = Vector2( 48, 8 )
+texture = ExtResource( 1 )
+vframes = 20
+hframes = 20
+frame = 1

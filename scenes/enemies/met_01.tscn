@@ -125,7 +125,6 @@ script = ExtResource( 1 )
 shape = SubResource( 1 )
 
 [node name="hit_box" type="Area2D" parent="."]
-editor/display_folded = true
 collision_layer = 33
 collision_mask = 4
 
