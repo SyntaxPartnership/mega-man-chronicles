@@ -36,6 +36,7 @@ var state = 0
 const DEF_TIME = 60
 var time = 60
 var attack = false
+var reset = false
 
 func _ready():
 	start_pos = Vector2(global_position.x, global_position.y)
@@ -55,6 +56,12 @@ func _physics_process(delta):
 	if time > -1:
 		time -= 1
 	
+	if time == 30:
+		if global_position.x > player.global_position.x:
+			$sprite.flip_h = true
+		else:
+			$sprite.flip_h = false
+	
 	if time == 0:
 		state = round(rand_range(0, 1))
 		attack = true
@@ -65,8 +72,10 @@ func _physics_process(delta):
 			x_speed += 2
 		elif x_speed > 0:
 			x_speed -= 2
-	
-	print(x_speed)
+		
+		if x_speed == 2 or x_speed == -2:
+			$anim.play_backwards("jets")
+			reset = true
 	
 	velocity.x = x_speed
 	velocity.y += GRAVITY * delta
@@ -86,8 +95,13 @@ func _on_anim_finished(anim_name):
 		$anim.play("jump")
 	
 	if anim_name == "jets":
-		if $sprite.flip_h:
-			x_speed = -180
+		if !reset:
+			if $sprite.flip_h:
+				x_speed = -180
+			else:
+				x_speed = 180
+			$anim.play("dash")
 		else:
-			x_speed = 180
-		$anim.play("dash")
+			$anim.play("idle")
+			time = DEF_TIME
+			reset = false
