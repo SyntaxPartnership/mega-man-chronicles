@@ -524,8 +524,7 @@ func _process(delta):
 			if $player.act_st != 13 and !$player.slide:
 				kill_weapons()
 				kill_effects()
-				$player/audio/charge_start.stop()
-				$player/audio/charge_loop.stop()
+				$player/audio/charge.stop()
 				$player/audio/hurt.stop()
 				$player.shot_delay = 0
 				$player.c_flash = 0
