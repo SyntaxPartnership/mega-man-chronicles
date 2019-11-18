@@ -466,6 +466,7 @@ func _rooms():
 func _process(delta):
 	_camera()
 	#Print Shit
+	print(global.player_life)
 	
 	#Get other player information.
 	player_tilepos = $coll_mask/tiles.world_to_map(pos)
@@ -518,7 +519,7 @@ func _process(delta):
 				a._on_screen_exited()
 	
 	#Force the player to swap if one character dies.
-	if global.player_life[0] <= 0 and global.player_life[1] != 0 and !$player.swap or global.player_life[0] != 0 and global.player_life[1] <= 0 and $player.swap:
+	if global.player_life[0] <= 0 and global.player_life[1] >= 0 and !$player.swap or global.player_life[0] >= 0 and global.player_life[1] <= 0 and $player.swap:
 		if !hurt_swap:
 			hurt_swap = true
 			if $player.act_st != 13 and !$player.slide:
@@ -558,7 +559,7 @@ func _process(delta):
 		get_tree().paused = true
 		$player.hide()
 		
-	if global.player_life[0] == 0 and global.player_life[1] == 0 and !dead:
+	if global.player_life[0] <= 0 and global.player_life[1] <= 0 and !dead:
 		dead = true
 		$player.can_move = false
 		get_tree().paused = true
