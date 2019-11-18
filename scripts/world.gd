@@ -502,7 +502,7 @@ func _process(delta):
 		wpn_en -= 10
 	
 	#Allow the player to move again.
-	if life_en == 0 and wpn_en == 0 and get_tree().paused and !p_menu:
+	if life_en == 0 and wpn_en == 0 and get_tree().paused and !p_menu and !hurt_swap:
 		get_tree().paused = false
 	
 	#Check to see if the player's weapons or adaptors have gone beyond the screen.
