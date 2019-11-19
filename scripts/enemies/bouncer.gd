@@ -3,7 +3,7 @@ extends KinematicBody2D
 signal dead
 
 #Get the player and world nodes.
-onready var world = get_parent().get_parent()
+onready var world = get_parent().get_parent().get_parent()
 onready var camera = world.get_child(2).get_child(9)
 onready var player = world.get_child(2)
 

@@ -3,9 +3,9 @@ extends Node2D
 signal scrolling
 signal close_gate
 
-onready var objects = $graphic/objects
-onready var items = $graphic/items
-onready var enemies = $graphic/enemy_map
+onready var objects = $graphic/spawn_tiles/objects
+onready var items = $graphic/spawn_tiles/items
+onready var enemies = $graphic/spawn_tiles/enemy_map
 
 #Object constants
 const DEATH_BOOM = preload('res://scenes/effects/s_explode_loop.tscn')
@@ -453,8 +453,7 @@ func _rooms():
 				var e = load("res://scenes/enemies/"+e_type+".tscn").instance()
 				var e_pos = enemies.map_to_world(id)
 				e.position = e_pos + (enemies.cell_size / 2)
-				$graphic.add_child(e)
-				$graphic.move_child(e, 3 + 1)
+				$graphic/spawn_tiles.add_child(e)
 				enemy_count += 1
 		
 		#Make items appear.
