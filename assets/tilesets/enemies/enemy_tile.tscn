@@ -22,3 +22,10 @@ texture = ExtResource( 1 )
 vframes = 20
 hframes = 20
 frame = 1
+
+[node name="linetosser" type="Sprite" parent="."]
+position = Vector2( 68, 8 )
+texture = ExtResource( 1 )
+vframes = 20
+hframes = 20
+frame = 2

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/glow_obj.png-4fe572228911ba7a355dab8a37dcfa6b.stex"
+path="res://.import/palette.png-902406b8bc4c8c9c3cd0a13ed068ac9d.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/tilesets/stage_graphics/glow/glow_obj.png"
-dest_files=[ "res://.import/glow_obj.png-4fe572228911ba7a355dab8a37dcfa6b.stex" ]
+source_file="res://assets/palette.png"
+dest_files=[ "res://.import/palette.png-902406b8bc4c8c9c3cd0a13ed068ac9d.stex" ]
 
 [params]
 

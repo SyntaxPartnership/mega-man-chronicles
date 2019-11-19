@@ -454,6 +454,7 @@ func _rooms():
 				var e_pos = enemies.map_to_world(id)
 				e.position = e_pos + (enemies.cell_size / 2)
 				$graphic.add_child(e)
+				$graphic.move_child(e, 3 + 1)
 				enemy_count += 1
 		
 		#Make items appear.
