@@ -93,7 +93,9 @@ tracks/0/keys = {
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 8, 14 )
 
-[node name="linetosser" type="KinematicBody2D"]
+[node name="linetosser" type="KinematicBody2D" groups=[
+"enemies",
+]]
 collision_layer = 66
 collision_mask = 0
 script = ExtResource( 1 )

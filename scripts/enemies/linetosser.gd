@@ -26,7 +26,7 @@ var begin = false
 var state = 0
 var toss = false
 
-const JUMP_SPEED = -325
+const JUMP_SPEED = -210
 const GRAVITY = 900
 
 var velocity = Vector2()
