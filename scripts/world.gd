@@ -466,7 +466,6 @@ func _rooms():
 func _process(delta):
 	_camera()
 	#Print Shit
-	print(global.player_life)
 	
 	#Get other player information.
 	player_tilepos = $coll_mask/tiles.world_to_map(pos)
