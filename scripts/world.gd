@@ -65,7 +65,8 @@ var enemy_count = 0
 var room_data = {
 				#Glow Man
 				"(0, 0)": [0, 0, 0, 1, 3, 1],
-				"(3, 0)": [0, 1, 0, 0, 1, 1],
+				"(3, 0)": [0, 1, 0, 1, 1, 1],
+				"(4, 0)": [0, 0, 0, 1, 3, 1],
 				
 				
 #				"(9, 6)": [0, 0, 1, 0, 6, 1],
@@ -518,7 +519,7 @@ func _process(delta):
 				a._on_screen_exited()
 	
 	#Force the player to swap if one character dies.
-	if global.player_life[0] <= 0 and global.player_life[1] >= 0 and !$player.swap or global.player_life[0] >= 0 and global.player_life[1] <= 0 and $player.swap:
+	if global.player_life[0] <= 0 and global.player_life[1] > 0 and !$player.swap or global.player_life[0] > 0 and global.player_life[1] <= 0 and $player.swap:
 		if !hurt_swap:
 			hurt_swap = true
 			if $player.act_st != 13 and !$player.slide:

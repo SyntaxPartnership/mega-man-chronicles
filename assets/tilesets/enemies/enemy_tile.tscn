@@ -29,3 +29,10 @@ texture = ExtResource( 1 )
 vframes = 20
 hframes = 20
 frame = 2
+
+[node name="laser_gabyoall" type="Sprite" parent="."]
+position = Vector2( 88, 8 )
+texture = ExtResource( 1 )
+vframes = 20
+hframes = 20
+frame = 3
