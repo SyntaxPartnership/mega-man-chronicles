@@ -153,7 +153,11 @@ func _on_anim_finished(anim_name):
 	if anim_name == "squat":
 		if state == 2:
 			$anim.play("jump")
-			x_speed = player.global_position.x - global_position.x
+			x_speed = lerp(0, position.distance_to(player.position), 1)
+			
+			if player.global_position.x < global_position.x:
+				x_speed = -x_speed
+				
 			velocity.y = JUMP_SPEED
 		if state == 6:
 			$anim.play("idle")
