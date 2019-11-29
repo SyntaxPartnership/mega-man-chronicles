@@ -151,3 +151,4 @@ rect = Rect2( -8, -10, 16, 20 )
 [connection signal="body_entered" from="hitbox" to="." method="_on_hitbox_body_entered"]
 [connection signal="body_exited" from="hitbox" to="." method="_on_hitbox_body_exited"]
 [connection signal="screen_exited" from="on_screen" to="." method="_on_screen_exited"]
+[connection signal="viewport_exited" from="on_screen" to="." method="_on_screen_viewport_exited"]

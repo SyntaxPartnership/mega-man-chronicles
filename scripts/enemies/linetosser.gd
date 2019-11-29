@@ -24,6 +24,7 @@ var flash = false
 var f_delay = 0
 
 var begin = false
+var safety = false
 var state = 0
 var toss = false
 
@@ -54,6 +55,7 @@ func _physics_process(delta):
 			$hitbox/box.disabled = false
 			behind.remove_child(self)
 			front.add_child(self)
+			safety = true
 		
 		if state == 1 and is_on_floor():
 			$anim.play('throw')
@@ -62,7 +64,7 @@ func _physics_process(delta):
 		if $sprite.frame == 4 and !toss:
 			$throw.play()
 			
-			var bull_vel = lerp(0, position.distance_to(player.position), 1.5)
+			var bull_vel = lerp(0, position.distance_to(player.position), 1.2)
 			
 			if player.global_position.x < global_position.x:
 				bull_vel = -bull_vel
@@ -104,20 +106,6 @@ func _physics_process(delta):
 		var boom = load("res://scenes/effects/s_explode.tscn").instance()
 		boom.global_position = global_position
 		world.get_child(3).add_child(boom)
-	
-	if global_position.x < cam_pos.x - 128 or global_position.x > cam_pos.x + 128:
-		if state != 0:
-			if dead:
-				dead = false
-				$sprite.show()
-				hp = DEFAULT_HP
-			$anim.play('idle')
-			state = 0
-			begin = false
-			front.remove_child(self)
-			behind.add_child(self)
-			$hitbox/box.disabled = true
-			position = start_pos
 
 	if dead:
 		return
@@ -169,14 +157,17 @@ func spawn_item():
 		spawn.velocity.y = spawn.JUMP_SPEED
 		world.get_child(1).add_child(spawn)
 
-#func _on_screen_exited():
-#	if dead:
-#		dead = false
-#		$sprite.show()
-#		hp = DEFAULT_HP
-#	$anim.play('idle')
-#	state = 0
-#	front.remove_child(self)
-#	behind.add_child(self)
-#	$hitbox/box.disabled = true
-#	position = start_pos
+func _on_screen_exited():
+	if dead:
+		dead = false
+		$sprite.show()
+		hp = DEFAULT_HP
+	if safety:
+		$anim.play('idle')
+		state = 0
+		begin = false
+		front.remove_child(self)
+		behind.add_child(self)
+		$hitbox/box.disabled = true
+		position = start_pos
+		safety = false
