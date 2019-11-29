@@ -61,6 +61,18 @@ func _physics_process(delta):
 		
 		if $sprite.frame == 4 and !toss:
 			$throw.play()
+			
+			var bull_vel = lerp(0, position.distance_to(player.position), 1.5)
+			
+			if player.global_position.x < global_position.x:
+				bull_vel = -bull_vel
+			
+			var stick = load("res://scenes/enemies/rave_bullet.tscn").instance()
+			stick.get_child(2).flip_h = $sprite.flip_h
+			stick.x_spd = bull_vel
+			stick.global_position = global_position
+			world.get_child(1).add_child(stick)
+			
 			toss = true
 		
 		if $sprite.frame != 4 and toss:
