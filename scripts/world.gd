@@ -1079,6 +1079,9 @@ func kill_weapons():
 	adaptors = 0
 
 func kill_enemies():
+	var bullet_kill = get_tree().get_nodes_in_group('enemy_bullet')
+	for b in bullet_kill:
+		b.queue_free()
 	var enemy_kill = get_tree().get_nodes_in_group('enemies')
 	for i in enemy_kill:
 		i.queue_free()

@@ -25,6 +25,7 @@ var f_delay = 0
 
 var begin = false
 var safety = false
+var dbl_safety = false
 var state = 0
 var toss = false
 
@@ -66,9 +67,6 @@ func _physics_process(delta):
 			
 			var bull_vel = lerp(0, position.distance_to(player.position), 1.2)
 			
-			if player.global_position.x < global_position.x:
-				bull_vel = -bull_vel
-			
 			var stick = load("res://scenes/enemies/rave_bullet.tscn").instance()
 			stick.get_child(2).flip_h = $sprite.flip_h
 			stick.x_spd = bull_vel
@@ -106,6 +104,11 @@ func _physics_process(delta):
 		var boom = load("res://scenes/effects/s_explode.tscn").instance()
 		boom.global_position = global_position
 		world.get_child(3).add_child(boom)
+	
+	if dbl_safety:
+		front.remove_child(self)
+		behind.add_child(self)
+		dbl_safety = false
 
 	if dead:
 		return
@@ -163,11 +166,11 @@ func _on_screen_exited():
 		$sprite.show()
 		hp = DEFAULT_HP
 	if safety:
+		dbl_safety = true
 		$anim.play('idle')
 		state = 0
-		begin = false
-		front.remove_child(self)
-		behind.add_child(self)
 		$hitbox/box.disabled = true
 		position = start_pos
+		begin = false
 		safety = false
+
