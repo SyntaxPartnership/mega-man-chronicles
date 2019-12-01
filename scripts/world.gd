@@ -139,6 +139,9 @@ func _ready():
 	$player/camera.limit_right = (player_room.x*256)+256
 	
 	_rooms()
+	
+	#Replace with more substantial version when more stages are added.
+	$audio/music/glow.play()
 
 # warning-ignore:unused_argument
 func _input(event):
@@ -254,7 +257,7 @@ func _input(event):
 		#Pause menu
 		if Input.is_action_just_pressed('start') and !$pause/pause_menu.start and !swapping:
 			$pause/pause_menu.kill_wpn = global.player_weap[int($player.swap)]
-			$audio/menu.play()
+			$audio/se/menu.play()
 			p_menu = true
 			$fade/fade.state = 6
 			$fade/fade.end = true
@@ -268,7 +271,7 @@ func _input(event):
 				if $pause/pause_menu.start:
 					if $pause/pause_menu.kill_wpn != global.player_weap[int($player.swap)]:
 						kill_weapons()
-					$audio/bling.play()
+					$audio/se/bling.play()
 					p_menu = false
 					$fade/fade.state = 8
 					$fade/fade.end = true
@@ -491,13 +494,13 @@ func _process(delta):
 	
 	#Refill life
 	if life_en > 0 and heal_delay == 1:
-		$audio/meter.play()
+		$audio/se/meter.play()
 		global.player_life[int($player.swap)] += 10
 		life_en -= 10
 	
 	#Refill weapons
 	if wpn_en > 0 and heal_delay == 1:
-		$audio/meter.play()
+		$audio/se/meter.play()
 		$player.wpn_lvl[id][int($player.swap) + 1] += 10
 		wpn_en -= 10
 	
@@ -569,7 +572,7 @@ func _process(delta):
 	
 	if dead and dead_delay == 0:
 		if $player.is_visible():
-			$audio/death.play()
+			$audio/se/death.play()
 			$player.hide()
 			for n in range(16):
 				var boom = DEATH_BOOM.instance()
@@ -577,7 +580,7 @@ func _process(delta):
 				boom.id = n
 				$overlap.add_child(boom)
 		else:
-			$audio/death.play()
+			$audio/se/death.play()
 		get_tree().paused = false
 			
 	if dead and dead_delay < 0 and restart > -1:
@@ -605,7 +608,7 @@ func _process(delta):
 	
 	if tele_timer == 0:
 		$player.can_move = false
-		$audio/appear.play()
+		$audio/se/appear.play()
 		$player/anim.play('appear1')
 			
 	
@@ -714,7 +717,7 @@ func _on_fade_fadein():
 	if $fade/fade.state == 3 and $player.lock_ctrl:
 		$player/anim.stop(true)
 		$player.show()
-		$audio/appear.play()
+		$audio/se/appear.play()
 		$player/anim.play('appear1')
 		$player.lock_ctrl = false
 	
@@ -1025,8 +1028,8 @@ func spawn_objects():
 
 func splash():
 	if !dead:
-		$audio/splash.stop()
-		$audio/splash.play()
+		$audio/se/splash.stop()
+		$audio/se/splash.play()
 		var splash = load('res://scenes/effects/splash.tscn').instance()
 		$overlap.add_child(splash)
 		splash.position.x = $player.position.x

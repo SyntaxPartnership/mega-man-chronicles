@@ -485,3 +485,17 @@ texture = ExtResource( 1 )
 vframes = 8
 hframes = 32
 frame = 69
+
+[node name="back70" type="Sprite" parent="."]
+position = Vector2( 72, 72 )
+texture = ExtResource( 1 )
+vframes = 8
+hframes = 32
+frame = 70
+
+[node name="back71" type="Sprite" parent="."]
+position = Vector2( 88, 72 )
+texture = ExtResource( 1 )
+vframes = 8
+hframes = 32
+frame = 71

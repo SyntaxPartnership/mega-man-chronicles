@@ -99,7 +99,6 @@ func _physics_process(delta):
 		dead = true
 		flash = false
 		f_delay = 0
-		emit_signal("dead")
 		#Spawn explosion sprite.
 		var boom = load("res://scenes/effects/s_explode.tscn").instance()
 		boom.global_position = global_position
