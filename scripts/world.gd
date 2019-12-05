@@ -64,10 +64,10 @@ var enemy_count = 0
 
 var room_data = {
 				#Glow Man
-				"(0, 0)": [0, 0, 0, 1, 3, 1],
+				"(0, 0)": [0, 1, 0, 1, 3, 1],
 				"(3, 0)": [0, 1, 0, 1, 1, 1],
-				"(4, 0)": [0, 0, 0, 1, 3, 1],
-				
+				"(4, 0)": [0, 1, 0, 1, 3, 1],
+				"(7, 0)": [1, 1, 0, 1, 1, 1],
 				
 #				"(9, 6)": [0, 0, 1, 0, 6, 1],
 #				"(14, 6)": [1, 0, 0, 0, 6, -1],
@@ -140,8 +140,6 @@ func _ready():
 	
 	_rooms()
 	
-	#Replace with more substantial version when more stages are added.
-	$audio/music/glow.play()
 
 # warning-ignore:unused_argument
 func _input(event):
@@ -1135,3 +1133,10 @@ func item_drop():
 		item = item_table.get(2)
 	if rate >= 75:
 		item = item_table.get(0)
+
+func _on_player_whstl_end():
+	play_music()
+
+
+func play_music():
+	$audio/music/glow.play()

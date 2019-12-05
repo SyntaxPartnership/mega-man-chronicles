@@ -152,7 +152,7 @@ format = 1
 tile_set = ExtResource( 15 )
 cell_size = Vector2( 16, 16 )
 format = 1
-tile_data = PoolIntArray( 589884, 2, 0, 720913, 3, 0, 720922, 3, 0, 720931, 3, 0, 720974, 4, 0, 786519, 4, 0, 852063, 4, 0 )
+tile_data = PoolIntArray( 589884, 2, 0, 720913, 3, 0, 720922, 3, 0, 720931, 3, 0, 720975, 5, 0, 786519, 5, 0, 852064, 5, 0 )
 
 [node name="stage_overlap" type="Control" parent="graphic"]
 editor/display_folded = true
@@ -430,6 +430,7 @@ margin_bottom = 40.0
 stream = ExtResource( 30 )
 [connection signal="scrolling" from="." to="player" method="_on_world_scrolling"]
 [connection signal="teleport" from="player" to="." method="_on_teleport"]
+[connection signal="whstl_end" from="player" to="." method="_on_player_whstl_end"]
 [connection signal="start" from="hud/ready" to="player" method="_on_ready_start"]
 [connection signal="fadein" from="fade/fade" to="hud/ready" method="_on_fade_fadein"]
 [connection signal="fadein" from="fade/fade" to="." method="_on_fade_fadein"]

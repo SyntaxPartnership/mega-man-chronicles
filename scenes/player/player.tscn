@@ -525,3 +525,4 @@ stream = ExtResource( 12 )
 [connection signal="body_entered" from="slide_wall" to="." method="_on_slide_wall_body_entered"]
 [connection signal="body_exited" from="slide_wall" to="." method="_on_slide_wall_body_exited"]
 [connection signal="body_entered" from="item_det" to="." method="_on_item_entered"]
+[connection signal="finished" from="audio/whistle" to="." method="_on_whistle_finished"]

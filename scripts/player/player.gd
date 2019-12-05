@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 signal teleport
+signal whstl_end
 
 #Use this to pull values from the World script.
 onready var world = get_parent()
@@ -259,6 +260,8 @@ func _ready():
 	#Ready Proto Man's whistle if he is the first player.
 	if global.player == 1:
 		$audio/whistle.play()
+	else:
+		emit_signal("whstl_end")
 
 # warning-ignore:unused_argument
 func _input(event):
@@ -272,6 +275,8 @@ func _input(event):
 		fire = false
 
 func _physics_process(delta):
+	
+	
 	
 	#Make the inputs easier to handle.
 	left_tap = Input.is_action_just_pressed("left")
@@ -1285,3 +1290,6 @@ func kill_ladder():
 		$sprite.flip_h = true
 	else:
 		$sprite.flip_h = false
+
+func _on_whistle_finished():
+	emit_signal("whstl_end")

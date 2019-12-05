@@ -49,7 +49,7 @@ func _ready():
 			var lasers = ((-($box_top.position.y + 2) / 16) * 2) - 1
 			
 			for l in lasers:
-				var beam = load('res://scenes/enemies/gabyoall_laser.tscn').instance()
+				var beam = load('res://scenes/enemies/g_laser_vert.tscn').instance()
 				$laser.add_child(beam)
 				beam.global_position.x = position.x
 				beam.global_position.y = position.y - (8 * (l + 1))
