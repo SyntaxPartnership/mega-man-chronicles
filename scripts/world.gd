@@ -873,8 +873,8 @@ func palette_swap():
 	#Master Weapons.
 	if global.player_weap[int($player.swap)] == 3:
 		palette[0] = global.black
-		palette[1] = global.red3
-		palette[2] = global.yellow2
+		palette[1] = global.brown3
+		palette[2] = global.brown1
 	if global.player_weap[int($player.swap)] == 4:
 		palette[0] = global.black
 		palette[1] = global.blue3

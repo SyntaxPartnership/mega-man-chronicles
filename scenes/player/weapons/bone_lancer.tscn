@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/sprites/weapons/bone_lancer_a.png" type="Texture" id=1]
+
+[sub_resource type="Animation" id=1]
+resource_name = "idle"
+length = 0.24
+loop = true
+step = 0.06
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite_a:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.06, 0.12, 0.18 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3 ]
+}
+
+[node name="bone_lancer" type="KinematicBody2D"]
+
+[node name="sprite_a" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+hframes = 4
+frame = 2
+
+[node name="anim" type="AnimationPlayer" parent="."]
+anims/idle = SubResource( 1 )
