@@ -78,13 +78,14 @@ func _process(delta):
 					kill_chain += 1
 			
 			if !player.is_on_wall():
-				if !p_sprite.flip_h:
-					player.position.x += 8
-				else:
-					player.position.x -= 8
+				if !player.wall:
+					if !p_sprite.flip_h:
+						player.position.x += 8
+					else:
+						player.position.x -= 8
 				length -= 1
 	
-		if length == 0:
+		if length == 0 or player.wall:
 			player.b_lancer = false
 			player.b_lance_pull = false
 			queue_free()

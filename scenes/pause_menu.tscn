@@ -375,7 +375,6 @@ texture_progress = ExtResource( 7 )
 [node name="weap_04" type="Control" parent="." groups=[
 "wpn_icons",
 ]]
-editor/display_folded = true
 material = SubResource( 5 )
 margin_left = -8.0
 margin_top = -8.0
@@ -398,7 +397,7 @@ margin_right = 108.0
 margin_bottom = 88.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 0.988235, 0.972549, 0.988235, 1 )
-text = "WEAP - 01"
+text = "B. LANCER"
 
 [node name="meter" type="TextureProgress" parent="weap_04"]
 use_parent_material = true
