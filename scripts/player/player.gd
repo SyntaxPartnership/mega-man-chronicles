@@ -198,7 +198,9 @@ var wpn_data = {
 	#Mega Man - Rush Jet
 	'0-2-0-31' : [global.rp_jet, 1, 3, 1, 0, SHOOT, load('res://scenes/player/weapons/rush_jet.tscn'), load('res://scenes/player/weapons/buster_a.tscn'), 1, 0],
 	#Master Weapon 1
-	'0-3-0-31' : [global.weapon1, 1, 1, 0, 0, SHOOT, '', load('res://scenes/player/weapons/bone_lancer.tscn'), 0, 0],
+	'0-3-0-31' : [global.weapon1, 1, 1, 0, 20, SHOOT, '', load('res://scenes/player/weapons/bone_lancer.tscn'), 0, 0],
+	'1-3-0-31' : [global.weapon1, 1, 1, 0, 20, SHOOT, '', load('res://scenes/player/weapons/bone_lancer.tscn'), 0, 0],
+	'2-3-0-31' : [global.weapon1, 1, 1, 0, 20, SHOOT, '', load('res://scenes/player/weapons/bone_lancer.tscn'), 0, 0],
 	#Master Weapon 2
 	#Master Weapon 3
 	#Master Weapon 4
@@ -665,10 +667,11 @@ func weapons():
 				
 				#If world.adaptors = adaptor value or the adaptor energy meter is empty, fire shots.
 				if  world.adaptors == wpn_data.get(wkey)[3] and !cooldown or wpn_data.get(wkey)[0][int(swap) + 1] <= 0 and !cooldown:
-					if world.shots < wpn_data.get(wkey)[2]:
+					if world.shots < wpn_data.get(wkey)[2] and wpn_data.get(wkey)[0][int(swap)+1] > 0:
 						shot_delay = 20
 						shot_state(wpn_data.get(wkey)[5])
 						var weapon = wpn_data.get(wkey)[7].instance()
+						wpn_data.get(wkey)[0][int(swap)+1] -= wpn_data.get(wkey)[4]
 						#Set spawn position
 						if wpn_data.get(wkey)[9] == 0:
 							weapon.position = $sprite/shoot_pos.global_position
