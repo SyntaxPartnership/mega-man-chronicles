@@ -48,6 +48,8 @@ var conveyor = 0
 var grav_mod = 1
 var velocity = Vector2()
 var shot_dir = 1
+var b_lancer = false
+var b_lance_pull = false
 
 #Animation and FSM
 var play_anim = ''
@@ -196,6 +198,7 @@ var wpn_data = {
 	#Mega Man - Rush Jet
 	'0-2-0-31' : [global.rp_jet, 1, 3, 1, 0, SHOOT, load('res://scenes/player/weapons/rush_jet.tscn'), load('res://scenes/player/weapons/buster_a.tscn'), 1, 0],
 	#Master Weapon 1
+	'0-3-0-31' : [global.weapon1, 1, 1, 0, 0, SHOOT, '', load('res://scenes/player/weapons/bone_lancer.tscn'), 0, 0],
 	#Master Weapon 2
 	#Master Weapon 3
 	#Master Weapon 4
@@ -275,8 +278,6 @@ func _input(event):
 		fire = false
 
 func _physics_process(delta):
-	
-	
 	
 	#Make the inputs easier to handle.
 	left_tap = Input.is_action_just_pressed("left")
@@ -428,7 +429,10 @@ func _physics_process(delta):
 		#Use GRAVITY to pull the player down.
 		if act_st != CLIMBING:
 			velocity.x = x_speed
-			velocity.y += (GRAVITY / grav_mod) * delta
+			if !b_lance_pull:
+				velocity.y += (GRAVITY / grav_mod) * delta
+			else:
+				velocity.y = 0
 
 		#Set the maximum downward velocity.
 		if velocity.y > 500:
@@ -897,14 +901,15 @@ func _on_item_entered(body):
 		body.pickup()
 
 func standing():
-	if x_dir < 0 and !rush_jet:
-		shot_dir = 0
-		$sprite.flip_h = true
-		$slide_wall.position.x = -7
-	elif x_dir > 0 and !rush_jet:
-		shot_dir = 1
-		$sprite.flip_h = false
-		$slide_wall.position.x = 7
+	if !b_lancer:
+		if x_dir < 0 and !rush_jet:
+			shot_dir = 0
+			$sprite.flip_h = true
+			$slide_wall.position.x = -7
+		elif x_dir > 0 and !rush_jet:
+			shot_dir = 1
+			$sprite.flip_h = false
+			$slide_wall.position.x = 7
 	
 	if global.player == 2:
 		if x_dir == 0 and y_dir == -1:
@@ -923,26 +928,27 @@ func standing():
 		x_speed = 0
 	
 	#Transition to the little step.
-	if x_dir != 0 and shot_st != THROW and shot_st != BASSSHOT and anim_st == IDLE and is_on_floor() and !rush_jet:
+	if x_dir != 0 and shot_st != THROW and shot_st != BASSSHOT and anim_st == IDLE and is_on_floor() and !rush_jet and !b_lancer and !b_lance_pull:
 		anim_state(LILSTEP)
 		if !ice:
 			x_speed = (x_dir * RUN_SPEED) / x_spd_mod
 	
 	#Set X Velocity.
 	if !slide:
-		if anim_st == RUN and !rush_jet:
-			if shot_st != THROW and shot_st != BASSSHOT:
-				if !ice:
-					x_speed = (x_dir * RUN_SPEED) / x_spd_mod
-				else:
-					if x_dir == -1 and x_speed > -RUN_SPEED:
-						x_speed -= 1
-						if x_dir == -1 and x_speed > 0:
+		if !b_lance_pull:
+			if anim_st == RUN and !rush_jet:
+				if shot_st != THROW and shot_st != BASSSHOT:
+					if !ice:
+						x_speed = (x_dir * RUN_SPEED) / x_spd_mod
+					else:
+						if x_dir == -1 and x_speed > -RUN_SPEED:
 							x_speed -= 1
-					elif x_dir == 1 and x_speed < RUN_SPEED:
-						x_speed += 1
-						if x_dir == 1 and x_speed < 0:
+							if x_dir == -1 and x_speed > 0:
+								x_speed -= 1
+						elif x_dir == 1 and x_speed < RUN_SPEED:
 							x_speed += 1
+							if x_dir == 1 and x_speed < 0:
+								x_speed += 1
 		#Prevent the player from running while riding Rush
 		if anim_st == RUN and rush_jet:
 			anim_state(IDLE)
@@ -953,7 +959,8 @@ func standing():
 				elif x_dir == 0 and x_speed < 0:
 					x_speed += 1
 		if anim_st == JUMP:
-			x_speed = (x_dir * RUN_SPEED) / x_spd_mod
+			if !b_lance_pull:
+				x_speed = (x_dir * RUN_SPEED) / x_spd_mod
 	else:
 		if is_on_floor():
 			if $sprite.flip_h == true:
@@ -1047,7 +1054,7 @@ func standing():
 		$audio/land.play()
 
 	#Make the player jump.
-	if global.player == 0 and y_dir != 1 and jump_tap and is_on_floor() and jumps > 0 and !slide_top:
+	if global.player == 0 and y_dir != 1 and jump_tap and is_on_floor() and jumps > 0 and !slide_top and !b_lance_pull:
 		anim_state(JUMP)
 		jumps -= 1
 		velocity.y = JUMP_SPEED
@@ -1215,8 +1222,9 @@ func standing():
 
 func climbing():
 	#Change the direction based on if the player is shooting or not.
-	if x_dir != 0:
-		ladder_dir = x_dir
+	if !b_lancer:
+		if x_dir != 0:
+			ladder_dir = x_dir
 	
 	if ladder_dir == -1:
 		shot_dir = 0
@@ -1272,8 +1280,8 @@ func climbing():
 			kill_ladder()
 			anim_state(IDLE)
 
-	#When the player presses jump.
-	if jump_tap:
+	#When the player presses jump or Bone Lancer touches a wall.
+	if jump_tap or b_lance_pull:
 		kill_ladder()
 		anim_state(JUMP)
 

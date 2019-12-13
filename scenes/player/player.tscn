@@ -460,6 +460,7 @@ anims/stand-shot-d-up = SubResource( 25 )
 anims/stand-shot-up = SubResource( 26 )
 
 [node name="slide_top" type="Area2D" parent="."]
+editor/display_folded = true
 visible = false
 position = Vector2( 0, -4 )
 collision_layer = 2
@@ -469,6 +470,7 @@ collision_mask = 0
 shape = SubResource( 27 )
 
 [node name="slide_wall" type="Area2D" parent="."]
+editor/display_folded = true
 visible = false
 position = Vector2( 7, 0 )
 collision_layer = 2
@@ -478,6 +480,7 @@ collision_mask = 0
 shape = SubResource( 28 )
 
 [node name="item_det" type="Area2D" parent="."]
+editor/display_folded = true
 collision_layer = 8
 
 [node name="box" type="CollisionShape2D" parent="item_det"]
@@ -485,6 +488,7 @@ position = Vector2( 0, 2 )
 shape = SubResource( 2 )
 
 [node name="audio" type="Control" parent="."]
+editor/display_folded = true
 margin_right = 40.0
 margin_bottom = 40.0
 
@@ -521,7 +525,6 @@ pause_mode = 2
 stream = ExtResource( 12 )
 [connection signal="animation_finished" from="anim" to="." method="_on_anim_finished"]
 [connection signal="body_entered" from="slide_top" to="." method="_on_slide_top_body_entered"]
-[connection signal="body_exited" from="slide_top" to="." method="_on_slide_top_body_exited"]
 [connection signal="body_entered" from="slide_wall" to="." method="_on_slide_wall_body_entered"]
 [connection signal="body_exited" from="slide_wall" to="." method="_on_slide_wall_body_exited"]
 [connection signal="body_entered" from="item_det" to="." method="_on_item_entered"]
