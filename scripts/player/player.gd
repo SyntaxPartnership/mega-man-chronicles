@@ -387,6 +387,12 @@ func _physics_process(delta):
 						anim_state(IDLE)
 
 				shot_delay -= 1
+				
+			#Adjust slide_wall size.
+			if b_lance_pull:
+				$slide_top/area.shape.set_extents(Vector2(4, 7))
+			else:
+				$slide_top/area.shape.set_extents(Vector2(0.5, 7))
 
 			if shot_delay == 0:
 				bass_dir = ''

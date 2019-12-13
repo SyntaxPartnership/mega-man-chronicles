@@ -10,12 +10,16 @@ var retract = false
 var wall = false
 var dir = false
 
+var damage = 40
+
 func _ready():
 	$anim.play("idle")
+	$shoot.play()
 	
 	if p_sprite.flip_h or player.ladder_dir == -1:
 		$main/drill.flip_h = true
 		$main/drill.position.x = -5
+		$box.position.x = -5
 		$wall_det.position.x = -5
 		
 		for c in $sub.get_children():
@@ -26,6 +30,7 @@ func _ready():
 	
 	player.b_lancer = true
 
+# warning-ignore:unused_argument
 func _process(delta):
 	
 	if !wall:
@@ -33,9 +38,11 @@ func _process(delta):
 			if length < 8:
 				if !dir:
 					$main/drill.position.x += 8
+					$box.position.x += 8
 					$wall_det.position.x += 8
 				else:
 					$main/drill.position.x -= 8
+					$box.position.x -= 8
 					$wall_det.position.x -= 8
 				
 				length += 1
@@ -50,9 +57,11 @@ func _process(delta):
 			if length > 0:
 				if !dir:
 					$main/drill.position.x -= 8
+					$box.position.x -= 8
 					$wall_det.position.x -= 8
 				else:
 					$main/drill.position.x += 8
+					$box.position.x -= 8
 					$wall_det.position.x += 8
 				
 				for c in $sub.get_children():
@@ -75,7 +84,8 @@ func _process(delta):
 			for c in $sub.get_children():
 				if c.name == "chain0"+str(kill_chain):
 					c.hide()
-					kill_chain += 1
+			
+			kill_chain += 1
 			
 			if !player.is_on_wall():
 				if !player.wall:
@@ -90,6 +100,7 @@ func _process(delta):
 			player.b_lance_pull = false
 			queue_free()
 
+# warning-ignore:unused_argument
 func _on_wall_det_body_entered(body):
 	$anim.stop()
 	player.b_lance_pull = true

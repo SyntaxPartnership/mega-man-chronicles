@@ -124,11 +124,12 @@ func _on_hit_box_body_entered(body):
 			if immune and !body.reflect:
 				body.reflect = true
 			else:
-				if hp < body.damage:
-					if body.name != "buster_f":
+				if body.name != "bone_lancer":
+					if hp < body.damage:
+						if body.name != "buster_f":
+							body._on_screen_exited()
+					else:
 						body._on_screen_exited()
-				else:
-					body._on_screen_exited()
 				hp -= body.damage
 				$audio/hit.stop()
 				$audio/hit.play()

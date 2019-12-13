@@ -58,7 +58,7 @@ func _physics_process(delta):
 			front.add_child(self)
 			safety = true
 		
-		if state == 1 and is_on_floor():
+		if state == 1 and is_on_floor() and !dead:
 			$anim.play('throw')
 			state = 2
 		
@@ -128,13 +128,15 @@ func _on_anim_finished(anim_name):
 		
 
 func _on_hitbox_body_entered(body):
+	
 	if body.is_in_group("weapons") or body.is_in_group("adaptor_dmg"):
 		if !dead:
-			if hp < body.damage:
-				if body.name != "buster_f":
+			if body.name != "bone_lancer":
+				if hp < body.damage:
+					if body.name != "buster_f":
+						body._on_screen_exited()
+				else:
 					body._on_screen_exited()
-			else:
-				body._on_screen_exited()
 			hp -= body.damage
 			$hit.play()
 			$sprite.hide()
