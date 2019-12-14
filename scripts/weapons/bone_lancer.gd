@@ -9,12 +9,13 @@ var length = 0
 var retract = false
 var wall = false
 var dir = false
+var kill_chain = 1
 
 var damage = 40
 
 func _ready():
 	$anim.play("idle")
-	$shoot.play()
+	world.emit_signal("play_sound", "b_lancer")
 	
 	if p_sprite.flip_h or player.ladder_dir == -1:
 		$main/drill.flip_h = true
@@ -79,7 +80,6 @@ func _process(delta):
 	else:
 		
 		if length > 0:
-			var kill_chain = 1
 				
 			for c in $sub.get_children():
 				if c.name == "chain0"+str(kill_chain):

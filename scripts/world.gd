@@ -2,6 +2,7 @@ extends Node2D
 
 signal scrolling
 signal close_gate
+signal play_sound
 
 onready var objects = $graphic/spawn_tiles/objects
 onready var items = $graphic/spawn_tiles/items
@@ -139,7 +140,7 @@ func _ready():
 	$player/camera.limit_right = (player_room.x*256)+256
 	
 	_rooms()
-	
+		
 
 # warning-ignore:unused_argument
 func _input(event):
@@ -1137,6 +1138,10 @@ func item_drop():
 func _on_player_whstl_end():
 	play_music()
 
-
 func play_music():
 	$audio/music/glow.play()
+
+func _on_world_play_sound(sfx):
+	for s in $audio/se.get_children():
+		if s.name == sfx:
+			s.play()
