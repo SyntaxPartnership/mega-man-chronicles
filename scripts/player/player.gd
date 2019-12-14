@@ -1307,6 +1307,7 @@ func kill_ladder():
 		$sprite.flip_h = true
 	else:
 		$sprite.flip_h = false
+	ladder_dir = 0
 
 func _on_whistle_finished():
 	emit_signal("whstl_end")
