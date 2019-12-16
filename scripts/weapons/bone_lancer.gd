@@ -15,7 +15,7 @@ var damage = 40
 
 func _ready():
 	$anim.play("idle")
-	world.sound("b_lancer")
+	world.emit_signal("play_sound", "b_lancer")
 	
 	if p_sprite.flip_h or player.ladder_dir == -1:
 		$main/drill.flip_h = true

@@ -45,7 +45,7 @@ func _physics_process(delta):
 	if !begin:
 		if player.global_position > global_position and global_position.distance_to(player.global_position) < 96:
 			$anim.play("shock")
-			world.sound("shock")
+			$shock.play()
 			$sprite/shock.show()
 			begin = true
 	
@@ -63,7 +63,7 @@ func _physics_process(delta):
 			state = 2
 		
 		if $sprite.frame == 4 and !toss:
-			world.sound("throw")
+			$throw.play()
 			
 			var bull_vel = lerp(0, position.distance_to(player.position), 1.2)
 			

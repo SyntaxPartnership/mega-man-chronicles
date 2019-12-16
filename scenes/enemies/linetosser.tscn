@@ -1,9 +1,11 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://scripts/enemies/linetosser.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/enemies/linetosser.png" type="Texture" id=2]
 [ext_resource path="res://assets/sprites/effects/exclamation.png" type="Texture" id=3]
 [ext_resource path="res://assets/audio/se/Hit.wav" type="AudioStream" id=4]
+[ext_resource path="res://assets/audio/se/Signal.wav" type="AudioStream" id=5]
+[ext_resource path="res://assets/audio/se/Throw.wav" type="AudioStream" id=6]
 
 [sub_resource type="Animation" id=1]
 resource_name = "idle"
@@ -136,6 +138,12 @@ disabled = true
 
 [node name="hit" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
+
+[node name="shock" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+
+[node name="throw" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
 
 [node name="on_screen" type="VisibilityNotifier2D" parent="."]
 rect = Rect2( -8, -10, 16, 20 )
