@@ -2,7 +2,6 @@ extends Node2D
 
 signal scrolling
 signal close_gate
-signal play_sound
 
 onready var objects = $graphic/spawn_tiles/objects
 onready var items = $graphic/spawn_tiles/items
@@ -1141,7 +1140,7 @@ func _on_player_whstl_end():
 func play_music():
 	$audio/music/glow.play()
 
-func _on_world_play_sound(sfx):
+func sound(sfx):
 	for s in $audio/se.get_children():
 		if s.name == sfx:
 			s.play()
