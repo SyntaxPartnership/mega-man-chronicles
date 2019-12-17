@@ -68,7 +68,7 @@ var room_data = {
 				"(3, 0)": [0, 1, 0, 1, 1, 1],
 				"(4, 0)": [0, 1, 0, 1, 3, 1],
 				"(7, 0)": [1, 1, 0, 1, 1, 1],
-				"(7, 1)": [0, 0, 0, 0, 3, 1],
+				"(7, 1)": [0, 0, 0, 0, 4, 1],
 				
 #				"(9, 6)": [0, 0, 1, 0, 6, 1],
 #				"(14, 6)": [1, 0, 0, 0, 6, -1],
@@ -86,6 +86,11 @@ var room_data = {
 #				"(12, 10)": [0, 1, 0, 0, 5, -1],
 #				"(12, 11)": [0, 1, 0, 0, 1, 1],
 #				"(12, 15)": [0, 0, 0, 1, 2, 1]
+				}
+
+var cont_rooms = {
+				#Glow Man
+				"(7, 1)": 1
 				}
 
 var boss_rooms = {#Insert boss room coordinates here.
@@ -225,7 +230,7 @@ func _input(event):
 		
 		#Start swap process.
 		if Input.is_action_just_pressed('select') and !swapping and $player.blink_timer == 0 and $player.blink == 0:
-			if $player.act_st != 13 and !$player.slide:
+			if $player.act_st != 13 and !$player.slide and !$player.b_lancer:
 				if global.player_life[int(!$player.swap)] != 0:
 					kill_weapons()
 					$player/audio/charge.stop()
@@ -426,6 +431,9 @@ func _rooms():
 			else:
 				$player/camera.limit_right = (player_room.x * res.x) + res.x
 				$player/camera.limit_left = player_room.x * res.x
+	
+	if cont_rooms.has(str(player_room)):
+		global.cont_id = cont_rooms.get(str(player_room))
 				
 			
 		#Check tilemap for enemies. If so, place them.
@@ -464,6 +472,8 @@ func _rooms():
 		
 		for s in see_item:
 			s.get_child(0).show()
+		
+		
 	
 #warning-ignore:unused_argument
 func _process(delta):
@@ -536,6 +546,10 @@ func _process(delta):
 				$player.hurt_timer = 0
 				$player.blink_timer = 96
 				$player.hurt_swap = true
+				if $player.b_lancer:
+					$player.b_lancer = false
+					$player.b_lance_pull = false
+					kill_weapons()
 				$player.shot_state($player.NORMAL)
 				$player/sprite/weap_icon_lr.hide()
 				$player.hide()
@@ -558,12 +572,22 @@ func _process(delta):
 		global.player_life[1] = 0
 		dead = true
 		$player.can_move = false
+		if $player.b_lancer:
+			$player.b_lancer = false
+			$player.b_lance_pull = false
+			kill_weapons()
+		kill_music()
 		get_tree().paused = true
 		$player.hide()
 		
 	if global.player_life[0] <= 0 and global.player_life[1] <= 0 and !dead:
 		dead = true
 		$player.can_move = false
+		if $player.b_lancer:
+			$player.b_lancer = false
+			$player.b_lance_pull = false
+			kill_weapons()
+		kill_music()
 		get_tree().paused = true
 	
 	if dead and dead_delay > -1:
@@ -1141,7 +1165,12 @@ func _on_player_whstl_end():
 	play_music()
 
 func play_music():
-	$audio/music/glow.play()
+	if !dead:
+		$audio/music/glow.play()
+
+func kill_music():
+	for m in $audio/music.get_children():
+		m.stop()
 
 func sound(sfx):
 	for s in $audio/se.get_children():

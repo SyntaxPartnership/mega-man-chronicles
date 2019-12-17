@@ -511,7 +511,12 @@ func _physics_process(delta):
 				if !world.dead:
 					global.player_life[0] = 0
 					global.player_life[1] = 0
+					if b_lancer:
+						world.kill_weapons()
+						b_lance_pull = false
+						b_lancer = false
 					world.dead = true
+					world.kill_music()
 					can_move = false
 					get_tree().paused = true
 			
@@ -705,10 +710,16 @@ func weapons():
 					#set spawn position
 					#Above the screen
 					if wpn_data.get(wkey)[8] == 1:
-						if !$sprite.flip_h or ladder_dir == 1:
-							adaptor.position.x = position.x + 32
-						elif $sprite.flip_h or ladder_dir == -1:
-							adaptor.position.x = position.x - 32
+						if act_st != CLIMBING:
+							if !$sprite.flip_h:
+								adaptor.position.x = position.x + 32
+							else:
+								adaptor.position.x = position.x - 32
+						else:
+							if ladder_dir == 1:
+								adaptor.position.x = position.x + 32
+							elif ladder_dir == -1:
+								adaptor.position.x = position.x - 32
 						adaptor.position.y = camera.limit_top - 16
 							
 					
@@ -786,7 +797,8 @@ func damage():
 			velocity.y = 0
 			anim_state(HURT)
 			hurt_timer = 16
-
+			shot_delay = 0
+			shot_state(NORMAL)
 
 func _on_item_entered(body):
 	if body.is_in_group('items'):
