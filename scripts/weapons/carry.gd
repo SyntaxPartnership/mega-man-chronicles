@@ -45,3 +45,6 @@ func kill():
 		explode.position = position
 		queue_free()
 		world.adaptors = 0
+
+func _on_screen_exited():
+	pass

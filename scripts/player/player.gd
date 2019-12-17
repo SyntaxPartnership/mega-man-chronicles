@@ -194,6 +194,7 @@ var wpn_data = {
 	#Mega Man - Rush Coil
 	'0-1-0-31' : [global.rp_coil, 1, 3, 1, 0, SHOOT, load('res://scenes/player/weapons/rush_coil.tscn'), load('res://scenes/player/weapons/buster_a.tscn'), 1, 0],
 	#Proto Man - Carry
+	'1-1-0-31' : [global.rp_coil, 1, 1, 0, 0, THROW, '', load('res://scenes/player/weapons/carry.tscn'), 0, 2],
 	#Bass - Treble Boost
 	#Mega Man - Rush Jet
 	'0-2-0-31' : [global.rp_jet, 1, 3, 1, 0, SHOOT, load('res://scenes/player/weapons/rush_jet.tscn'), load('res://scenes/player/weapons/buster_a.tscn'), 1, 0],
@@ -673,8 +674,26 @@ func weapons():
 						var weapon = wpn_data.get(wkey)[7].instance()
 						wpn_data.get(wkey)[0][int(swap)+1] -= wpn_data.get(wkey)[4]
 						#Set spawn position
+						#From Buster
 						if wpn_data.get(wkey)[9] == 0:
 							weapon.position = $sprite/shoot_pos.global_position
+						
+						#From center of player
+						if wpn_data.get(wkey)[9] == 1:
+							weapon.position = global_position
+						
+						#In front and below
+						if wpn_data.get(wkey)[9] == 2:
+							var offset = Vector2(16, 0)
+							if !$sprite.flip_h:
+								offset.x = offset.x
+							else:
+								offset.x = - offset.x
+							if is_on_floor():
+								offset.y = 8
+							else:
+								offset.y = 32
+							weapon.position = global_position + offset
 							
 						graphic.add_child(weapon)
 						world.shots += wpn_data.get(wkey)[1]
@@ -684,12 +703,14 @@ func weapons():
 					var adaptor = wpn_data.get(wkey)[6].instance()
 					
 					#set spawn position
+					#Above the screen
 					if wpn_data.get(wkey)[8] == 1:
 						if !$sprite.flip_h:
 							adaptor.position.x = position.x + 32
 						else:
 							adaptor.position.x = position.x - 32
 						adaptor.position.y = camera.limit_top - 16
+							
 					
 					#Adaptors are added to the effect layer rather than the graphic.
 					effect.add_child(adaptor)
