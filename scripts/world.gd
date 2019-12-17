@@ -68,6 +68,7 @@ var room_data = {
 				"(3, 0)": [0, 1, 0, 1, 1, 1],
 				"(4, 0)": [0, 1, 0, 1, 3, 1],
 				"(7, 0)": [1, 1, 0, 1, 1, 1],
+				"(7, 1)": [0, 0, 0, 0, 3, 1],
 				
 #				"(9, 6)": [0, 0, 1, 0, 6, 1],
 #				"(14, 6)": [1, 0, 0, 0, 6, -1],
@@ -1078,6 +1079,8 @@ func kill_weapons():
 		a.queue_free()
 	shots = 0
 	adaptors = 0
+	$player.b_lancer = false
+	$player.b_lance_pull = false
 
 func kill_enemies():
 	var bullet_kill = get_tree().get_nodes_in_group('enemy_bullet')

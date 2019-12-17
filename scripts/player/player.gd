@@ -705,9 +705,9 @@ func weapons():
 					#set spawn position
 					#Above the screen
 					if wpn_data.get(wkey)[8] == 1:
-						if !$sprite.flip_h:
+						if !$sprite.flip_h or ladder_dir == 1:
 							adaptor.position.x = position.x + 32
-						else:
+						elif $sprite.flip_h or ladder_dir == -1:
 							adaptor.position.x = position.x - 32
 						adaptor.position.y = camera.limit_top - 16
 							
