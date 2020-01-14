@@ -34,14 +34,31 @@ See releases for full changelog.
 Credits:
 --
 
+Director:
+Strider
 
-Special Thanks
+Planner:
+Strider
+
+Programmer:
+Strider
+
+Sound Composer:
+
+Character Design:
+Strider
+Speedy
+Blackhook
+
+Special Thanks:
 
 harraps  
 N64Mario  
 Marc Wyzomirski  
-Duane van Voorst  
+Speedy  
 GDQuest  
 KidsCanCode  
 GamesFromScratch  
 Dlean Jeans  
+GameEndeavor
+ThatOtherFella
