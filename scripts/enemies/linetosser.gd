@@ -8,6 +8,8 @@ onready var front = world.get_child(1).get_child(2)
 
 var start_pos = Vector2()
 
+var id = 1
+
 var dist
 
 #Enemy HP.
@@ -31,6 +33,8 @@ var toss = false
 
 const JUMP_SPEED = -210
 const GRAVITY = 900
+
+var overlap = []
 
 var velocity = Vector2()
 
@@ -82,6 +86,46 @@ func _physics_process(delta):
 	
 	velocity = move_and_slide(velocity, Vector2(0, -1))
 
+	#Check to see if weapons or the player is overlapping.
+	overlap = $hitbox.get_overlapping_bodies()
+	
+	#if true
+	if overlap != []:
+		for body in overlap:
+			if body.is_in_group("weapons") or body.is_in_group("adaptor_dmg"):
+				if !dead:
+					world.enemy_dmg(id, body.id)
+					if world.damage != 0:
+						if !body.reflect:
+							#Add the flash flag if playtesters request it.
+							if body.is_in_group("adaptor_dmg") and !flash or body.is_in_group("weapons"):
+								$sprite.hide()
+								flash = true
+								f_delay = 2
+								hp -= world.damage
+								#Play sounds for taking damage.
+								world.sound("hit")
+						#Weapon behaviors.
+						match body.property:
+							0:
+								body._on_screen_exited()
+							2:
+								if world.damage < hp:
+									body._on_screen_exited()
+							3:
+								if world.damage < hp:
+									body.dist = 1
+					else:
+						if body.property != 3:
+							body.reflect = true
+						else:
+							body.dist = 1
+							
+			if body.name == "player" and !dead:
+				if player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap:
+					global.player_life[int(player.swap)] -= damage
+					player.damage()
+
 	if flash and f_delay > 0:
 		f_delay -= 1
 	
@@ -126,29 +170,6 @@ func _on_anim_finished(anim_name):
 			$sprite.flip_h = false
 		$anim.play("throw")
 		
-
-func _on_hitbox_body_entered(body):
-	
-	if body.is_in_group("weapons") or body.is_in_group("adaptor_dmg"):
-		if !dead:
-			if body.name != "bone_lancer":
-				if hp < body.damage:
-					if body.name != "buster_f":
-						body._on_screen_exited()
-				else:
-					body._on_screen_exited()
-			hp -= body.damage
-			$hit.play()
-			$sprite.hide()
-			flash = true
-			f_delay = 2
-	
-	if body.name == "player" and !dead:
-		touch = true
-
-func _on_hitbox_body_exited(body):
-	if body.name == "player":
-		touch = false
 
 func spawn_item():
 	world.item_drop()

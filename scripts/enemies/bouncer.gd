@@ -116,7 +116,6 @@ func _physics_process(delta):
 	
 	velocity = move_and_slide(velocity, Vector2(0, -1))
 	
-	
 	#Check to see if weapons or the player is overlapping.
 	overlap = $hitbox.get_overlapping_bodies()
 	
