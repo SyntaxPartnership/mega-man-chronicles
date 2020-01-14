@@ -112,12 +112,12 @@ var got_items = {
 var wpn_dmg = {
 				0 : [0, 0],		#Immunity to damage.
 				1 : [10, 30],	#Standard enemy. All Weapons hurt it.
-				2 : [10, 30],	#Swoop Woman
+				2 : [10, 30],	#Glow Man
 				}
 				
 var damage = 0
 
-var wpn_get_anim = [0, 1, 2, 3]
+var wpn_get_anim = [0, 1, 2, 3, 4, 5, 6, 7]
 
 #Color Variables.
 var palette = [Color('#000000'), Color('#000000'), Color('#000000')]

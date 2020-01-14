@@ -125,7 +125,7 @@ func _physics_process(delta):
 				if player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap:
 					global.player_life[int(player.swap)] -= damage
 					player.damage()
-
+	
 	if flash and f_delay > 0:
 		f_delay -= 1
 	
