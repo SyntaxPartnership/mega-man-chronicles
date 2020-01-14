@@ -36,6 +36,15 @@ var swapping = false
 var shots = 0
 var adaptors = 0
 
+var fill_b_meter = false
+var boss_hp = 280
+
+var boss_dead = false
+var end_delay = 360
+var end_stage = true
+var end_state = 0
+var leave_delay = 120
+
 #Item Drops
 var item = []
 
@@ -44,7 +53,7 @@ var res = Vector2()
 var center = Vector2()
 
 var cam_move = 0
-var cam_allow = []
+var cam_allow = [0, 1, 0, 1]
 var scroll = false
 var scroll_len = 0
 var scroll_spd = 4
@@ -100,6 +109,16 @@ var boss_rooms = {#Insert boss room coordinates here.
 var got_items = {
 				}
 
+var wpn_dmg = {
+				0 : [0, 0],		#Immunity to damage.
+				1 : [10, 30],	#Standard enemy. All Weapons hurt it.
+				2 : [10, 30],	#Swoop Woman
+				}
+				
+var damage = 0
+
+var wpn_get_anim = [0, 1, 2, 3]
+
 #Color Variables.
 var palette = [Color('#000000'), Color('#000000'), Color('#000000')]
 
@@ -113,6 +132,9 @@ var bbl_count = 0
 func _ready():
 	res = get_viewport_rect().size
 	
+	#Generate a new random seed.
+	randomize()
+	
 	#Hide Object and Enemy Layers
 	objects.hide()
 	enemies.hide()
@@ -121,8 +143,10 @@ func _ready():
 	#Spawn stage objects.
 	spawn_objects()
 	
-	#Add Continue and Spawn Scripts here
-	cam_allow = [1, 1, 1, 1]
+	#Set charge loop values.
+	$audio/se/charge.stream.loop_mode = 1
+	$audio/se/charge.stream.loop_begin = 56938
+	$audio/se/charge.stream.loop_end = 62832
 	
 	#Set lives counter.
 	$hud/hud/lives.set_text(str(global.lives))
@@ -192,8 +216,17 @@ func _input(event):
 				global.player_weap[int($player.swap)] += 1
 			if global.player_weap[int($player.swap)] == 11 and !global.reggae[0] and global.player == 2:
 				global.player_weap[int($player.swap)] += 1
+			
+			#Loop the value
+			if global.player_weap[int($player.swap)] > 11:
+				global.player_weap[int($player.swap)] = 0
+			
 		
 		if Input.is_action_just_pressed("prev"):
+			#Loop the value.
+			if global.player_weap[int($player.swap)] < 0:
+				global.player_weap[int($player.swap)] = 11
+
 			#These skips are done in reverse order to make them move to the next item seemlessly.
 			if global.player_weap[int($player.swap)] == 11 and !global.beat[0] and global.player == 0:
 				global.player_weap[int($player.swap)] -= 1
@@ -221,16 +254,10 @@ func _input(event):
 			#Rush/Proto Jet
 			if global.player_weap[int($player.swap)] == 2 and !global.rp_jet[0] or global.player_weap[int($player.swap)] == 2 and global.player != 0:
 				global.player_weap[int($player.swap)] -= 1
-	
-		#Loop the value.
-		if global.player_weap[int($player.swap)] < 0:
-			global.player_weap[int($player.swap)] = 11
-		elif global.player_weap[int($player.swap)] > 11:
-			global.player_weap[int($player.swap)] = 0
 		
 		#Start swap process.
 		if Input.is_action_just_pressed('select') and !swapping and $player.blink_timer == 0 and $player.blink == 0:
-			if $player.act_st != 13 and !$player.slide and !$player.b_lancer:
+			if $player.act_st != 13 and !$player.slide:
 				if global.player_life[int(!$player.swap)] != 0:
 					kill_weapons()
 					$player/audio/charge.stop()
@@ -259,9 +286,10 @@ func _input(event):
 #		palette_swap()
 	
 		#Pause menu
-		if Input.is_action_just_pressed('start') and !$pause/pause_menu.start and !swapping:
+		if Input.is_action_just_pressed('start') and !$pause/pause_menu.start and !swapping and global.boss_num > 0:
 			$pause/pause_menu.kill_wpn = global.player_weap[int($player.swap)]
-			$audio/se/menu.play()
+			sound("menu")
+			kill_se("charge")
 			p_menu = true
 			$fade/fade.state = 6
 			$fade/fade.end = true
@@ -431,11 +459,14 @@ func _rooms():
 			else:
 				$player/camera.limit_right = (player_room.x * res.x) + res.x
 				$player/camera.limit_left = player_room.x * res.x
-	
-	if cont_rooms.has(str(player_room)):
-		global.cont_id = cont_rooms.get(str(player_room))
 				
-			
+	if boss_rooms.has(str(player_room)):
+		#Kill music and display the boss meter.
+		kill_music()
+		
+		if global.level_id != 0:
+			$audio/music/boss.play()
+			boss = true
 		#Check tilemap for enemies. If so, place them.
 	if enemy_count == 0:
 		var enemy_loc = []
@@ -472,9 +503,10 @@ func _rooms():
 		
 		for s in see_item:
 			s.get_child(0).show()
-		
-		
-	
+
+func _physics_process(delta):
+	pass
+
 #warning-ignore:unused_argument
 func _process(delta):
 	_camera()
@@ -494,7 +526,7 @@ func _process(delta):
 		get_tree().paused = true
 	
 	#Refill the necessary energy.
-	if wpn_en != 0 or life_en != 0:
+	if wpn_en != 0 or life_en != 0 or boss and fill_b_meter:
 		heal_delay += 1
 	
 	#Loop the counter
@@ -513,9 +545,22 @@ func _process(delta):
 		$player.wpn_lvl[id][int($player.swap) + 1] += 10
 		wpn_en -= 10
 	
+	#Boss Meters.
+	if $hud/hud/boss.value < boss_hp and heal_delay == 1:
+		$audio/se/meter.play()
+		$hud/hud/boss.value += 10
+	
 	#Allow the player to move again.
-	if life_en == 0 and wpn_en == 0 and get_tree().paused and !p_menu and !hurt_swap:
+	if life_en == 0 and wpn_en == 0 and get_tree().paused and !p_menu and !hurt_swap and !dead:
 		get_tree().paused = false
+	
+	if boss and fill_b_meter and $hud/hud/boss.value == boss_hp:
+		fill_b_meter = false
+		for b in get_tree().get_nodes_in_group("boss"):
+			b.intro = false
+			b.fill_bar = false
+			b.play_anim("idle")
+			$player.no_input(false)
 	
 	#Check to see if the player's weapons or adaptors have gone beyond the screen.
 	var get_weaps = get_tree().get_nodes_in_group("weapons")
@@ -524,7 +569,9 @@ func _process(delta):
 	if get_weaps.size() > 0 or get_adaps.size() > 0:
 		for w in get_weaps:
 			if w.global_position.y < $player/camera.limit_top - 16 or w.global_position.y > $player/camera.limit_bottom + 16 or w.global_position.x < $player/camera.get_camera_screen_center().x - 144 or w.global_position.x > $player/camera.get_camera_screen_center().x + 144:
-				w._on_screen_exited()
+				#Ignore for the Mega Arm, as it needs to return to the player.
+				if global.player_weap[int($player.swap)] != 0 and global.player == 0:
+					w._on_screen_exited()
 		
 		for a in get_adaps:
 			if a.global_position.y < $player/camera.limit_top - 16 or a.global_position.y > $player/camera.limit_bottom + 16 or a.global_position.x < $player/camera.get_camera_screen_center().x - 144 or a.global_position.x > $player/camera.get_camera_screen_center().x + 144:
@@ -546,10 +593,6 @@ func _process(delta):
 				$player.hurt_timer = 0
 				$player.blink_timer = 96
 				$player.hurt_swap = true
-				if $player.b_lancer:
-					$player.b_lancer = false
-					$player.b_lance_pull = false
-					kill_weapons()
 				$player.shot_state($player.NORMAL)
 				$player/sprite/weap_icon_lr.hide()
 				$player.hide()
@@ -572,23 +615,19 @@ func _process(delta):
 		global.player_life[1] = 0
 		dead = true
 		$player.can_move = false
-		if $player.b_lancer:
-			$player.b_lancer = false
-			$player.b_lance_pull = false
-			kill_weapons()
-		kill_music()
 		get_tree().paused = true
 		$player.hide()
+		kill_se("charge")
+		for m in $audio/music.get_children():
+			m.stop()
 		
 	if global.player_life[0] <= 0 and global.player_life[1] <= 0 and !dead:
 		dead = true
 		$player.can_move = false
-		if $player.b_lancer:
-			$player.b_lancer = false
-			$player.b_lance_pull = false
-			kill_weapons()
-		kill_music()
 		get_tree().paused = true
+		kill_se("charge")
+		for m in $audio/music.get_children():
+			m.stop()
 	
 	if dead and dead_delay > -1:
 		dead_delay -= 1
@@ -618,22 +657,21 @@ func _process(delta):
 	
 	#Teleporters
 	if spawn_pt != -1 and $player.is_on_floor():
-		if spawn_pt >= 49 and spawn_pt <= 68 and !$player.lock_ctrl:
-			$player.lock_ctrl = true
+		if spawn_pt >= 49 and spawn_pt <= 68 and !$player.no_input:
+			$player.no_input(true)
 			$player.anim_state(2)
 			$player.slide = false
 			$player.slide_timer = 0
 			tele_timer = 60
 			tele_dest = spawn_pt + 20
 	
-	if $player.lock_ctrl and tele_timer > -1:
+	if $player.no_input and tele_timer > -1 and !boss and end_delay > 0:
 		tele_timer -= 1
 	
 	if tele_timer == 0:
 		$player.can_move = false
 		$audio/se/appear.play()
 		$player/anim.play('appear1')
-			
 	
 	#Special Effects
 	if overlap == 7 and !spl_trigger:
@@ -645,104 +683,79 @@ func _process(delta):
 	if overlap == 6 or overlap == 12 or overlap == 13:
 		if bbl_count == 0 and !scroll:
 			bubble()
+	
+	#End Stage Functions.
+	if boss_hp <= 0 and !boss_dead:
+		global.boss_num -= 1
+		boss_dead = true
+	
+	if global.boss_num == 0:
+		end_delay -= 1
+	
+	if end_delay == 0:
+		if end_state == 0:
+			$audio/music/clear.play()
+			$player.cutscene(true)
+			boss = false
+			
+	if end_state == 1:
+		if wpn_get_anim.has(global.level_id):
+			if $player.global_position.x < $player/camera.limit_right - 128:
+				$player.x_dir = 1
+			else:
+				$player.x_dir = -1
+			end_state = 2
+		else:
+			end_state = 5
+	
+	if end_state == 2:
+		if $player.x_dir == 1 and $player.global_position.x >= $player/camera.limit_right - 128 or $player.x_dir == -1 and $player.global_position.x <= $player/camera.limit_right - 128:
+			$player.x_dir = 0
+			$player.jump_mod = 1.75
+			$player.jump_tap = true
+			$player.jump = true
+			$audio/se/beam_out.play()
+			
+		if $player.global_position.y >= $player/camera.limit_top + 80 and $player.velocity.y > 0:
+			var get_wpn = load('res://scenes/effects/wpn_get.tscn').instance()
+			$overlap.add_child(get_wpn)
+			get_wpn.position = $player.position
+			$player.global_position.y = $player/camera.limit_top + 80
+			$player.velocity.y = 0
+			$player.can_move = false
+			end_state = 3
+	
+	if end_state == 4:
+		$player.anim_state($player.GET_WPN)
+		sound("bling")
+		end_state = 5
+	
+	if end_state == 6:
+		$player.can_move = true
+		end_state = 7
+	
+	if end_state == 7:
+		leave_delay -= 1
 		
-	
-	#Debug Menus and Statistics.
-	
-	#Debug Menu
-	if Input.is_key_pressed(KEY_F1) and global.debug_menu == 0:
-		global.debug_menu += 1
-		get_tree().paused = true
-		$debug_menu/menu.show()
-	if !Input.is_key_pressed(KEY_F1) and global.debug_menu == 1:
-		global.debug_menu += 1
-	if Input.is_key_pressed(KEY_F1) and global.debug_menu == 2:
-		global.debug_menu += 1
-		get_tree().paused = false
-		$debug_menu/menu.hide()
-	if !Input.is_key_pressed(KEY_F1) and global.debug_menu == 3:
-		global.debug_menu = 0
-	
-	#Debug stats
-	if Input.is_key_pressed(KEY_F2) and global.debug_stats == 0:
-		global.debug_stats += 1
-		get_tree().paused = true
-		$debug_stats/debug.show()
-	if !Input.is_key_pressed(KEY_F2) and global.debug_stats == 1:
-		global.debug_stats += 1
-	if Input.is_key_pressed(KEY_F2) and global.debug_stats == 2:
-		global.debug_stats += 1
-		get_tree().paused = false
-		$debug_stats/debug.hide()
-	if !Input.is_key_pressed(KEY_F2) and global.debug_stats == 3:
-		global.debug_stats = 0
-	
-	#Debug Stats
-	if global.debug_stats == 1:
-#		#Debug Information.
-#		$debug1/posx.set_text(str(pos.x))				#Player X Position
-#		$debug1/posy.set_text(str(pos.y))				#Player Y Position
-#		$debug1/tpos.set_text(str(player_tilepos))		#Tile that the player is occupying
-#		$debug1/room.set_text(str(player_room))			#Room that the player is occupying
-#		$debug1/cam_allow.set_text(str(cam_allow))		#Which way the camera can pan, if at all.
-#		$debug1/state.set_text(str($player.state))		#Which state the player is in.
-#		$debug1/anim.set_text(str($player.anim))		#Which animation is playing.
-#		$debug1/anim.set_uppercase(true)				#Set anim text to uppercase.
-#
-#		if stand_on == -1:								#Tile ID that the player is standing on.
-#			$debug1/stand_on.set_text('NULL')
-#		if stand_on == 0:
-#			$debug1/stand_on.set_text('FLOOR')
-#		if stand_on == 1:
-#			$debug1/stand_on.set_text('SNOW')
-#		if stand_on == 2:
-#			$debug1/stand_on.set_text('ICE')
-#		if stand_on == 3:
-#			$debug1/stand_on.set_text('LADDER')
-#		if stand_on == 5:
-#			$debug1/stand_on.set_text('DEATH')
-#		if stand_on == 6 or stand_on == 7:
-#			$debug1/stand_on.set_text('WATER')
-#		if stand_on == 8:
-#			$debug1/stand_on.set_text('SLW R CONV')
-#		if stand_on == 9:
-#			$debug1/stand_on.set_text('FST R CONV')
-#		if stand_on == 10:
-#			$debug1/stand_on.set_text('SLW L CONV')
-#		if stand_on == 11:
-#			$debug1/stand_on.set_text('FST L CONV')
-#
-#		if overlap == -1:								#Tile the player is overlapping. Add to for new tiles.
-#			$debug1/overlap.set_text('NULL')
-#		if overlap == 3:
-#			$debug1/overlap.set_text('LADDER')
-#		if overlap == 4:
-#			$debug1/overlap.set_text('LADDER')
-#		if overlap == 6 or overlap == 7:
-#			$debug1/overlap.set_text('WATER')
-#
-#		$debug1/ladder_set.set_text(str(ladder_set))	#X coordinate of where the player will be snapped to when grabbing a ladder.
-#		$debug1/xvelocity.set_text(str(floor($player.velocity.x)))
-#		$debug1/yvelocity.set_text(str(floor($player.velocity.y)))
-#		$debug1/act_state.set_text(str($player.act_state))
-#		$debug1/act_state.set_uppercase(true)
-#		$debug1/collide.set_text(str($player.tile_name))
-#		$debug1/collide.set_uppercase(true)
+		if leave_delay == 0:
+			sound("beam_out")
+			$player.anim_state($player.APPEAR)
+			$player.can_move = false
 		
-		$debug_stats/debug/fps.set_text(str(Engine.get_frames_per_second()))#Display frames per second.
-	
-#	if shots < 0:
-#		shots = 0
+		if $player.get_child(3).offset.y == -241 and !$fade/fade.end:
+			$fade/fade.state = 10
+			$fade/fade.begin = false
+			$fade/fade.end = true
 
 #These functions handle the states of the fade in node.
 func _on_fade_fadein():
 	
-	if $fade/fade.state == 3 and $player.lock_ctrl:
+	if $fade/fade.state == 3 and $player.no_input:
 		$player/anim.stop(true)
 		$player.show()
 		$audio/se/appear.play()
 		$player/anim.play('appear1')
-		$player.lock_ctrl = false
+		$player.no_input(false)
 	
 	if $fade/fade.state == 7:
 		$pause/pause_menu.start = true
@@ -794,6 +807,12 @@ func _on_fade_fadeout():
 		$pause/pause_menu.hide()
 		$fade/fade.begin = true
 		$fade/fade.state = 9
+	
+	if $fade/fade.state == 10:
+		if wpn_get_anim.has(global.level_id):
+			get_tree().change_scene("res://scenes/new_weap.tscn")
+		else:
+			get_tree().change_scene("res://scenes/stage_select.tscn")
 
 func palette_swap():
 	#Set palettes for the player.
@@ -983,8 +1002,8 @@ func palette_swap():
 	$hud/hud/weap.material.set_shader_param('r_col3', palette[2])
 	
 	#Items
-	var items = get_tree().get_nodes_in_group('items')
-	for i in items:
+	var item_pal = get_tree().get_nodes_in_group('items')
+	for i in item_pal:
 		i.material.set_shader_param('r_col1', palette[0])
 		i.material.set_shader_param('r_col2', palette[1])
 		i.material.set_shader_param('r_col3', palette[2])
@@ -1095,6 +1114,10 @@ func kill_effects():
 		s.get_child(0).hide()
 
 func kill_weapons():
+	if $player.shot_st == $player.HANDSHOT or $player.shot_st == $player.NO_HAND:
+		$player.shot_state($player.NORMAL)
+	if $player.cooldown:
+		$player.cooldown = false
 	var wpns = get_tree().get_nodes_in_group('weapons')
 	for i in wpns:
 		i.queue_free()
@@ -1103,8 +1126,6 @@ func kill_weapons():
 		a.queue_free()
 	shots = 0
 	adaptors = 0
-	$player.b_lancer = false
-	$player.b_lance_pull = false
 
 func kill_enemies():
 	var bullet_kill = get_tree().get_nodes_in_group('enemy_bullet')
@@ -1161,12 +1182,20 @@ func item_drop():
 	if rate >= 75:
 		item = item_table.get(0)
 
-func _on_player_whstl_end():
-	play_music()
+func enemy_dmg(key, entry):
+	if wpn_dmg.has(key):
+		damage = wpn_dmg.get(key)[entry]
 
-func play_music():
-	if !dead:
+func _on_player_whstl_end():
+	play_music("")
+
+func play_music(ogg):
+	if ogg == "":
 		$audio/music/glow.play()
+	else:
+		for m in $audio/music.get_children():
+			if m.name == ogg:
+				m.play()
 
 func kill_music():
 	for m in $audio/music.get_children():
@@ -1176,3 +1205,11 @@ func sound(sfx):
 	for s in $audio/se.get_children():
 		if s.name == sfx:
 			s.play()
+
+func kill_se(sfx):
+	for s in $audio/se.get_children():
+		if s.name == sfx:
+			s.stop()
+
+func _on_clear_finished():
+	end_state = 1

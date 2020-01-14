@@ -25,7 +25,8 @@ const SLIDE_SMOKE = preload('res://scenes/effects/slide_smoke.tscn')
 #Determines if the player can move or not.
 var start_stage = false
 var can_move = false
-var lock_ctrl = false
+var no_input = false
+var cutscene = false
 # warning-ignore:unused_class_variable
 var gate = false
 
@@ -63,6 +64,7 @@ var final_tex = ''
 #Miscellaneous variables
 var force_idle = true
 var jumps = 1
+var jump_mod = 1
 var slide_timer = 0
 var slide_act = 0
 var slide_delay = 0
@@ -93,6 +95,7 @@ var c_flash = 0
 var w_icon = 0
 var rush_coil = false
 var rush_jet = false
+var leave = false
 # warning-ignore:unused_class_variable
 var snap = Vector2()
 var max_en = 0
@@ -180,9 +183,9 @@ var wpn_data = {
 	#Mega Man - Level 0 Shot
 	'0-0-0-31' : [global.dummy, 1, 3, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_a.tscn'), 0, 0],
 	#Mega Man - Level 1 Shot
-	'0-0-32-95' : [global.dummy,3, 3, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_c.tscn'), 0, 0],
+	'0-0-32-95' : [global.dummy,3, 3, 0, 0, HANDSHOT, '', load('res://scenes/player/weapons/mega_arm.tscn'), 0, 0],
 	#Mega Man - Level 2 Shot
-	'0-0-96-99' : [global.dummy,3, 3, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_e.tscn'), 0, 0],
+	'0-0-96-99' : [global.dummy,3, 3, 0, 0, HANDSHOT, '', load('res://scenes/player/weapons/mega_arm.tscn'), 0, 0],
 	#Proto Man - Level 0 Shot
 	'1-0-0-31' : [global.dummy,1, 2, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_a.tscn'), 0, 0],
 	#Proto Man - Level 1 Shot
@@ -194,7 +197,6 @@ var wpn_data = {
 	#Mega Man - Rush Coil
 	'0-1-0-31' : [global.rp_coil, 1, 3, 1, 0, SHOOT, load('res://scenes/player/weapons/rush_coil.tscn'), load('res://scenes/player/weapons/buster_a.tscn'), 1, 0],
 	#Proto Man - Carry
-	'1-1-0-31' : [global.rp_coil, 1, 1, 0, 0, THROW, '', load('res://scenes/player/weapons/carry.tscn'), 0, 2],
 	#Bass - Treble Boost
 	#Mega Man - Rush Jet
 	'0-2-0-31' : [global.rp_jet, 1, 3, 1, 0, SHOOT, load('res://scenes/player/weapons/rush_jet.tscn'), load('res://scenes/player/weapons/buster_a.tscn'), 1, 0],
@@ -234,9 +236,11 @@ enum {
 	TBOOST,
 	NORMAL,
 	SHOOT,
-	HAND,
+	HANDSHOT,
 	BASSSHOT,
-	THROW
+	THROW,
+	GET_WPN,
+	NO_HAND
 	}
 
 #Set the appropriate states and values
@@ -276,19 +280,21 @@ func _input(event):
 		fire = true
 		if can_move:
 			weapons()
-	
-	if Input.is_action_just_released("fire"):
-		fire = false
 
 func _physics_process(delta):
 	
 	#Make the inputs easier to handle.
-	left_tap = Input.is_action_just_pressed("left")
-	right_tap = Input.is_action_just_pressed("right")
-	jump = Input.is_action_pressed("jump")
-	jump_tap = Input.is_action_just_pressed("jump")
-	dash = Input.is_action_pressed("dash")
-	dash_tap = Input.is_action_just_pressed("dash")	
+	if !no_input:
+		left_tap = Input.is_action_just_pressed("left")
+		right_tap = Input.is_action_just_pressed("right")
+		jump = Input.is_action_pressed("jump")
+		jump_tap = Input.is_action_just_pressed("jump")
+		dash = Input.is_action_pressed("dash")
+		dash_tap = Input.is_action_just_pressed("dash")
+	
+	if !cutscene:
+		if !Input.is_action_pressed("fire"):
+			fire = false
 	
 	#TileMap Data function
 	get_data()
@@ -310,15 +316,22 @@ func _physics_process(delta):
 			anim_state(APPEAR)
 			$audio/appear.play()
 			start_stage = false
-			
+		
+		if leave:
+			$sprite.offset.y -= 8
 	else:
 		
-		if !lock_ctrl:
+
+		if !no_input:
 			x_dir = int(Input.is_action_pressed("right")) - int(Input.is_action_pressed("left"))
 			y_dir = int(Input.is_action_pressed("down")) - int(Input.is_action_pressed("up"))
-		else:
-			x_dir = 0
-			y_dir = 0
+		
+		if hurt_timer > 0:
+			if !fire and charge > 0:
+				chrg_lvl = charge
+				weapons()
+				charge = 0
+				rapid = 0
 		
 		if hurt_timer == 0:
 
@@ -342,7 +355,7 @@ func _physics_process(delta):
 						world.hurt_swap = false
 
 			#Charge level.
-			if fire and charge < 99:
+			if fire and charge < 99 and !cooldown:
 				charge += 1
 			
 			#Start charge sound loop. Change attributes of more than one charging weapon is made.
@@ -350,7 +363,7 @@ func _physics_process(delta):
 				var c_pal_chnge = [0, 2, 4, 6]
 				
 				if charge == 32:
-					$audio/charge.play()
+					world.sound("charge")
 				
 				if charge > 32:
 					c_flash += 1
@@ -383,7 +396,7 @@ func _physics_process(delta):
 					rapid = 0
 
 			#Code to revert back to normal sprites.
-			if shot_delay > 0:
+			if shot_delay > -1:
 				#Fix the animations.
 				if shot_st == THROW or shot_st == BASSSHOT:
 					if is_on_floor() and anim_st != IDLE:
@@ -399,7 +412,10 @@ func _physics_process(delta):
 
 			if shot_delay == 0:
 				bass_dir = ''
-				shot_state(NORMAL)
+				if shot_st != HANDSHOT:
+					shot_state(NORMAL)
+				else:
+					shot_state(NO_HAND)
 
 			#The player's actions are divided into 3 main sections. Standing, Climbing and Sliding.
 			if act_st == STANDING:
@@ -511,12 +527,7 @@ func _physics_process(delta):
 				if !world.dead:
 					global.player_life[0] = 0
 					global.player_life[1] = 0
-					if b_lancer:
-						world.kill_weapons()
-						b_lance_pull = false
-						b_lancer = false
 					world.dead = true
-					world.kill_music()
 					can_move = false
 					get_tree().paused = true
 			
@@ -568,6 +579,8 @@ func anim_state(new_anim_state):
 			effect.add_child(spark)
 		FALL:
 			change_anim('fall')
+		GET_WPN:
+			change_anim('get_wpn')
 
 
 func change_anim(new_anim):
@@ -586,8 +599,14 @@ func shot_state(new_shot_state):
 		NORMAL:
 			texture = '-norm'
 			change_char()
+		NO_HAND:
+			texture = '-a-norm'
+			change_char()
 		SHOOT:
 			texture = '-shoot'
+			change_char()
+		HANDSHOT:
+			texture = '-a-shoot'
 			change_char()
 		BASSSHOT:
 			texture = '-shoot'
@@ -661,120 +680,113 @@ func _on_slide_wall_body_exited(body):
 func weapons():
 	#Set timer for the shooting/throwing sprites.
 	if !slide:
-		if chrg_lvl == 0 and global.player != 2 or global.player == 2 and rapid == 1 and global.player_weap[int(swap)] == 0 or global.player == 2 and chrg_lvl == 0 and global.player_weap[int(swap)] != 0:
-			#Fire normal shots.
-			var wkey = str(global.player)+'-'+str(global.player_weap[int(swap)])+'-'+str(0)+'-'+str(31)
-			if wpn_data.has(wkey):
-				
-				var get_adptr = get_tree().get_nodes_in_group('adaptors').size()
-				var get_wpn = get_tree().get_nodes_in_group('weapons').size()
-				world.adaptors = get_adptr
-				world.shots = get_wpn
-				
-				#If world.adaptors = adaptor value or the adaptor energy meter is empty, fire shots.
-				if  world.adaptors == wpn_data.get(wkey)[3] and !cooldown or wpn_data.get(wkey)[0][int(swap) + 1] <= 0 and !cooldown:
-					if world.shots < wpn_data.get(wkey)[2] and wpn_data.get(wkey)[0][int(swap)+1] > 0:
-						shot_delay = 20
-						shot_state(wpn_data.get(wkey)[5])
-						var weapon = wpn_data.get(wkey)[7].instance()
-						wpn_data.get(wkey)[0][int(swap)+1] -= wpn_data.get(wkey)[4]
-						#Set spawn position
-						#From Buster
-						if wpn_data.get(wkey)[9] == 0:
-							weapon.position = $sprite/shoot_pos.global_position
-						
-						#From center of player
-						if wpn_data.get(wkey)[9] == 1:
-							weapon.position = global_position
-						
-						#In front and below
-						if wpn_data.get(wkey)[9] == 2:
-							var offset = Vector2(16, 0)
-							if !$sprite.flip_h:
-								offset.x = offset.x
-							else:
-								offset.x = - offset.x
-							if is_on_floor():
-								offset.y = 8
-							else:
-								offset.y = 32
-							weapon.position = global_position + offset
+		if !no_input and hurt_timer == 0:
+			if chrg_lvl == 0 and global.player != 2 or global.player == 2 and rapid == 1 and global.player_weap[int(swap)] == 0 or global.player == 2 and chrg_lvl == 0 and global.player_weap[int(swap)] != 0:
+				#Fire normal shots.
+				var wkey = str(global.player)+'-'+str(global.player_weap[int(swap)])+'-'+str(0)+'-'+str(31)
+				if wpn_data.has(wkey):
+					
+					var get_adptr = get_tree().get_nodes_in_group('adaptors').size()
+					var get_wpn = get_tree().get_nodes_in_group('weapons').size()
+					world.adaptors = get_adptr
+					world.shots = get_wpn
+					
+					#If world.adaptors = adaptor value or the adaptor energy meter is empty, fire shots.
+					if  world.adaptors == wpn_data.get(wkey)[3] and !cooldown or wpn_data.get(wkey)[0][int(swap) + 1] <= 0 and !cooldown:
+						if world.shots < wpn_data.get(wkey)[2] and wpn_data.get(wkey)[0][int(swap)+1] > 0:
+							shot_delay = 20
+							shot_state(wpn_data.get(wkey)[5])
+							var weapon = wpn_data.get(wkey)[7].instance()
 							
-						graphic.add_child(weapon)
-						world.shots += wpn_data.get(wkey)[1]
-					
-				#Check and see if any adaptors need spawning.
-				if world.adaptors < wpn_data.get(wkey)[3] and wpn_data.get(wkey)[0][int(swap) + 1] > 0:
-					var adaptor = wpn_data.get(wkey)[6].instance()
-					
-					#set spawn position
-					#Above the screen
-					if wpn_data.get(wkey)[8] == 1:
-						if act_st != CLIMBING:
+							wpn_data.get(wkey)[0][int(swap)+1] -= wpn_data.get(wkey)[4]
+							#Set spawn position
+							if wpn_data.get(wkey)[9] == 0:
+								weapon.position = $sprite/shoot_pos.global_position
+								
+							graphic.add_child(weapon)
+							world.shots += wpn_data.get(wkey)[1]
+						
+					#Check and see if any adaptors need spawning.
+					if world.adaptors < wpn_data.get(wkey)[3] and wpn_data.get(wkey)[0][int(swap) + 1] > 0:
+						var adaptor = wpn_data.get(wkey)[6].instance()
+						
+						#set spawn position
+						if wpn_data.get(wkey)[8] == 1:
 							if !$sprite.flip_h:
 								adaptor.position.x = position.x + 32
 							else:
 								adaptor.position.x = position.x - 32
-						else:
-							if ladder_dir == 1:
-								adaptor.position.x = position.x + 32
-							elif ladder_dir == -1:
-								adaptor.position.x = position.x - 32
-						adaptor.position.y = camera.limit_top - 16
-							
+							adaptor.position.y = camera.limit_top - 16
+						
+						#Adaptors are added to the effect layer rather than the graphic.
+						effect.add_child(adaptor)
+						world.adaptors += 1
+				
+			elif chrg_lvl >= 32 and chrg_lvl < 96:
+				#Fire charged shots based on level.
+				var wkey = str(global.player)+'-'+str(global.player_weap[int(swap)])+'-'+str(32)+'-'+str(95)
+				if wpn_data.has(wkey):
+					shot_delay = 20
+					shot_state(wpn_data.get(wkey)[5])
+					var weapon = wpn_data.get(wkey)[7].instance()
 					
-					#Adaptors are added to the effect layer rather than the graphic.
-					effect.add_child(adaptor)
-					world.adaptors += 1
+					#Mega Arm Only.
+					if global.player == 0 and global.player_weap[int(swap)] == 0:
+						weapon.level = 0
+					
+					#Set spawn position
+					if wpn_data.get(wkey)[9] == 0:
+						weapon.position = $sprite/shoot_pos.global_position
+						
+					graphic.add_child(weapon)
+					world.shots = wpn_data.get(wkey)[2]
+					cooldown = true
 			
-		elif chrg_lvl >= 32 and chrg_lvl < 96:
-			#Fire charged shots based on level.
-			var wkey = str(global.player)+'-'+str(global.player_weap[int(swap)])+'-'+str(32)+'-'+str(95)
-			if wpn_data.has(wkey):
-				shot_delay = 20
-				shot_state(wpn_data.get(wkey)[5])
-				var weapon = wpn_data.get(wkey)[7].instance()
-				#Set spawn position
-				if wpn_data.get(wkey)[9] == 0:
-					weapon.position = $sprite/shoot_pos.global_position
+			elif chrg_lvl >= 96:
+				
+				var wkey = str(global.player)+'-'+str(global.player_weap[int(swap)])+'-'+str(96)+'-'+str(99)
+				if wpn_data.has(wkey):
+					shot_delay = 20
+					shot_state(wpn_data.get(wkey)[5])
+					var weapon = wpn_data.get(wkey)[7].instance()
 					
-				graphic.add_child(weapon)
-				world.shots = wpn_data.get(wkey)[2]
-				cooldown = true
-		
-		elif chrg_lvl >= 96:
-			
-			var wkey = str(global.player)+'-'+str(global.player_weap[int(swap)])+'-'+str(96)+'-'+str(99)
-			if wpn_data.has(wkey):
-				shot_delay = 20
-				shot_state(wpn_data.get(wkey)[5])
-				var weapon = wpn_data.get(wkey)[7].instance()
-				#Set spawn position
-				if wpn_data.get(wkey)[9] == 0:
-					weapon.position = $sprite/shoot_pos.global_position
-					
-				graphic.add_child(weapon)
-				world.shots = wpn_data.get(wkey)[2]
-				cooldown = true
+					#Mega Arm Only.
+					if global.player == 0 and global.player_weap[int(swap)] == 0:
+						weapon.level = 1
+						
+					#Set spawn position
+					if wpn_data.get(wkey)[9] == 0:
+						weapon.position = $sprite/shoot_pos.global_position
+						
+					graphic.add_child(weapon)
+					world.shots = wpn_data.get(wkey)[2]
+					cooldown = true
 					
 	chrg_lvl = 0
 	c_flash = 0
-	$audio/charge.stop()
+	world.kill_se("charge")
 	world.palette_swap()
 
 func _on_anim_finished(anim_name):
 	if anim_name == 'appear1' or anim_name == 'appear2':
-		if lock_ctrl:
-			emit_signal('teleport')
-		elif !lock_ctrl:
-			anim_state(IDLE)
-			can_move = true
+		if world.leave_delay > 0:
+			if no_input:
+				emit_signal('teleport')
+			elif !no_input:
+				anim_state(IDLE)
+				can_move = true
+		else:
+			anim_state(BEAM)
+			leave = true
 	
 	if anim_name == 'lilstep':
 		if x_dir == 0:
 			anim_state(IDLE)
 		else:
 			anim_state(RUN)
+	
+	if anim_name == "get_wpn":
+		world.end_state = 6
 			
 func shot_pos():
 	
@@ -797,8 +809,7 @@ func damage():
 			velocity.y = 0
 			anim_state(HURT)
 			hurt_timer = 16
-			shot_delay = 0
-			shot_state(NORMAL)
+
 
 func _on_item_entered(body):
 	if body.is_in_group('items'):
@@ -1099,7 +1110,7 @@ func standing():
 	if global.player == 0 and y_dir != 1 and jump_tap and is_on_floor() and jumps > 0 and !slide_top and !b_lance_pull:
 		anim_state(JUMP)
 		jumps -= 1
-		velocity.y = JUMP_SPEED
+		velocity.y = JUMP_SPEED * jump_mod
 		slide = false
 	elif global.player != 0 and jump_tap and is_on_floor() and jumps > 0:
 		if slide_timer > 0:
@@ -1344,3 +1355,28 @@ func kill_ladder():
 
 func _on_whistle_finished():
 	emit_signal("whstl_end")
+
+# warning-ignore:function_conflicts_variable
+func no_input(state):
+	if state:
+		x_dir = 0
+		left_tap = false
+		right_tap = false
+		jump = false
+		jump_tap = false
+		dash = false
+		dash_tap = false
+		no_input = true
+	else:
+		no_input = false
+
+#This is a separate version of no_input which will prevent the player from firing.
+# warning-ignore:function_conflicts_variable
+func cutscene(state):
+	if state:
+		no_input(true)
+		fire = false
+		cutscene = true
+	else:
+		no_input(false)
+		cutscene = false
