@@ -11,6 +11,7 @@ var time = -1
 var f_delay = 0
 var id = 0
 var type = 0
+var grab = 8
 var new_plyr
 
 func _ready():
@@ -37,6 +38,9 @@ func _ready():
 	#Set X/Y velocity and time at spawn time if dropped by an enemy.
 
 func _physics_process(delta):
+	
+	if grab > 0:
+		grab -= 1
 	
 	#If a different player is loaded, change 1UPOP sprite.
 	if global.player != new_plyr:

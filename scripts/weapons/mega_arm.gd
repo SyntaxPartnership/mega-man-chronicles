@@ -119,7 +119,7 @@ func _physics_process(delta):
 		
 		if overlap != []:
 			for body in overlap:
-				if body.is_in_group('items'):
+				if body.is_in_group('items') and body.grab == 0:
 					body.global_position = global_position
 	
 func _on_player_detect_body_entered(body):
