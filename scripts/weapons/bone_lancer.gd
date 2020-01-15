@@ -6,12 +6,13 @@ onready var p_sprite = player.get_child(3)
 onready var pos = player.get_child(3).get_child(1)
 
 var length = 0
-var retract = false
+var reflect = false
 var wall = false
 var dir = false
 var kill_chain = 1
 
-var damage = 40
+var id = 2
+var property = 1
 
 func _ready():
 	$anim.play("idle")
@@ -35,7 +36,7 @@ func _ready():
 func _process(delta):
 	
 	if !wall:
-		if !retract:
+		if !reflect:
 			if length < 8:
 				if !dir:
 					$main/drill.position.x += 8
@@ -53,7 +54,7 @@ func _process(delta):
 						c.show()
 			
 			if length == 8:
-				retract = true
+				reflect = true
 		else:
 			if length > 0:
 				if !dir:

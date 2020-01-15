@@ -6,7 +6,7 @@ var debug_menu = 0
 #Player Variables
 var player = 0
 var player_id = [0, 99]
-var player_life = [280, 0]
+var player_life = [280, 280]
 var player_weap = [0, 0]
 var lives = 2
 var bolts = 0
@@ -61,7 +61,7 @@ var bass = true
 var dummy = [true, 280, 280]
 var rp_coil = [true, 280, 280]
 var rp_jet = [false, 280, 280]
-var weapon1 = [false, 280, 280]
+var weapon1 = [true, 280, 280]
 var weapon2 = [false, 280, 280]
 var weapon3 = [false, 280, 280]
 var weapon4 = [false, 280, 280]

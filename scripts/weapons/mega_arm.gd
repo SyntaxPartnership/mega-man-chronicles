@@ -9,6 +9,7 @@ var level = 0
 var dir = Vector2()
 var id = 0
 var dist = 0
+var ret = false
 var reflect = false
 var x_lock = false
 var y_lock = false
@@ -47,7 +48,7 @@ func _ready():
 
 func _physics_process(delta):
 	
-	if !reflect:
+	if !ret:
 		velocity.x = dir.x * SPEED
 	else:
 		if !x_lock:
@@ -64,17 +65,17 @@ func _physics_process(delta):
 			velocity.x = dir.x * SPEED
 		
 		if !y_lock:
+			if global_position.y >= player.global_position.y and dir.y == 1:
+				y_lock = true
+			elif global_position.y <= player.global_position.y and dir.y == -1:
+				y_lock = true
+			
 			if global_position.y < player.global_position.y:
 				dir.y = 1
 				velocity.y = SPEED
 			else:
 				dir.y = -1
 				velocity.y = -SPEED
-			
-			if global_position.y >= player.global_position.y and dir.y == 1:
-				y_lock = true
-			elif global_position.y <= player.global_position.y and dir.y == -1:
-				y_lock = true
 		
 		if x_lock:
 			velocity.x = 0
@@ -91,11 +92,11 @@ func _physics_process(delta):
 	if dist == 0:
 		$anim.play("return")
 		dir.x = 0
-		reflect = true
+		ret = true
 	
 func _on_player_detect_body_entered(body):
 	if body.name == "player":
-		if reflect:
+		if ret:
 			world.sound("connect")
 			player.shot_state(player.NORMAL)
 			world.shots = 0

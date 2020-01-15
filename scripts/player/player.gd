@@ -528,6 +528,7 @@ func _physics_process(delta):
 					global.player_life[0] = 0
 					global.player_life[1] = 0
 					world.dead = true
+					world.kill_music()
 					can_move = false
 					get_tree().paused = true
 			

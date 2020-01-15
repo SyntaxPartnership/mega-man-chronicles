@@ -12,8 +12,9 @@ var time = 120
 var chrg_time = 60
 var fire_time = 120
 
-var touch = false
 var damage = 0
+var overlap_a = []
+var overlap_b = []
 
 func _ready():
 	
@@ -101,6 +102,27 @@ func _physics_process(delta):
 	
 	velocity = move_and_slide(velocity, Vector2(0, -1))
 	
+		#Check to see if weapons or the player is overlapping.
+	overlap_a = $fire_hitbox.get_overlapping_bodies()
+	overlap_b = $idle_hitbox.get_overlapping_bodies()
+	
+	#if true
+	if overlap_a != []:
+		for body in overlap_a:
+			if body.name == "player":
+				damage = 60
+				if player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap:
+					global.player_life[int(player.swap)] -= damage
+					player.damage()
+	
+	if overlap_b != []:
+		for body in overlap_b:
+			if body.name == "player":
+				damage = 20
+				if player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap:
+					global.player_life[int(player.swap)] -= damage
+					player.damage()
+	
 	var top_left = $detectors/top_left.get_overlapping_bodies()
 	var top_right = $detectors/top_right.get_overlapping_bodies()
 	var bottom_left = $detectors/bottom_left.get_overlapping_bodies()
@@ -117,20 +139,3 @@ func _physics_process(delta):
 	
 	if top_right == [] and reverse or bottom_right == [] and reverse:
 		reverse = false
-	
-	if touch and player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap:
-		global.player_life[int(player.swap)] -= damage
-		player.damage()
-	
-	if $idle_hitbox.get_overlapping_bodies() == [] and $fire_hitbox.get_overlapping_bodies() == []:
-		touch = false
-
-func _on_fire_hitbox_entered(body):
-	if body.name == 'player':
-		touch = true
-		damage = 60
-
-func _on_idle_hitbox_entered(body):
-	if body.name == 'player':
-		touch = true
-		damage = 20

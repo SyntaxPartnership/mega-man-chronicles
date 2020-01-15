@@ -148,6 +148,4 @@ stream = ExtResource( 6 )
 [node name="on_screen" type="VisibilityNotifier2D" parent="."]
 rect = Rect2( -8, -10, 16, 20 )
 [connection signal="animation_finished" from="anim" to="." method="_on_anim_finished"]
-[connection signal="body_entered" from="hitbox" to="." method="_on_hitbox_body_entered"]
-[connection signal="body_exited" from="hitbox" to="." method="_on_hitbox_body_exited"]
 [connection signal="screen_exited" from="on_screen" to="." method="_on_screen_exited"]

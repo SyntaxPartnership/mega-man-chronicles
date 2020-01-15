@@ -41,7 +41,6 @@ var boss_hp = 280
 
 var boss_dead = false
 var end_delay = 360
-var end_stage = true
 var end_state = 0
 var leave_delay = 120
 
@@ -109,10 +108,11 @@ var boss_rooms = {#Insert boss room coordinates here.
 var got_items = {
 				}
 
+#Base damage for weapons.
 var wpn_dmg = {
-				0 : [0, 0],		#Immunity to damage.
-				1 : [10, 30],	#Standard enemy. All Weapons hurt it.
-				2 : [10, 30],	#Glow Man
+				0 : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],		#Immunity to damage.
+				1 : [10, 30, 40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],	#Standard enemy. All Weapons hurt it.
+				2 : [10, 30, 40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],	#Glow Man
 				}
 				
 var damage = 0
@@ -459,7 +459,10 @@ func _rooms():
 			else:
 				$player/camera.limit_right = (player_room.x * res.x) + res.x
 				$player/camera.limit_left = player_room.x * res.x
-				
+	
+	if cont_rooms.has(str(player_room)):
+		global.cont_id = cont_rooms.get(str(player_room))
+	
 	if boss_rooms.has(str(player_room)):
 		#Kill music and display the boss meter.
 		kill_music()
@@ -467,7 +470,8 @@ func _rooms():
 		if global.level_id != 0:
 			$audio/music/boss.play()
 			boss = true
-		#Check tilemap for enemies. If so, place them.
+	
+	#Check tilemap for enemies. If so, place them.
 	if enemy_count == 0:
 		var enemy_loc = []
 		var enemy_name = []
@@ -503,9 +507,6 @@ func _rooms():
 		
 		for s in see_item:
 			s.get_child(0).show()
-
-func _physics_process(delta):
-	pass
 
 #warning-ignore:unused_argument
 func _process(delta):
@@ -626,8 +627,7 @@ func _process(delta):
 		$player.can_move = false
 		get_tree().paused = true
 		kill_se("charge")
-		for m in $audio/music.get_children():
-			m.stop()
+		kill_music()
 	
 	if dead and dead_delay > -1:
 		dead_delay -= 1
@@ -635,6 +635,9 @@ func _process(delta):
 	if dead and dead_delay == 0:
 		if $player.is_visible():
 			$audio/se/death.play()
+			kill_weapons()
+			$player.b_lancer = false
+			$player.b_lance_pull = false
 			$player.hide()
 			for n in range(16):
 				var boom = DEATH_BOOM.instance()
@@ -810,8 +813,10 @@ func _on_fade_fadeout():
 	
 	if $fade/fade.state == 10:
 		if wpn_get_anim.has(global.level_id):
+# warning-ignore:return_value_discarded
 			get_tree().change_scene("res://scenes/new_weap.tscn")
 		else:
+# warning-ignore:return_value_discarded
 			get_tree().change_scene("res://scenes/stage_select.tscn")
 
 func palette_swap():

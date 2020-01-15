@@ -208,5 +208,3 @@ shape = SubResource( 9 )
 
 [node name="fire_hitbox" type="Area2D" parent="."]
 collision_mask = 4
-[connection signal="body_entered" from="idle_hitbox" to="." method="_on_idle_hitbox_entered"]
-[connection signal="body_entered" from="fire_hitbox" to="." method="_on_fire_hitbox_entered"]
