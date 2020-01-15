@@ -98,6 +98,7 @@ func _physics_process(delta):
 	if dist == 0 and !choke:
 		$anim.play("return")
 		dir.x = 0
+		dir.y = 0
 		reflect = true
 		ret = true
 	

@@ -166,7 +166,10 @@ func _physics_process(delta):
 						flash = true
 						f_delay = 2
 						#Play sounds for taking damage.
-						world.sound("hit")
+						if hp > 0:
+							world.sound("hit")
+						else:
+							world.sound("explode_a")
 				elif dead or body.choke_max == 0:
 					body.choke = false
 					body.choke_delay = 0
