@@ -101,6 +101,7 @@ anims/return = SubResource( 4 )
 shape = SubResource( 5 )
 
 [node name="player_detect" type="Area2D" parent="."]
+collision_layer = 9
 collision_mask = 128
 
 [node name="box" type="CollisionShape2D" parent="player_detect"]

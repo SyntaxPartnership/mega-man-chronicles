@@ -157,6 +157,7 @@ tile_data = PoolIntArray( 458815, 0, 0, 458863, 0, 0, 917618, 1, 0 )
 tile_set = ExtResource( 14 )
 cell_size = Vector2( 16, 16 )
 format = 1
+tile_data = PoolIntArray( 786433, 8, 0 )
 
 [node name="enemy_map" type="TileMap" parent="graphic/spawn_tiles"]
 tile_set = ExtResource( 15 )

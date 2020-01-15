@@ -436,9 +436,11 @@ func _physics_process(delta):
 				x_speed = 0
 			else:
 				if $sprite.flip_h == true:
-					x_speed = (RUN_SPEED * 0.6) / x_spd_mod
+					if global_position.x < camera.limit_right:
+						x_speed = (RUN_SPEED * 0.6) / x_spd_mod
 				else:
-					x_speed = (-RUN_SPEED * 0.6) / x_spd_mod
+					if global_position.x > camera.limit_left:
+						x_speed = (-RUN_SPEED * 0.6) / x_spd_mod
 
 			hurt_timer -= 1
 			#When hurt_timer reaches 0, start blinking functions.
@@ -985,7 +987,10 @@ func standing():
 	if x_dir != 0 and shot_st != THROW and shot_st != BASSSHOT and anim_st == IDLE and is_on_floor() and !rush_jet and !b_lancer and !b_lance_pull:
 		anim_state(LILSTEP)
 		if !ice:
-			x_speed = (x_dir * RUN_SPEED) / x_spd_mod
+			if x_dir == -1 and global_position.x <= camera.limit_left + 8 and world.cam_allow[2] == 0 or x_dir == 1 and global_position.x >= camera.limit_right - 8 and world.cam_allow[3] == 0:
+				x_speed = 0
+			else:
+				x_speed = (x_dir * RUN_SPEED) / x_spd_mod
 	
 	#Set X Velocity.
 	if !slide:
@@ -993,7 +998,10 @@ func standing():
 			if anim_st == RUN and !rush_jet:
 				if shot_st != THROW and shot_st != BASSSHOT:
 					if !ice:
-						x_speed = (x_dir * RUN_SPEED) / x_spd_mod
+						if x_dir == -1 and global_position.x <= camera.limit_left + 8 and world.cam_allow[2] == 0 or x_dir == 1 and global_position.x >= camera.limit_right - 8 and world.cam_allow[3] == 0:
+							x_speed = 0
+						else:
+							x_speed = (x_dir * RUN_SPEED) / x_spd_mod
 					else:
 						if x_dir == -1 and x_speed > -RUN_SPEED:
 							x_speed -= 1

@@ -17,6 +17,8 @@ var reflect = false
 var x_lock = false
 var y_lock = false
 
+var overlap = []
+
 var velocity = Vector2()
 
 #This is a new variable that will dictate how the shot reacts when striking an enemy.
@@ -111,7 +113,14 @@ func _physics_process(delta):
 		if choke_delay > 0:
 			choke_delay -= 1
 	
-	print(choke_delay)
+	#If the player has acquire the magnet hand...
+	if global.perma_items.get('magnet_hand'):
+		overlap = $player_detect.get_overlapping_bodies()
+		
+		if overlap != []:
+			for body in overlap:
+				if body.is_in_group('items'):
+					body.global_position = global_position
 	
 func _on_player_detect_body_entered(body):
 	if body.name == "player":
@@ -123,7 +132,7 @@ func _on_player_detect_body_entered(body):
 			queue_free()
 
 func choke_check():
-	if global.perma_items.has('choke_hand'):
+	if global.perma_items.get('choke_hand'):
 		if !choke:
 			velocity = Vector2(0, 0)
 			dir.x = 0
