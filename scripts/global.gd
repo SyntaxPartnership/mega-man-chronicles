@@ -34,7 +34,9 @@ var boss_num = 1
 var temp_items = {}
 #Update list with permanent items.
 var perma_items = {
-	'ebalancer' : false
+	'ebalancer'			: false,
+	'choke_hand'		: true,
+	'magnet_hand'		: true
 	}
 
 #Stage Cleared Flags

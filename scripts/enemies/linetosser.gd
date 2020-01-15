@@ -9,6 +9,8 @@ onready var front = world.get_child(1).get_child(2)
 var start_pos = Vector2()
 
 var id = 1
+#Choke Hand value. Standard is 8 for enemies. 3 for bosses.
+const CHOKE = 8
 
 var dist
 
@@ -106,8 +108,9 @@ func _physics_process(delta):
 										body._on_screen_exited()
 								3:
 									if world.damage < hp:
-										body.dist = 1
-										body.reflect = true
+										body.choke_check()
+										body.choke_max = CHOKE
+										body.choke_delay = 6
 							hp -= world.damage
 							$sprite.hide()
 							flash = true
@@ -119,6 +122,22 @@ func _physics_process(delta):
 								body.reflect = true
 							else:
 								body.dist = 1
+			
+			if body.name == "mega_arm" and body.choke:
+				body.global_position = global_position
+				if !dead and !flash and body.choke_delay == 0:
+					if body.choke_max > 0:
+						hp -= 10
+						body.choke_max -= 1
+						body.choke_delay = 6
+						$sprite.hide()
+						flash = true
+						f_delay = 2
+						#Play sounds for taking damage.
+						world.sound("hit")
+				elif dead or body.choke_max == 0:
+					body.choke = false
+					body.choke_delay = 0
 							
 			if body.name == "player" and !dead:
 				if player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap:
