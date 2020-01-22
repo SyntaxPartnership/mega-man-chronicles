@@ -36,7 +36,8 @@ var temp_items = {}
 var perma_items = {
 	'ebalancer'			: false,
 	'choke_hand'		: true,
-	'magnet_hand'		: true
+	'magnet_hand'		: true,
+	'seeker_hand'		: false
 	}
 
 #Stage Cleared Flags

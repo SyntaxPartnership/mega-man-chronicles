@@ -5,6 +5,7 @@ onready var player = world.get_child(2)
 onready var p_sprite = player.get_child(3)
 
 const SPEED = 350
+const ST_FORCE = 30
 var level = 0
 var dir = Vector2()
 var id = 0
@@ -18,8 +19,12 @@ var x_lock = false
 var y_lock = false
 
 var overlap = []
+var targets = []
+var final_t
+var prev_pos = Vector2()
 
 var velocity = Vector2()
+var accel = Vector2.ZERO
 
 #This is a new variable that will dictate how the shot reacts when striking an enemy.
 #0: Disappear
@@ -31,6 +36,8 @@ var property = 3
 func _ready():
 	$anim.play("idle")
 	world.sound("shoot_b")
+	
+	get_targets()
 	
 	if level == 0:
 		id = 0
@@ -47,6 +54,8 @@ func _ready():
 	else:
 		dir.x = 1
 	
+	velocity.x = dir.x * SPEED
+	
 	var boom = load("res://scenes/effects/s_explode.tscn").instance()
 	boom.global_position = global_position
 	world.get_child(3).add_child(boom)
@@ -55,64 +64,72 @@ func _physics_process(delta):
 	
 	if !choke:
 		if !ret:
-			velocity.x = dir.x * SPEED
-		else:
-			if !x_lock:
-				if global_position.x >= player.global_position.x and dir.x == 1:
-					x_lock = true
-				elif global_position.x <= player.global_position.x and dir.x == -1:
-					x_lock = true
-
-				if global_position.x < player.global_position.x and dir.x == 0:
-					dir.x = 1
-				elif global_position.x > player.global_position.x and dir.x == 0:
-					dir.x = -1
-
-				velocity.x = dir.x * SPEED
-
-			if !y_lock:
-				if global_position.y >= player.global_position.y and dir.y == 1:
-					y_lock = true
-				elif global_position.y <= player.global_position.y and dir.y == -1:
-					y_lock = true
-
-				if global_position.y < player.global_position.y:
-					dir.y = 1
-					velocity.y = SPEED
-				else:
-					dir.y = -1
-					velocity.y = -SPEED
-
-			if x_lock:
-				velocity.x = 0
-				global_position.x = player.global_position.x
-
-			if y_lock:
-				velocity.y = 0
-				global_position.y = player.global_position.y
+			if global.perma_items.get("seeker_hand"):
+				accel = seek()
+				velocity += accel
+				velocity.clamped(SPEED)
 		
-		velocity = move_and_slide(velocity, Vector2(0, -1))
-	
-	dist -= 1
-	
-	if dist == 0 and !choke:
-		$anim.play("return")
-		dir.x = 0
-		dir.y = 0
-		reflect = true
-		ret = true
-	
-	if choke:
-		if $sprite.flip_h:
-			$sprite.offset.x -= 0.25
-		else:
-			$sprite.offset.x += 0.25
-			
-		if $sprite.offset.x < -1.75 or $sprite.offset.x > 1.75:
-			$sprite.offset.x = 0
-	
-		if choke_delay > 0:
-			choke_delay -= 1
+		position += velocity * delta
+#	if !choke:
+#		if !ret:
+#			velocity.x = dir.x * SPEED
+#		else:
+#			if !x_lock:
+#				if global_position.x >= player.global_position.x and dir.x == 1:
+#					x_lock = true
+#				elif global_position.x <= player.global_position.x and dir.x == -1:
+#					x_lock = true
+#
+#				if global_position.x < player.global_position.x and dir.x == 0:
+#					dir.x = 1
+#				elif global_position.x > player.global_position.x and dir.x == 0:
+#					dir.x = -1
+#
+#				velocity.x = dir.x * SPEED
+#
+#			if !y_lock:
+#				if global_position.y >= player.global_position.y and dir.y == 1:
+#					y_lock = true
+#				elif global_position.y <= player.global_position.y and dir.y == -1:
+#					y_lock = true
+#
+#				if global_position.y < player.global_position.y:
+#					dir.y = 1
+#					velocity.y = SPEED
+#				else:
+#					dir.y = -1
+#					velocity.y = -SPEED
+#
+#			if x_lock:
+#				velocity.x = 0
+#				global_position.x = player.global_position.x
+#
+#			if y_lock:
+#				velocity.y = 0
+#				global_position.y = player.global_position.y
+#
+#	velocity = move_and_slide(velocity, Vector2(0, -1))
+#
+#	dist -= 1
+#
+#	if dist == 0 and !choke:
+#		$anim.play("return")
+#		dir.x = 0
+#		dir.y = 0
+#		reflect = true
+#		ret = true
+#
+#	if choke:
+#		if $sprite.flip_h:
+#			$sprite.offset.x -= 0.25
+#		else:
+#			$sprite.offset.x += 0.25
+#
+#		if $sprite.offset.x < -1.75 or $sprite.offset.x > 1.75:
+#			$sprite.offset.x = 0
+#
+#		if choke_delay > 0:
+#			choke_delay -= 1
 	
 	#If the player has acquire the magnet hand...
 	if global.perma_items.get('magnet_hand'):
@@ -146,3 +163,19 @@ func choke_check():
 	else:
 		dist = 1
 		reflect = true
+
+func seek():
+	var steer = Vector2.ZERO
+	var desired = (final_t.position - position).normalized() * SPEED
+	steer = (desired - velocity).normalized() * ST_FORCE
+	return steer
+
+func get_targets():
+	targets = get_tree().get_nodes_in_group("enemies") + get_tree().get_nodes_in_group("boss")
+	
+	final_t = targets[0]
+	
+	for t in targets:
+		if !t.dead:
+			if t.global_position.distance_to(global_position) < final_t.global_position.distance_to(global_position):
+				final_t = t
