@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 onready var world = get_parent().get_parent()
 onready var player = world.get_child(2)
+onready var camera = player.get_child(9)
 onready var p_sprite = player.get_child(3)
 
 const SPEED = 350
@@ -149,6 +150,6 @@ func get_targets():
 	nearest = targets[0]
 	
 	for t in targets:
-		if !t.dead:
+		if !t.dead and t.global_position.x < camera.get_camera_screen_center().x + 128 and t.global_position.x > camera.get_camera_screen_center().x - 128:
 			if t.global_position.distance_to(global_position) < nearest.global_position.distance_to(global_position):
 				f_target = t
