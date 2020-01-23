@@ -67,7 +67,7 @@ func _physics_process(delta):
 	
 	if !choke:
 		if !ret:
-			if global.perma_items.get("seeker_hand") and f_target != null:
+			if global.perma_items.get("seeker_hand") and f_target != null and level != 0:
 				accel = seek()
 				velocity += accel
 				velocity.clamped(SPEED)
