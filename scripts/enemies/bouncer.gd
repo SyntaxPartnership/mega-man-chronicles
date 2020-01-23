@@ -140,6 +140,7 @@ func _physics_process(delta):
 										body.choke_check()
 										body.choke_max = CHOKE
 										body.choke_delay = 6
+										body.velocity = -velocity
 							hp -= world.damage
 							$sprite.hide()
 							flash = true

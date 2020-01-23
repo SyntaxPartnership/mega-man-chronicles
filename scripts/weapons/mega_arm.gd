@@ -5,7 +5,9 @@ onready var player = world.get_child(2)
 onready var p_sprite = player.get_child(3)
 
 const SPEED = 350
+const RET_SPD = 700
 const ST_FORCE = 30
+const RET_FORCE = 90
 var level = 0
 var dir = Vector2()
 var id = 0
@@ -20,8 +22,8 @@ var y_lock = false
 
 var overlap = []
 var targets = []
-var final_t
-var prev_pos = Vector2()
+var nearest
+var f_target
 
 var velocity = Vector2()
 var accel = Vector2.ZERO
@@ -41,10 +43,10 @@ func _ready():
 	
 	if level == 0:
 		id = 0
-		dist = 10
+		dist = 5
 	else:
 		id = 1
-		dist = 24
+		dist = 20
 	
 	if p_sprite.flip_h:
 		$sprite.flip_h = true
@@ -64,72 +66,38 @@ func _physics_process(delta):
 	
 	if !choke:
 		if !ret:
-			if global.perma_items.get("seeker_hand"):
+			if global.perma_items.get("seeker_hand") and f_target != null:
 				accel = seek()
 				velocity += accel
 				velocity.clamped(SPEED)
+		else:
+			if f_target != player:
+				f_target = player
+			
+			accel = seek()
+			velocity += accel
+			velocity.clamped(RET_SPD)
 		
 		position += velocity * delta
-#	if !choke:
-#		if !ret:
-#			velocity.x = dir.x * SPEED
-#		else:
-#			if !x_lock:
-#				if global_position.x >= player.global_position.x and dir.x == 1:
-#					x_lock = true
-#				elif global_position.x <= player.global_position.x and dir.x == -1:
-#					x_lock = true
-#
-#				if global_position.x < player.global_position.x and dir.x == 0:
-#					dir.x = 1
-#				elif global_position.x > player.global_position.x and dir.x == 0:
-#					dir.x = -1
-#
-#				velocity.x = dir.x * SPEED
-#
-#			if !y_lock:
-#				if global_position.y >= player.global_position.y and dir.y == 1:
-#					y_lock = true
-#				elif global_position.y <= player.global_position.y and dir.y == -1:
-#					y_lock = true
-#
-#				if global_position.y < player.global_position.y:
-#					dir.y = 1
-#					velocity.y = SPEED
-#				else:
-#					dir.y = -1
-#					velocity.y = -SPEED
-#
-#			if x_lock:
-#				velocity.x = 0
-#				global_position.x = player.global_position.x
-#
-#			if y_lock:
-#				velocity.y = 0
-#				global_position.y = player.global_position.y
-#
-#	velocity = move_and_slide(velocity, Vector2(0, -1))
-#
-#	dist -= 1
-#
-#	if dist == 0 and !choke:
-#		$anim.play("return")
-#		dir.x = 0
-#		dir.y = 0
-#		reflect = true
-#		ret = true
-#
-#	if choke:
-#		if $sprite.flip_h:
-#			$sprite.offset.x -= 0.25
-#		else:
-#			$sprite.offset.x += 0.25
-#
-#		if $sprite.offset.x < -1.75 or $sprite.offset.x > 1.75:
-#			$sprite.offset.x = 0
-#
-#		if choke_delay > 0:
-#			choke_delay -= 1
+		
+	dist -= 1
+
+	if dist == 0 and !choke:
+		$anim.play("return")
+		reflect = true
+		ret = true
+
+	if choke:
+		if $sprite.flip_h:
+			$sprite.offset.x -= 0.25
+		else:
+			$sprite.offset.x += 0.25
+
+		if $sprite.offset.x < -1.75 or $sprite.offset.x > 1.75:
+			$sprite.offset.x = 0
+
+		if choke_delay > 0:
+			choke_delay -= 1
 	
 	#If the player has acquire the magnet hand...
 	if global.perma_items.get('magnet_hand'):
@@ -166,16 +134,21 @@ func choke_check():
 
 func seek():
 	var steer = Vector2.ZERO
-	var desired = (final_t.position - position).normalized() * SPEED
-	steer = (desired - velocity).normalized() * ST_FORCE
+	var desired = Vector2.ZERO
+	if !ret:
+		desired = (f_target.position - position).normalized() * SPEED
+		steer = (desired - velocity).normalized() * ST_FORCE
+	else:
+		desired = (f_target.position - position).normalized() * RET_SPD
+		steer = (desired - velocity).normalized() * RET_FORCE
 	return steer
 
 func get_targets():
 	targets = get_tree().get_nodes_in_group("enemies") + get_tree().get_nodes_in_group("boss")
 	
-	final_t = targets[0]
+	nearest = targets[0]
 	
 	for t in targets:
 		if !t.dead:
-			if t.global_position.distance_to(global_position) < final_t.global_position.distance_to(global_position):
-				final_t = t
+			if t.global_position.distance_to(global_position) < nearest.global_position.distance_to(global_position):
+				f_target = t
