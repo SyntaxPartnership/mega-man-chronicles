@@ -5,21 +5,20 @@ onready var player = world.get_child(2)
 onready var camera = player.get_child(9)
 onready var p_sprite = player.get_child(3)
 
-const SPEED = 350
-const RET_SPD = 700
-const ST_FORCE = 30
-const RET_FORCE = 90
+const SPEED = 300
+const RET_SPD = 500
+const ST_FORCE = 50
+const RET_FORCE = 70
 var level = 0
 var dir = Vector2()
 var id = 0
 var dist = 0
 var ret = false
 var choke = false
+# warning-ignore:unused_class_variable
 var choke_max = 0
 var choke_delay = 0
 var reflect = false
-var x_lock = false
-var y_lock = false
 
 var overlap = []
 var targets = []
@@ -34,6 +33,7 @@ var accel = Vector2.ZERO
 #1: Pierce
 #2: Pierce if HP is equal or lower than damage.
 #3: Pierce if HP is equal or lower than damage. Begin return script.
+# warning-ignore:unused_class_variable
 var property = 3
 
 func _ready():
@@ -44,10 +44,13 @@ func _ready():
 	
 	if level == 0:
 		id = 0
-		dist = 5
+		dist = 10
 	else:
 		id = 1
-		dist = 20
+		if f_target == null:
+			dist = 24
+		else:
+			dist = 32
 	
 	if p_sprite.flip_h:
 		$sprite.flip_h = true
@@ -63,6 +66,7 @@ func _ready():
 	boom.global_position = global_position
 	world.get_child(3).add_child(boom)
 
+# warning-ignore:unused_argument
 func _physics_process(delta):
 	
 	if !choke:
@@ -71,19 +75,28 @@ func _physics_process(delta):
 				accel = seek()
 				velocity += accel
 				velocity.clamped(SPEED)
+				if velocity.x < 0 and !$sprite.flip_h:
+					$sprite.flip_h = true
+				elif velocity.x > 0 and $sprite.flip_h:
+					$sprite.flip_h = false
 		else:
 			if f_target != player:
 				f_target = player
-			
 			accel = seek()
 			velocity += accel
 			velocity.clamped(RET_SPD)
+			if velocity.x < 0 and $sprite.flip_h:
+				$sprite.flip_h = false
+			elif velocity.x > 0 and !$sprite.flip_h:
+				$sprite.flip_h = true
 		
-		position += velocity * delta
-		
+#		position += velocity * delta
+		velocity = move_and_slide(velocity, Vector2(0, -1))
+	
 	dist -= 1
 
 	if dist == 0 and !choke:
+		velocity = -velocity
 		$anim.play("return")
 		reflect = true
 		ret = true
@@ -108,6 +121,9 @@ func _physics_process(delta):
 			for body in overlap:
 				if body.is_in_group('items') and body.grab == 0:
 					body.global_position = global_position
+	
+	if f_target != null:
+		print(f_target.name,', ',ret,', ',dist,', ',reflect)
 	
 func _on_player_detect_body_entered(body):
 	if body.name == "player":
@@ -136,20 +152,27 @@ func choke_check():
 func seek():
 	var steer = Vector2.ZERO
 	var desired = Vector2.ZERO
-	if !ret:
-		desired = (f_target.position - position).normalized() * SPEED
-		steer = (desired - velocity).normalized() * ST_FORCE
-	else:
-		desired = (f_target.position - position).normalized() * RET_SPD
-		steer = (desired - velocity).normalized() * RET_FORCE
+	desired = (f_target.position - position).normalized() * SPEED
+	steer = (desired - velocity).normalized() * ST_FORCE
 	return steer
 
 func get_targets():
 	targets = get_tree().get_nodes_in_group("enemies") + get_tree().get_nodes_in_group("boss")
 	
-	nearest = targets[0]
+	if targets != []:
+		nearest = targets[0]
 	
-	for t in targets:
-		if !t.dead and t.global_position.x < camera.get_camera_screen_center().x + 128 and t.global_position.x > camera.get_camera_screen_center().x - 128:
-			if t.global_position.distance_to(global_position) < nearest.global_position.distance_to(global_position):
-				f_target = t
+	if targets.size() > 1:
+		for t in targets:
+			if t.global_position.x < camera.get_camera_screen_center().x + 128 and t.global_position.x > camera.get_camera_screen_center().x - 128:
+				if t.global_position.distance_to(global_position) < nearest.global_position.distance_to(global_position):
+					f_target = t
+	else:
+		f_target = nearest
+
+func ret():
+	dist = 1
+	choke = false
+	choke_delay = 0
+	f_target = player
+	velocity = -velocity
