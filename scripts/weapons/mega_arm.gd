@@ -122,9 +122,6 @@ func _physics_process(delta):
 				if body.is_in_group('items') and body.grab == 0:
 					body.global_position = global_position
 	
-	if f_target != null:
-		print(f_target.name,', ',ret,', ',dist,', ',reflect)
-	
 func _on_player_detect_body_entered(body):
 	if body.name == "player":
 		if ret:
@@ -160,7 +157,7 @@ func get_targets():
 	targets = get_tree().get_nodes_in_group("enemies") + get_tree().get_nodes_in_group("boss")
 	
 	if targets != []:
-		if !targets[0].dead:
+		if targets[0].is_in_group("enemies") and !targets[0].dead or targets[0].is_in_group("boss"):
 			nearest = targets[0]
 	
 	if targets.size() > 1:
