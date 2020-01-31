@@ -97,32 +97,32 @@ func _physics_process(delta):
 			if body.is_in_group("weapons") or body.is_in_group("adaptor_dmg"):
 				if !dead and !flash:
 					world.enemy_dmg(id, body.id)
-					if world.damage != 0:
-						if !body.reflect:
+					if world.damage != 0 and !body.reflect:
 						#Weapon behaviors.
-							match body.property:
-								0:
+						match body.property:
+							0:
+								body._on_screen_exited()
+							2:
+								if world.damage < hp:
 									body._on_screen_exited()
-								2:
-									if world.damage < hp:
-										body._on_screen_exited()
-								3:
-									if world.damage < hp:
-										body.choke_check()
-										body.choke_max = CHOKE
-										body.choke_delay = 6
-										body.velocity = -velocity
-							hp -= world.damage
-							$sprite.hide()
-							flash = true
-							f_delay = 2
-							#Play sounds for taking damage.
-							world.sound("hit")
+							3:
+								if world.damage < hp:
+									body.choke_check()
+									body.choke_max = CHOKE
+									body.choke_delay = 6
+									body.velocity = -velocity
+						hp -= world.damage
+						$sprite.hide()
+						flash = true
+						f_delay = 2
+						#Play sounds for taking damage.
+						world.sound("hit")
+					else:
+						if body.property != 3:
+							body.reflect = true
 						else:
-							if body.property != 3:
-								body.reflect = true
-							else:
-								body.dist = 1
+							if !body.ret:
+								body.ret()
 			
 			if body.name == "mega_arm" and body.choke:
 				body.global_position = global_position

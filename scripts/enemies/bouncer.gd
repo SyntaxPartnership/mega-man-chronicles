@@ -126,7 +126,7 @@ func _physics_process(delta):
 			if body.is_in_group("weapons") or body.is_in_group("adaptor_dmg"):
 				if !dead and !flash:
 					world.enemy_dmg(id, body.id)
-					if world.damage != 0:
+					if world.damage != 0 and !body.reflect:
 						if !body.reflect:
 						#Weapon behaviors.
 							match body.property:
@@ -154,7 +154,8 @@ func _physics_process(delta):
 							if body.property != 3:
 								body.reflect = true
 							else:
-								body.dist = 1
+								if !body.ret:
+									body.ret()
 			
 			if body.name == "mega_arm" and body.choke:
 				body.global_position = global_position

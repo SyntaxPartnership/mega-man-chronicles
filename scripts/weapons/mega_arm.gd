@@ -160,11 +160,12 @@ func get_targets():
 	targets = get_tree().get_nodes_in_group("enemies") + get_tree().get_nodes_in_group("boss")
 	
 	if targets != []:
-		nearest = targets[0]
+		if !targets[0].dead:
+			nearest = targets[0]
 	
 	if targets.size() > 1:
 		for t in targets:
-			if t.global_position.x < camera.get_camera_screen_center().x + 128 and t.global_position.x > camera.get_camera_screen_center().x - 128:
+			if !t.dead and t.global_position.x < camera.get_camera_screen_center().x + 128 and t.global_position.x > camera.get_camera_screen_center().x - 128:
 				if t.global_position.distance_to(global_position) < nearest.global_position.distance_to(global_position):
 					f_target = t
 	else:
