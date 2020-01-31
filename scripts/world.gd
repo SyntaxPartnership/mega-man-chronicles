@@ -66,6 +66,9 @@ var screens = 0
 var shake = 0
 var enemy_count = 0
 
+#Misc functions.
+var bncr_aggro = 0
+
 #Reference. The following dictionary contains data for the rooms loaded into the game. The key is the room coordinates. The first four numbers hold values for cam_allow.
 #The final two hold how many rooms that particular area can scroll before stopping and which direction to scroll (1 for right, -1 for left). If rooms has a 0, ignore the
 #scrolling section of the code, as it will only change the screen transitions.
@@ -512,6 +515,7 @@ func _rooms():
 func _process(delta):
 	_camera()
 	#Print Shit
+	
 	
 	#Get other player information.
 	player_tilepos = $coll_mask/tiles.world_to_map(pos)

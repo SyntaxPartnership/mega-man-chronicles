@@ -159,6 +159,7 @@ func _physics_process(delta):
 	if hp <= 0 and !dead:
 		spawn_item()
 		$anim.play("idle")
+		world.bncr_aggro += 1
 		dead = true
 		flash = false
 		f_delay = 0
