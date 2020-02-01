@@ -24,6 +24,14 @@ var music = 100
 var res = 3
 var f_screen = false
 var quick_swap = false
+var use_analog = false
+var dash_slide = false
+
+var actions = ["up", "down", "left", "right", "jump", "fire", "dash", "toggle", "prev", "next", "select", "start"]
+
+var key_ctrls = ["W", "S", "A", "D", "Period", "Comma", "Slash", "L", "Semicolon", "Apostrophe", "Shift", "Enter"]
+var joy_ctrls = ["DPAD Up", "DPAD Down", "DPAD Left", "DPAD Right", "Face Button Bottom", "Face Button Left", "Face Button Right", "Face Button Top", "L", "R", "Select", "Start"]
+var l_stick = [["Left Stick Y", -1.0], ["Left Stick Y", 1.0], ["Left Stick X", -1.0], ["Left Stick X", 1.0]]
 
 #Level/Continue Point IDs
 var level_id = 0
@@ -35,9 +43,9 @@ var temp_items = {}
 #Update list with permanent items.
 var perma_items = {
 	'ebalancer'			: false,
-	'choke_hand'		: true,
-	'magnet_hand'		: true,
-	'seeker_hand'		: true
+	'choke_hand'		: false,
+	'magnet_hand'		: false,
+	'seeker_hand'		: false
 	}
 
 #Stage Cleared Flags
@@ -200,44 +208,35 @@ func _screen_resized():
 	
 	OS.set_window_position(screen_size*0.5 - window_size*0.5)
 
-func erase_dirs():
-	for i in ['up', 'down', 'left', 'right']:
-		InputMap.action_erase_events(i)
+func set_ctrls():
+	#Erase all buttons in preparations for the new controls.
+	for i in range(actions.size()):
+		if InputMap.has_action(actions[i]):
+			InputMap.action_erase_events(actions[i])
+			
+			#Get keyboard button value to set
+			var scancode = OS.find_scancode_from_string(key_ctrls[i])
+			var k_event = InputEventKey.new()
+			k_event.scancode = scancode
+			
+			#Get gamepad value to set.
+			var j_event = InputEventJoypadButton.new()
+			j_event.set_button_index(Input.get_joy_button_index_from_string(joy_ctrls[i]))
+			print(joy_ctrls[i])
+			
+			#Add the buttons.
+			InputMap.action_add_event(actions[i], k_event)
+			InputMap.action_add_event(actions[i], j_event)
 	
-func set_dirs():
-
-		var d_up = InputEventJoypadButton.new()
-		d_up.set_button_index(12)
-		InputMap.action_add_event('up', d_up)
-		
-		var d_down = InputEventJoypadButton.new()
-		d_down.set_button_index(13)
-		InputMap.action_add_event('down', d_down)
-		
-		var d_left = InputEventJoypadButton.new()
-		d_left.set_button_index(14)
-		InputMap.action_add_event('left', d_left)
-		
-		var d_right = InputEventJoypadButton.new()
-		d_right.set_button_index(15)
-		InputMap.action_add_event('right', d_right)
-	
-#		var a_up = InputEventJoypadMotion.new()
-#		a_up.set_axis(Input.get_joy_axis_index_from_string('Left Stick Y'))
-#		a_up.set_axis_value(-1.0)
-#		InputMap.action_add_event('up', a_up)
-#
-#		var a_down = InputEventJoypadMotion.new()
-#		a_down.set_axis(Input.get_joy_axis_index_from_string('Left Stick Y'))
-#		a_down.set_axis_value(1.0)
-#		InputMap.action_add_event('down', a_down)
-#
-#		var a_left = InputEventJoypadMotion.new()
-#		a_left.set_axis(Input.get_joy_axis_index_from_string('Left Stick X'))
-#		a_left.set_axis_value(-1.0)
-#		InputMap.action_add_event('left', a_left)
-#
-#		var a_right = InputEventJoypadMotion.new()
-#		a_right.set_axis(Input.get_joy_axis_index_from_string('Left Stick X'))
-#		a_right.set_axis_value(1.0)
-#		InputMap.action_add_event('right', a_right)
+	#Add left stick events if the flag is toggled.
+	if use_analog:
+		for a in range(l_stick.size()):
+			var axis = l_stick[a][0]
+			var dir = l_stick[a][1]
+			
+			var stick = InputEventJoypadMotion.new()
+			
+			stick.set_axis(Input.get_joy_axis_index_from_string(axis))
+			stick.set_axis_value(dir)
+			
+			InputMap.action_add_event(actions[a], stick)

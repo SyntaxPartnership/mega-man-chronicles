@@ -5,7 +5,7 @@ var allow_ctrl = false
 var text_a = "       ----WARNING!----\n\n\n\n\nThis is a test demo of a fan\ngame currently in production.\n\n\nAnything found within is\nsubject to change and may not\nbe included in the final\nrelease.\n\n\nMega Man™ and all related\ncharacters are © Capcom\nCo., LTD.\n\n\nThis game was developed as\na free, non profit project."
 var text_b = "\n\n\n\n\n\n\n   Dedicated to my wife and\n   children.\n\n\n   You guys are a constant\n   source of inspiration to\n   me.\n\n\n   I love you all.\n\n\n                    -Dad."
 
-const INPUT_ACTIONS = ['up', 'down', 'left', 'right', 'jump', 'fire', 'dash', 'prev', 'next', 'select', 'start']
+const INPUT_ACTIONS = ['up', 'down', 'left', 'right', 'jump', 'fire', 'dash', 'toggle', 'prev', 'next', 'select', 'start']
 const CONFIG_FILE = 'user://options.cfg'
 
 var txt_line = 0
@@ -28,8 +28,7 @@ func load_config():
 			var scancode = OS.get_scancode_string(action_list[0].scancode)
 			var pad_button = Input.get_joy_button_string(action_list[1].button_index)
 			config.set_value("k_input", action_name, scancode) #Keyboard keys
-			if action_name != INPUT_ACTIONS[0] and action_name != INPUT_ACTIONS[1] and action_name != INPUT_ACTIONS[2] and action_name != INPUT_ACTIONS[3]:
-				config.set_value("g_input", action_name, pad_button) #Gamepad buttons
+			config.set_value("g_input", action_name, pad_button) #Gamepad buttons
 		#Save default options.
 		config.set_value("options", "res", global.res)
 		config.set_value("options", "f_screen", global.f_screen)
@@ -37,35 +36,46 @@ func load_config():
 		#Save config
 		config.save(CONFIG_FILE)
 	else: #Successful load. Set values.
-		global.erase_dirs()
-		#Load keyboard values
+		#Load keyboard values.
 		for action_name in config.get_section_keys("k_input"):
-			# Get the key scancode corresponding to the saved human-readable string
-			var scancode = OS.find_scancode_from_string(config.get_value("k_input", action_name))
-			# Create a new event object based on the saved scancode
-			var event = InputEventKey.new()
-			event.scancode = scancode
-			# Replace old action (key) events by the new one
-			for old_event in InputMap.get_action_list(action_name):
-				if old_event is InputEventKey:
-					InputMap.action_erase_event(action_name, old_event)
-			InputMap.action_add_event(action_name, event)
-		#Load gamepad buttons
+			for i in range(global.actions.size()):
+				if global.actions[i] == action_name:
+					global.key_ctrls[i] = config.get_value("k_input", action_name)
+		#Load gamepad values.
 		for button_name in config.get_section_keys("g_input"):
-			var button = config.get_value("g_input", button_name)
-			var event = InputEventJoypadButton.new()
-			event.set_button_index(Input.get_joy_button_index_from_string(button))
-			for old_event in InputMap.get_action_list(button_name):
-				if old_event is InputEventJoypadButton:
-					InputMap.action_erase_event(button_name, old_event)
-			InputMap.action_add_event(button_name, event)
+			for i in range(global.actions.size()):
+				if global.actions[i] == button_name:
+					global.joy_ctrls[i] = config.get_value("g_input", button_name)
+		
+		global.set_ctrls()
+
+#		#Load keyboard values
+#		for action_name in config.get_section_keys("k_input"):
+#			# Get the key scancode corresponding to the saved human-readable string
+#			var scancode = OS.find_scancode_from_string(config.get_value("k_input", action_name))
+#			# Create a new event object based on the saved scancode
+#			var event = InputEventKey.new()
+#			event.scancode = scancode
+#			# Replace old action (key) events by the new one
+#			for old_event in InputMap.get_action_list(action_name):
+#				if old_event is InputEventKey:
+#					InputMap.action_erase_event(action_name, old_event)
+#			InputMap.action_add_event(action_name, event)
+#		#Load gamepad buttons
+#		for button_name in config.get_section_keys("g_input"):
+#			var button = config.get_value("g_input", button_name)
+#			var event = InputEventJoypadButton.new()
+#			event.set_button_index(Input.get_joy_button_index_from_string(button))
+#			for old_event in InputMap.get_action_list(button_name):
+#				if old_event is InputEventJoypadButton:
+#					InputMap.action_erase_event(button_name, old_event)
+#			InputMap.action_add_event(button_name, event)
 		
 		global.res			= config.get_value("options", "res")
 		global.f_screen		= config.get_value("options", "f_screen")
 		global.quick_swap	= config.get_value("options", "quick_swap")
 		
 		global.resize()
-		global.set_dirs()
 
 # warning-ignore:unused_argument
 func _process(delta):

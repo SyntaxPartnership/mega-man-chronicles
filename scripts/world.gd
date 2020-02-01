@@ -516,7 +516,6 @@ func _process(delta):
 	_camera()
 	#Print Shit
 	
-	
 	#Get other player information.
 	player_tilepos = $coll_mask/tiles.world_to_map(pos)
 	stand_on = $coll_mask/tiles.get_cellv(Vector2(player_tilepos.x, player_tilepos.y + 1))
@@ -1142,6 +1141,9 @@ func kill_enemies():
 		b.queue_free()
 	var enemy_kill = get_tree().get_nodes_in_group('enemies')
 	for i in enemy_kill:
+		if bncr_aggro > 0:
+			if i.name == "bouncer":
+				bncr_aggro = 0
 		i.queue_free()
 	enemy_count = 0
 

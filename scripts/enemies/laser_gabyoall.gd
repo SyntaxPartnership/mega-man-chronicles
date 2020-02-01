@@ -12,6 +12,8 @@ var time = 120
 var chrg_time = 60
 var fire_time = 120
 
+var dead = false
+
 var damage = 0
 var overlap_a = []
 var overlap_b = []

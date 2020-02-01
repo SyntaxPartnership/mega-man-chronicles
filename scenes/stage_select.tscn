@@ -334,8 +334,8 @@ margin_right = 220.0
 margin_bottom = 224.0
 custom_fonts/font = ExtResource( 4 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-text = " GLOW      ??????    ??????
-    MAN
+text = " RAVE      FOSSIL    SCORCH
+    MAN       MAN       MAN
 
 
 
@@ -351,6 +351,9 @@ text = " GLOW      ??????    ??????
 
 
  ??????    ??????    ??????"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="shop" type="Label" parent="misc"]
 anchor_left = 0.5
@@ -383,7 +386,6 @@ scale = Vector2( 128, 120 )
 texture = ExtResource( 6 )
 
 [node name="char_menu" type="Control" parent="."]
-editor/display_folded = true
 margin_right = 40.0
 margin_bottom = 40.0
 
@@ -477,7 +479,7 @@ hframes = 5
 frame = 11
 
 [node name="fake_fade" type="ColorRect" parent="."]
-editor/display_folded = true
+visible = false
 margin_right = 256.0
 margin_bottom = 240.0
 color = Color( 0, 0, 0, 0 )
@@ -497,6 +499,7 @@ anims/leave4 = SubResource( 9 )
 anims/leave5 = SubResource( 10 )
 
 [node name="fade" parent="." instance=ExtResource( 13 )]
+visible = false
 position = Vector2( 128, 120 )
 
 [node name="cursor" type="AudioStreamPlayer" parent="."]

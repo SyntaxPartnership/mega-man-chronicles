@@ -44,7 +44,7 @@ var time = 60
 var attack = false
 var reset = false
 var dash_time = 0
-var nod_time = 80
+var nod_time = 32
 
 func _ready():
 	start_pos = Vector2(global_position.x, global_position.y)
@@ -58,8 +58,6 @@ func _ready():
 	else:
 		$sprite.flip_h = false
 	
-	print(world.bncr_aggro)
-	
 	if world.bncr_aggro == 0:
 		state = 10
 		$hitbox/box.set_deferred("disabled", true)
@@ -67,8 +65,6 @@ func _ready():
 	$anim.play("idle")
 
 func _physics_process(delta):
-	print(state,', ',time)
-	
 	
 	if !dead:
 		if state != 10:
@@ -90,7 +86,7 @@ func _physics_process(delta):
 		pick_attack()
 	
 	if nod_time == 0:
-		pass
+		$anim.play("nod")
 	
 	if state == 3:
 		if dash_time == 1 or is_on_wall():

@@ -75,7 +75,7 @@ tracks/0/keys = {
 "values": [ 2 ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=5]
 resource_name = "nod"
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite:frame")
@@ -84,14 +84,13 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 0.2, 0.3, 0.6, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 0 ]
+"values": [ 0, 9, 10, 9, 0 ]
 }
 
-[sub_resource type="Animation" id=5]
-resource_name = "squat"
+[sub_resource type="Animation" id=6]
 length = 0.2
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite:frame")
@@ -106,7 +105,7 @@ tracks/0/keys = {
 "values": [ 1 ]
 }
 
-[sub_resource type="RectangleShape2D" id=6]
+[sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 12, 18 )
 
 [node name="bouncer" type="KinematicBody2D" groups=[
@@ -121,19 +120,18 @@ script = ExtResource( 1 )
 position = Vector2( 0, 1 )
 texture = ExtResource( 2 )
 hframes = 11
-frame = 1
 
 [node name="anim" type="AnimationPlayer" parent="."]
 anims/dash = SubResource( 1 )
 anims/idle = SubResource( 2 )
 anims/jets = SubResource( 3 )
 anims/jump = SubResource( 4 )
-anims/nod = SubResource( 7 )
-anims/squat = SubResource( 5 )
+anims/nod = SubResource( 5 )
+anims/squat = SubResource( 6 )
 
 [node name="coll_box" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 6 )
-shape = SubResource( 6 )
+shape = SubResource( 7 )
 
 [node name="hitbox" type="Area2D" parent="."]
 visible = false
@@ -142,7 +140,7 @@ collision_mask = 0
 
 [node name="box" type="CollisionShape2D" parent="hitbox"]
 position = Vector2( 0, 5 )
-shape = SubResource( 6 )
+shape = SubResource( 7 )
 
 [node name="on_screen" type="VisibilityNotifier2D" parent="."]
 
