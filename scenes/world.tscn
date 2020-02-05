@@ -166,7 +166,6 @@ format = 1
 tile_data = PoolIntArray( 589884, 2, 0, 720913, 3, 0, 720922, 3, 0, 720931, 3, 0, 720975, 5, 0, 786519, 5, 0, 852064, 5, 0 )
 
 [node name="stage_overlap" type="Control" parent="graphic"]
-editor/display_folded = true
 margin_right = 40.0
 margin_bottom = 40.0
 rect_pivot_offset = Vector2( 712, 256 )
@@ -179,7 +178,6 @@ tile_data = PoolIntArray( 720896, 0, 0, 720899, 1, 0, 720900, 0, 0, 720903, 1, 0
 
 [node name="player" parent="." instance=ExtResource( 17 )]
 pause_mode = 1
-editor/display_folded = true
 position = Vector2( 64, 132 )
 
 [node name="camera" type="Camera2D" parent="player"]
@@ -203,7 +201,6 @@ margin_bottom = 40.0
 
 [node name="hud" type="CanvasLayer" parent="."]
 pause_mode = 2
-editor/display_folded = true
 
 [node name="ready" type="Label" parent="hud"]
 visible = false
@@ -223,13 +220,11 @@ script = ExtResource( 18 )
 [node name="hud" parent="hud" instance=ExtResource( 19 )]
 
 [node name="pause" type="CanvasLayer" parent="."]
-editor/display_folded = true
 
 [node name="pause_menu" parent="pause" instance=ExtResource( 20 )]
 visible = false
 
 [node name="debug_stats" type="CanvasLayer" parent="."]
-editor/display_folded = true
 
 [node name="debug" type="Control" parent="debug_stats"]
 visible = false
@@ -237,7 +232,7 @@ margin_right = 40.0
 margin_bottom = 40.0
 
 [node name="dtext" type="Label" parent="debug_stats/debug"]
-margin_top = -1.90735e-006
+margin_top = -1.90735e-06
 margin_right = 256.0
 margin_bottom = 240.0
 custom_fonts/font = SubResource( 2 )
@@ -382,12 +377,11 @@ custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "60"
 
 [node name="debug_menu" type="CanvasLayer" parent="."]
-editor/display_folded = true
 
 [node name="menu" type="Label" parent="debug_menu"]
 visible = false
 margin_left = 8.0
-margin_top = -1.90735e-006
+margin_top = -1.90735e-06
 margin_right = 256.0
 margin_bottom = 240.0
 custom_fonts/font = SubResource( 2 )

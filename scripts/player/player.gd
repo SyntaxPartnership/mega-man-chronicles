@@ -205,6 +205,9 @@ var wpn_data = {
 	'1-3-0-31' : [global.weapon1, 1, 1, 0, 20, SHOOT, '', load('res://scenes/player/weapons/bone_lancer.tscn'), 0, 0],
 	'2-3-0-31' : [global.weapon1, 1, 1, 0, 20, SHOOT, '', load('res://scenes/player/weapons/bone_lancer.tscn'), 0, 0],
 	#Master Weapon 2
+	'0-4-0-31' : [global.weapon1, 1, 1, 0, 20, THROW, '', load('res://scenes/player/weapons/scorch_hunter.tscn'), 0, 4],
+	'1-4-0-31' : [global.weapon1, 1, 1, 0, 20, THROW, '', load('res://scenes/player/weapons/scorch_hunter.tscn'), 0, 4],
+	'2-4-0-31' : [global.weapon1, 1, 1, 0, 20, THROW, '', load('res://scenes/player/weapons/scorch_hunter.tscn'), 0, 4],
 	#Master Weapon 3
 	#Master Weapon 4
 	#Master Weapon 5
@@ -705,6 +708,9 @@ func weapons():
 							#Set spawn position
 							if wpn_data.get(wkey)[9] == 0:
 								weapon.position = $sprite/shoot_pos.global_position
+							
+							if wpn_data.get(wkey)[9] == 4:
+								weapon.position = global_position
 								
 							graphic.add_child(weapon)
 							world.shots += wpn_data.get(wkey)[1]
