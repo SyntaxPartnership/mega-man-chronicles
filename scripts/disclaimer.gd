@@ -33,6 +33,13 @@ func load_config():
 		config.set_value("options", "res", global.res)
 		config.set_value("options", "f_screen", global.f_screen)
 		config.set_value("options", "quick_swap", global.quick_swap)
+		config.set_value("options", "use_analog", global.use_analog)
+		config.set_value("options", "dash_btn", global.dash_btn)
+		config.set_value("options", "dbl_tap_dash", global.dbl_tap_dash)
+		config.set_value("options", "a_charge", global.a_charge)
+		config.set_value("options", "a_fire", global.a_fire)
+		config.set_value("options", "r_fire", global.r_fire)
+		config.set_value("options", "chrg_sfx", global.chrg_sfx)
 		#Save config
 		config.save(CONFIG_FILE)
 	else: #Successful load. Set values.
@@ -48,6 +55,18 @@ func load_config():
 					global.joy_ctrls[i] = config.get_value("g_input", button_name)
 		
 		global.set_ctrls()
+		global.res			= config.get_value("options", "res")
+		global.f_screen		= config.get_value("options", "f_screen")
+		global.quick_swap	= config.get_value("options", "quick_swap")
+		global.use_analog	= config.get_value("options", "use_analog")
+		global.dash_btn		= config.get_value("options", "dash_btn")
+		global.dbl_tap_dash	= config.get_value("options", "dbl_tap_dash")
+		global.a_charge		= config.get_value("options", "a_charge")
+		global.a_fire		= config.get_value("options", "a_fire")
+		global.r_fire		= config.get_value("options", "r_fire")
+		global.chrg_sfx		= config.get_value("options", "chrg_sfx")
+		
+		global.resize()
 
 #		#Load keyboard values
 #		for action_name in config.get_section_keys("k_input"):
@@ -71,11 +90,7 @@ func load_config():
 #					InputMap.action_erase_event(button_name, old_event)
 #			InputMap.action_add_event(button_name, event)
 		
-		global.res			= config.get_value("options", "res")
-		global.f_screen		= config.get_value("options", "f_screen")
-		global.quick_swap	= config.get_value("options", "quick_swap")
-		
-		global.resize()
+
 
 # warning-ignore:unused_argument
 func _process(delta):

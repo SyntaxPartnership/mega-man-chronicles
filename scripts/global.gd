@@ -19,13 +19,23 @@ var icey = false
 var low_grav = false
 
 #Option Flags
-var sound = 100
-var music = 100
+var sound = 4
+var music = 4
 var res = 3
 var f_screen = false
 var quick_swap = false
 var use_analog = false
-var dash_slide = false
+var dash_btn = false
+var dbl_tap_dash = false
+var a_charge = false
+var a_fire = false
+var r_fire = false
+var chrg_sfx = 2
+
+var gamepads = []
+var gp_update = []
+var gp_connect = false
+var gp_name = ""
 
 var actions = ["up", "down", "left", "right", "jump", "fire", "dash", "toggle", "prev", "next", "select", "start"]
 
@@ -167,10 +177,20 @@ var white = Color('#fcf8fc')
 # don't forget to use stretch mode 'viewport' and aspect 'ignore'
 onready var viewport = get_viewport()
 
+func _ready():
+	Input.connect("joy_connection_changed", self, "_on_joy_connection_changed")
+	
+	gamepads = Input.get_connected_joypads()
+	
+	if gamepads != gp_update:
+		gp_connect = true
+		gp_name = Input.get_joy_name(gamepads[0])
+		gp_update = gamepads
+
 func resize():
 	get_tree().connect("screen_resized", self, "_screen_resized")
 
-func _input(event):
+func _input(_event):
 	#Quick way to close the game.
 	if Input.is_key_pressed(KEY_ESCAPE):
 		get_tree().quit()
@@ -222,7 +242,7 @@ func set_ctrls():
 			#Get gamepad value to set.
 			var j_event = InputEventJoypadButton.new()
 			j_event.set_button_index(Input.get_joy_button_index_from_string(joy_ctrls[i]))
-			print(joy_ctrls[i])
+#			print(joy_ctrls[i])
 			
 			#Add the buttons.
 			InputMap.action_add_event(actions[i], k_event)
@@ -240,3 +260,10 @@ func set_ctrls():
 			stick.set_axis_value(dir)
 			
 			InputMap.action_add_event(actions[a], stick)
+
+func _on_joy_connection_changed(device_id, connected):
+	if connected:
+		gp_connect = true
+		gp_name = Input.get_joy_name(device_id)
+	else:
+		gp_connect = false
