@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/first level charge.wav-44a61a2f5d13611923587415d6aff83f.sample"
+
+[deps]
+
+source_file="res://dropbox/gameboy recording/first level charge.wav"
+dest_files=[ "res://.import/first level charge.wav-44a61a2f5d13611923587415d6aff83f.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

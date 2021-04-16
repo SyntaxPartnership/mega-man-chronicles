@@ -341,7 +341,7 @@ func _physics_process(delta):
 			
 			for i in range(10, 15):
 				if tile_pos_a.y == i:
-					for i in range(0, 32):
+					for j in range(0, 32):
 						$tiles.set_cellv(Vector2(i, tile_pos_a.y), 48)
 						$tiles.set_cellv(Vector2(i, tile_pos_b.y), 48)
 			

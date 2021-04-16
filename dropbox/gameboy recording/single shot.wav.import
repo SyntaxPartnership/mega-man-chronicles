@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/single shot.wav-a1ec0f7ba725ba7964a9f75dd6b030aa.sample"
+
+[deps]
+
+source_file="res://dropbox/gameboy recording/single shot.wav"
+dest_files=[ "res://.import/single shot.wav-a1ec0f7ba725ba7964a9f75dd6b030aa.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
